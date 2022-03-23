@@ -1,5 +1,6 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { CdkBaseStack, CdkBaseStackProps } from '../lib/base-stack/carbonlake-quickstart-base-stack';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class CarbonlakeQuickstartStack extends Stack {
