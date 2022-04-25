@@ -1,0 +1,2 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.log=exports.getEnv=void 0;function getEnv(name){const value=process.env[name];if(!value)throw new Error(`The environment variable "${name}" is not defined`);return value}exports.getEnv=getEnv;function log(title,...args){console.log("[provider-framework]",title,...args.map(x=>typeof x=="object"?JSON.stringify(x,void 0,2):x))}exports.log=log;
+//# sourceMappingURL=util.js.map

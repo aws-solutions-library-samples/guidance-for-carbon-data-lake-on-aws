@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["consts.ts"],
+  "sourcesContent": ["export const USER_ON_EVENT_FUNCTION_ARN_ENV = 'USER_ON_EVENT_FUNCTION_ARN';\nexport const USER_IS_COMPLETE_FUNCTION_ARN_ENV = 'USER_IS_COMPLETE_FUNCTION_ARN';\nexport const WAITER_STATE_MACHINE_ARN_ENV = 'WAITER_STATE_MACHINE_ARN';\n\nexport const FRAMEWORK_ON_EVENT_HANDLER_NAME = 'onEvent';\nexport const FRAMEWORK_IS_COMPLETE_HANDLER_NAME = 'isComplete';\nexport const FRAMEWORK_ON_TIMEOUT_HANDLER_NAME = 'onTimeout';\n"],
+  "mappings": "8TAAa,QAAA,+BAAiC,6BACjC,QAAA,kCAAoC,gCACpC,QAAA,6BAA+B,2BAE/B,QAAA,gCAAkC,UAClC,QAAA,mCAAqC,aACrC,QAAA,kCAAoC",
+  "names": []
+}

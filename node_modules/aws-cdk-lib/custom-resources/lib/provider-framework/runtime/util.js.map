@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["util.ts"],
+  "sourcesContent": ["/* eslint-disable no-console */\n\nexport function getEnv(name: string): string {\n  const value = process.env[name];\n  if (!value) {\n    throw new Error(`The environment variable \"${name}\" is not defined`);\n  }\n  return value;\n}\n\nexport function log(title: any, ...args: any[]) {\n  console.log('[provider-framework]', title, ...args.map(x => typeof(x) === 'object' ? JSON.stringify(x, undefined, 2) : x));\n}\n"],
+  "mappings": "sGAEA,gBAAuB,KAAY,CACjC,KAAM,OAAQ,QAAQ,IAAI,MAC1B,GAAI,CAAC,MACH,KAAM,IAAI,OAAM,6BAA6B,wBAE/C,MAAO,OALT,QAAA,OAAA,OAQA,aAAoB,SAAe,KAAW,CAC5C,QAAQ,IAAI,uBAAwB,MAAO,GAAG,KAAK,IAAI,GAAK,MAAO,IAAO,SAAW,KAAK,UAAU,EAAG,OAAW,GAAK,IADzH,QAAA,IAAA",
+  "names": []
+}
