@@ -3,10 +3,11 @@ import { App, CfnOutput, Stack, StackProps } from 'aws-cdk-lib';                
 import { aws_apigateway as apigw } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_iam } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_cognito as cognito } from 'aws-cdk-lib';
 import { AssetCode, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { AuthorizationType, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
+import * as path from 'path';
 
 
 export class CarbonlakeApiStack extends Stack {
@@ -14,56 +15,36 @@ export class CarbonlakeApiStack extends Stack {
         super(scope, id, props);
 
         // Create s3 raw data upload bucket
-        const inputBucket = new s3.Bucket(this, 'sample-bucket', {
+        const rawUploadBucket = new s3.Bucket(this, 'rawUploadBucket', {
             encryption: s3.BucketEncryption.S3_MANAGED,
             publicReadAccess: false
         })
-        
-        var lambdaS3PolicyStatement = new iam.PolicyStatement()
-        lambdaS3PolicyStatement.addActions(
-          's3:PutObject',
-          's3:GetObject'
-        )
-        lambdaS3PolicyStatement.addResources(
-          inputBucket.bucketArn + '/*'
-        );
 
-        const s3AuthLambda = new lambda.Function(this, "s3UploadLambdaHandler", {
+        const s3UploadLambda = new lambda.Function(this, 's3UploadLambda', {
             runtime: lambda.Runtime.NODEJS_14_X,
-            code: lambda.Code.fromAsset('lambda/s3-authorizer'),
-            handler: "index.handler",
-            environment: {
-                S3_RAW_DATA_BUCKET: inputBucket.bucketName
-            },
-            initialPolicy: [lambdaS3PolicyStatement]
-        })
-
-        const carbonLakeCalculatorLambda = new Function(this, 'carbonLakeCalculatorLambda', {
-            code: new AssetCode('lambda/hello'),
-            handler: 'hello.handler',
-            runtime: Runtime.NODEJS_14_X
+            handler: 'index.main',
+            code: lambda.Code.fromAsset(path.join(__dirname, './lambda/upload')),
           });
-
-        new lambda.CfnPermission(this, "ApiGatewayPermission", {
-            functionName: s3AuthLambda.functionArn,
-            action: "lambda:InvokeFunction",
-            principal: "apigateway.amazonaws.com",
-          });
-
-        const uploadApiAuthorizer = new apigw.LambdaRestApi(
-            this,
-            "UploadApi",
-            {
-                handler: s3AuthLambda,
-            }
-        );
 
         // Define rest api with lambda handler backend
-        const api = new apigw.LambdaRestApi(this, 'carbonlakeLambdaRestApi', {
-            restApiName: 'Carbonlake API',
-            handler: carbonLakeCalculatorLambda,
-            proxy: false,
-        });
+        const api = new apigw.RestApi(this, 'carbonlakeApi', {
+            description: 'REST API for CarbonLake',
+            deployOptions: {
+              stageName: 'dev',
+            },
+            // 👇 enable CORS
+            defaultCorsPreflightOptions: {
+              allowHeaders: [
+                'Content-Type',
+                'X-Amz-Date',
+                'Authorization',
+                'X-Api-Key',
+              ],
+              allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+              allowCredentials: true,
+              allowOrigins: ['http://localhost:3000'],
+            },
+          });
 
         // Define CarbonLake cognito user pool for authentication
         const userPool = new cognito.UserPool(this, 'carbonlakeUserPool', {
@@ -74,7 +55,7 @@ export class CarbonlakeApiStack extends Stack {
 
         // Create API authorized for cognito user pool
         const authorizer = new apigw.CfnAuthorizer(this, 'cfnAuth', {
-            restApiId: carbonLakeCalculatorLambda.restApiId,
+            restApiId: api.restApiId,
             name: 'CarbonLakeCalculatorAPIAuthorizer',
             type: 'COGNITO_USER_POOLS',
             identitySource: 'method.request.header.Authorization',
@@ -84,20 +65,31 @@ export class CarbonlakeApiStack extends Stack {
         api.root.addMethod('ANY');
 
         const input = api.root.addResource('input');
-        input.addMethod('POST', new LambdaIntegration(carbonLakeCalculatorLambda), {
-            authorizationType: AuthorizationType.COGNITO,
-            authorizer: {
-                authorizerId: authorizer.ref
-            }
-        });
+        input.addResource('ALL')
         
         const upload = input.addResource('upload');
-        upload.addMethod('POST');
+        upload.addMethod(
+            'POST',
+            new apigw.LambdaIntegration(s3UploadLambda), {
+                authorizationType: AuthorizationType.COGNITO,
+                authorizer: {
+                    authorizerId: authorizer.ref
+                }    
+            });
 
         const data = input.addResource('data');
-        data.addMethod('POST')
+        data.addMethod(
+            'POST',
+            new apigw.LambdaIntegration(s3UploadLambda), {
+                authorizationType: AuthorizationType.COGNITO,
+                authorizer: {
+                    authorizerId: authorizer.ref
+                }    
+            });
 
+        
 
+        new CfnOutput(this, 'apiUrl', {value: api.url});
 
     }
 }

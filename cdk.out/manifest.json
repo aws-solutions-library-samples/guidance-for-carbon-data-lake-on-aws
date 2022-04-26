@@ -7,27 +7,27 @@
         "file": "tree.json"
       }
     },
-    "CarbonlakeQuickstartStack.assets": {
+    "CarbonlakeQuickstartStorageStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "CarbonlakeQuickstartStack.assets.json",
+        "file": "CarbonlakeQuickstartStorageStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "CarbonlakeQuickstartStack": {
+    "CarbonlakeQuickstartStorageStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "CarbonlakeQuickstartStack.template.json",
+        "templateFile": "CarbonlakeQuickstartStorageStack.template.json",
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4d467a7f49f0d6bb5d839a7e2a15630865539c6c8b43eff067cad8cfe73a710c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4919386876e9f63e1a19c2809b97a55846041c9de6801c219d32caf9c737127c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "CarbonlakeQuickstartStack.assets"
+          "CarbonlakeQuickstartStorageStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -36,35 +36,363 @@
         }
       },
       "dependencies": [
-        "CarbonlakeQuickstartStack.assets"
+        "CarbonlakeQuickstartStorageStack.assets"
       ],
       "metadata": {
-        "/CarbonlakeQuickstartStack/CDKMetadata/Default": [
+        "/CarbonlakeQuickstartStorageStack/carbonlakeProcessedDataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeProcessedDataBucket0EE6CDAA"
+          }
+        ],
+        "/CarbonlakeQuickstartStorageStack/carbonlakeCuratedDataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeCuratedDataBucket4DDC6F71"
+          }
+        ],
+        "/CarbonlakeQuickstartStorageStack/myBucketRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myBucketRef"
+          }
+        ],
+        "/CarbonlakeQuickstartStorageStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/CarbonlakeQuickstartStack/CDKMetadata/Condition": [
+        "/CarbonlakeQuickstartStorageStack/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/CarbonlakeQuickstartStack/BootstrapVersion": [
+        "/CarbonlakeQuickstartStorageStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/CarbonlakeQuickstartStack/CheckBootstrapVersion": [
+        "/CarbonlakeQuickstartStorageStack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "CarbonlakeQuickstartStack"
+      "displayName": "CarbonlakeQuickstartStorageStack"
+    },
+    "CarbonlakeApiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CarbonlakeApiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CarbonlakeApiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CarbonlakeApiStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/94463ca14d44864f1084f126a923b2f5ea6bcb22239bef12cb26299f106d8a5b.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CarbonlakeApiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CarbonlakeApiStack.assets"
+      ],
+      "metadata": {
+        "/CarbonlakeApiStack/rawUploadBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rawUploadBucket91C1D487"
+          }
+        ],
+        "/CarbonlakeApiStack/s3UploadLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "s3UploadLambdaServiceRoleBDEE28B7"
+          }
+        ],
+        "/CarbonlakeApiStack/s3UploadLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "s3UploadLambdaCDE813AA"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiF48C9005"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiCloudWatchRole11E64527"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiAccountB02C002A"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiDeployment89AAC14763a1737cba76e20ebca7c325bf1e6d2c"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/DeploymentStage.dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiDeploymentStagedev40CFC725"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiEndpointBFDB33BC"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiOPTIONSD524D127"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiANY4732CF0C"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputEDC26218"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputOPTIONS70A8F149"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/ALL/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputALLA3A12544"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/ALL/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputALLOPTIONS2AE6A8E1"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/upload/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputupload4D10CA95"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/upload/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputuploadOPTIONS5CCE3046"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/upload/POST/ApiPermission.CarbonlakeApiStackcarbonlakeApi5E4CE7AD.POST..input.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputuploadPOSTApiPermissionCarbonlakeApiStackcarbonlakeApi5E4CE7ADPOSTinputuploadC52AA9F1"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/upload/POST/ApiPermission.Test.CarbonlakeApiStackcarbonlakeApi5E4CE7AD.POST..input.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputuploadPOSTApiPermissionTestCarbonlakeApiStackcarbonlakeApi5E4CE7ADPOSTinputuploadF7B9DF69"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/upload/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputuploadPOSTC864F26A"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/data/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputdata0240F1EA"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/data/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputdataOPTIONS4A724E45"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/data/POST/ApiPermission.CarbonlakeApiStackcarbonlakeApi5E4CE7AD.POST..input.data": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputdataPOSTApiPermissionCarbonlakeApiStackcarbonlakeApi5E4CE7ADPOSTinputdataB34842EC"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/data/POST/ApiPermission.Test.CarbonlakeApiStackcarbonlakeApi5E4CE7AD.POST..input.data": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputdataPOSTApiPermissionTestCarbonlakeApiStackcarbonlakeApi5E4CE7ADPOSTinputdata559CF734"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeApi/Default/input/data/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeApiinputdataPOSTBB0A84B1"
+          }
+        ],
+        "/CarbonlakeApiStack/carbonlakeUserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeUserPool247DDD09"
+          }
+        ],
+        "/CarbonlakeApiStack/cfnAuth": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cfnAuth"
+          }
+        ],
+        "/CarbonlakeApiStack/apiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "apiUrl"
+          }
+        ],
+        "/CarbonlakeApiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CarbonlakeApiStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/CarbonlakeApiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CarbonlakeApiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CarbonlakeApiStack"
+    },
+    "CarbonlakeQuickStartCalculatorStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CarbonlakeQuickStartCalculatorStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CarbonlakeQuickStartCalculatorStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CarbonlakeQuickStartCalculatorStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dd16a057936fd6430cc7f5c870b5eee3ff660e9cc5f1ed22f560512d9c3abc8f.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CarbonlakeQuickStartCalculatorStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CarbonlakeQuickStartCalculatorStack.assets"
+      ],
+      "metadata": {
+        "/CarbonlakeQuickStartCalculatorStack/carbonLakeEmissionsFactorReferenceTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonLakeEmissionsFactorReferenceTableDDF9D129"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/carbonlakeCalculatorOutputTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "carbonlakeCalculatorOutputTable1236608A"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/CarbonLakeCalculatorHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CarbonLakeCalculatorHandlerServiceRoleB126D1A6"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/CarbonLakeCalculatorHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CarbonLakeCalculatorHandlerD6660F74"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CarbonlakeQuickStartCalculatorStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CarbonlakeQuickStartCalculatorStack"
     }
   }
 }

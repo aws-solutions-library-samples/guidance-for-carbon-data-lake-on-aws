@@ -1,0 +1,32 @@
+{
+  "version": "16.0.0",
+  "files": {
+    "dd49939054c8ca2e4e3915d4c7547f811407335744fe6a408f2933e2d9331527": {
+      "source": {
+        "path": "asset.dd49939054c8ca2e4e3915d4c7547f811407335744fe6a408f2933e2d9331527",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "dd49939054c8ca2e4e3915d4c7547f811407335744fe6a408f2933e2d9331527.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "dd16a057936fd6430cc7f5c870b5eee3ff660e9cc5f1ed22f560512d9c3abc8f": {
+      "source": {
+        "path": "CarbonlakeQuickStartCalculatorStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "dd16a057936fd6430cc7f5c870b5eee3ff660e9cc5f1ed22f560512d9c3abc8f.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
