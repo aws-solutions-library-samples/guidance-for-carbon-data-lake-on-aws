@@ -9,7 +9,7 @@ Read on to find out how to set up your dev environment and get started.
 * Infrastructure: CDK Typescript Level 1-2-3 and Cloudformation
 * Lambda Functions: Python 3.9
 * Front-End: React Material-UI
-* CI/CD: TBD
+* CI/CD: [Gitlab to Codecommit Mirroring via HTTPS](https://w.amazon.com/bin/view/AWS/Teams/WWPS/TSD/GitLab#HPushingGitLabRepositorytoCodeCommit)
 
 ## Setting Up Your Dev Environment
 
