@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["index.ts"],
-  "sourcesContent": ["import { CfnUtilsResourceType } from './consts';\n\n/**\n * Parses the value of \"Value\" and reflects it back as attribute.\n */\nexport async function handler(event: AWSLambda.CloudFormationCustomResourceEvent) {\n\n  // dispatch based on resource type\n  if (event.ResourceType === CfnUtilsResourceType.CFN_JSON) {\n    return cfnJsonHandler(event);\n  }\n  if (event.ResourceType === CfnUtilsResourceType.CFN_JSON_STRINGIFY) {\n    return cfnJsonStringifyHandler(event);\n  }\n\n  throw new Error(`unexpected resource type \"${event.ResourceType}`);\n}\n\nfunction cfnJsonHandler(event: AWSLambda.CloudFormationCustomResourceEvent) {\n  return {\n    Data: {\n      Value: JSON.parse(event.ResourceProperties.Value),\n    },\n  };\n}\n\nfunction cfnJsonStringifyHandler(event: AWSLambda.CloudFormationCustomResourceEvent) {\n  return {\n    Data: {\n      Value: JSON.stringify(event.ResourceProperties.Value),\n    },\n  };\n}\n"],
-  "mappings": "2FAKO,uBAAuB,MAAkD,CAG9E,GAAI,MAAM,eAAY,wBACpB,MAAO,gBAAe,OAExB,GAAI,MAAM,eAAY,iCACpB,MAAO,yBAAwB,OAGjC,KAAM,IAAI,OAAM,6BAA6B,MAAM,gBAVrD,QAAA,QAAA,QAaA,wBAAwB,MAAkD,CACxE,MAAO,CACL,KAAM,CACJ,MAAO,KAAK,MAAM,MAAM,mBAAmB,SAKjD,iCAAiC,MAAkD,CACjF,MAAO,CACL,KAAM,CACJ,MAAO,KAAK,UAAU,MAAM,mBAAmB",
-  "names": []
-}

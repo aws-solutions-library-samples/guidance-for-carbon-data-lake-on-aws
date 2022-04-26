@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["diff.ts"],
-  "sourcesContent": ["export function arrayDiff(oldValues: string[], newValues: string[]) {\n  const deletes = new Set(oldValues);\n  const adds = new Set<string>();\n\n  for (const v of new Set(newValues)) {\n    if (deletes.has(v)) {\n      deletes.delete(v);\n    } else {\n      adds.add(v);\n    }\n  }\n\n  return {\n    adds: Array.from(adds),\n    deletes: Array.from(deletes),\n  };\n}\n"],
-  "mappings": "6FAAA,mBAA0B,UAAqB,UAAmB,CAChE,KAAM,SAAU,GAAI,KAAI,WAClB,KAAO,GAAI,KAEjB,SAAW,KAAK,IAAI,KAAI,WACtB,AAAI,QAAQ,IAAI,GACd,QAAQ,OAAO,GAEf,KAAK,IAAI,GAIb,MAAO,CACL,KAAM,MAAM,KAAK,MACjB,QAAS,MAAM,KAAK,UAdxB,QAAA,UAAA",
-  "names": []
-}
