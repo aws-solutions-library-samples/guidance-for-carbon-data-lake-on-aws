@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { CarbonlakeQuickstartStack } from '../lib/carbonlake-quickstart-stack';
+import { CarbonlakeQuickstartStack } from '../lib/carbonlake-qs-stack';
 
 const app = new cdk.App();
 new CarbonlakeQuickstartStack(app, 'CarbonlakeQuickstartStack', {

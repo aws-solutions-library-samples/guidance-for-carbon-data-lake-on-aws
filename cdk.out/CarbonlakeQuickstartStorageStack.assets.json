@@ -1,0 +1,19 @@
+{
+  "version": "16.0.0",
+  "files": {
+    "4919386876e9f63e1a19c2809b97a55846041c9de6801c219d32caf9c737127c": {
+      "source": {
+        "path": "CarbonlakeQuickstartStorageStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "4919386876e9f63e1a19c2809b97a55846041c9de6801c219d32caf9c737127c.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
