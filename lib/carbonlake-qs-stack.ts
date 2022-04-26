@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { CarbonlakeApiStack } from './api/carbonlake-api-stack';
-import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-quickstart-calculator';
+import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
 import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
 
 
