@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["consts.ts"],
-  "sourcesContent": ["export const CLUSTER_RESOURCE_TYPE = 'Custom::AWSCDK-EKS-Cluster';\nexport const FARGATE_PROFILE_RESOURCE_TYPE = 'Custom::AWSCDK-EKS-FargateProfile';"],
-  "mappings": "+IAAa,QAAA,sBAAwB,6BACxB,QAAA,8BAAgC",
-  "names": []
-}
