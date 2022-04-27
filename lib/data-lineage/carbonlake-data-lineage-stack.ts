@@ -43,6 +43,14 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       projectionType: dynamodb.ProjectionType.ALL
     })
 
+    // LSI to allow querying by carbonlake operation type
+    // This reduces branch numbers for the periodic recursive search
+    table.addLocalSecondaryIndex({
+      indexName: "action-index",
+      sortKey:{ name: "action_taken", type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL
+    })
+
     // Audit Bucket for storing reconstructed data lineage trees from record -> parent
 
     /* ======== DEPENDENCIES ======== */
