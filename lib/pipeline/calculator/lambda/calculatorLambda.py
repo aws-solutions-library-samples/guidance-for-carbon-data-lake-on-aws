@@ -1,6 +1,4 @@
 import logging
-import os
-import sys
 from datetime import datetime
 
 import boto3
@@ -8,23 +6,25 @@ import boto3
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-# ---------------------------------------------------------------------------
-#   Calculator function
-#   say some stuff
-# ---------------------------------------------------------------------------
-
-
 import datetime
 import json
 
 '''
 gets emissions factor from ancillary database and returns a coefficient
-input: geo, activity_tag, raw_data
+input: activity
 output: emissions factor coefficient
 '''
-def get_emissions_factor(geo,activity_id,raw_data, emissions_factor_database):
+def get_emissions_factor(emissions_factor_table_name, activity):
     print("getting emissions factor from database")
-    coefficient = emissions_factor_database # search emissions factor database for coefficient
+    coefficient = {
+        "co2_factor": 0,
+        "ch4_factor": 0,
+        "n2o_factor": 0,
+        "biofuel_co2": None,
+        "AR4-kgco2e": 0,
+        "AR5-kgco2e": 0,
+        "units": "kWh"
+    }
     return coefficient
 
 
@@ -35,13 +35,11 @@ def CALCULATE_CARBON(asset_id, geo, activity_id, source, raw_data, data_lineage)
     carbon_emissions_full_output = {
         'geo': geo,
         'asset_id': asset_id,
-        'measurement_timestamp': measurement_timestamp,
         'carbon_emissions_total': carbon_emissions_total,
         'activity_id': activity_id,
         'raw_data': raw_data,
         'emissions_factor': emissions_factor,
         'source': source, # EEIO, Industry Averages, Vendor Supplied, Direct Measurement
-        'data_lineage': data_lineage.append({'timestamp': calculator_timestamp, 'geo': geo, 'node': 'emissions_calculator_microservice'}) 
 
     },
     return json.dumps(carbon_emissions_full_output)
@@ -55,8 +53,8 @@ def lambda_handler(event, context):
     return {
         'statusCode': 200,
         'headers': {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'text/json'
         },
-        'body': 'Hello, CDK! You have hit {}\n'.format(event['path'])
+        'body': result
     }
     

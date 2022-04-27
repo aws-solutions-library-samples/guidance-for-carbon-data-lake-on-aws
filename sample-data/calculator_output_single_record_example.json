@@ -20,30 +20,5 @@
             "n20": [0.00201, "tonnes"],
             "co2e": [0.2333, "tonnes"]
         }
-    },
-    "carbonlake_qldb_block_address": {
-        "strandId": "Ad3A17nmNIGLFxMhY7DDTI",
-        "sequenceNo": 13,
-        "hash": "wCsmM67hU8tvos94lfjs83Y394jU89w13CC91wSqlf4="
-    },
-    "qldb_data_lineage": [{
-        "timestamp": "2022-06-26 02:31:29", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-fleet-management-raw"
-        },
-        {
-        "timestamp": "2022-06-26 02:32:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "fleet-management-glue-crawler"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-opensearch-classification"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:24", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-processed-records"
-        }] 
     }
+}
