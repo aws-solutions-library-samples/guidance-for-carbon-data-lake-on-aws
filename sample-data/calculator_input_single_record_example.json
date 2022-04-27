@@ -10,25 +10,5 @@
         }, 
     "source": "company_fleet_management_database", 
     "raw_data": 103.45,
-    "units": "gal", 
-    "data_lineage": [{
-        "timestamp": "2022-06-26 02:31:29", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-fleet-management-raw"
-        },
-        {
-        "timestamp": "2022-06-26 02:32:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "fleet-management-glue-crawler"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-opensearch-classification"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:24", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-processed-records"
-        }] 
-    }
+    "units": "gal"
+}

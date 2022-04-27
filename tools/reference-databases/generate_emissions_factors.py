@@ -6,19 +6,16 @@ import time
 import os
 
 date_entry = datetime.datetime.today().strftime('%Y-%m-%d')
-csvFilePath = r'/Users/sambiddl/Downloads/ghg_emissionsfactor_comprehensive_Jan2022.csv'
+csvFilePath = r'ghg_emissionsfactor_comprehensive_Jan2022.csv'
 jsonFileName = rf'emissions_factor_model_{date_entry}.json'
-jsonFilePath = os.path.join(os.getcwd(),"assets", jsonFileName)
+jsonFilePath = os.path.join(os.getcwd(), jsonFileName)
 start = time.perf_counter()
 finish = time.perf_counter()
 
 def parse_single_factor(row):
-    category = row["category"]
-    lookup_name = row["lookup name"]
-    activity_id = f"{category}-{lookup_name}"
-
     model = {
-        "activity_id": activity_id,
+        "category": row["category"],
+        "activity": row["lookup name"],
         "scope": row["scope"],
         "emissions_factor_standards": {
             "ghg": 
@@ -34,14 +31,7 @@ def parse_single_factor(row):
                 },
                 "last_updated": date_entry,
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
-                "source_origin": row["Source"],
-                "notes": " "
-            },
-            "other": {
-                "coefficient": 5678,
-                "last_updated": "some_date",
-                "source": "some_source",
-                "notes": "notes"
+                "source_origin": row["Source"]
             }
         }
     }
