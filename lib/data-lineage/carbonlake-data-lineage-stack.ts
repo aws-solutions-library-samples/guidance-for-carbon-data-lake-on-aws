@@ -33,6 +33,16 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       projectionType: dynamodb.ProjectionType.ALL
     })
 
+    // GSI to allow querying by specific child node in data lineage tree
+    table.addGlobalSecondaryIndex({
+      indexName: "parent-index",
+      partitionKey: {
+        name: "parent_id",
+        type: dynamodb.AttributeType.STRING
+      },
+      projectionType: dynamodb.ProjectionType.ALL
+    })
+
     // Audit Bucket for storing reconstructed data lineage trees from record -> parent
 
     /* ======== DEPENDENCIES ======== */
@@ -92,8 +102,6 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       statements: [putItemPolicy]
     }))
 
-    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue, {
-      batchSize: 50
-    }));
+    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
   }
 }
