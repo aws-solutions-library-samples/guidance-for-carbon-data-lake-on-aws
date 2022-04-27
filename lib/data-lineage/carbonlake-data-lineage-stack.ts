@@ -18,8 +18,21 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
 
     // DynamoDB Table for data lineage record storage
     const table = new dynamodb.Table(this, "carbonlakeDataLineageTable", {
-      partitionKey: { name: "parent_id", type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: "root_id", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "child_id", type: dynamodb.AttributeType.STRING },
     });
+
+    // GSI to allow querying by specific child node in data lineage tree
+    table.addGlobalSecondaryIndex({
+      indexName: "child-index",
+      partitionKey: {
+        name: "child_id",
+        type: dynamodb.AttributeType.STRING
+      },
+      projectionType: dynamodb.ProjectionType.ALL
+    })
+
+    // Audit Bucket for storing reconstructed data lineage trees from record -> parent
 
     /* ======== DEPENDENCIES ======== */
 
