@@ -1,19 +1,20 @@
 // /@ts-check - remove '/' in front of @ to check for import dependencies
 
 import React, { useState, useEffect} from 'react';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 
 // MUI
-import { Paper, IconButton, DeleteIcon, TextField} from '@material-ui/core'
+import { Paper, IconButton, TextField} from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete'
 
 
 // API
-import { listJobs } from '../../../graphql/queries'
-import { updateJob, createJob } from '../../../graphql/mutations'
+// import { listJobs } from '../../../graphql/queries'
+// import { updateJob, createJob } from '../../../graphql/mutations'
 
 import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
