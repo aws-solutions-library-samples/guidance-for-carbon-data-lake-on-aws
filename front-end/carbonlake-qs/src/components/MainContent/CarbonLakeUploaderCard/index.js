@@ -34,7 +34,7 @@ const CarbonLakeUploader = () => {
     <CarbonLakeUploaderTitle>
     CarbonLake Uploader
     <CarbonLakeUploaderEmoji role="img" aria-label="dog">
-    🧠
+    📁
     </CarbonLakeUploaderEmoji>
     </CarbonLakeUploaderTitle>
     <CarbonLakeUploaderSubtitle>

@@ -2,7 +2,7 @@ import React from 'react';
 
 // Main Components
 import TranscriptionsCard from '../components/MainContent/TranscriptionsCard';
-import AccountSettingsCard from '../components/MainContent/AccountSettingsCard';
+import VisualizationsCard from '../components/MainContent/VisualizationsCard';
 import GridInfoCardGroup from '../components/MainContent/GridInfoCardGroup'
 import TranscribeDropdown from '../components/MainContent/TranscribeDropdown'
 import {day,month,date,year} from '../components/MainContent/CurrentDate/DateFetch'
@@ -12,7 +12,7 @@ import { MainContentContainer } from '../components/MainContent/MainContent.styl
 import { TranscribeJobListContainer } from '../components/MainContent/TranscribeDropdown/TranscribeDropdown.styles';
 import {CurrentDateContainer,CurrentDate} from '../components/MainContent/CurrentDate/DateFetch.styles'
 
-const AccountSettings = () => {
+const Visualizations = () => {
   return (
     <>
         <MainContentContainer>
@@ -22,18 +22,18 @@ const AccountSettings = () => {
                 </CurrentDate>
             </CurrentDateContainer>
 
-                <AccountSettingsCard />
-                {/* <GridInfoCardGroup /> */}
+                <VisualizationsCard />
+                <GridInfoCardGroup />
 
                 <TranscribeJobListContainer>
                     <TranscribeDropdown />
                 </TranscribeJobListContainer>
         <h1>
-            TODO - Add S3 uploader for profile picture and build out account settings view
+            TODO - Embed quicksight dashboard and MUI pagination chart
         </h1>
         </MainContentContainer>
     </>
   )
 }
 
-export default AccountSettings;
+export default Visualizations;

@@ -1,4 +1,4 @@
-// @ts-check - remove '/' in front of @ to check for import dependencies
+// /@ts-check - remove '/' in front of @ to check for import dependencies
 
 import React, { useState, useEffect} from 'react';
 // import ReactPlayer from 'react-player';

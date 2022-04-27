@@ -42,6 +42,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 // Allows for app to run with Amplify Authentication
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import Visualizations from './Pages/Visualizations';
 // import awsExports from './aws-exports';
 // Amplify.configure(awsconfig);
 // Amplify.configure(awsExports);
@@ -74,6 +75,7 @@ function App() {
         <Route path='/recordings' element={<Recordings/>}/>
         <Route path='/transcriptions' element={<Transcriptions/>}/>
         <Route path='/carbonlake-uploader' element={<CarbonLakeUploader/>}/>
+        <Route path='/visualizations' element={<Visualizations/>}/>
         <Route path='/call-analytics' element={<CallAnalytics/>}/>
         {/* <Route path='/call-analytics/:username' element={<CallAnalytics/>}/> */}
         {/* Must be the last route */}
