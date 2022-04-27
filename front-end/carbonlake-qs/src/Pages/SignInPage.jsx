@@ -1,6 +1,6 @@
 // import React from "react";
 // import Sidebar from './components/Sidebar'
-import SignIn from '../components/SignIn'
+import SignIn from '../components/Signin'
 
 const SignInPage = () => {
   return(
