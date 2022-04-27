@@ -1,5 +1,6 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib';
@@ -43,6 +44,14 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       `arn:aws:lambda:${process.env.AWS_DEFAULT_REGION}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     );
 
+    /* ======== PERMISSIONS ======== */
+
+    // Grant the input lambda to send messages to the DL queue
+    const sendMessagePolicy = new iam.PolicyStatement({
+      actions: [ "sqs:SendMessage"],
+      resources: [ queue.queueArn ]
+    })
+
     /* ======== LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs
@@ -55,6 +64,10 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       },
       layers: [dependencyLayer]
     });
+
+    this.inputFunction.role?.attachInlinePolicy(new iam.Policy(this, "sendMessagePolicy", {
+      statements: [sendMessagePolicy]
+    }));
 
     // Lambda function to process incoming events and store in DDB
     const dataLineageOutputFunction = new lambda.Function(this, "carbonlakeDataLineageHandler", {
