@@ -2,7 +2,7 @@ import React from 'react';
 
 // Main Components
 import TranscriptionsCard from '../components/MainContent/TranscriptionsCard';
-import CarbonLakeUploaderCard from '../components/MainContent/CarbonLakeUploaderCard';
+import DataQualityModelUploaderCard from '../components/MainContent/DataQualityModelUploaderCard';
 import GridInfoCardGroup from '../components/MainContent/GridInfoCardGroup'
 import TranscribeDropdown from '../components/MainContent/TranscribeDropdown'
 import {day,month,date,year} from '../components/MainContent/CurrentDate/DateFetch'
@@ -12,7 +12,7 @@ import { MainContentContainer } from '../components/MainContent/MainContent.styl
 import { TranscribeJobListContainer } from '../components/MainContent/TranscribeDropdown/TranscribeDropdown.styles';
 import {CurrentDateContainer,CurrentDate} from '../components/MainContent/CurrentDate/DateFetch.styles'
 
-const CarbonLakeUploader = () => {
+const DataQualityModelUploader = () => {
   return (
     <>
         <MainContentContainer>
@@ -22,18 +22,18 @@ const CarbonLakeUploader = () => {
                 </CurrentDate>
             </CurrentDateContainer>
 
-                <CarbonLakeUploaderCard />
+                <DataQualityModelUploaderCard />
                 {/* <GridInfoCardGroup /> */}
 
                 <TranscribeJobListContainer>
                     <TranscribeDropdown />
                 </TranscribeJobListContainer>
         <h1>
-            TODO - Add S3 Uploader for main CarbonLake input bucket
+            TODO - Add S3 Uploader for DQM
         </h1>
         </MainContentContainer>
     </>
   )
 }
 
-export default CarbonLakeUploader;
+export default DataQualityModelUploader;

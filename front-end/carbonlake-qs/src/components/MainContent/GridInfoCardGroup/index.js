@@ -108,7 +108,7 @@ const GridInfoCardGroup = () => {
                 23
             </GridInfoCardNumber>
             <GridInfoCardTitle>
-            Escalations
+            DQ Escalations
             </GridInfoCardTitle>
         </GridInfoCardText>
         <GridInfoCardIcon>

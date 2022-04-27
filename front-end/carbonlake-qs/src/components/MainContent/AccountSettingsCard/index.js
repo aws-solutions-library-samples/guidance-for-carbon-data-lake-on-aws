@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 //   UserProfilePicture
 // } from '../Sidebar/UserProfile/UserProfile.styles';
 // import AccountSettingsImage from '../../../images/undraw_wind_turbine_green.svg';
-import AccountSettingsImage from '../../../images/undraw_robotics_kep0_green.svg';
+import AccountSettingsImage from '../../../images/undraw_profile_re_4a55_green.svg';
 import {
   AccountSettingsContainer,
   AccountSettingsGrid,

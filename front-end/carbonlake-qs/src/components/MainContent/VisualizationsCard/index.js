@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 //   UserProfilePicture
 // } from '../Sidebar/UserProfile/UserProfile.styles';
 // import VisualizationsImage from '../../../images/undraw_wind_turbine_green.svg';
-import VisualizationsImage from '../../../images/undraw_robotics_kep0_green.svg';
+import VisualizationsImage from '../../../images/undraw_data_trends_re_2cdy_green.svg';
 import {
   VisualizationsContainer,
   VisualizationsGrid,

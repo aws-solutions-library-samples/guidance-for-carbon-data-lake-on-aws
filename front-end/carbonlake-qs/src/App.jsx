@@ -15,6 +15,7 @@ import Account from './Pages/Account'
 import Recordings from './Pages/Recordings'
 import Transcriptions from './Pages/Transcriptions'
 import CarbonLakeUploader from './Pages/CarbonLakeUploader'
+import DataQualityModelUploader from './Pages/DataQualityModelUploader'
 import CallAnalytics from './Pages/CallAnalytics';
 import ErrorPage from './Pages/ErrorPage';
 
@@ -75,6 +76,7 @@ function App() {
         <Route path='/recordings' element={<Recordings/>}/>
         <Route path='/transcriptions' element={<Transcriptions/>}/>
         <Route path='/carbonlake-uploader' element={<CarbonLakeUploader/>}/>
+        <Route path='/data-quality-model-uploader' element={<DataQualityModelUploader/>}/>
         <Route path='/visualizations' element={<Visualizations/>}/>
         <Route path='/call-analytics' element={<CallAnalytics/>}/>
         {/* <Route path='/call-analytics/:username' element={<CallAnalytics/>}/> */}

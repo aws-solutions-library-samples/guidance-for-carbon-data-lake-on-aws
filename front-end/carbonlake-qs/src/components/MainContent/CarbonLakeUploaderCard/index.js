@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 //   UserProfilePicture
 // } from '../Sidebar/UserProfile/UserProfile.styles';
 // import CarbonLakeUploaderImage from '../../../images/undraw_wind_turbine_green.svg';
-import CarbonLakeUploaderImage from '../../../images/undraw_robotics_kep0_green.svg';
+import CarbonLakeUploaderImage from '../../../images/undraw_folder_files_re_2cbm_green.svg';
 import {
   CarbonLakeUploaderContainer,
   CarbonLakeUploaderGrid,

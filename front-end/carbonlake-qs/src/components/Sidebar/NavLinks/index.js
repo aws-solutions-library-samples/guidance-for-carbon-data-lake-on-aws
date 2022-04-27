@@ -79,7 +79,7 @@ const NavLinks = ({ signOut, user }) => {
                   Profile
                 </NavLinksSubtitle>
 
-  {/* TODO - write logic to only show this component if logged in user has 'admin' role */}
+  {/* TODO - write logic to only show this component if logged in user has 'admin' role/is in admin cognito user pool */}
   {/* ----Admin---- */}
         <DropDownContainer id="Admin">
             <DropDownLink id='Admin'>
@@ -233,14 +233,7 @@ const NavLinks = ({ signOut, user }) => {
                         Chat Logs
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
-                  <DropDownCollapseWrapper>
-                      <DropDownCollapseIcon>
-                        <BiAlarmExclamation />
-                      </DropDownCollapseIcon>
-                      <DropDownCollapseItem id='Escalations'>
-                        Escalations
-                      </DropDownCollapseItem>
-                  </DropDownCollapseWrapper>
+
 
               </DropDownCollapseContent>
         </DropDownCollapseContainer>
@@ -261,7 +254,7 @@ const NavLinks = ({ signOut, user }) => {
           </DropDownLink>
         <DropDownCollapseContainer>
               <DropDownCollapseContent>
-                  <DropDownCollapseWrapper>
+                  <DropDownCollapseWrapper onClick={() => {navigate('/data-quality-model-uploader')}}>
                       <DropDownCollapseIcon>
                         <BiPlus />
                       </DropDownCollapseIcon>
@@ -275,6 +268,14 @@ const NavLinks = ({ signOut, user }) => {
                       </DropDownCollapseIcon>
                       <DropDownCollapseItem id='Metrics'>
                         Metrics
+                      </DropDownCollapseItem>
+                  </DropDownCollapseWrapper>
+                  <DropDownCollapseWrapper>
+                      <DropDownCollapseIcon>
+                        <BiAlarmExclamation />
+                      </DropDownCollapseIcon>
+                      <DropDownCollapseItem id='DQEscalations'>
+                        DQ Escalations
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
               </DropDownCollapseContent>
