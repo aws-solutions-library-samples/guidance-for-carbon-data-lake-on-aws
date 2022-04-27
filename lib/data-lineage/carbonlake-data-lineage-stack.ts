@@ -80,6 +80,8 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       layers: [dependencyLayer]
     });
 
-    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
+    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue, {
+      batchSize: 50
+    }));
   }
 }
