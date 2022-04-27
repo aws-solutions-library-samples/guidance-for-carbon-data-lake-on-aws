@@ -1,24 +1,39 @@
 {
     "record_id": "customer-carbonlake-12345",
-    "asset_id": "vehicle-1234", 
-    "geo": [45.5152, 122.6784],
-    "origin_measurement_timestamp":"2022-06-26 02:31:29", 
-    "activity_id":{
-        "scope": 1,
+    "asset_id": "vehicle-1234",
+    "activity_id": {
+        "activity": "Diesel Fuel - Diesel Passenger Cars",
         "category": "mobile-combustion",
-        "activity": "Diesel Fuel - Diesel Passenger Cars"
-        }, 
-    "source": "company_fleet_management_database", 
-    "raw_data": 103.45,
-    "units": "gal",
+        "scope": 1
+    },
     "emissions_output": {
-        "emissions_factor_reference": "ghg_protocol",
-        "emissions_factor": 8.812,
         "calculated_emissions": {
-            "co2": [0.024, "tonnes"],
-            "ch4": [0.00001, "tonnes"],
-            "n20": [0.00201, "tonnes"],
-            "co2e": [0.2333, "tonnes"]
-        }
-    }
+            "ch4": {
+                "amount": 0.00001,
+                "unit": "tonnes"
+            },
+            "co2": {
+                "amount": 0.024,
+                "unit": "tonnes"
+            },
+            "co2e": {
+                "amount": 0.2333,
+                "unit": "tonnes"
+            },
+            "n20": {
+                "amount": 0.00201,
+                "unit": "tonnes"
+            }
+        },
+        "emissions_factor": 8.812,
+        "emissions_factor_reference": "ghg_protocol"
+    },
+    "geo": {
+        "lat": 45.5152,
+        "long": 122.6784
+    },
+    "origin_measurement_timestamp": "2022-06-26 02:31:29",
+    "raw_data": 103.45,
+    "source": "company_fleet_management_database",
+    "units": "gal"
 }
