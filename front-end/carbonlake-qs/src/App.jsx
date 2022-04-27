@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 
@@ -21,19 +21,19 @@ import ErrorPage from './Pages/ErrorPage';
 import {GlobalStyle} from './GlobalStyle';
 
 // Material UI
-import { Paper, IconButton, DeleteIcon} from '@material-ui/core'
+import { Paper, IconButton, DeleteIcon} from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 // Amplify
-import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
-import awsconfig from './aws-exports';
+// import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+// import awsconfig from './aws-exports';
 
 // API
-import { listJobs } from './graphql/queries'
-import { updateJob } from './graphql/mutations'
+// import { listJobs } from './graphql/queries'
+// import { updateJob } from './graphql/mutations'
 
 
 
@@ -41,14 +41,14 @@ import { updateJob } from './graphql/mutations'
 // Allows for app to run with Amplify Authentication
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import awsExports from './aws-exports';
-Amplify.configure(awsconfig);
-Amplify.configure(awsExports);
+// import awsExports from './aws-exports';
+// Amplify.configure(awsconfig);
+// Amplify.configure(awsExports);
 
 
 
+function App() {
 // function App({ signOut, user }) {
-function App({ signOut, user }) {
 
 
   return (
@@ -82,6 +82,6 @@ function App({ signOut, user }) {
   );
 }
 
-// export default App;
+export default App;
 // Uncomment and below line and comment out above when testing Amplify auth
-export default withAuthenticator(App);
+// export default withAuthenticator(App);

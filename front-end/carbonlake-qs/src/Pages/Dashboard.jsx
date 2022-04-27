@@ -1,3 +1,4 @@
+//@ts-check
 import React from 'react';
 
 // Main Components
@@ -7,6 +8,7 @@ import {day,month,date,year} from '../components/MainContent/CurrentDate/DateFet
 
 // Styles
 import { MainContentContainer } from '../components/MainContent/MainContent.styles';
+// import { MainContentContainer } from '../components/MainContent/';
 import {CurrentDateContainer,CurrentDate} from '../components/MainContent/CurrentDate/DateFetch.styles'
 
 const Dashboard = () => {
