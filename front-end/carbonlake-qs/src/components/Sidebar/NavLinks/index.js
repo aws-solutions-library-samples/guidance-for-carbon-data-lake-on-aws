@@ -11,7 +11,6 @@ import {
   BiBookmark,
   BiSupport,
   BiMessageAltDetail,
-  BiAlarmExclamation,
   BiBarChartSquare,
   BiCog,
   BiPlay,
@@ -19,6 +18,12 @@ import {
   BiPlus,
   BiLogOut,
   BiChevronDown,
+  BiBarChart,
+  BiAlarmExclamation,
+  BiArrowFromBottom,
+  BiAnalyse,
+  BiPieChartAlt2,
+  BiAtom,
 } from "react-icons/bi";
 
 // Styled Components
@@ -54,12 +59,13 @@ import {
 // } from './UserLogout/UserLogout.styles'
 
 // AMPLIFY
-import { Amplify } from 'aws-amplify';
+// import { Amplify } from 'aws-amplify';
+
   // Allows for app to run with Amplify Authentication
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import awsExports from '../../../aws-exports';
-Amplify.configure(awsExports);
+// import { withAuthenticator } from '@aws-amplify/ui-react';
+// import '@aws-amplify/ui-react/styles.css';
+// import awsExports from '../../../aws-exports';
+// Amplify.configure(awsExports);
 
 const NavLinks = ({ signOut, user }) => {
   let navigate = useNavigate();
@@ -187,14 +193,15 @@ const NavLinks = ({ signOut, user }) => {
                 Menu
               </NavLinksSubtitle>
 
-  {/* ----Support---- */}
-  <DropDownContainer id="Support">
-            <DropDownLink id='Support'>
+  {/* ----Carbon Explorer---- */}
+  <DropDownContainer id="CarbonExplorer">
+            <DropDownLink id='CarbonExplorer'>
                 <DropDownIcon>
-                <BiSupport />
+                <BiBarChart />
+                {/* <BiBarChartSquare /> */}
                 </DropDownIcon>
                 <DropDownName>
-                    Support
+                    Carbon Explorer
                 </DropDownName>
                 <DropDownChevron>
                     <BiChevronDown />
@@ -202,20 +209,20 @@ const NavLinks = ({ signOut, user }) => {
           </DropDownLink>
         <DropDownCollapseContainer>
               <DropDownCollapseContent>
-                  <DropDownCollapseWrapper onClick={() => {navigate('/transcriptions')}}>
+                  <DropDownCollapseWrapper onClick={() => {navigate('/carbonlake-uploader')}}>
                       <DropDownCollapseIcon>
-                        <BiBarChartSquare />
+                        <BiArrowFromBottom/>
                       </DropDownCollapseIcon>
-                      <DropDownCollapseItem id='Analytics'>
-                        Call Analytics
+                      <DropDownCollapseItem id='CarbonLakeUploader'>
+                      Upload
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
-                  <DropDownCollapseWrapper onClick={() => {navigate('/recordings')}}>
+                  <DropDownCollapseWrapper onClick={() => {navigate('/visualizations')}}>
                       <DropDownCollapseIcon>
-                        <BiPlay />
+                        <BiPieChartAlt2 />
                       </DropDownCollapseIcon>
-                      <DropDownCollapseItem id='Recordings'>
-                        Recordings
+                      <DropDownCollapseItem id='Visualizations'>
+                      Visualizations
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
                   <DropDownCollapseWrapper>
@@ -240,13 +247,13 @@ const NavLinks = ({ signOut, user }) => {
         </DropDownContainer>
 
   {/* ----Notes---- */}
-        <DropDownContainer id="Notes">
-            <DropDownLink id='Notes'>
+        <DropDownContainer id="DataQuality">
+            <DropDownLink id='DataQuality'>
                 <DropDownIcon>
-                    <BiUser />
+                    <BiAnalyse />
                 </DropDownIcon>
                 <DropDownName>
-                    Notes
+                Data Quality
                 </DropDownName>
                 <DropDownChevron>
                     <BiChevronDown />
@@ -258,16 +265,16 @@ const NavLinks = ({ signOut, user }) => {
                       <DropDownCollapseIcon>
                         <BiPlus />
                       </DropDownCollapseIcon>
-                      <DropDownCollapseItem id='New'>
-                        New
+                      <DropDownCollapseItem id='UploadModel'>
+                        Upload Model
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
                   <DropDownCollapseWrapper>
                       <DropDownCollapseIcon>
-                        <BiNotepad />
+                        <BiAtom />
                       </DropDownCollapseIcon>
-                      <DropDownCollapseItem id='Existing'>
-                        Existing
+                      <DropDownCollapseItem id='Metrics'>
+                        Metrics
                       </DropDownCollapseItem>
                   </DropDownCollapseWrapper>
               </DropDownCollapseContent>

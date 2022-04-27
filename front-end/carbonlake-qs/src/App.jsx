@@ -14,6 +14,7 @@ import Dashboard from './Pages/Dashboard'
 import Account from './Pages/Account'
 import Recordings from './Pages/Recordings'
 import Transcriptions from './Pages/Transcriptions'
+import CarbonLakeUploader from './Pages/CarbonLakeUploader'
 import CallAnalytics from './Pages/CallAnalytics';
 import ErrorPage from './Pages/ErrorPage';
 
@@ -72,6 +73,7 @@ function App() {
         {/* <Route path='/account/:username' element={<Account/>}/> */}
         <Route path='/recordings' element={<Recordings/>}/>
         <Route path='/transcriptions' element={<Transcriptions/>}/>
+        <Route path='/carbonlake-uploader' element={<CarbonLakeUploader/>}/>
         <Route path='/call-analytics' element={<CallAnalytics/>}/>
         {/* <Route path='/call-analytics/:username' element={<CallAnalytics/>}/> */}
         {/* Must be the last route */}

@@ -1,7 +1,8 @@
 import React from "react";
 
 //  Icons
-import { SiPytorchlightning } from 'react-icons/si';
+// Icon used in company branding section of sidebar
+import { SiAmazonaws} from 'react-icons/si';
 
 // Styled Components
 import {
@@ -12,7 +13,7 @@ import {
 import { Text } from './CompanyBranding.styles';
 import { Link } from 'react-router-dom'
 
-let CompanyName = 'Növęk Solar Ltd.'
+let CompanyName = 'CarbonLake'
 const CompanyBranding = () => {
   return(
     <>
@@ -20,7 +21,7 @@ const CompanyBranding = () => {
       <CompanyBrandingContainer>
         <Link to ='/dashboard'>
           <Icon>
-            <SiPytorchlightning/>
+            <SiAmazonaws/>
           </Icon>
         </Link>
         <Link to ='/dashboard'>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect} from 'react';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 
-// API
-import { listJobs } from '../../../graphql/queries'
+// // API
+// import { listJobs } from '../../../graphql/queries'
 
-// Amplify
-import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+// // Amplify
+// import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
 // Milliseconds to Minutes and Seconds Function
 import msToMinAndSec from './msToMinAndSec';
@@ -15,9 +15,11 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Paper, IconButton, DeleteIcon, TextField} from '@material-ui/core'
+import { Paper, IconButton,  TextField} from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import DeleteIcon from '@mui/icons-material/Delete'
+
 
 // Styles
 import {
@@ -88,10 +90,10 @@ const TranscribeDropdown = () => {
 
   const fetchJobs = async () => {
     try {
-        const jobData = await API.graphql(graphqlOperation(listJobs));
-        const jobList = jobData.data.listJobs.items;
-        console.log('job list', jobList);
-        setJobs(jobList)
+        // const jobData = await API.graphql(graphqlOperation(listJobs));
+        // const jobList = jobData.data.listJobs.items;
+        // console.log('job list', jobList);
+        // setJobs(jobList)
       } catch (error) {
         console.log("error on fetching jobs", error);
       }
@@ -214,13 +216,13 @@ const TranscribeDropdown = () => {
 
                     {jobAudioPlaying === idx ? (
                       <div>
-                        <ReactPlayer
+                        {/* <ReactPlayer
                           url = {audioURL}
                           controls
                           playing
                           height="50px"
                           onPause ={()=> toggleJobAudio(idx)}
-                        />
+                        /> */}
                       </div>
                     ) : null}
                 </TranscribeJobAudio>

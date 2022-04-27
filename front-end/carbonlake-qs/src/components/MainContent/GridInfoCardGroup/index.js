@@ -27,7 +27,7 @@ import {
   WelcomeCardSubtitle,
   WelcomeCardEmoji,
   WelcomeCardImageContainer,
-} from '../WelcomeCard/WelcomeCard.styles'
+} from '../WelcomeCard/'
 
 // Icons
 import {
