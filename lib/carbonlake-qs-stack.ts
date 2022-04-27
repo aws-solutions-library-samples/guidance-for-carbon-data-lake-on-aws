@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { CarbonlakeApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
+import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
 
 
@@ -31,6 +32,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO --> Create the carbonlake data lineage stack
 
     // TODO --> Creat the carbonlake monitoring and observability stack
+
+    // carbonlake orchestration pipeline stack - Amazon Step Functions
+    // TODO: As there are created, need to add the sfn components to the pipeline stack
+    const pipeline = new CarbonlakeQuickstartPipelineStack(app, "CarbonlakeQuickstartPipelineStack");
     
   }
 }
