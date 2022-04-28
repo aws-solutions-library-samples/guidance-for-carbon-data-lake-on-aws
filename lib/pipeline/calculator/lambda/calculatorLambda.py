@@ -8,6 +8,7 @@ LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
+INPUT_S3_BUCKET_NAME = os.environ.get('INPUT_S3_BUCKET_NAME')
 # Versions of the IPPC Report used for CO2e calculation
 class IPCC_AR(Enum):
     AR4 = 4
@@ -38,19 +39,21 @@ GWP = {
 }
 
 dynamodb = boto3.resource('dynamodb')
+s3 = boto3.resource('s3')
 
 '''
 gets emissions factor from ancillary database and returns a coefficient
 input: activity
 output: emissions factor coefficient
+TODO Add a cache
 '''
-def get_emissions_factor(activity_id):
+def get_emissions_factor(activity, category):
     LOGGER.info("getting emissions factor from database")
     table = dynamodb.Table(EMISSION_FACTORS_TABLE_NAME)
     coefficient = table.get_item(
         Key={
-            'category': activity_id['category'],
-            'activity': activity_id['activity'],
+            'category': category,
+            'activity': activity,
         }
     )
     return coefficient
@@ -66,7 +69,7 @@ def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
 
 
 def append_emissions_output(activity_event):
-    emissions_factor = get_emissions_factor(activity_event['activity_id'])
+    emissions_factor = get_emissions_factor(activity_event['activity'], activity_event['category'])
     coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
     LOGGER.debug('coefficients: %s', coefficients)
 
@@ -114,20 +117,26 @@ def append_emissions_output(activity_event):
             }
         }
     }
-    activity_event.update(emissions_output)
-    return activity_event
+    return activity_event.update(emissions_output)
+
+def read_events_from_s3(bucketname, object_key):
+    obj = s3.Object(bucketname, object_key)
+    return obj.get()['Body'].read().decode('utf-8')
 
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    result = append_emissions_output(event)
-    LOGGER.info("result:")
-    LOGGER.info(result)
+    activity_events_s3_key = event
+    activity_events = read_events_from_s3(INPUT_S3_BUCKET_NAME, activity_events_s3_key)
+    LOGGER.info('activity_events: %s', activity_events)
+    # activity_event_with_emissions = append_emissions_output(activity_event)
+    # LOGGER.info("result:")
+    # LOGGER.info(result)
     print('request: {}'.format(json.dumps(event)))
     return {
         'statusCode': 200,
         'headers': {
             'Content-Type': 'text/json'
         },
-        'body': result
+        # 'body': result
     }
     
