@@ -1,10 +1,11 @@
 import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
-  dataLineageFunction: any,
+  dataLineageFunction: lambda.Function,
   dataQualityJob: any,
   glueTransformJob: any,
   calculationJob: any
@@ -13,7 +14,7 @@ interface StateMachineProps extends NestedStackProps {
 export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
   public readonly statemachine: sfn.StateMachine;
 
-  constructor(scope: Construct, id: string, props?: StateMachineProps) {
+  constructor(scope: Construct, id: string, props: StateMachineProps) {
     super(scope, id, props);
 
     /* ======== STEP FUNCTION TASKS ======== */
@@ -25,9 +26,11 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const sfnFailure = new sfn.Fail(this, 'Failure');
 
     // Data Lineage Request - 0 - RAW_DATA_INPUT
-    const dataLineageTask0 = new sfn.Pass(this, 'DL: RAW_DATA_INPUT', {
-      inputPath: '$.data_lineage',
-      resultPath: '$.data_lineage'
+    const dataLineageTask0 = new tasks.LambdaInvoke(this, 'DL: RAW_DATA_INPUT', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      resultPath: '$.data_lineage',
+      inputPath: '$.data_lineage'
     });
 
     // Data Quality Check
@@ -41,15 +44,19 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataQualityChoice = new sfn.Choice(this, 'CHOICE: Data Quality Passed?')
 
     // Data Lineage Request - 1_1 - DQ_CHECK_PASS
-    const dataLineageTask1_1 = new sfn.Pass(this, 'DL: DQ_CHECK_PASS', {
-      inputPath: '$.data_lineage',
-      resultPath: '$.data_lineage'
+    const dataLineageTask1_1 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_PASS', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      resultPath: '$.data_lineage',
+      inputPath: '$.data_lineage'
     });
 
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
-    const dataLineageTask1_2 = new sfn.Pass(this, 'DL: DQ_CHECK_FAIL', {
-      inputPath: '$.data_lineage',
-      resultPath: '$.data_lineage'
+    const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_FAIL', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      resultPath: '$.data_lineage',
+      inputPath: '$.data_lineage'
     });
 
     // Human-in-the-loop approval step - invoked on data quality check fail
@@ -78,9 +85,11 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
-    const dataLineageTask2 = new sfn.Pass(this, 'DL: GLUE_BATCH_SPLIT', {
-      inputPath: '$.data_lineage',
-      resultPath: '$.data_lineage'
+    const dataLineageTask2 = new tasks.LambdaInvoke(this, 'DL: GLUE_BATCH_SPLIT', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      resultPath: '$.data_lineage',
+      inputPath: '$.data_lineage'
     });
 
     // Dynamic Map State - Run n calculations depending on number of batches
@@ -103,10 +112,13 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = new sfn.Pass(this, 'DL: CALCULATION_COMPLETE', {
-      inputPath: '$.data_lineage',
-      resultPath: '$.data_lineage'
-    });
+    const dataLineageTask3 = new tasks.LambdaInvoke(this, 'DL: CALCULATION_COMPLETE', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      resultPath: '$.data_lineage',
+      inputPath: '$.data_lineage'
+    })
+    
 
     /* ======== STEP FUNCTION ======== */
 

@@ -7,9 +7,8 @@ import * as path from 'path';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 
 interface PipelineProps extends StackProps {
-  // dataLineageFunction: lambda.Function
+  dataLineageFunction: lambda.Function
   // transformBucket: s3.Bucket
-  dataLineageFunction: string
   transformBucket: string
 }
 

@@ -40,7 +40,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(app, "CarbonlakeQuickstartPipelineStack", {
       transformBucket: "transform-bucket-name-placeholder",
-      dataLineageFunction: "data-lineage-function-placeholder"
+      dataLineageFunction: dataLineage.inputFunction
     });
     
   }
