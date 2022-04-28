@@ -9,6 +9,8 @@ https://polaris.a2z.com/develop/integration/react/
 ************************************************************************/
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
+// import { Sidebar } from '../components/Navigation/Sidebar'
 import {
   AppLayout,
   SideNavigation,
@@ -30,7 +32,7 @@ import '../styles/servicehomepage.scss';
 const Dashboard = () => {
   return (
     <AppLayout
-    navigation={<CustomNavigation />}
+    navigation={<Sidebar />}
     content={<Content />}
     tools={<Tools />}
     disableContentPaddings={true}
@@ -42,7 +44,7 @@ export default Dashboard;
 // export default function Dashboard() {
 //   return (
 //     <AppLayout
-//       navigation={<CustomNavigation />}
+//       navigation={<Sidebar />}
 //       content={<Content />}
 //       tools={<Tools />}
 //       disableContentPaddings={true}
@@ -222,51 +224,43 @@ const Content = () => (
   </div>
 );
 
-const CustomNavigation = () => (
-  <SideNavigation
-    header={{ text: 'Navigation panel', href: '#/' }}
-    items={[
-      {
-        type: 'section',
-        text: 'CarbonLake',
-        expanded: true,
-        items: [
-          { type: 'link', text: 'How to use the CarbonLake App', href: '#/' },
-          { type: 'link', text: 'Dashboard', href: '#/basic' },
-          { type: 'link', text: 'Service homepage', href: '#/service-home' },
-          { type: 'link', text: 'Single page create', href: '#/create' },
-          { type: 'link', text: 'Table view', href: '#/table' },
-          {
-            type: 'link',
-            text: 'Table with Empty State',
-            href: '#/table-empty'
-          }
-        ]
-      },
-      {
-        type: 'section',
-        text: 'Dashboard',
-        expanded: true,
-        items: [
-          { type: 'link', text: 'How to use the CarbonLake App', href: '#/' },
-          { type: 'link', text: 'Dashboard', href: '#/basic' },
-          { type: 'link', text: 'Service homepage', href: '#/service-home' },
-          { type: 'link', text: 'Single page create', href: '#/create' },
-          { type: 'link', text: 'Table view', href: '#/table' },
-          {
-            type: 'link',
-            text: 'Table with Empty State',
-            href: '#/table-empty'
-          }
-        ]
-      },
-    ]}
-    activeHref="#/"
-  />
-);
+
+<Sidebar />
+
+// const Sidebar = () => {
+//   return (
+//     <>
+//   <SideNavigation
+//     header={{ text: 'Navigation panel', href: '#/' }}
+//     items={[
+//       {
+//         type: 'section',
+//         text: 'My pages',
+//         expanded: true,
+//         items: [
+//           { type: 'link', text: 'Bob Ross intro', href: '#/' },
+//           { type: 'link', text: 'Basic layout', href: '#/basic' },
+//           { type: 'link', text: 'Service homepage', href: '#/service-home' },
+//           { type: 'link', text: 'Single page create', href: '#/create' },
+//           { type: 'link', text: 'Table view', href: '#/table' },
+//           {
+//             type: 'link',
+//             text: 'Table with Empty State',
+//             href: '#/table-empty'
+//           }
+//         ]
+//       }
+//     ]}
+//     activeHref="#/"
+//     />
+//     </>
+//   )
+//   }
 
 const Tools = () => (
-  <HelpPanel header={<h2>Help panel</h2>}>
-    <p>Help content goes here</p>
-  </HelpPanel>
+  <>
+  </>
+  // <HelpPanel header={<h2>Help panel</h2>}>
+  //   <p>Help content goes here</p>
+  // </HelpPanel>
 );
