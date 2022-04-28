@@ -6,15 +6,15 @@ export class CarbonLakeGlueCompactionJobStack extends Stack {
         super(scope, id, props);
 
         // Create a new Role for Glue
-        const role = new iam.Role(this, 'access-glue-fifa', {
+        const role = new iam.Role(this, 'carbonlake-glue-role', {
           assumedBy: new iam.ServicePrincipal('glue.amazonaws.com'),
         });
         
-        // Add AWSGlueServiceRole to role.
+        // Add AWSGlueServiceRole to role
         const gluePolicy = iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSGlueServiceRole");
         role.addManagedPolicy(gluePolicy);
 
-        // Create a new S3 bucket for Glue job.
+        // Create a new S3 bucket for Glue scripts
         const bucketName = '148257099368-fifa';
         const dataBucketName = '148257099368-data';
 
