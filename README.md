@@ -35,15 +35,16 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 [Calculator Data Input Model](carbonlake-quickstart/sample-data/calculator_input_single_record_example.json)
 ```json
 {
-    "record_id": "customer-carbonlake-12345",
+    "activity_event_id": "customer-carbonlake-12345",
     "asset_id": "vehicle-1234", 
-    "geo": [45.5152, 122.6784],
+    "geo": {
+        "lat": 45.5152,
+        "long": 122.6784
+    },
     "origin_measurement_timestamp":"2022-06-26 02:31:29", 
-    "activity_id":{
-        "scope": 1,
-        "category": "mobile-combustion",
-        "activity": "Diesel Fuel - Diesel Passenger Cars"
-        }, 
+    "scope": 1,
+    "category": "mobile-combustion",
+    "activity": "Diesel Fuel - Diesel Passenger Cars",
     "source": "company_fleet_management_database", 
     "raw_data": 103.45,
     "units": "gal"
@@ -54,34 +55,46 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 [Calculator Output Model](carbonlake-quickstart/sample-data/calculator_output_single_record_example.json)
 ```json
 {
-    "record_id": "customer-carbonlake-12345",
+    "activity_event_id": "customer-carbonlake-12345",
     "asset_id": "vehicle-1234",
-    "activity_id": {
-        "activity": "Diesel Fuel - Diesel Passenger Cars",
-        "category": "mobile-combustion",
-        "scope": 1
-    },
+    "activity": "Diesel Fuel - Diesel Passenger Cars",
+    "category": "mobile-combustion",
+    "scope": 1,
     "emissions_output": {
         "calculated_emissions": {
-            "ch4": {
-                "amount": 0.00001,
-                "unit": "tonnes"
-            },
             "co2": {
                 "amount": 0.024,
                 "unit": "tonnes"
             },
-            "co2e": {
-                "amount": 0.2333,
+            "ch4": {
+                "amount": 0.00001,
                 "unit": "tonnes"
             },
             "n2o": {
                 "amount": 0.00201,
                 "unit": "tonnes"
+            },
+            "co2e": {
+                "ar4": {
+                    "amount": 0.2333,
+                    "unit": "tonnes"
+                },
+                "ar5": {
+                    "amount": 0.2334,
+                    "unit": "tonnes"
+                }
             }
         },
-        "emissions_factor": 8.812,
-        "emissions_factor_reference": "ghg_protocol"
+        "emissions_factor": {
+            "ar4": {
+                "amount": 8.812,
+                "unit": "kgCO2e/unit"
+            },
+            "ar5": {
+                "amount": 8.813,
+                "unit": "kgCO2e/unit"
+            }
+        }
     },
     "geo": {
         "lat": 45.5152,
