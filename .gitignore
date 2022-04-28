@@ -1,3 +1,4 @@
+lib/*.js
 lib/**/*.js
 !jest.config.js
 *.d.ts
