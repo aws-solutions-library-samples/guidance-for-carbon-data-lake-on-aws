@@ -1,12 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
-import { aws_s3 as s3 } from 'aws-cdk-lib';
+import * as cfninc from 'aws-cdk-lib/cloudformation-include';
+import { Construct } from 'constructs';
 
-export class HelloCdkStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+export class CarbonlakeQuicksightStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    new s3.Bucket(this, 'MyFirstBucket', {
-      versioned: true
+    const template = new cfninc.CfnInclude(this, 'Template', { 
+      templateFile: 'carbonlake-quicksight-cloudformation.myl',
     });
   }
 }
