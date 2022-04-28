@@ -1,11 +1,9 @@
 {
-    "record_id": "customer-carbonlake-12345",
+    "activity_event_id": "customer-carbonlake-12345",
     "asset_id": "vehicle-1234",
-    "activity_id": {
-        "activity": "Diesel Fuel - Diesel Passenger Cars",
-        "category": "mobile-combustion",
-        "scope": 1
-    },
+    "activity": "Diesel Fuel - Diesel Passenger Cars",
+    "category": "mobile-combustion",
+    "scope": 1,
     "emissions_output": {
         "calculated_emissions": {
             "co2": {
@@ -16,7 +14,7 @@
                 "amount": 0.00001,
                 "unit": "tonnes"
             },
-            "n20": {
+            "n2o": {
                 "amount": 0.00201,
                 "unit": "tonnes"
             },
