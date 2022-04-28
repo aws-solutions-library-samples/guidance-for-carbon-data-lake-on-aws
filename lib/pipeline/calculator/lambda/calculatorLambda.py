@@ -2,11 +2,40 @@ import logging
 import os
 import json
 import boto3
+from enum import Enum
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
+# Versions of the IPPC Report used for CO2e calculation
+class IPCC_AR(Enum):
+    AR4 = 4
+    AR5 = 5
+
+class Gas(Enum):
+    CO2 = 1
+    CH4 = 2
+    N2O = 3
+    NF3 = 4
+    SF6 = 5
+
+GWP = {
+    IPCC_AR.AR4: {
+        Gas.CO2: 1,
+        Gas.CH4: 25,
+        Gas.N2O: 298,
+        Gas.NF3: 17200,
+        Gas.SF6: 22800,
+    },
+    IPCC_AR.AR5: {
+        Gas.CO2: 1,
+        Gas.CH4: 28,
+        Gas.N2O: 265,
+        Gas.NF3: 16100,
+        Gas.SF6: 23500,
+    }
+}
 
 dynamodb = boto3.resource('dynamodb')
 
@@ -26,37 +55,53 @@ def get_emissions_factor(activity_id):
     )
     return coefficient
 
+def calculate_emission(raw_data, factor):
+    return float(raw_data) * float(factor) / 1000
 
-def calculate_carbon(activity_event):
+def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
+    result  = co2_emissions * GWP[ar_version][Gas.CO2]
+    result += ch4_emissions * GWP[ar_version][Gas.CH4]
+    result += n2o_emissions * GWP[ar_version][Gas.N2O]
+    return result
+
+
+def append_emissions_output(activity_event):
     emissions_factor = get_emissions_factor(activity_event['activity_id'])
     coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
-    LOGGER.info('coefficients: %s', coefficients)
+    LOGGER.debug('coefficients: %s', coefficients)
+
+    raw_data = activity_event['raw_data']
+    co2_emissions = calculate_emission(raw_data, coefficients['co2_factor'])
+    ch4_emissions = calculate_emission(raw_data, coefficients['ch4_factor'])
+    n2o_emissions = calculate_emission(raw_data, coefficients['n2o_factor'])
+    co2e_ar4      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
+    co2e_ar5      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
     emissions_output = {
         "emissions_output": {
-            # "calculated_emissions": {
-            #     "co2": {
-            #         "amount": 0.024,
-            #         "unit": "tonnes"
-            #     },
-            #     "ch4": {
-            #         "amount": 0.00001,
-            #         "unit": "tonnes"
-            #     },
-            #     "n20": {
-            #         "amount": 0.00201,
-            #         "unit": "tonnes"
-            #     },
-            #     "co2e": {
-            #         "ar4": {
-            #             "amount": 0.2333,
-            #             "unit": "tonnes"
-            #         },
-            #         "ar5": {
-            #             "amount": 0.2334,
-            #             "unit": "tonnes"
-            #         }
-            #     }
-            # },
+            "calculated_emissions": {
+                "co2": {
+                    "amount": co2_emissions,
+                    "unit": "tonnes"
+                },
+                "ch4": {
+                    "amount": ch4_emissions,
+                    "unit": "tonnes"
+                },
+                "n2o": {
+                    "amount": n2o_emissions,
+                    "unit": "tonnes"
+                },
+                "co2e": {
+                    "ar4": {
+                        "amount": co2e_ar4,
+                        "unit": "tonnes"
+                    },
+                    "ar5": {
+                        "amount": co2e_ar5,
+                        "unit": "tonnes"
+                    }
+                }
+            },
             "emissions_factor": {
                 "ar4": {
                     "amount": coefficients['AR4_kgco2e'],
@@ -74,7 +119,7 @@ def calculate_carbon(activity_event):
 
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    result = calculate_carbon(event)
+    result = append_emissions_output(event)
     LOGGER.info("result:")
     LOGGER.info(result)
     print('request: {}'.format(json.dumps(event)))
