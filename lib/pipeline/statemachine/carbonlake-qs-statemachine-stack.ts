@@ -1,19 +1,22 @@
-import { App, Duration, Stack, StackProps } from 'aws-cdk-lib';
-import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
-import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
-import * as path from 'path';
+import { Construct } from 'constructs';
 
-export class CarbonlakeQuickstartStatemachineStack extends Stack {
-  public readonly kickoffFunction: lambda.Function;
+interface StateMachineProps extends NestedStackProps {
+  dataLineageFunction: any,
+  dataQualityJob: any,
+  glueTransformJob: any,
+  calculationJob: any
+}
+
+export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
   public readonly statemachine: sfn.StateMachine;
 
-  constructor(scope: App, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props?: StateMachineProps) {
     super(scope, id, props);
 
-    /* ======== STEP FUNCTION ======== */
+    /* ======== STEP FUNCTION TASKS ======== */
 
     // SFN Success State
     const sfnSuccess = new sfn.Succeed(this, 'Success');
@@ -61,6 +64,8 @@ export class CarbonlakeQuickstartStatemachineStack extends Stack {
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
     const dataLineageTask3 = new sfn.Pass(this, 'DL: CALCULATION_COMPLETE');
 
+    /* ======== STEP FUNCTION ======== */
+
     // State machine definition
     const definition = sfn.Chain
       .start(dataLineageTask0)
@@ -89,40 +94,6 @@ export class CarbonlakeQuickstartStatemachineStack extends Stack {
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
       definition,
       timeout: Duration.minutes(15)
-    })
-
-    /* ======== DEPENDENCIES ======== */
-
-    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
-    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
-      this,
-      "carbonlakeDataLineageLayer",
-      `arn:aws:lambda:${process.env.AWS_DEFAULT_REGION}:017000801446:layer:AWSLambdaPowertoolsPython:18`
-    );
-
-    /* ======== PERMISSIONS ======== */
-
-    // kickoff function needs permissions to check s3 object type and start statemachine
-    const startExecutionPolicy = new iam.PolicyStatement({
-      actions: [ "states:StartExecution"],
-      resources: [ this.statemachine.stateMachineArn ]
-    })
-
-    /* ======== KICKOFF LAMBDA ======== */
-
-    // Lambda function to process incoming events, generate child node IDs and start the step function
-    this.kickoffFunction = new lambda.Function(this, "carbonlakePipelineKickoffLambda", {
-      runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
-      handler: "app.lambda_handler",
-      layers: [dependencyLayer]
     });
-
-    this.kickoffFunction.role?.attachInlinePolicy(new iam.Policy(this, 'startExecutionPolicy', {
-      statements: [startExecutionPolicy]
-    }));
-
-    // TODO: Add the event source to invoke kickoff Lambda on S3 PUT Event
-    // kickoffFunction.addEventSource(new event_sources.S3EventSource(props.landingBucket))
   }
 }
