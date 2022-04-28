@@ -58,12 +58,23 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     // Transformation Glue Job - split large input file into optimised batches with known schema
     // const transflowGlueTask = new tasks.GlueStartJobRun(this, 'carbonlakeTransfromGlueTask', {})
     const transformGlueTask = new sfn.Pass(this, 'GLUE: Synchronous Transform', {
-      resultPath: '$.output'
+      result: sfn.Result.fromObject({
+        location: "s3://<transformed_bucket>/<node_id>",
+        num_files: 5
+      }),
+      resultPath: '$.glue_output'
     });
 
     // Lambda function to determine number and location of batches created by AWS Glue
     const batchLambdaTask = new sfn.Pass(this, 'LAMBDA: Handle Batch Data', {
-      
+      result: sfn.Result.fromArray([
+        { location: "s3://<transformed_bucket>/<node_id>/batch1.json" },
+        { location: "s3://<transformed_bucket>/<node_id>/batch2.json" },
+        { location: "s3://<transformed_bucket>/<node_id>/batch3.json" },
+        { location: "s3://<transformed_bucket>/<node_id>/batch4.json" },
+        { location: "s3://<transformed_bucket>/<node_id>/batch5.json" }
+      ]),
+      resultPath: '$.batches'
     });
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
@@ -75,11 +86,21 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     // Dynamic Map State - Run n calculations depending on number of batches
     const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
       maxConcurrency: 40,
-      itemsPath: "$.batches"
+      inputPath: '$',
+      itemsPath: "$.batches",
+      parameters: {
+        "location": sfn.JsonPath.objectAt("$$.Map.Item.Value.location"),
+        "data_lineage": sfn.JsonPath.stringAt('$.data_lineage')
+      },
+      resultPath: '$.batch_results'
     });
 
     // Calculation Lambda function - pass in the batch to be processed
-    const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent');
+    const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent', {
+      inputPath: sfn.JsonPath.stringAt("$.location"),
+      result: sfn.Result.fromString("s3://<enriched_bucket>/<node_id>/<batch_id>.json"),
+      resultPath: "$.calculation_results"
+    });
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
     const dataLineageTask3 = new sfn.Pass(this, 'DL: CALCULATION_COMPLETE', {
