@@ -69,12 +69,14 @@ export class CarbonlakeQuickstartCalculatorStack extends Stack {
         const calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {
             runtime: lambda.Runtime.PYTHON_3_9,
             code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
-            handler: "calculatorLambda",
+            handler: "calculatorLambda.lambda_handler",
             environment: {
                 EMISSIONS_FACTOR_TABLE_NAME: emissionsFactorReferenceTable.tableName,
                 CALCULATOR_OUTPUT_TABLE_NAME: calculatorOutputTable.tableName
             }
-        })
+        });
+
+        emissionsFactorReferenceTable.grantReadData(calculatorLambda);
 
         //We popupate the Emission Factors DB with data from a JSON file
         //We split into chunks because BatchWriteItem has a limitation of 25 items per batch
