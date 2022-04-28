@@ -1,24 +1,59 @@
-import { App, Stack, StackProps, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';                 // core constructs
+import { App, Stack, StackProps } from 'aws-cdk-lib'; 
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 
 export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
+    public readonly carbonlakeLandingBucket: s3.Bucket;
+    public readonly carbonlakeRawBucket: s3.Bucket;
+    public readonly carbonlakeErrorBucket: s3.Bucket;
+    public readonly carbonlakeTransformedBucket: s3.Bucket;
+    public readonly carbonlakeEnrichedBucket: s3.Bucket;
+    public readonly carbonlakeForecastBucket: s3.Bucket;
+    public readonly carbonlakeDataLineageBucket: s3.Bucket;
+
     constructor(scope: App, id: string, props?: StackProps) {
         super(scope, id, props);
 
-        // const carbonlakeProcessedDataBucket = new s3.Bucket(this, 'carbonlakeProcessedDataBucket', {
-        //     removalPolicy: RemovalPolicy.DESTROY,
-        //   });
-        
-        // const carbonlakeCuratedDataBucket = new s3.Bucket(this, 'carbonlakeCuratedDataBucket', {
-        //     removalPolicy: RemovalPolicy.DESTROY,
-        //   });
-    
-        // // Output bucket reference for nested stacks
-        // new CfnOutput(this, 'myBucketRef', {
-        // value: carbonlakeProcessedDataBucket.bucketName,
-        // description: 'The name of the processed data s3 bucket',
-        // exportName: 'carbonlakeProcessedDataBucket',
-        // });
-    
+        // Landing bucket where files are dropped by customers
+        // Once processed, the files are removed by the pipeline
+        this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Raw bucket where files are moved, once they pass the data quality check
+        // TODO add a lifecycle policy to archive files to Glacier
+        // TODO add a default lock on the objects (WORM)
+        this.carbonlakeRawBucket = new s3.Bucket(this, 'carbonlakeRawBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Error bucket where files are moved if they don't pass the data quality check
+        // Once manually processed, the files are manually removed from the bucket
+        this.carbonlakeErrorBucket = new s3.Bucket(this, 'carbonlakeErrorBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Transformed bucket where files are moved after they are processed (format = jsonl)
+        // TODO add a lifecycle policy to archive files to Glacier
+        // TODO add a default lock on the objects (WORM)
+        this.carbonlakeTransformedBucket = new s3.Bucket(this, 'carbonlakeTransformedBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Enriched bucket where files are moved after they are enriched with calculated emissions (format = jsonl)
+        // A compacting job compacts jsonl files into parquet files every day
+        this.carbonlakeEnrichedBucket = new s3.Bucket(this, 'carbonlakeEnrichedBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Used for forecasting
+        this.carbonlakeForecastBucket = new s3.Bucket(this, 'carbonlakeForecastBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
+        // Bucket used to store unprocessed data lineage events
+        // TODO add a lifecycle policy to archive files to Glacier
+        this.carbonlakeDataLineageBucket = new s3.Bucket(this, 'carbonlakeDataLineageBucket', {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        });
     }
 }
