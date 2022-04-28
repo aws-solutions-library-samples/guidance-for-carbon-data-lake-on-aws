@@ -4,8 +4,9 @@ schema {
 }
 
 type CalculatorOutput {
-    record_id: String!
+    activity_id: String!
     asset_id: String
+    record_id: String
 }
 
 type PaginatedCalculatorOutput {
@@ -15,9 +16,9 @@ type PaginatedCalculatorOutput {
 
 type Query {
     all(limit: Int, nextToken: String): PaginatedCalculatorOutput
-    getOne(record_id: String!): CalculatorOutput
+    getOne(activity_id: String!): CalculatorOutput
 }
 
 type Mutation {
-    delete(record_id: String!): CalculatorOutput
+    delete(activity_id: String!): CalculatorOutput
 }

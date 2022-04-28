@@ -16,7 +16,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             schema: appsync.Schema.fromAsset(path.join(__dirname, 'schema.graphql')),
             authorizationConfig: {
                 defaultAuthorization: {
-                authorizationType: appsync.AuthorizationType.API_KEY
+                    authorizationType: appsync.AuthorizationType.API_KEY
                 },
             },
             xrayEnabled: false,
