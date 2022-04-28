@@ -3,12 +3,15 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from '@aws-cdk/aws-appsync-alpha';
 import { CfnLoggingConfiguration } from 'aws-cdk-lib/aws-networkfirewall';
+import { CfnOutput } from 'aws-cdk-lib';
 
 export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
 }
 
 export class CarbonLakeQuickStartApiStack extends cdk.Stack {
+    public readonly graphqlUrl: string;
+
     constructor(scope: Construct, id: string, props: CarbonLakeQuickStartApiStackProps) {
         super(scope, id, props);
 
@@ -28,6 +31,10 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             // Uncomment the below line to enable AWS X-Ray distributed tracing for this api
             //xrayEnabled: true
         });
+
+        // Set the public variable so other stacks can access the deployed graphqlUrl and set as a CloudFormation output variable
+        this.graphqlUrl = api.graphqlUrl;
+        new CfnOutput(this, 'apiUrl', {value: api.graphqlUrl});
 
         // Add a DynamoDB datasource. The DynamoDB table we will use is created by another stack
         // and is provided in the props of this stack.
