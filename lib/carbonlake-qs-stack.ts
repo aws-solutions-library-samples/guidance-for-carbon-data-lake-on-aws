@@ -1,8 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
-import { CarbonlakeApiStack } from './api/carbonlake-api-stack';
+import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
-import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
-import { CarbonLakeGlueCompactionJobStack } from './pipeline/analytics/glue/carbonlake-qs-glue-compaction-job';
+//import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-stack-resources';
+import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
+import { CarbonLakeGlueCompactionJobStack } from './pipeline/analytics/glue/carbonlake-qs-glue-job-s';
 
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
@@ -11,27 +12,37 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     const app = new cdk.App();
 
-    // TODO --> Create the carbonlake storage stack
-    const storage = new CarbonlakeQuickstartStorageStack(app, "CarbonlakeQuickstartStorageStack");
+    // QS1 --> Create the carbonlake shared resource stack
+    //const sharedResources = new CarbonlakeSharedResourceStack(app, "CarbonlakeSharedResourceStack")
+    
+    // QS2 --> Create the carbonlake data lineage stack
+    const dataLineage = new CarbonlakeQuickstartDataLineageStack(app, "CarbonlakeDataLineageStack")
 
-    // Create the carbonlake API stack
-    const api = new CarbonlakeApiStack(app, "CarbonlakeApiStack");
+    // QS3 --> Create the carbonlake data pipeline stack
+    //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack")
+    const glueCompactionJob = new CarbonLakeGlueCompactionJobStack(app, "CarbonLakeGlueCompactionJobStack", {
+      //glueScriptsBucketName: "cl-148257099368-glue-scripts"
+    });
 
-    // Create the carbonlake calculator stack
+    // QS4 --> Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(app, "CarbonlakeQuickStartCalculatorStack");
 
-    // TODO --> Create the carbonlake etl-pipeline stack
-    const glueCompactionJob = new CarbonLakeGlueCompactionJobStack(app, "CarbonLakeGlueCompactionJobStack");
+    // QS5 --> Create the carbonlake quicksight stack
+    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuickstartStack")
 
-    // TODO --> Create the carbonlake web stack
+    // QS7 --> Create the carbonlake web stack
+    const api = new CarbonLakeQuickStartApiStack(app, "CarbonLakeQuickStartApiStack", {
+      calculatorOutputTableRef: calculator.calculatorOutputTable
+    });
 
-    // TODO --> Create the carbonlake grafana stack
+    // QS8 --> Create the carbonlake forecast stack
+    //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack")
 
-    // TODO --> Create the carbonlake quickstart stack
-
-    // TODO --> Create the carbonlake data lineage stack
-
-    // TODO --> Creat the carbonlake monitoring and observability stack
-    
+    //include CFN outputs below
+    /*
+    new CfnOutput(this, 'Example Output', {
+      value: locator.someArn,
+    });
+    */
   }
 }

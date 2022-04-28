@@ -1,52 +1,125 @@
 import logging
-from datetime import datetime
-
+import os
+import json
 import boto3
+from enum import Enum
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-import datetime
-import json
+EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
+# Versions of the IPPC Report used for CO2e calculation
+class IPCC_AR(Enum):
+    AR4 = 4
+    AR5 = 5
+
+class Gas(Enum):
+    CO2 = 1
+    CH4 = 2
+    N2O = 3
+    NF3 = 4
+    SF6 = 5
+
+GWP = {
+    IPCC_AR.AR4: {
+        Gas.CO2: 1,
+        Gas.CH4: 25,
+        Gas.N2O: 298,
+        Gas.NF3: 17200,
+        Gas.SF6: 22800,
+    },
+    IPCC_AR.AR5: {
+        Gas.CO2: 1,
+        Gas.CH4: 28,
+        Gas.N2O: 265,
+        Gas.NF3: 16100,
+        Gas.SF6: 23500,
+    }
+}
+
+dynamodb = boto3.resource('dynamodb')
 
 '''
 gets emissions factor from ancillary database and returns a coefficient
 input: activity
 output: emissions factor coefficient
 '''
-def get_emissions_factor(emissions_factor_table_name, activity):
-    print("getting emissions factor from database")
-    coefficient = {
-        "co2_factor": 0,
-        "ch4_factor": 0,
-        "n2o_factor": 0,
-        "biofuel_co2": None,
-        "AR4-kgco2e": 0,
-        "AR5-kgco2e": 0,
-        "units": "kWh"
-    }
+def get_emissions_factor(activity_id):
+    LOGGER.info("getting emissions factor from database")
+    table = dynamodb.Table(EMISSION_FACTORS_TABLE_NAME)
+    coefficient = table.get_item(
+        Key={
+            'category': activity_id['category'],
+            'activity': activity_id['activity'],
+        }
+    )
     return coefficient
 
+def calculate_emission(raw_data, factor):
+    return float(raw_data) * float(factor) / 1000
 
-def CALCULATE_CARBON(asset_id, geo, activity_id, source, raw_data, data_lineage):
-    calculator_timestamp = datetime.datetime.now()
-    emissions_factor = get_emissions_factor(geo,activity_id,raw_data,emissions_factor_database='carbonlak_ghg_emissionsfactor_comprehensive')
-    carbon_emissions_total = raw_data * emissions_factor
-    carbon_emissions_full_output = {
-        'geo': geo,
-        'asset_id': asset_id,
-        'carbon_emissions_total': carbon_emissions_total,
-        'activity_id': activity_id,
-        'raw_data': raw_data,
-        'emissions_factor': emissions_factor,
-        'source': source, # EEIO, Industry Averages, Vendor Supplied, Direct Measurement
+def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
+    result  = co2_emissions * GWP[ar_version][Gas.CO2]
+    result += ch4_emissions * GWP[ar_version][Gas.CH4]
+    result += n2o_emissions * GWP[ar_version][Gas.N2O]
+    return result
 
-    },
-    return json.dumps(carbon_emissions_full_output)
+
+def append_emissions_output(activity_event):
+    emissions_factor = get_emissions_factor(activity_event['activity_id'])
+    coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
+    LOGGER.debug('coefficients: %s', coefficients)
+
+    raw_data = activity_event['raw_data']
+    co2_emissions = calculate_emission(raw_data, coefficients['co2_factor'])
+    ch4_emissions = calculate_emission(raw_data, coefficients['ch4_factor'])
+    n2o_emissions = calculate_emission(raw_data, coefficients['n2o_factor'])
+    co2e_ar4      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
+    co2e_ar5      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
+    emissions_output = {
+        "emissions_output": {
+            "calculated_emissions": {
+                "co2": {
+                    "amount": co2_emissions,
+                    "unit": "tonnes"
+                },
+                "ch4": {
+                    "amount": ch4_emissions,
+                    "unit": "tonnes"
+                },
+                "n2o": {
+                    "amount": n2o_emissions,
+                    "unit": "tonnes"
+                },
+                "co2e": {
+                    "ar4": {
+                        "amount": co2e_ar4,
+                        "unit": "tonnes"
+                    },
+                    "ar5": {
+                        "amount": co2e_ar5,
+                        "unit": "tonnes"
+                    }
+                }
+            },
+            "emissions_factor": {
+                "ar4": {
+                    "amount": coefficients['AR4_kgco2e'],
+                    "unit": "kgCO2e/unit",
+                },
+                "ar5": {
+                    "amount": coefficients['AR5_kgco2e'],
+                    "unit": "kgCO2e/unit"
+                }
+            }
+        }
+    }
+    activity_event.update(emissions_output)
+    return activity_event
 
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    result = CALCULATE_CARBON.process_query(event)
+    result = append_emissions_output(event)
     LOGGER.info("result:")
     LOGGER.info(result)
     print('request: {}'.format(json.dumps(event)))

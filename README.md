@@ -75,7 +75,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
                 "amount": 0.2333,
                 "unit": "tonnes"
             },
-            "n20": {
+            "n2o": {
                 "amount": 0.00201,
                 "unit": "tonnes"
             }
