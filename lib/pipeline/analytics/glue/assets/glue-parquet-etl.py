@@ -4,37 +4,39 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from awsglue.transforms import Relationalize
 from datetime import datetime
 
-# Begin variables to customize with your information
-glue_source_database = "enriched-data"
-glue_source_table = "today"
-glue_temp_storage = "s3://<ENRICHED-BUCKET-NAME>/temp"
-#glue_temp_storage = "s3://cl-enriched-148257099368/temp"
-today_date = datetime.today().strftime('%Y-%m-%d');
-#glue_relationalize_output_s3_path = "s3://cl-enriched-148257099368/historical/"+today_date
-glue_relationalize_output_s3_path = "s3://<ENRICHED-BUCKET-NAME>/historical/"+today_date
-dfc_root_table_name = "root" #default value is "roottable"
-# End variables to customize with your information
-
-args = getResolvedOptions(sys.argv, ["JOB_NAME"])
+args = getResolvedOptions(sys.argv, ["JOB_NAME", "ENRICHED_BUCKET_NAME"])
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
 job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
 
-# Script generated for node Data Catalog table
-dataSource = glueContext.create_dynamic_frame.from_catalog(
-    database=glue_source_database,
-    table_name=glue_source_table,
+glue_temp_storage = "s3://" + args["ENRICHED_BUCKET_NAME"] + "/temp"
+today_date = datetime.today().strftime('%Y-%m-%d');
+glue_relationalize_output_s3_path = "s3://" + args["ENRICHED_BUCKET_NAME"] + "/historical/" + today_date
+dfc_root_table_name = "root" #default value is "roottable"
+# End variables to customize with your information
+
+# Script generated for node S3 bucket
+dataSource = glueContext.create_dynamic_frame.from_options(
+    format_options={"multiline": False},
+    connection_type="s3",
+    format="json",
+    connection_options={
+        "paths": ["s3://" + args["ENRICHED_BUCKET_NAME"] + "/today/"],
+        "recurse": True,
+        "groupFiles":"inPartition", 
+        "groupSize": "10485760" #currently only splitting files larger than 10 MB. TODO: figure out a programmatic way to partition based on optimal file size.
+    },
     transformation_ctx="dataSource",
 )
 
 # flatten nested JSON files
 dfc = Relationalize.apply(frame = dataSource, staging_path = glue_temp_storage, name = dfc_root_table_name, transformation_ctx = "dfc")
 sourcedata = dfc.select(dfc_root_table_name)
+
 
 # Script generated for node S3 bucket
 dataOutput = glueContext.write_dynamic_frame.from_options(
