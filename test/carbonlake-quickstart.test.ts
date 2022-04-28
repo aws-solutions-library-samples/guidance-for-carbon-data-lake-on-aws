@@ -1,17 +1,15 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as CarbonlakeQuickstart from '../lib/carbonlake-quickstart-stack';
+import { App } from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+import * as CarbonlakeQuickstart from '../lib/carbonlake-quickstart-stack';
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/carbonlake-quickstart-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new CarbonlakeQuickstart.CarbonlakeQuickstartStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
-
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+test('Snapshot', () => {
+    const app = new App();
+    const stack = new CarbonlakeQuickstart(app, 'test');
+    //Add your own required test outputs here
+    const template = Template.fromStack(stack);
+    template.hasOutput('APIURL', Match.objectLike({}));     // Check to make sure the APIURL is output
+    template.hasOutput('password', Match.objectLike({}));   // Check to make sure there is password ouput
+    template.hasOutput('WebAppUrl', Match.objectLike({}));  // Check to make sure the web app outputs a url
+    template.hasOutput('S3LandingZoneInputBucketARN', Match.objectLike({}));  // Check to make sure the S3 landing zone bucket input ARN is output
+    template.resourceCountIs('AWS::CloudFormation::Stack', 5);
 });
