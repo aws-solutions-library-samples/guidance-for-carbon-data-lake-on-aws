@@ -1,8 +1,14 @@
-*.js
+lib/*.js
+lib/**/*.js
 !jest.config.js
 *.d.ts
 node_modules
+package-lock.json
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.pytest_cache

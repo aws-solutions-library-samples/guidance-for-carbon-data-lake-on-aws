@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { CarbonlakeApiStack } from './api/carbonlake-api-stack';
+import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
 import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
@@ -14,11 +14,13 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO --> Create the carbonlake storage stack
     const storage = new CarbonlakeQuickstartStorageStack(app, "CarbonlakeQuickstartStorageStack");
 
-    // Create the carbonlake API stack
-    const api = new CarbonlakeApiStack(app, "CarbonlakeApiStack");
-
     // Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(app, "CarbonlakeQuickStartCalculatorStack");
+    
+    // Create the carbonlake API stack
+    const api = new CarbonLakeQuickStartApiStack(app, "CarbonLakeQuickStartApiStack", {
+      calculatorOutputTableRef: calculator.calculatorOutputTable
+    });
 
     // TODO --> Create the carbonlake etl-pipeline stack
 
