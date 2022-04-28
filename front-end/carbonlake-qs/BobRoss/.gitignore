@@ -1,0 +1,8 @@
+node_modules
+build
+.DS_Store
+.eslintcache
+# local npm doesn't resolve local/file dependencies correctly when installing from package-lock
+# so we want to exclude that from commits
+package-lock.json
+dist
