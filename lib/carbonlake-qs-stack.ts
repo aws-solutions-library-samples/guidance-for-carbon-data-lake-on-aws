@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { CarbonlakeApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
 import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
-
+import { CarbonLakeGlueCompactionJobStack } from './pipeline/analytics/glue/carbonlake-qs-glue-compaction-job';
 
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
@@ -21,6 +21,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const calculator = new CarbonlakeQuickstartCalculatorStack(app, "CarbonlakeQuickStartCalculatorStack");
 
     // TODO --> Create the carbonlake etl-pipeline stack
+    const glueCompactionJob = new CarbonLakeGlueCompactionJobStack(app, "CarbonLakeGlueCompactionJobStack");
 
     // TODO --> Create the carbonlake web stack
 

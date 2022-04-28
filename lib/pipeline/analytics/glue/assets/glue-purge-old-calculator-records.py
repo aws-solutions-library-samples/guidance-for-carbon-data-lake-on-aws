@@ -2,7 +2,8 @@ import boto3
 from datetime import datetime, date, time 
 import sys
 
-bucket_name = 'cl-enriched-148257099368';
+#bucket_name = 'cl-enriched-148257099368';
+bucket_name = <ENRICHED-DATA-BUCKET-NAME>;
 today_beginning = datetime.combine(date.today(), time()) 
 print(today_beginning)
 
