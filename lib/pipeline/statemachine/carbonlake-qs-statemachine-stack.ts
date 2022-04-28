@@ -27,7 +27,6 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     // Data Lineage Request - 0 - RAW_DATA_INPUT
     const dataLineageTask0 = new sfn.Pass(this, 'DL: RAW_DATA_INPUT', {
       inputPath: '$.data_lineage',
-      result: sfn.Result.fromObject({ action: "RAW_DATA_INPUT", parent_id: "child_one_id" }),
       resultPath: '$.data_lineage'
     });
 
@@ -42,23 +41,36 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataQualityChoice = new sfn.Choice(this, 'CHOICE: Data Quality Passed?')
 
     // Data Lineage Request - 1_1 - DQ_CHECK_PASS
-    const dataLineageTask1_1 = new sfn.Pass(this, 'DL: DQ_CHECK_PASS');
+    const dataLineageTask1_1 = new sfn.Pass(this, 'DL: DQ_CHECK_PASS', {
+      inputPath: '$.data_lineage',
+      resultPath: '$.data_lineage'
+    });
 
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
-    const dataLineageTask1_2 = new sfn.Pass(this, 'DL: DQ_CHECK_FAIL');
+    const dataLineageTask1_2 = new sfn.Pass(this, 'DL: DQ_CHECK_FAIL', {
+      inputPath: '$.data_lineage',
+      resultPath: '$.data_lineage'
+    });
 
     // Human-in-the-loop approval step - invoked on data quality check fail
     const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
 
     // Transformation Glue Job - split large input file into optimised batches with known schema
     // const transflowGlueTask = new tasks.GlueStartJobRun(this, 'carbonlakeTransfromGlueTask', {})
-    const transformGlueTask = new sfn.Pass(this, 'GLUE: Synchronous Transform');
+    const transformGlueTask = new sfn.Pass(this, 'GLUE: Synchronous Transform', {
+      resultPath: '$.output'
+    });
 
     // Lambda function to determine number and location of batches created by AWS Glue
-    const batchLambdaTask = new sfn.Pass(this, 'LAMBDA: Handle Batch Data');
+    const batchLambdaTask = new sfn.Pass(this, 'LAMBDA: Handle Batch Data', {
+      
+    });
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
-    const dataLineageTask2 = new sfn.Pass(this, 'DL: GLUE_BATCH_SPLIT');
+    const dataLineageTask2 = new sfn.Pass(this, 'DL: GLUE_BATCH_SPLIT', {
+      inputPath: '$.data_lineage',
+      resultPath: '$.data_lineage'
+    });
 
     // Dynamic Map State - Run n calculations depending on number of batches
     const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
@@ -70,7 +82,10 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent');
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = new sfn.Pass(this, 'DL: CALCULATION_COMPLETE');
+    const dataLineageTask3 = new sfn.Pass(this, 'DL: CALCULATION_COMPLETE', {
+      inputPath: '$.data_lineage',
+      resultPath: '$.data_lineage'
+    });
 
     /* ======== STEP FUNCTION ======== */
 
