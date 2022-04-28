@@ -25,10 +25,18 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const sfnFailure = new sfn.Fail(this, 'Failure');
 
     // Data Lineage Request - 0 - RAW_DATA_INPUT
-    const dataLineageTask0 = new sfn.Pass(this, 'DL: RAW_DATA_INPUT');
+    const dataLineageTask0 = new sfn.Pass(this, 'DL: RAW_DATA_INPUT', {
+      inputPath: '$.data_lineage',
+      result: sfn.Result.fromObject({ action: "RAW_DATA_INPUT", parent_id: "child_one_id" }),
+      resultPath: '$.data_lineage'
+    });
 
     // Data Quality Check
-    const dataQualityTask = new sfn.Pass(this, 'LAMBDA: Data Quality Check');
+    const dataQualityTask = new sfn.Pass(this, 'LAMBDA: Data Quality Check', {
+      inputPath: '$.file',
+      result: sfn.Result.fromObject({ result: 'PASSED' }),
+      resultPath: '$.data_quality'
+    });
 
     // CHOICE - Data Quality Check Passed?
     const dataQualityChoice = new sfn.Choice(this, 'CHOICE: Data Quality Passed?')
@@ -72,7 +80,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       .next(dataQualityTask)
       .next(dataQualityChoice
         .when(
-          sfn.Condition.stringEquals('$.data_quality.status', "PASSED"),
+          sfn.Condition.stringEquals('$.data_quality.result', "PASSED"),
           sfn.Chain
             .start(dataLineageTask1_1)
             .next(transformGlueTask)
