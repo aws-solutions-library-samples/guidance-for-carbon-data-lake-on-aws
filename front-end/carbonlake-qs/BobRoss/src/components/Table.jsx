@@ -33,7 +33,7 @@ import {
   RadioGroup,
   HelpPanel,
   Icon
-} from '../aws-ui-components';
+} from '@awsui/components-react';
 
 import { useCollection } from '@amzn/awsui-collection-hooks';
 

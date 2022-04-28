@@ -3,7 +3,7 @@
 
 This is just a playground package. It does not comply with best practices
 of using AWS-UI components. For production code, follow the integration
-guidelines: 
+guidelines:
 
 https://polaris.corp.amazon.com/getting_started/development/integration/
 ************************************************************************/
@@ -16,7 +16,7 @@ import CreateForm from './CreateForm.jsx';
 import TableView from './Table.jsx';
 import EmptyTableView from './TableWithEmptyState.jsx';
 
-import '@amzn/awsui-global-styles/polaris.css';
+import '@awsui/global-styles/index.css';
 
 // Class App is the "output" generated on every build,
 // it is what you will see on the webpage.

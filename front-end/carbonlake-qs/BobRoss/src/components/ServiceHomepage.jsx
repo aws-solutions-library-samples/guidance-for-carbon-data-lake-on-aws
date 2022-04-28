@@ -22,7 +22,7 @@ import {
   Grid,
   SpaceBetween,
   Link
-} from '../aws-ui-components';
+} from '@awsui/components-react';
 
 import '../styles/servicehomepage.scss';
 

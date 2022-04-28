@@ -10,7 +10,7 @@ https://polaris.a2z.com/develop/integration/react/
 import React, { useState } from 'react';
 import ServiceNavigation from './ServiceNavigation.jsx';
 import { COLUMN_DEFINITIONS } from '../resources/table-alarms/table-config.jsx';
-import { AppLayout, Header, SpaceBetween, Box, BreadcrumbGroup, Button, Table } from '../aws-ui-components';
+import { AppLayout, Header, SpaceBetween, Box, BreadcrumbGroup, Button, Table } from '@awsui/components-react';
 
 import { useCollection } from '@amzn/awsui-collection-hooks';
 

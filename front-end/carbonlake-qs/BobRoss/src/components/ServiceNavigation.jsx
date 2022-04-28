@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { SideNavigation } from '../aws-ui-components';
+import { SideNavigation } from '@awsui/components-react';
 
 // Component ServiceNavigation is the Side Navigation component that is used in BasicLayout, CreateForm, ServiceHomepage, and Table flows.
 // Implement like this: <ServiceNavigation />

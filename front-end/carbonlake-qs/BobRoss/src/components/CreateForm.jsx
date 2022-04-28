@@ -45,7 +45,7 @@ import {
   HelpPanel,
   Box,
   Icon
-} from '../aws-ui-components';
+} from '@awsui/components-react';
 
 import '../styles/form.scss';
 

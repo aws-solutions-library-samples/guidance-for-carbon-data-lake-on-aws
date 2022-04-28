@@ -15,7 +15,7 @@ import {
   BreadcrumbGroup,
   HelpPanel,
   Icon
-} from '../aws-ui-components';
+} from '@awsui/components-react';
 
 // Component Basic is a skeleton of the basic App layout using AWS-UI React components.
 export default function Basic() {

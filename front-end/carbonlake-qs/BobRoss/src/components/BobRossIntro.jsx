@@ -19,7 +19,7 @@ import {
   Box,
   TextContent,
   SpaceBetween
-} from '../aws-ui-components';
+} from '@awsui/components-react';
 
 import '../styles/intro.scss';
 import '../styles/servicehomepage.scss';
