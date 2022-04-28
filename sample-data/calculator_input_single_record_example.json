@@ -1,5 +1,5 @@
 {
-    "record_id": "customer-carbonlake-12345",
+    "activity_event_id": "customer-carbonlake-12345",
     "asset_id": "vehicle-1234", 
     "geo": {
         "lat": 45.5152,

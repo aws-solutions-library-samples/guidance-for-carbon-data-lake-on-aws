@@ -65,7 +65,7 @@ export class CarbonlakeQuickstartCalculatorStack extends Stack {
 
         // Define DynamoDB Table for calculator output
         this.calculatorOutputTable = new dynamodb.Table(this, "carbonlakeCalculatorOutputTable", {
-            partitionKey: { name: "activity_id", type: dynamodb.AttributeType.STRING },
+            partitionKey: { name: "activity_event_id", type: dynamodb.AttributeType.STRING },
         });
 
         const calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {
