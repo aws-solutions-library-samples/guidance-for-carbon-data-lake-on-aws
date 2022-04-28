@@ -20,5 +20,17 @@
     "@awsui/test-utils-core": "^1.0.17",
     "react-scripts": "^5.0.1",
     "styled-components": "^5.3.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
