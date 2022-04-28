@@ -43,10 +43,8 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       "carbonlakePipelineDependencyLayer",
-      `arn:aws:lambda:${process.env.AWS_DEFAULT_REGION}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     );
-
-    //`arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
     const kickoffFunction = new lambda.Function(this, "carbonlakePipelineKickoffLambda", {
