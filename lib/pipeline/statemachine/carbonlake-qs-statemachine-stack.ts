@@ -7,6 +7,7 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
 export class CarbonlakeQuickstartStatemachineStack extends Stack {
+  public readonly kickoffFunction: lambda.Function;
   public readonly statemachine: sfn.StateMachine;
 
   constructor(scope: App, id: string, props?: StackProps) {
@@ -110,14 +111,14 @@ export class CarbonlakeQuickstartStatemachineStack extends Stack {
     /* ======== KICKOFF LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
-    const kickoffFunction = new lambda.Function(this, "carbonlakePipelineKickoffLambda", {
+    this.kickoffFunction = new lambda.Function(this, "carbonlakePipelineKickoffLambda", {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: "app.lambda_handler",
       layers: [dependencyLayer]
     });
 
-    kickoffFunction.role?.attachInlinePolicy(new iam.Policy(this, 'startExecutionPolicy', {
+    this.kickoffFunction.role?.attachInlinePolicy(new iam.Policy(this, 'startExecutionPolicy', {
       statements: [startExecutionPolicy]
     }));
 
