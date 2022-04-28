@@ -8,9 +8,9 @@ from awsglue.job import Job
 
 # PySpark ETL job takes in 3 additional parameters:
 # 1. unique_directory: unique identifier passed in by step function so the data lineage component can track where files end up
-# 2. raw_data_bucket: name of S3 bucket where CSV files will originate from
-# 3. transformed_data_bucket: name of S3 bucket where JSON files will end up
-args = getResolvedOptions(sys.argv, ["JOB_NAME", "UNIQUE_DIRECTORY", "TRANSFORMED_DATA_BUCKET", "RAW_DATA_BUCKET"])
+# 2. RAW_BUCKET_NAME: name of S3 bucket where CSV files will originate from
+# 3. TRANFORMED_BUCKET_NAME: name of S3 bucket where JSON files will end up
+args = getResolvedOptions(sys.argv, ["JOB_NAME", "UNIQUE_DIRECTORY", "TRANFORMED_BUCKET_NAME", "RAW_BUCKET_NAME"])
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
@@ -22,7 +22,7 @@ S3bucket_node1 = glueContext.create_dynamic_frame.from_options(
     format_options={"quoteChar": '"', "withHeader": True, "separator": ","},
     connection_type="s3",
     format="csv",
-    connection_options={"paths": ["s3://" + args["RAW_DATA_BUCKET"] + "/"], "recurse": True},
+    connection_options={"paths": ["s3://" + args["RAW_BUCKET_NAME"] + "/"], "recurse": True},
     transformation_ctx="S3bucket_node1",
 )
 
@@ -57,7 +57,7 @@ S3bucket_node3 = glueContext.write_dynamic_frame.from_options(
     connection_type="s3",
     format="json",
     connection_options={
-        "path": "s3://" + args["TRANSFORMED_DATA_BUCKET"] + "/" + args["UNIQUE_DIRECTORY"], 
+        "path": "s3://" + args["TRANFORMED_BUCKET_NAME"] + "/" + args["UNIQUE_DIRECTORY"], 
         "partitionKeys": []
     },
     transformation_ctx="S3bucket_node3",
