@@ -58,7 +58,6 @@ def lambda_handler(event: Dict, context: Dict):
         
         # START STEP FUNCTION EXECUTION
         sfn_payload = { "file": file_attributes, "data_lineage": data_lineage } 
-        print(sfn_payload)
-        # data_handler.sfn.start_execution(json.dumps(sfn_payload))
+        data_handler.sfn.start_execution(json.dumps(sfn_payload))
     
     return
