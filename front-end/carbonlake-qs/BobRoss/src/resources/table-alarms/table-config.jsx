@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../../aws-ui-components';
+import { Link } from '@awsui/components-react';
 
 export const COLUMN_DEFINITIONS = [
   {

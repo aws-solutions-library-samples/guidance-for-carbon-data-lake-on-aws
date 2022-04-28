@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, StatusIndicator } from '../../aws-ui-components';
+import { Link, StatusIndicator } from '@awsui/components-react';
 
 export const COLUMN_DEFINITIONS = [
   {
