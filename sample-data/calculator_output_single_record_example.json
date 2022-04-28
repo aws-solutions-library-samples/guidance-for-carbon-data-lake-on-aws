@@ -32,7 +32,7 @@
         "emissions_factor": {
             "ar4": {
                 "amount": 8.812,
-                "unit": "kgCO2e/unit",
+                "unit": "kgCO2e/unit"
             },
             "ar5": {
                 "amount": 8.813,

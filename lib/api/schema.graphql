@@ -1,0 +1,23 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type CalculatorOutput {
+    activity_event_id: String!
+    asset_id: String
+}
+
+type PaginatedCalculatorOutput {
+    items: [CalculatorOutput]
+    nextToken: String
+}
+
+type Query {
+    all(limit: Int, nextToken: String): PaginatedCalculatorOutput
+    getOne(activity_event_id: String!): CalculatorOutput
+}
+
+type Mutation {
+    delete(activity_event_id: String!): CalculatorOutput
+}
