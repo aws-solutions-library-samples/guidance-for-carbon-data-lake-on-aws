@@ -19,10 +19,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS3 --> Create the carbonlake data pipeline stack
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
-    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(app, "CarbonLakeAnalyticsPipelineStack", {
+    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(scope, "CarbonLakeAnalyticsPipelineStack", {
       //glueScriptsBucketName: "cl-148257099368-glue-scripts"
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
-    const glueTransformJob = new CarbonLakeGlueTransformationStack(app, "CarbonLakeGlueTransformationStack", {});
+    const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {});
 
     // QS4 --> Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
