@@ -25,32 +25,27 @@ import '../styles/servicehomepage.scss';
 const AboutCarbonLake = () => {
   return (
     <>
+    <TopNavigationHeader/>
+
+
+
+
+  {/* <Sidebar /> */}
     <AppLayout
-    navigation={<Sidebar activeHref="#/"></Sidebar>}
+    navigation={<Sidebar activeHref="#/" />}
+    // navigation={<Sidebar activeHref="#/" items={navItems}/>}
     content={<Content />}
     tools={<HelpTools/>}
     headerSelector='#h'
     disableContentPaddings={true}
     // toolsHide={true}
   />
-  <TopNavigationHeader>
-
-</TopNavigationHeader><Sidebar />
 </>
   )
 }
 
 export default AboutCarbonLake;
-// export default function AboutCarbonLake() {
-//   return (
-//     <AppLayout
-//       navigation={<Sidebar />}
-//       content={<Content />}
-//       tools={<Tools />}
-//       disableContentPaddings={true}
-//     />
-//   );
-// }
+
 
 const Content = () => {
   return (
@@ -68,11 +63,11 @@ const Content = () => {
                 AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-                Helping your business revitalize your carbon accounting.
+              Helping your business revitalize your carbon accounting.
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                  AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
+                AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
                   Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more.
                 </span>
               </Box>
@@ -81,6 +76,7 @@ const Content = () => {
         </Grid>
       </div>
 
+{/* Start How it works section */}
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
@@ -91,7 +87,6 @@ const Content = () => {
                   <li>
                       Navigate to the "CarbonLake Uploader" page and browse for your file.
                     <br />
-                    {/* <img src="./images/project_open_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
                     This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
@@ -105,30 +100,18 @@ const Content = () => {
                     <a href="https://reacttraining.com/react-router/web/api/HashRouter">here</a>
                     .
                     <br />
-                    {/* <img
-                      src="./images/bob_ross_intro_web.png"
-                      className="intro-screenshot intro-code-screenshot"
-                      alt="screenshot"
-                    /> */}
-                    {/* <img src="./images/bob_ross_intro_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
                     Try viewing the service homepage template page (below) by adding "<strong>service-home</strong>" to
                     the end of the url in your browser: <Link to="service-home">localhost:3000/#/service-home</Link>.
                     When you hit enter you should be redirected to a new page showing the service homepage template.
                     <br />
-                    {/* <img
-                      src="./images/service_homepage_web.png"
-                      className="intro-screenshot intro-code-screenshot"
-                      alt="screenshot"
-                    /> */}
                   </li>
                   <li>
                     Edit the service homepage template in the <code>ServiceHomepage.jsx</code> file.
                     <br />
                     Save your work to see the results on this page.
                     <br />
-                    {/* <img src="./images/service_homepage_file.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                 </ol>
               </div>
@@ -159,7 +142,6 @@ const Content = () => {
                       </a>{' '}
                       and breadcrumb components.
                     </li>
-                    {/* <img src="./images/basic_app_layout.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/service-home">Service homepage</Link>
@@ -177,7 +159,6 @@ const Content = () => {
                       containing components such as: Box, Select, Container, Header, and layout elements like Column
                       layout, Grid, and SpaceBetween.
                     </li>
-                    {/* <img src="./images/service_homepage_web.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/create">Single page create</Link>
@@ -198,7 +179,6 @@ const Content = () => {
                       Form field, Input, Multi-select, Radio group, Select, Textarea, Tiles, Header, SpaceBetween,
                       Container, Box and more.
                     </li>
-                    {/* <img src="./images/create_form.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/table">Table view</Link>
@@ -216,7 +196,6 @@ const Content = () => {
                       selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
                       more.
                     </li>
-                    {/* <img src="./images/table.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                 </ol>
               </div>
@@ -226,62 +205,7 @@ const Content = () => {
       </Box>
     </TextContent>
   </div>
-
-
-
   )
-
-
 }
-
-
-
-// const Sidebar = () => {
-//   return (
-//     <>
-//   <SideNavigation
-//     header={{ text: 'Navigation panel', href: '#/' }}
-//     items={[
-//       {
-//         type: 'section',
-//         text: 'My pages',
-//         expanded: true,
-//         items: [
-//           { type: 'link', text: 'Bob Ross intro', href: '#/' },
-//           { type: 'link', text: 'Basic layout', href: '#/basic' },
-//           { type: 'link', text: 'Service homepage', href: '#/service-home' },
-//           { type: 'link', text: 'Single page create', href: '#/create' },
-//           { type: 'link', text: 'Table view', href: '#/table' },
-//           {
-//             type: 'link',
-//             text: 'Table with Empty State',
-//             href: '#/table-empty'
-//           }
-//         ]
-//       }
-//     ]}
-//     activeHref="#/"
-//     />
-//     </>
-//   )
-//   }
-
 <HelpTools/>
 
-
-// import React from 'react';
-// import AppLayout from '@awsui/components-react/app-layout';
-// import TopNavigation from '@awsui/components-react/top-navigation';
-
-// const i18nStrings = {
-//   overflowMenuTriggerText: 'More',
-// };
-
-// export default () => (
-//   <body>
-//     <div id="h" style={{ position: 'sticky', top: 0, zIndex: 1002 }}>
-//       <TopNavigation identity={{ href: '#' }} i18nStrings={i18nStrings} />
-//     </div>
-//     <AppLayout content="Your main content" headerSelector="#h" />
-//   </body>
-// );

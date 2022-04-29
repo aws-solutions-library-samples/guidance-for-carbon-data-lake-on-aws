@@ -74,7 +74,6 @@ const Sidebar = () => {
         expanded: true,
         items: [
           { type: 'link', text: 'Settings', href: '#/' },
-          { type: 'link', text: 'Logout', href: '#/basic' },
         ]
       },
       {
