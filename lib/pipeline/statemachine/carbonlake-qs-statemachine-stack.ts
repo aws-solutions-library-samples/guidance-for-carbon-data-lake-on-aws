@@ -29,8 +29,8 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataLineageTask0 = new tasks.LambdaInvoke(this, 'DL: RAW_DATA_INPUT', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
+      payload: this.getCommonDataLineageParameters("RAW_DATA_INPUT"),
       resultPath: '$.data_lineage',
-      inputPath: '$.data_lineage'
     });
 
     // Data Quality Check
@@ -47,16 +47,16 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataLineageTask1_1 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_PASS', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
+      payload: this.getCommonDataLineageParameters("DQ_CHECK_PASS"),
       resultPath: '$.data_lineage',
-      inputPath: '$.data_lineage'
     });
 
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
     const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_FAIL', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
+      payload: this.getCommonDataLineageParameters("DQ_CHECK_FAIL"),
       resultPath: '$.data_lineage',
-      inputPath: '$.data_lineage'
     });
 
     // Human-in-the-loop approval step - invoked on data quality check fail
@@ -88,8 +88,8 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataLineageTask2 = new tasks.LambdaInvoke(this, 'DL: GLUE_BATCH_SPLIT', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
+      payload: this.getCommonDataLineageParameters("GLUE_BATCH_SPLIT"),
       resultPath: '$.data_lineage',
-      inputPath: '$.data_lineage'
     });
 
     // Dynamic Map State - Run n calculations depending on number of batches
@@ -115,8 +115,8 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataLineageTask3 = new tasks.LambdaInvoke(this, 'DL: CALCULATION_COMPLETE', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
+      payload: this.getCommonDataLineageParameters("CALCULATION_COMPLETE"),
       resultPath: '$.data_lineage',
-      inputPath: '$.data_lineage'
     })
     
 
@@ -150,6 +150,16 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
       definition,
       timeout: Duration.minutes(15)
+    });
+  }
+
+  private getCommonDataLineageParameters = (action: string) : sfn.TaskInput => {
+    return sfn.TaskInput.fromObject({
+      "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+      "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
+      "storage_type":  sfn.JsonPath.stringAt("$.data_lineage.storage_type"),
+      "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location"),
+      "action": action
     });
   }
 }
