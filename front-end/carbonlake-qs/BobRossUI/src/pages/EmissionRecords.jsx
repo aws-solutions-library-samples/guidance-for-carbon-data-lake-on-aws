@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import DataProvider from '../resources/data-provider';
 import Sidebar from '../components/Sidebar';
 import ServiceNavigation from './ServiceNavigation.jsx';
+import TopNavigationHeader from '../components/TopNavigationHeader';
+import HelpTools from '../components/HelpTools';
 import {
   COLUMN_DEFINITIONS,
   CONTENT_SELECTOR_OPTIONS,
@@ -32,14 +34,29 @@ import { useCollection } from '@amzn/awsui-collection-hooks';
 // Component TableView is a skeleton of a Table using AWS-UI React components.
 export default () => {
   return (
-    <AppLayout
-      navigation={<Sidebar />} // Navigation panel content imported from './ServiceNavigation.jsx'
+    <>
+    <TopNavigationHeader/>
+
+
+
+
+    {/* <Sidebar /> */}
+      <AppLayout
+      navigation={<Sidebar activeHref="#/" />}
+      // navigation={<Sidebar activeHref="#/" items={navItems}/>}
+      tools={<HelpTools/>}
+      headerSelector='#h'
+      disableContentPaddings={true}
+      // toolsHide={true}
+
       notifications={<FlashMessage />}
       breadcrumbs={<Breadcrumbs />}
       content={<DetailsTable />}
       contentType="table"
-      tools={Tools}
-    />
+      // tools={Tools}
+      />
+      </>
+
   );
 };
 

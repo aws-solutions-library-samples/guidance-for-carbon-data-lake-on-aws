@@ -30,7 +30,7 @@ const Sidebar = () => {
         text: 'Account',
         expanded: true,
         items: [
-          { type: 'link', text: 'Settings', href: '#/' },
+          { type: 'link', text: 'Settings', href: '#/account-settings' },
         ]
       },
       {
