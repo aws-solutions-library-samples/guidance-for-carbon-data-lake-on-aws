@@ -59,7 +59,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       "carbonlakeDataLineageLayer",
-      `arn:aws:lambda:${process.env.AWS_DEFAULT_REGION}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     );
 
     /* ======== PERMISSIONS ======== */
