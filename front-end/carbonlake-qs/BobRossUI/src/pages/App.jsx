@@ -13,7 +13,7 @@ import BobRossIntro from './BobRossIntro.jsx';
 import Dashboard from './Dashboard.jsx';
 import CarbonLake101 from './CarbonLake101.jsx';
 import SetupGuide from './SetupGuide.jsx';
-import CarbonLakeUploader from './CarbonLakeUploader.jsx';
+import DataUploader from './DataUploader.jsx';
 import AccountSettings from './AccountSettings.jsx';
 import Visualizations from './Visualizations.jsx';
 import Basic from './BasicLayout.jsx';
@@ -37,7 +37,7 @@ export default class App extends React.Component {
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/carbonlake-101" component={CarbonLake101} />
         <Route exact path="/setup-guide" component={SetupGuide} />
-        <Route exact path="/carbonlake-uploader" component={CarbonLakeUploader} />
+        <Route exact path="/data-uploader" component={DataUploader} />
         <Route exact path="/account-settings" component={AccountSettings} />
         <Route exact path="/visualizations" component={Visualizations} />
         <Route path="/basic" component={Basic} />

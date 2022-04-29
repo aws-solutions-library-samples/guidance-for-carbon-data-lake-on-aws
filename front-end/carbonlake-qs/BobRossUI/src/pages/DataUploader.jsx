@@ -22,7 +22,7 @@ import '../styles/servicehomepage.scss';
 // This is not meant to be a template, rather it is the
 // introduction page that you see upon loading the webserver.
 
-const CarbonLakeUploader = () => {
+const DataUploader = () => {
   return (
     <>
     <TopNavigationHeader/>
@@ -44,7 +44,7 @@ const CarbonLakeUploader = () => {
   )
 }
 
-export default CarbonLakeUploader;
+export default DataUploader;
 
 
 const Content = () => {
@@ -63,7 +63,7 @@ const Content = () => {
                 AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-                CarbonLakeUploader
+                Data Uploader
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">

@@ -14,6 +14,7 @@ const Sidebar = () => {
         items: [
           { type: 'link', text: 'CarbonLake 101', href: '#/carbonlake-101' },
           { type: 'link', text: 'Setup Guide', href: '#/setup-guide' },
+          { type: 'link', text: 'Case Studies', href: '#/case-studies' },
         ]
       },
       {
@@ -36,11 +37,12 @@ const Sidebar = () => {
       // },
       {
         type: 'section',
-        text: 'Carbon Explorer',
+        text: 'Data Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'CarbonLakeUploader', href: '#/carbonlake-uploader' },
+          { type: 'link', text: 'Data Uploader', href: '#/data-uploader' },
           { type: 'link', text: 'Emission Records', href: '#/emission-records' },
+          { type: 'link', text: 'Decarb Intelligence', href: '#/decarb-intelligence' },
           { type: 'link', text: 'Visualizations', href: '#/visualizations' },
         ]
       },
@@ -49,9 +51,28 @@ const Sidebar = () => {
         text: 'Data Quality',
         expanded: true,
         items: [
-          { type: 'link', text: 'Upload Model', href: '#/upload-model' },
           { type: 'link', text: 'Metrics', href: '#/metrics' },
-          { type: 'link', text: 'DQ Escalations', href: '#/dq-escalations' },
+          { type: 'link', text: 'Model Editor', href: '#/model-editor' },
+          { type: 'link', text: 'Alerts', href: '#/dq-alerts' },
+        ]
+      },
+      {
+        type: 'section',
+        text: 'Forecasting',
+        expanded: true,
+        items: [
+          { type: 'link', text: 'Models', href: '#/forecasting-models' },
+          { type: 'link', text: 'Training', href: '#/forecasting-model-training' },
+        ]
+      },
+      {
+        type: 'section',
+        text: 'Data Exchange',
+        expanded: true,
+        items: [
+          { type: 'link', text: 'AWS Data Exchange', href: '#/aws-data-exchange' },
+          { type: 'link', text: 'ASDI', href: '#/asdi' },
+          { type: 'link', text: 'Data Marketplace', href: '#/data-marketplace' },
         ]
       },
       // { type: "link", text: "Logout", href: "#/" },
