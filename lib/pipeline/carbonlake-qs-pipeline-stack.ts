@@ -1,21 +1,24 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
+import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  transformBucket: s3.Bucket,
-  enrichedBucket: s3.Bucket,
   rawBucket: s3.Bucket,
-  uniqueDirectory: any
+  transformedBucket: s3.Bucket
+  enrichedBucket: s3.Bucket,
+  uniqueDirectory: string
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
+  public readonly calculatorOutputTable: ddb.Table;
+
   constructor(scope: App, id: string, props: PipelineProps) {
     super(scope, id, props);
 
@@ -25,10 +28,16 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
     const { glueTransformJob } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
-      transformedBucket: props?.transformBucket,
+      transformedBucket: props?.transformedBucket,
       uniqueDirectory: props?.uniqueDirectory
     });
     /* ======== CALCULATION ======== */
+
+    const calculator = new CarbonlakeQuickstartCalculatorStack(this, 'CarbonlakeCalculatorStack', {
+      transformedBucket: props.transformedBucket,
+      enrichedBucket: props.enrichedBucket
+    })
+    this.calculatorOutputTable = calculator.calculatorOutputTable
 
     /* ======== STATEMACHINE ======== */
 
@@ -61,7 +70,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       layers: [dependencyLayer],
       environment: {
         // TRANSFORM_BUCKET_NAME: props.transformBucket.bucketName,
-        TRANSFORM_BUCKET_NAME: props.transformBucket.bucketName,
+        TRANSFORM_BUCKET_NAME: props.transformedBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn
       }
     });
