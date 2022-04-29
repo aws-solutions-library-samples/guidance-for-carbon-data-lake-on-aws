@@ -1,61 +1,22 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
-import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
+import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { custom_resources as cr } from 'aws-cdk-lib';
 import emission_factors from './emissions_factor_model_2022-04-26.json';
 import * as path from 'path';
 
 const DDB_BATCH_WRITE_ITEM_CHUNK_SIZE = 25;
 
-interface IDdbEmissionFactor {
-    category: { S: string };
-    activity: { S: string };
-    scope: { N: string };
-    emissions_factor_standards: { M: {
-        ghg: { M: {
-            coefficients: { M: {
-                    co2_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
-                    ch4_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
-                    n2o_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
-                    biofuel_co2: { S: string };//TODO use number (I used string because some values are empty in JSON)
-                    AR4_kgco2e: { S: string }; //TODO use number (I used string because some values are empty in JSON)
-                    AR5_kgco2e: { S: string }; //TODO use number (I used string because some values are empty in JSON)
-                    units: { S: string };
-                };
-            };
-            last_updated: { S: string };
-            source: { S: string };
-            source_origin: { S: string };
-        }};
-    }};
-}
-
-interface IGhgEmissionFactor {
-    category: string;
-    activity: string;
-    scope: string;
-    emissions_factor_standards: {
-        ghg: {
-            coefficients: {
-                co2_factor: string;
-                ch4_factor: string;
-                n2o_factor: string;
-                biofuel_co2: string;
-                "AR4-kgco2e": string;
-                "AR5-kgco2e": string;
-                units: string;
-            };
-            last_updated: string;
-            source: string;
-            source_origin: string;
-        };
-    };
+export interface CarbonlakeQuickstartCalculatorStackProps extends StackProps {
+    transformedBucket: s3.Bucket;
+    enrichedBucket: s3.Bucket;
 }
 
 export class CarbonlakeQuickstartCalculatorStack extends Stack {
     public readonly calculatorOutputTable: dynamodb.Table;
 
-    constructor(scope: App, id: string, props?: StackProps) {
+    constructor(scope: App, id: string, props: CarbonlakeQuickstartCalculatorStackProps) {
         super(scope, id, props);
 
         const emissionsFactorReferenceTable = new dynamodb.Table(this, "carbonLakeEmissionsFactorReferenceTable", {
@@ -74,11 +35,15 @@ export class CarbonlakeQuickstartCalculatorStack extends Stack {
             handler: "calculatorLambda.lambda_handler",
             environment: {
                 EMISSIONS_FACTOR_TABLE_NAME: emissionsFactorReferenceTable.tableName,
-                CALCULATOR_OUTPUT_TABLE_NAME: this.calculatorOutputTable.tableName
+                CALCULATOR_OUTPUT_TABLE_NAME: this.calculatorOutputTable.tableName,
+                TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName,
+                ENRICHED_BUCKET_NAME: props.enrichedBucket.bucketName
             }
         });
 
         emissionsFactorReferenceTable.grantReadData(calculatorLambda);
+        props.transformedBucket.grantRead(calculatorLambda);
+        props.enrichedBucket.grantWrite(calculatorLambda);
 
         //We popupate the Emission Factors DB with data from a JSON file
         //We split into chunks because BatchWriteItem has a limitation of 25 items per batch
@@ -135,4 +100,49 @@ export class CarbonlakeQuickstartCalculatorStack extends Stack {
             }}
         };
     }
+}
+
+interface IDdbEmissionFactor {
+    category: { S: string };
+    activity: { S: string };
+    scope: { N: string };
+    emissions_factor_standards: { M: {
+        ghg: { M: {
+            coefficients: { M: {
+                    co2_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
+                    ch4_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
+                    n2o_factor: { S: string }; //TODO use number (I used string because some values are empty in JSON)
+                    biofuel_co2: { S: string };//TODO use number (I used string because some values are empty in JSON)
+                    AR4_kgco2e: { S: string }; //TODO use number (I used string because some values are empty in JSON)
+                    AR5_kgco2e: { S: string }; //TODO use number (I used string because some values are empty in JSON)
+                    units: { S: string };
+                };
+            };
+            last_updated: { S: string };
+            source: { S: string };
+            source_origin: { S: string };
+        }};
+    }};
+}
+
+interface IGhgEmissionFactor {
+    category: string;
+    activity: string;
+    scope: string;
+    emissions_factor_standards: {
+        ghg: {
+            coefficients: {
+                co2_factor: string;
+                ch4_factor: string;
+                n2o_factor: string;
+                biofuel_co2: string;
+                "AR4-kgco2e": string;
+                "AR5-kgco2e": string;
+                units: string;
+            };
+            last_updated: string;
+            source: string;
+            source_origin: string;
+        };
+    };
 }
