@@ -1,10 +1,10 @@
 import { App } from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
-import * as CarbonlakeQuickstart from '../lib/carbonlake-quickstart-stack';
+import { CarbonlakeQuickstartStack } from '../lib/carbonlake-qs-stack';
 
 test('Snapshot', () => {
     const app = new App();
-    const stack = new CarbonlakeQuickstart(app, 'test');
+    const stack = new CarbonlakeQuickstartStack(app, 'test');
     //Add your own required test outputs here
     const template = Template.fromStack(stack);
     template.hasOutput('APIURL', Match.objectLike({}));     // Check to make sure the APIURL is output
