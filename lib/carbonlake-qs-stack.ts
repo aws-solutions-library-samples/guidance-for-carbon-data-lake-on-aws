@@ -29,6 +29,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       dataLineageFunction: dataLineage.inputFunction,
+      landingBucket: sharedResources.carbonlakeLandingBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
