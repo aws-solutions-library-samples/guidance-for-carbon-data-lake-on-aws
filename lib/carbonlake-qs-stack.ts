@@ -4,8 +4,7 @@ import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbo
 import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
-import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
-import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
+import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -19,10 +18,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS3 --> Create the carbonlake data pipeline stack
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
-    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(scope, "CarbonLakeAnalyticsPipelineStack", {
-      //glueScriptsBucketName: "cl-148257099368-glue-scripts"
+    const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(scope, "CarbonLakeDataCompactionPipelineStack", {
+      enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
-    const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {});
+    
 
     // QS4 --> Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
@@ -47,7 +46,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       transformBucket: sharedResources.carbonlakeTransformedBucket,
-      dataLineageFunction: dataLineage.inputFunction
+      dataLineageFunction: dataLineage.inputFunction,
+      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+      rawBucket: sharedResources.carbonlakeRawBucket,
+      uniqueDirectory: 'test-unique-directory'
     });
     
   }
