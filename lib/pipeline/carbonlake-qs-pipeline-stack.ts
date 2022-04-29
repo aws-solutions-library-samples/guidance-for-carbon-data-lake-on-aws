@@ -5,11 +5,13 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
+import { CarbonlakeQuickstartS3copierStack } from './s3copier/carbonlake-qs-s3copier';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
+  landingBucket: s3.Bucket,
   rawBucket: s3.Bucket,
   transformedBucket: s3.Bucket
   enrichedBucket: s3.Bucket,
@@ -23,6 +25,10 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     super(scope, id, props);
 
     /* ======== DATA QUALITY ======== */
+    new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
+      landingBucket: props.landingBucket,
+      rawBucket: props.rawBucket
+    });
 
     /* ======== GLUE TRANSFORM ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?

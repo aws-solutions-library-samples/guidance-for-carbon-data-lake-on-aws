@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, CfnOutput, Stack, StackProps } from 'aws-cdk-lib';                 // core constructs
+import { App, CfnOutput, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';                 // core constructs
 import { aws_apigateway as apigw } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
@@ -17,6 +17,8 @@ export class CarbonlakeApiStack extends Stack {
         // Create s3 raw data upload bucket
         const rawUploadBucket = new s3.Bucket(this, 'rawUploadBucket', {
             encryption: s3.BucketEncryption.S3_MANAGED,
+            removalPolicy: RemovalPolicy.DESTROY,
+            autoDeleteObjects: true,
             publicReadAccess: false
         })
 

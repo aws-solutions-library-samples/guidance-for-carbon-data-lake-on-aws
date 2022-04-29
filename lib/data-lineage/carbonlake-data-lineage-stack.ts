@@ -1,4 +1,4 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { App, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
@@ -21,6 +21,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     const table = new dynamodb.Table(this, "carbonlakeDataLineageTable", {
       partitionKey: { name: "root_id", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "child_id", type: dynamodb.AttributeType.STRING },
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     // GSI to allow querying by specific child node in data lineage tree
@@ -62,20 +63,6 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     );
 
-    /* ======== PERMISSIONS ======== */
-
-    // Grant the input lambda to send messages to the DL queue
-    const sendMessagePolicy = new iam.PolicyStatement({
-      actions: [ "sqs:SendMessage"],
-      resources: [ queue.queueArn ]
-    })
-
-    // Grant the process lambda to put items into DDB
-    const putItemPolicy = new iam.PolicyStatement({
-      actions: [ "dynamodb:PutItem"],
-      resources: [ table.tableArn ]
-    })
-
     /* ======== INPUT LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs
@@ -89,9 +76,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       layers: [dependencyLayer]
     });
 
-    this.inputFunction.role?.attachInlinePolicy(new iam.Policy(this, "sendMessagePolicy", {
-      statements: [sendMessagePolicy]
-    }));
+    queue.grantSendMessages(this.inputFunction);
 
     /* ======== PROCESS LAMBDA ======== */
 
@@ -106,10 +91,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       layers: [dependencyLayer]
     });
 
-    dataLineageOutputFunction.role?.attachInlinePolicy(new iam.Policy(this, 'putItemPolicy', {
-      statements: [putItemPolicy]
-    }))
-
+    table.grantWriteData(dataLineageOutputFunction);
     dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
   }
 }

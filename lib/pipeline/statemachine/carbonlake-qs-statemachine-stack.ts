@@ -137,7 +137,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
         "storage_type":  sfn.JsonPath.stringAt("$.data_lineage.storage_type"),
         "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location"),
-        "action": action
+        "action_taken": action
       }),
       resultPath: '$.data_lineage',
     })
