@@ -1,30 +1,30 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export interface CarbonLakeAnalyticsPipelineStackProps extends cdk.StackProps {
-  //glueScriptsBucketName: cdk.aws_s3.Bucket;
-  //enrichedBucketName: cdk.aws_s3.Bucket;
+
+interface CarbonLakeAnalyticsPipelineStackProps extends NestedStackProps {
+  glueScriptsBucket: cdk.aws_s3.Bucket;
+  enrichedBucket: cdk.aws_s3.Bucket;
 }
 
-export class CarbonLakeAnalyticsPipelineStack extends Stack {
-    constructor(scope: App, id: string, props?: StackProps) {
+
+export class CarbonLakeAnalyticsPipelineStack extends NestedStack {
+    constructor(scope: Construct, id: string, props: CarbonLakeAnalyticsPipelineStackProps) {
         super(scope, id, props);
-        const glueScriptsBucketName = 'cl-148257099368-glue-scripts';
-        const enrichedBucketName = 'cl-enriched-148257099368';
 
+        // get bucket names
 
-        // TODO: pass this bucket in as a parameter
-        const glueScriptsBucket = cdk.aws_s3.Bucket.fromBucketName(this, 'existingBucket', glueScriptsBucketName);
 
         // Create IAM policy for Glue to assume
         const glueCompactionJobS3Policy = new cdk.aws_iam.PolicyDocument({
           statements: [
             new cdk.aws_iam.PolicyStatement({
               resources: [
-                `arn:aws:s3:::${glueScriptsBucketName}`,
-                `arn:aws:s3:::${glueScriptsBucketName}/*`,
-                `arn:aws:s3:::${enrichedBucketName}`,
-                `arn:aws:s3:::${enrichedBucketName}/*`
+                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}`,
+                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}/*`,
+                `arn:aws:s3:::${props.enrichedBucket.bucketName}`,
+                `arn:aws:s3:::${props.enrichedBucket.bucketName}/*`
               ],
               actions: [
                 "s3:GetObject*",
@@ -59,14 +59,14 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
             command: {
               name: 'pythonshell',
               pythonVersion: '3',
-              scriptLocation: 's3://' + glueScriptsBucketName + '/Scripts/glue-purge-old-calculator-records.py'
+              scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-purge-old-calculator-records.py'
             },
             defaultArguments: { 
-              '--ENRICHED_BUCKET_NAME': enrichedBucketName,
+              '--ENRICHED_BUCKET_NAME': props.enrichedBucket.bucketName,
               '--enable-job-insights': 'true',
               "--job-language": "python", 
-              "--TempDir": "s3://" + glueScriptsBucketName + "/output/temp/",
-              "--spark-event-logs-path": "s3://" + glueScriptsBucketName + "/output/logs/",    
+              "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
+              "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
               "--enable-metrics": "",
               "--enable-continuous-cloudwatch-log": "true"
             },
@@ -84,17 +84,17 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
           command: {
             name: "glueetl",
             pythonVersion: "3",
-            scriptLocation: 's3://' + glueScriptsBucketName + '/Scripts/glue-compact-calculator-records.py',
+            scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-compact-calculator-records.py',
           },
           defaultArguments: { 
             '--job-bookmark-option': 'job-bookmark-enable',
             '--enable-job-insights': 'true',
             "--job-language": "python",
-            "--TempDir": "s3://" + glueScriptsBucketName + "/output/temp/",
-            "--spark-event-logs-path": "s3://" + glueScriptsBucketName + "/output/logs/",    
+            "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
+            "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
             "--enable-metrics": "",
             "--enable-continuous-cloudwatch-log": "true",
-            '--ENRICHED_BUCKET_NAME': enrichedBucketName 
+            '--ENRICHED_BUCKET_NAME': props.enrichedBucket.bucketName
           },
           glueVersion: "3.0",
           maxRetries: 3,
@@ -110,7 +110,7 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
         // TODO: move into a shared location
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
           sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/analytics/analytics-pipeline/assets')],
-          destinationBucket: glueScriptsBucket,
+          destinationBucket: props.glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
 

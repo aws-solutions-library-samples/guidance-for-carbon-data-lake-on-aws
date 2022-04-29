@@ -1,35 +1,30 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
-  //glueScriptsBucketName: cdk.aws_s3.Bucket;
-  //rawBucketName: cdk.aws_s3.Bucket;
-  //transformedBucketName: cdk.aws_s3.Bucket;
-  //uniqueDirectory: string; //comes from step function
+
+interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
+  glueScriptsBucket: cdk.aws_s3.Bucket;
+  rawBucket: cdk.aws_s3.Bucket;
+  transformedBucket: cdk.aws_s3.Bucket;
+  uniqueDirectory: any
 }
 
-export class CarbonLakeGlueTransformationStack extends Stack {
-    constructor(scope: App, id: string, props?: StackProps) {
+export class CarbonLakeGlueTransformationStack extends NestedStack {
+    constructor(scope: Construct, id: string, props: CarbonLakeGlueTransformationStackProps) {
         super(scope, id, props);
-        const glueScriptsBucketName = 'cl-148257099368-glue-scripts';
-        const rawBucketName = 'cl-raw-148257099368';
-        const transformedBucketName = 'cl-cleansed-148257099368';
-        const uniqueDirectory = 'this-is-a-unique-identifier';
-
-        // TODO: pass this bucket in as a parameter
-        const glueScriptsBucket = cdk.aws_s3.Bucket.fromBucketName(this, 'existingBucket', glueScriptsBucketName);
 
         // Create IAM policy for Glue to assume
         const glueTransformS3Policy = new cdk.aws_iam.PolicyDocument({
           statements: [
             new cdk.aws_iam.PolicyStatement({
               resources: [
-                `arn:aws:s3:::${glueScriptsBucketName}`,
-                `arn:aws:s3:::${glueScriptsBucketName}/*`,
-                `arn:aws:s3:::${rawBucketName}`,
-                `arn:aws:s3:::${rawBucketName}/*`,
-                `arn:aws:s3:::${transformedBucketName}`,
-                `arn:aws:s3:::${transformedBucketName}/*`
+                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}`,
+                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}/*`,
+                `arn:aws:s3:::${props.rawBucket.bucketName}`,
+                `arn:aws:s3:::${props.rawBucket.bucketName}/*`,
+                `arn:aws:s3:::${props.transformedBucket.bucketName}`,
+                `arn:aws:s3:::${props.transformedBucket.bucketName}/*`
               ],
               actions: [
                 "s3:GetObject*",
@@ -64,19 +59,19 @@ export class CarbonLakeGlueTransformationStack extends Stack {
             command: {
               name: "glueetl",
               pythonVersion: "3",
-              scriptLocation: 's3://' + glueScriptsBucketName + '/Scripts/glue-split-csv-into-json.py',
+              scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-split-csv-into-json.py',
             },
             defaultArguments: { 
               '--job-bookmark-option': 'job-bookmark-enable',
               '--enable-job-insights': 'true',
               "--job-language": "python",
-              "--TempDir": "s3://" + glueScriptsBucketName + "/output/temp/",
-              "--spark-event-logs-path": "s3://" + glueScriptsBucketName + "/output/logs/",    
+              "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
+              "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
               "--enable-metrics": "",
               "--enable-continuous-cloudwatch-log": "true",
-              '--UNIQUE_DIRECTORY': uniqueDirectory,
-              '--RAW_BUCKET_NAME': rawBucketName,
-              '--TRANFORMED_BUCKET_NAME': transformedBucketName
+              '--UNIQUE_DIRECTORY': props.uniqueDirectory,
+              '--RAW_BUCKET_NAME': props.rawBucket.bucketName,
+              '--TRANFORMED_BUCKET_NAME': props.transformedBucket.bucketName
             },
             glueVersion: "3.0",
             maxRetries: 3,
@@ -91,7 +86,7 @@ export class CarbonLakeGlueTransformationStack extends Stack {
         // Deploy glue job to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
           sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/transform/glue/assets')],
-          destinationBucket: glueScriptsBucket,
+          destinationBucket: props.glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
 
