@@ -9,6 +9,7 @@ import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
   transformedBucket: s3.Bucket
+  enrichedBucket: s3.Bucket
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {

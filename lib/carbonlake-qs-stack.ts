@@ -46,8 +46,9 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
+      dataLineageFunction: dataLineage.inputFunction,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
-      dataLineageFunction: dataLineage.inputFunction
+      enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     });
     
   }
