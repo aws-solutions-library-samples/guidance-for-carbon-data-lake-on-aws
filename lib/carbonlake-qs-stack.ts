@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
-import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-quickstart-calculator';
-import { CarbonlakeQuickstartStorageStack } from './pipeline/storage/carbonlake-qs-storage-stack';
+import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-qs-calculator';
+import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 
 
@@ -11,29 +11,34 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     const app = new cdk.App();
 
-    // TODO --> Create the carbonlake storage stack
-    const storage = new CarbonlakeQuickstartStorageStack(app, "CarbonlakeQuickstartStorageStack");
-
-    // Create the carbonlake calculator stack
-    const calculator = new CarbonlakeQuickstartCalculatorStack(app, "CarbonlakeQuickStartCalculatorStack");
+    // QS1 --> Create the carbonlake shared resource stack
+    const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(app, "CarbonlakeSharedResourceStack");
     
-    // Create the carbonlake API stack
-    const api = new CarbonLakeQuickStartApiStack(app, "CarbonLakeQuickStartApiStack", {
+    // QS2 --> Create the carbonlake data lineage stack
+    const dataLineage = new CarbonlakeQuickstartDataLineageStack(app, "CarbonlakeDataLineageStack");
+
+    // QS3 --> Create the carbonlake data pipeline stack
+    //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
+
+    // QS4 --> Create the carbonlake calculator stack
+    const calculator = new CarbonlakeQuickstartCalculatorStack(app, "CarbonlakeCalculatorStack");
+
+    // QS5 --> Create the carbonlake quicksight stack
+    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
+
+    // QS7 --> Create the carbonlake web stack
+    const api = new CarbonLakeQuickStartApiStack(app, "CarbonLakeApiStack", {
       calculatorOutputTableRef: calculator.calculatorOutputTable
     });
 
-    // TODO --> Create the carbonlake etl-pipeline stack
+    // QS8 --> Create the carbonlake forecast stack
+    //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack");
 
-    // TODO --> Create the carbonlake web stack
-
-    // TODO --> Create the carbonlake grafana stack
-
-    // TODO --> Create the carbonlake quickstart stack
-
-    // TODO --> Create the carbonlake data lineage stack
-    const dataLineage = new CarbonlakeQuickstartDataLineageStack(app, "CarbonlakeQuickstartDataLineageStack");
-
-    // TODO --> Creat the carbonlake monitoring and observability stack
-    
+    //include CFN outputs below
+    /*
+    new CfnOutput(this, 'Example Output', {
+      value: locator.someArn,
+    });
+    */
   }
 }
