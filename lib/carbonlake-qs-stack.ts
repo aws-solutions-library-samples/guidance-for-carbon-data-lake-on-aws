@@ -6,6 +6,7 @@ import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
 import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
+import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -31,7 +32,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     });
 
     // QS5 --> Create the carbonlake quicksight stack
-    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
+  const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack");
 
     // QS7 --> Create the carbonlake web stack
     const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {
