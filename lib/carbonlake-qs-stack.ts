@@ -1,6 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
 import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
-import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-qs-calculator';
 import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
@@ -33,12 +32,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       //glueScriptsBucketName: "cl-148257099368-glue-scripts"
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {});
-
-    // QS4 --> Create the carbonlake calculator stack
-    // const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
-    //   transformedBucket: sharedResources.carbonlakeTransformedBucket,
-    //   enrichedBucket: sharedResources.carbonlakeEnrichedBucket
-    // });
 
     // QS5 --> Create the carbonlake quicksight stack
     //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
