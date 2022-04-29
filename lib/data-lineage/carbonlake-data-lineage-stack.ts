@@ -63,20 +63,6 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     );
 
-    /* ======== PERMISSIONS ======== */
-
-    // Grant the input lambda to send messages to the DL queue
-    const sendMessagePolicy = new iam.PolicyStatement({
-      actions: [ "sqs:SendMessage"],
-      resources: [ queue.queueArn ]
-    })
-
-    // Grant the process lambda to put items into DDB
-    const putItemPolicy = new iam.PolicyStatement({
-      actions: [ "dynamodb:PutItem"],
-      resources: [ table.tableArn ]
-    })
-
     /* ======== INPUT LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs
@@ -90,9 +76,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       layers: [dependencyLayer]
     });
 
-    this.inputFunction.role?.attachInlinePolicy(new iam.Policy(this, "sendMessagePolicy", {
-      statements: [sendMessagePolicy]
-    }));
+    queue.grantSendMessages(this.inputFunction);
 
     /* ======== PROCESS LAMBDA ======== */
 
@@ -107,10 +91,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       layers: [dependencyLayer]
     });
 
-    dataLineageOutputFunction.role?.attachInlinePolicy(new iam.Policy(this, 'putItemPolicy', {
-      statements: [putItemPolicy]
-    }))
-
+    table.grantWriteData(dataLineageOutputFunction);
     dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
   }
 }
