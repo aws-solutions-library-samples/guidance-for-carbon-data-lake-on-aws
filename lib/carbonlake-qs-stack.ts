@@ -4,7 +4,8 @@ import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbo
 import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
-
+import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
+import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -18,6 +19,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS3 --> Create the carbonlake data pipeline stack
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
+    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(app, "CarbonLakeAnalyticsPipelineStack", {
+      //glueScriptsBucketName: "cl-148257099368-glue-scripts"
+    }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
+    const glueTransformJob = new CarbonLakeGlueTransformationStack(app, "CarbonLakeGlueTransformationStack", {});
 
     // QS4 --> Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
