@@ -1,34 +1,15 @@
 {
-    "record_id": "customer-carbonlake-12345",
+    "activity_event_id": "customer-carbonlake-12345",
     "asset_id": "vehicle-1234", 
-    "geo": [45.5152, 122.6784],
+    "geo": {
+        "lat": 45.5152,
+        "long": 122.6784
+    },
     "origin_measurement_timestamp":"2022-06-26 02:31:29", 
-    "activity_id":{
-        "scope": 1,
-        "category": "mobile-combustion",
-        "activity": "Diesel Fuel - Diesel Passenger Cars"
-        }, 
+    "scope": 1,
+    "category": "mobile-combustion",
+    "activity": "Diesel Fuel - Diesel Passenger Cars",
     "source": "company_fleet_management_database", 
     "raw_data": 103.45,
-    "units": "gal", 
-    "data_lineage": [{
-        "timestamp": "2022-06-26 02:31:29", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-fleet-management-raw"
-        },
-        {
-        "timestamp": "2022-06-26 02:32:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "fleet-management-glue-crawler"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:21", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-opensearch-classification"
-        },
-        {
-        "timestamp": "2022-06-26 02:33:24", 
-        "geo": [45.5152, 122.6784], 
-        "node": "carbonlake-S3-processed-records"
-        }] 
-    }
+    "units": "gal"
+}

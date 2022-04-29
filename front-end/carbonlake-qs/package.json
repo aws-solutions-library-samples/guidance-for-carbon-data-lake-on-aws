@@ -11,12 +11,6 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@amzn/awsui-collection-hooks": "file:packages/@amzn/amzn-awsui-collection-hooks-1.0.0.tgz",
-    "@amzn/awsui-components-react": "file:packages/@amzn/amzn-awsui-components-react-3.0.0.tgz",
-    "@amzn/awsui-design-tokens": "file:packages/@amzn/amzn-awsui-design-tokens-3.0.0.tgz",
-    "@amzn/awsui-global-styles": "file:packages/@amzn/amzn-awsui-global-styles-1.0.0.tgz",
-    "@amzn/awsui-test-utils-core": "file:packages/@amzn/amzn-awsui-test-utils-core-1.0.0.tgz",
-    "@amzn/awsui-theming-runtime": "file:packages/@amzn/amzn-awsui-theming-runtime-1.0.0.tgz",
     "@awsui/collection-hooks": "^1.0.25",
     "@awsui/components-react": "^3.0.490",
     "@awsui/design-tokens": "^3.0.21",

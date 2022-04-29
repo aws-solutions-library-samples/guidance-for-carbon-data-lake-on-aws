@@ -22,4 +22,4 @@ Clone this repo manually `git clone ssh://git.amazon.com/pkg/BobRoss` or downloa
     * `npm run build` — builds a minified project for production
 * Learn:
     * source files are fully auto-generated and served by HTTP server.  Write your code in `src/` dir.
-    * Place static files in `public/` 
+    * Place static files in `public/`
