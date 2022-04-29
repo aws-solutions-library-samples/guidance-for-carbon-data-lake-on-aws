@@ -8,8 +8,7 @@ import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  // transformBucket: s3.Bucket
-  transformBucket: string
+  transformBucket: s3.Bucket
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
@@ -53,7 +52,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       layers: [dependencyLayer],
       environment: {
         // TRANSFORM_BUCKET_NAME: props.transformBucket.bucketName,
-        TRANSFORM_BUCKET_NAME: props.transformBucket,
+        TRANSFORM_BUCKET_NAME: props.transformBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn
       }
     });
