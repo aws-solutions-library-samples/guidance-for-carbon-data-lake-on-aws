@@ -6,12 +6,14 @@ const Sidebar = () => {
   <SideNavigation
     header={{ text: 'AWS CarbonLake', href: '#/' }}
     items={[
+      { type: "link", text: "Dashboard", href: "#/" },
       {
         type: 'section',
-        text: 'CarbonLake',
+        text: 'Getting Started',
         expanded: true,
         items: [
-          { type: 'link', text: 'How to use the CarbonLake App', href: '#/how-to-use-carbonlake-app' },
+          { type: 'link', text: 'CarbonLake 101', href: '#/carbonlake-101' },
+          { type: 'link', text: 'Setup Guide', href: '#/setup-guide' },
         ]
       },
       {
@@ -24,15 +26,14 @@ const Sidebar = () => {
           { type: 'link', text: 'Edit App', href: 'https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1', target:"_blank" },
         ]
       },
-      { type: "link", text: "Dashboard", href: "#/" },
-      {
-        type: 'section',
-        text: 'Account',
-        expanded: true,
-        items: [
-          { type: 'link', text: 'Settings', href: '#/account-settings' },
-        ]
-      },
+      // {
+      //   type: 'section',
+      //   text: 'Account',
+      //   expanded: true,
+      //   items: [
+      //     { type: 'link', text: 'Settings', href: '#/account-settings' },
+      //   ]
+      // },
       {
         type: 'section',
         text: 'Carbon Explorer',
@@ -56,7 +57,7 @@ const Sidebar = () => {
       // { type: "link", text: "Logout", href: "#/" },
 
     ]}
-    // activeHref="#/how-to-use-carbonlake-app"
+    activeHref="#/carbonlake-101"
     />
     </>
   )

@@ -22,7 +22,7 @@ import '../styles/servicehomepage.scss';
 // This is not meant to be a template, rather it is the
 // introduction page that you see upon loading the webserver.
 
-const AboutCarbonLake = () => {
+const SetupGuide = () => {
   return (
     <>
     <TopNavigationHeader/>
@@ -44,7 +44,7 @@ const AboutCarbonLake = () => {
   )
 }
 
-export default AboutCarbonLake;
+export default SetupGuide;
 
 
 const Content = () => {
@@ -63,12 +63,12 @@ const Content = () => {
                 AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Helping your business revitalize your carbon accounting.
+              Setup Guide
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
-                  Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more.
+                For issues getting started, please reach out to us on our
+                   <Link to={{ pathname: "/about-carbonlake"}}  target="_blank"> GitHub page</Link>.
                 </span>
               </Box>
             </div>

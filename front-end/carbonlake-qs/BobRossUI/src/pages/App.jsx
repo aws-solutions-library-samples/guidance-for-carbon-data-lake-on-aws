@@ -11,7 +11,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import BobRossIntro from './BobRossIntro.jsx';
 import Dashboard from './Dashboard.jsx';
-import AboutCarbonLake from './AboutCarbonLake.jsx';
+import CarbonLake101 from './CarbonLake101.jsx';
+import SetupGuide from './SetupGuide.jsx';
 import CarbonLakeUploader from './CarbonLakeUploader.jsx';
 import AccountSettings from './AccountSettings.jsx';
 import Visualizations from './Visualizations.jsx';
@@ -34,7 +35,8 @@ export default class App extends React.Component {
       <div>
         {/* <Route exact path="/" component={BobRossIntro} /> */}
         <Route exact path="/" component={Dashboard} />
-        <Route exact path="/how-to-use-carbonlake-app" component={AboutCarbonLake} />
+        <Route exact path="/carbonlake-101" component={CarbonLake101} />
+        <Route exact path="/setup-guide" component={SetupGuide} />
         <Route exact path="/carbonlake-uploader" component={CarbonLakeUploader} />
         <Route exact path="/account-settings" component={AccountSettings} />
         <Route exact path="/visualizations" component={Visualizations} />
