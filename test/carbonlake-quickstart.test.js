@@ -1,17 +1,17 @@
 "use strict";
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as CarbonlakeQuickstart from '../lib/carbonlake-quickstart-stack';
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/carbonlake-quickstart-stack.ts
-test('SQS Queue Created', () => {
-    //   const app = new cdk.App();
-    //     // WHEN
-    //   const stack = new CarbonlakeQuickstart.CarbonlakeQuickstartStack(app, 'MyTestStack');
-    //     // THEN
-    //   const template = Template.fromStack(stack);
-    //   template.hasResourceProperties('AWS::SQS::Queue', {
-    //     VisibilityTimeout: 300
-    //   });
+Object.defineProperty(exports, "__esModule", { value: true });
+const aws_cdk_lib_1 = require("aws-cdk-lib");
+const assertions_1 = require("aws-cdk-lib/assertions");
+const carbonlake_qs_stack_1 = require("../lib/carbonlake-qs-stack");
+test('Snapshot', () => {
+    const app = new aws_cdk_lib_1.App();
+    const stack = new carbonlake_qs_stack_1.CarbonlakeQuickstartStack(app, 'test');
+    //Add your own required test outputs here
+    const template = assertions_1.Template.fromStack(stack);
+    template.hasOutput('APIURL', assertions_1.Match.objectLike({})); // Check to make sure the APIURL is output
+    template.hasOutput('password', assertions_1.Match.objectLike({})); // Check to make sure there is password ouput
+    template.hasOutput('WebAppUrl', assertions_1.Match.objectLike({})); // Check to make sure the web app outputs a url
+    template.hasOutput('S3LandingZoneInputBucketARN', assertions_1.Match.objectLike({})); // Check to make sure the S3 landing zone bucket input ARN is output
+    template.resourceCountIs('AWS::CloudFormation::Stack', 5);
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FyYm9ubGFrZS1xdWlja3N0YXJ0LnRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJjYXJib25sYWtlLXF1aWNrc3RhcnQudGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO0FBQUEsc0NBQXNDO0FBQ3RDLHFEQUFxRDtBQUNyRCw4RUFBOEU7QUFFOUUsdUVBQXVFO0FBQ3ZFLHlEQUF5RDtBQUN6RCxJQUFJLENBQUMsbUJBQW1CLEVBQUUsR0FBRyxFQUFFO0lBQy9CLCtCQUErQjtJQUMvQixjQUFjO0lBQ2QsMEZBQTBGO0lBQzFGLGNBQWM7SUFDZCxnREFBZ0Q7SUFFaEQsd0RBQXdEO0lBQ3hELDZCQUE2QjtJQUM3QixRQUFRO0FBQ1IsQ0FBQyxDQUFDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBpbXBvcnQgKiBhcyBjZGsgZnJvbSAnYXdzLWNkay1saWInO1xuLy8gaW1wb3J0IHsgVGVtcGxhdGUgfSBmcm9tICdhd3MtY2RrLWxpYi9hc3NlcnRpb25zJztcbi8vIGltcG9ydCAqIGFzIENhcmJvbmxha2VRdWlja3N0YXJ0IGZyb20gJy4uL2xpYi9jYXJib25sYWtlLXF1aWNrc3RhcnQtc3RhY2snO1xuXG4vLyBleGFtcGxlIHRlc3QuIFRvIHJ1biB0aGVzZSB0ZXN0cywgdW5jb21tZW50IHRoaXMgZmlsZSBhbG9uZyB3aXRoIHRoZVxuLy8gZXhhbXBsZSByZXNvdXJjZSBpbiBsaWIvY2FyYm9ubGFrZS1xdWlja3N0YXJ0LXN0YWNrLnRzXG50ZXN0KCdTUVMgUXVldWUgQ3JlYXRlZCcsICgpID0+IHtcbi8vICAgY29uc3QgYXBwID0gbmV3IGNkay5BcHAoKTtcbi8vICAgICAvLyBXSEVOXG4vLyAgIGNvbnN0IHN0YWNrID0gbmV3IENhcmJvbmxha2VRdWlja3N0YXJ0LkNhcmJvbmxha2VRdWlja3N0YXJ0U3RhY2soYXBwLCAnTXlUZXN0U3RhY2snKTtcbi8vICAgICAvLyBUSEVOXG4vLyAgIGNvbnN0IHRlbXBsYXRlID0gVGVtcGxhdGUuZnJvbVN0YWNrKHN0YWNrKTtcblxuLy8gICB0ZW1wbGF0ZS5oYXNSZXNvdXJjZVByb3BlcnRpZXMoJ0FXUzo6U1FTOjpRdWV1ZScsIHtcbi8vICAgICBWaXNpYmlsaXR5VGltZW91dDogMzAwXG4vLyAgIH0pO1xufSk7XG4iXX0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FyYm9ubGFrZS1xdWlja3N0YXJ0LnRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJjYXJib25sYWtlLXF1aWNrc3RhcnQudGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUFrQztBQUNsQyx1REFBeUQ7QUFDekQsb0VBQXVFO0FBRXZFLElBQUksQ0FBQyxVQUFVLEVBQUUsR0FBRyxFQUFFO0lBQ2xCLE1BQU0sR0FBRyxHQUFHLElBQUksaUJBQUcsRUFBRSxDQUFDO0lBQ3RCLE1BQU0sS0FBSyxHQUFHLElBQUksK0NBQXlCLENBQUMsR0FBRyxFQUFFLE1BQU0sQ0FBQyxDQUFDO0lBQ3pELHlDQUF5QztJQUN6QyxNQUFNLFFBQVEsR0FBRyxxQkFBUSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUMzQyxRQUFRLENBQUMsU0FBUyxDQUFDLFFBQVEsRUFBRSxrQkFBSyxDQUFDLFVBQVUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLENBQUssMENBQTBDO0lBQ2xHLFFBQVEsQ0FBQyxTQUFTLENBQUMsVUFBVSxFQUFFLGtCQUFLLENBQUMsVUFBVSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBRyw2Q0FBNkM7SUFDckcsUUFBUSxDQUFDLFNBQVMsQ0FBQyxXQUFXLEVBQUUsa0JBQUssQ0FBQyxVQUFVLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQyxDQUFFLCtDQUErQztJQUN2RyxRQUFRLENBQUMsU0FBUyxDQUFDLDZCQUE2QixFQUFFLGtCQUFLLENBQUMsVUFBVSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBRSxvRUFBb0U7SUFDOUksUUFBUSxDQUFDLGVBQWUsQ0FBQyw0QkFBNEIsRUFBRSxDQUFDLENBQUMsQ0FBQztBQUM5RCxDQUFDLENBQUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFwcCB9IGZyb20gJ2F3cy1jZGstbGliJztcbmltcG9ydCB7IFRlbXBsYXRlLCBNYXRjaCB9IGZyb20gJ2F3cy1jZGstbGliL2Fzc2VydGlvbnMnO1xuaW1wb3J0IHsgQ2FyYm9ubGFrZVF1aWNrc3RhcnRTdGFjayB9IGZyb20gJy4uL2xpYi9jYXJib25sYWtlLXFzLXN0YWNrJztcblxudGVzdCgnU25hcHNob3QnLCAoKSA9PiB7XG4gICAgY29uc3QgYXBwID0gbmV3IEFwcCgpO1xuICAgIGNvbnN0IHN0YWNrID0gbmV3IENhcmJvbmxha2VRdWlja3N0YXJ0U3RhY2soYXBwLCAndGVzdCcpO1xuICAgIC8vQWRkIHlvdXIgb3duIHJlcXVpcmVkIHRlc3Qgb3V0cHV0cyBoZXJlXG4gICAgY29uc3QgdGVtcGxhdGUgPSBUZW1wbGF0ZS5mcm9tU3RhY2soc3RhY2spO1xuICAgIHRlbXBsYXRlLmhhc091dHB1dCgnQVBJVVJMJywgTWF0Y2gub2JqZWN0TGlrZSh7fSkpOyAgICAgLy8gQ2hlY2sgdG8gbWFrZSBzdXJlIHRoZSBBUElVUkwgaXMgb3V0cHV0XG4gICAgdGVtcGxhdGUuaGFzT3V0cHV0KCdwYXNzd29yZCcsIE1hdGNoLm9iamVjdExpa2Uoe30pKTsgICAvLyBDaGVjayB0byBtYWtlIHN1cmUgdGhlcmUgaXMgcGFzc3dvcmQgb3VwdXRcbiAgICB0ZW1wbGF0ZS5oYXNPdXRwdXQoJ1dlYkFwcFVybCcsIE1hdGNoLm9iamVjdExpa2Uoe30pKTsgIC8vIENoZWNrIHRvIG1ha2Ugc3VyZSB0aGUgd2ViIGFwcCBvdXRwdXRzIGEgdXJsXG4gICAgdGVtcGxhdGUuaGFzT3V0cHV0KCdTM0xhbmRpbmdab25lSW5wdXRCdWNrZXRBUk4nLCBNYXRjaC5vYmplY3RMaWtlKHt9KSk7ICAvLyBDaGVjayB0byBtYWtlIHN1cmUgdGhlIFMzIGxhbmRpbmcgem9uZSBidWNrZXQgaW5wdXQgQVJOIGlzIG91dHB1dFxuICAgIHRlbXBsYXRlLnJlc291cmNlQ291bnRJcygnQVdTOjpDbG91ZEZvcm1hdGlvbjo6U3RhY2snLCA1KTtcbn0pO1xuIl19

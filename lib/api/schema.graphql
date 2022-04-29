@@ -6,6 +6,15 @@ schema {
 type CalculatorOutput {
     activity_event_id: String!
     asset_id: String
+    activity: String
+    category: String
+    scope: Int
+    emissions_output: AWSJSON
+    geo: AWSJSON
+    origin_measurement_timestamp: String
+    raw_data: Float
+    source: String
+    units: String
 }
 
 type PaginatedCalculatorOutput {

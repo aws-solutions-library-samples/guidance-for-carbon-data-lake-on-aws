@@ -1,8 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartCalculatorStack } from './pipeline/calculator/carbonlake-qs-calculator';
-import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
+import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
+import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
 import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
 
@@ -39,11 +40,14 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // QS8 --> Create the carbonlake forecast stack
     //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack");
 
-    //include CFN outputs below
-    /*
-    new CfnOutput(this, 'Example Output', {
-      value: locator.someArn,
+    // TODO --> Creat the carbonlake monitoring and observability stack
+
+    // carbonlake orchestration pipeline stack - Amazon Step Functions
+    // TODO: As there are created, need to add the sfn components to the pipeline stack
+    const pipeline = new CarbonlakeQuickstartPipelineStack(app, "CarbonlakeQuickstartPipelineStack", {
+      transformBucket: "transform-bucket-name-placeholder",
+      dataLineageFunction: dataLineage.inputFunction
     });
-    */
+    
   }
 }
