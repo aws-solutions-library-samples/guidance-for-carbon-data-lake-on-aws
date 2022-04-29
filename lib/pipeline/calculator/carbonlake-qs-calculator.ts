@@ -1,22 +1,23 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { App, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { custom_resources as cr } from 'aws-cdk-lib';
 import emission_factors from './emissions_factor_model_2022-04-26.json';
 import * as path from 'path';
+import { Construct } from 'constructs';
 
 const DDB_BATCH_WRITE_ITEM_CHUNK_SIZE = 25;
 
-export interface CarbonlakeQuickstartCalculatorStackProps extends StackProps {
+export interface CarbonlakeQuickstartCalculatorStackProps extends NestedStackProps {
     transformedBucket: s3.Bucket;
     enrichedBucket: s3.Bucket;
 }
 
-export class CarbonlakeQuickstartCalculatorStack extends Stack {
+export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
     public readonly calculatorOutputTable: dynamodb.Table;
 
-    constructor(scope: App, id: string, props: CarbonlakeQuickstartCalculatorStackProps) {
+    constructor(scope: Construct, id: string, props: CarbonlakeQuickstartCalculatorStackProps) {
         super(scope, id, props);
 
         const emissionsFactorReferenceTable = new dynamodb.Table(this, "carbonLakeEmissionsFactorReferenceTable", {
