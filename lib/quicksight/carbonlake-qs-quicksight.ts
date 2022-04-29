@@ -7,7 +7,7 @@ export class CarbonlakeQuicksightStack extends cdk.Stack {
     super(scope, id, props);
 
     const template = new cfninc.CfnInclude(this, 'Template', { 
-      templateFile: 'carbonlake-quicksight-cloudformation.myl',
+      templateFile: 'carbonlake-quicksight-cloudformation.yaml',
     });
   }
 }
