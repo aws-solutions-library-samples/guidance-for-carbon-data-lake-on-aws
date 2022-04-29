@@ -1,0 +1,52 @@
+{
+  "name": "bob-ross",
+  "description": "Prototyping tool that gives designers access to Polaris React components.",
+  "private": true,
+  "author": "AWS-UI",
+  "version": "0.0.1",
+  "repository": "",
+  "homepage": "./",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@amzn/awsui-collection-hooks": "file:packages/@amzn/amzn-awsui-collection-hooks-1.0.0.tgz",
+    "@amzn/awsui-components-react": "file:packages/@amzn/amzn-awsui-components-react-3.0.0.tgz",
+    "@amzn/awsui-design-tokens": "file:packages/@amzn/amzn-awsui-design-tokens-3.0.0.tgz",
+    "@amzn/awsui-global-styles": "file:packages/@amzn/amzn-awsui-global-styles-1.0.0.tgz",
+    "@amzn/awsui-test-utils-core": "file:packages/@amzn/amzn-awsui-test-utils-core-1.0.0.tgz",
+    "@amzn/awsui-theming-runtime": "file:packages/@amzn/amzn-awsui-theming-runtime-1.0.0.tgz",
+    "@awsui/collection-hooks": "^1.0.25",
+    "@awsui/components-react": "^3.0.490",
+    "@awsui/design-tokens": "^3.0.21",
+    "@awsui/global-styles": "^1.0.14",
+    "@awsui/test-utils-core": "^1.0.17",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "sass": "^1.32.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.1.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "1.15.3",
+    "vite": "^2.7.13"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
