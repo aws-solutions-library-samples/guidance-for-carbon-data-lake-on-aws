@@ -14,6 +14,7 @@ import Dashboard from './Dashboard.jsx';
 import AboutCarbonLake from './AboutCarbonLake.jsx';
 import CarbonLakeUploader from './CarbonLakeUploader.jsx';
 import AccountSettings from './AccountSettings.jsx';
+import Visualizations from './Visualizations.jsx';
 import Basic from './BasicLayout.jsx';
 import ServiceHomepage from './ServiceHomepage.jsx';
 import CreateForm from './CreateForm.jsx';
@@ -36,6 +37,7 @@ export default class App extends React.Component {
         <Route exact path="/how-to-use-carbonlake-app" component={AboutCarbonLake} />
         <Route exact path="/carbonlake-uploader" component={CarbonLakeUploader} />
         <Route exact path="/account-settings" component={AccountSettings} />
+        <Route exact path="/visualizations" component={Visualizations} />
         <Route path="/basic" component={Basic} />
         <Route path="/service-home" component={ServiceHomepage} />
         <Route path="/create" component={CreateForm} />

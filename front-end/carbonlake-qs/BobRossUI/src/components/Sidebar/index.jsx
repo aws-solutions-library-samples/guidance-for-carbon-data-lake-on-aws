@@ -40,7 +40,7 @@ const Sidebar = () => {
         items: [
           { type: 'link', text: 'CarbonLakeUploader', href: '#/carbonlake-uploader' },
           { type: 'link', text: 'Emission Records', href: '#/emission-records' },
-          { type: 'link', text: 'Visualizations', href: '#/basic' },
+          { type: 'link', text: 'Visualizations', href: '#/visualizations' },
         ]
       },
       {
@@ -48,12 +48,12 @@ const Sidebar = () => {
         text: 'Data Quality',
         expanded: true,
         items: [
-          { type: 'link', text: 'Upload Model', href: '#/' },
-          { type: 'link', text: 'Metrics', href: '#/basic' },
-          { type: 'link', text: 'DQ Escalations', href: '#/basic' },
+          { type: 'link', text: 'Upload Model', href: '#/upload-model' },
+          { type: 'link', text: 'Metrics', href: '#/metrics' },
+          { type: 'link', text: 'DQ Escalations', href: '#/dq-escalations' },
         ]
       },
-      { type: "link", text: "Logout", href: "#/" },
+      // { type: "link", text: "Logout", href: "#/" },
 
     ]}
     // activeHref="#/how-to-use-carbonlake-app"
