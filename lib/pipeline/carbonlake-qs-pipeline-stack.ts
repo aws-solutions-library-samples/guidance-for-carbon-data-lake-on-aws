@@ -5,7 +5,6 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
-import { CarbonLakeAnalyticsPipelineStack } from './analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {

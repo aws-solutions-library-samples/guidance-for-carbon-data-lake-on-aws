@@ -1,15 +1,17 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
-interface CarbonLakeAnalyticsPipelineStackProps extends StackProps {
+interface CarbonLakeDataCompactionGlueJobsStackProps extends NestedStackProps {
   enrichedBucket: cdk.aws_s3.Bucket;
 }
 
+export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
+  public readonly glueCompactionJob: cdk.aws_glue.CfnJob;
+  public readonly glueDataFlushJob: cdk.aws_glue.CfnJob;
 
-export class CarbonLakeAnalyticsPipelineStack extends Stack {
-    constructor(scope: Construct, id: string, props: CarbonLakeAnalyticsPipelineStackProps) {
+    constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionGlueJobsStackProps) {
         super(scope, id, props);
 
         // Create new S3 bucket to store glue script
@@ -41,7 +43,7 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
         });
         const gluePolicy = cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSGlueServiceRole");
 
-        // Create IAM Role to be assuemd by Glue
+        // Create IAM Role to be assumed by Glue
         const role = new cdk.aws_iam.Role(this, 'carbonlake-glue-transform-role', {
           assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
           description: 'IAM role to be assumed by Glue transformation job',
@@ -53,8 +55,8 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
         role.addManagedPolicy(gluePolicy);
 
         // create glue python shell script for purging old calculator records
-        const gluePurgeOldCalculatorRecordsJobName = 'glue-purge-old-calculator-records';
-        new cdk.aws_glue.CfnJob(this, gluePurgeOldCalculatorRecordsJobName, {
+        const gluePurgeOldCalculatorRecordsJobName = 'glue-remove-old-calculator-records';
+        this.glueDataFlushJob = new cdk.aws_glue.CfnJob(this, gluePurgeOldCalculatorRecordsJobName, {
             name: gluePurgeOldCalculatorRecordsJobName,
             role: role.roleArn,
             command: {
@@ -77,9 +79,9 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
           });
 
         // create glue ETL script to process compact calculator output data and save to S3
-        const glueCompactCalculatorRecordsJobName = 'glue-compact-calculator-records';
+        const glueCompactCalculatorRecordsJobName = 'glue-compact-daily-calculator-records';
         
-        new cdk.aws_glue.CfnJob(this, glueCompactCalculatorRecordsJobName, {
+        this.glueCompactionJob = new cdk.aws_glue.CfnJob(this, glueCompactCalculatorRecordsJobName, {
           name: glueCompactCalculatorRecordsJobName,
           role: role.roleArn,
           command: {
@@ -109,7 +111,7 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
 
         // Deploy glue job to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/analytics/analytics-pipeline/assets')],
+          sources: [cdk.aws_s3_deployment.Source.asset('./lib/data-compaction-pipeline/glue/assets')],
           destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
