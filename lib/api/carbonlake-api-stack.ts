@@ -3,10 +3,11 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from '@aws-cdk/aws-appsync-alpha';
 import { CfnOutput } from 'aws-cdk-lib';
-import { IUserPool, IUserPoolClient, UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
+import { CfnUserPoolUser, IUserPool, IUserPoolClient, UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 
 export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
+    adminEmail: string;
 }
 
 export class CarbonLakeQuickStartApiStack extends cdk.Stack {
@@ -14,6 +15,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
     public readonly apiId: string;
     public readonly userPool: IUserPool;
     public readonly userPoolClient: IUserPoolClient;
+    public readonly adminUser: CfnUserPoolUser;
 
     constructor(scope: Construct, id: string, props: CarbonLakeQuickStartApiStackProps) {
         super(scope, id, props);
@@ -30,11 +32,23 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             generateSecret: false
         });
 
+        const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartAdminUser', {
+            userPoolId: userPool.userPoolId,
+            desiredDeliveryMediums: ['EMAIL'],
+            userAttributes: [{
+              name: 'email',
+              value: props.adminEmail
+            }],
+            username: props.adminEmail
+          });
+
         // Set the public variables so other stacks can access the deployed userPoolId & userPoolClientId as well as set as CloudFormation output variables
         this.userPool = userPool;
         new CfnOutput(this, 'userPoolId', {value: userPool.userPoolId});
         this.userPoolClient = userPoolClient;
         new CfnOutput(this, 'userPoolClientId', {value: userPoolClient.userPoolClientId});
+        this.adminUser = adminUser;
+        new CfnOutput(this, 'adminUser', {value: adminUser.username ?? ''});
 
         // Create the GraphQL api and provide the schema.graphql file
         const api = new GraphqlApi(this, 'CarbonLakeApi', {

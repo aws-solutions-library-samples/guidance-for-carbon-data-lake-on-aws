@@ -5,10 +5,18 @@ import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipe
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
+import { CfnOutput } from 'aws-cdk-lib';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const adminEmail = this.node.tryGetContext('adminEmail');
+    if (!adminEmail) {
+      console.error('You must provide a valid admin email address via --context adminEmail=value');
+      process.exit(1);
+    }
+    new CfnOutput(this, 'adminEmail', {value: adminEmail});
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
@@ -34,7 +42,8 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS7 --> Create the carbonlake web stack
     const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {
-      calculatorOutputTableRef: calculator.calculatorOutputTable
+      calculatorOutputTableRef: calculator.calculatorOutputTable,
+      adminEmail: adminEmail
     });
 
     // QS8 --> Create the carbonlake forecast stack
