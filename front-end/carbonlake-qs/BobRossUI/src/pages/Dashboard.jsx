@@ -1,15 +1,7 @@
-/************************************************************************
-                            DISCLAIMER
-
-This is just a playground package. It does not comply with best practices
-of using AWS-UI components. For production code, follow the integration
-guidelines:
-
-https://polaris.a2z.com/develop/integration/react/
-************************************************************************/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import TopNavigationHeader from '../components/TopNavigationHeader';
 // import { Sidebar } from '../components/Navigation/Sidebar'
 import {
   AppLayout,
@@ -31,12 +23,19 @@ import '../styles/servicehomepage.scss';
 
 const Dashboard = () => {
   return (
+    <>
     <AppLayout
     navigation={<Sidebar />}
     content={<Content />}
     tools={<Tools />}
+    headerSelector='#h'
     disableContentPaddings={true}
+    // toolsHide={true}
   />
+  <TopNavigationHeader>
+
+</TopNavigationHeader><Sidebar />
+</>
   )
 }
 
@@ -52,8 +51,10 @@ export default Dashboard;
 //   );
 // }
 
-const Content = () => (
-  <div>
+const Content = () => {
+  return (
+
+<div>
     <TextContent>
       <div>
         <Grid className="custom-home__header" disableGutters={true}>
@@ -71,7 +72,7 @@ const Content = () => (
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
                   AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
-                  Click here - (make this a link later) to learn more.
+                  Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more.
                 </span>
               </Box>
             </div>
@@ -87,12 +88,14 @@ const Content = () => (
               <div>
                 <ol>
                   <li>
-                    Open this Bob Ross project in your favorite code editor or IDE, and take a look at the file
-                    structure.
+                      Navigate to the "CarbonLake Uploader" page and browse for your file.
                     <br />
-                    <img src="./images/project_open_code.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/project_open_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
+                    This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
+                    The file will be validated to ensure it conforms to our schema, and if successful will continue down the pipeline.
+                    Once finished, the file will be visible in the "Visualizations" (make this a link later) page.
                     Currently, you are viewing this page on your localhost as <a>localhost:3000/#/</a> because it is
                     routed as the 'default' page. All of the included templates are already routed and included in the
                     side navigation you see in the left panel of this page. The urls are defined in{' '}
@@ -101,30 +104,30 @@ const Content = () => (
                     <a href="https://reacttraining.com/react-router/web/api/HashRouter">here</a>
                     .
                     <br />
-                    <img
+                    {/* <img
                       src="./images/bob_ross_intro_web.png"
                       className="intro-screenshot intro-code-screenshot"
                       alt="screenshot"
-                    />
-                    <img src="./images/bob_ross_intro_code.png" className="intro-screenshot" alt="screenshot" />
+                    /> */}
+                    {/* <img src="./images/bob_ross_intro_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
                     Try viewing the service homepage template page (below) by adding "<strong>service-home</strong>" to
                     the end of the url in your browser: <Link to="service-home">localhost:3000/#/service-home</Link>.
                     When you hit enter you should be redirected to a new page showing the service homepage template.
                     <br />
-                    <img
+                    {/* <img
                       src="./images/service_homepage_web.png"
                       className="intro-screenshot intro-code-screenshot"
                       alt="screenshot"
-                    />
+                    /> */}
                   </li>
                   <li>
                     Edit the service homepage template in the <code>ServiceHomepage.jsx</code> file.
                     <br />
                     Save your work to see the results on this page.
                     <br />
-                    <img src="./images/service_homepage_file.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/service_homepage_file.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                 </ol>
               </div>
@@ -155,7 +158,7 @@ const Content = () => (
                       </a>{' '}
                       and breadcrumb components.
                     </li>
-                    <img src="./images/basic_app_layout.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/basic_app_layout.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/service-home">Service homepage</Link>
@@ -173,7 +176,7 @@ const Content = () => (
                       containing components such as: Box, Select, Container, Header, and layout elements like Column
                       layout, Grid, and SpaceBetween.
                     </li>
-                    <img src="./images/service_homepage_web.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/service_homepage_web.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/create">Single page create</Link>
@@ -194,7 +197,7 @@ const Content = () => (
                       Form field, Input, Multi-select, Radio group, Select, Textarea, Tiles, Header, SpaceBetween,
                       Container, Box and more.
                     </li>
-                    <img src="./images/create_form.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/create_form.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/table">Table view</Link>
@@ -212,7 +215,7 @@ const Content = () => (
                       selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
                       more.
                     </li>
-                    <img src="./images/table.png" className="intro-screenshot" alt="screenshot" />
+                    {/* <img src="./images/table.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                 </ol>
               </div>
@@ -222,10 +225,15 @@ const Content = () => (
       </Box>
     </TextContent>
   </div>
-);
 
 
-<Sidebar />
+
+  )
+
+
+}
+
+
 
 // const Sidebar = () => {
 //   return (
@@ -264,3 +272,22 @@ const Tools = () => (
   //   <p>Help content goes here</p>
   // </HelpPanel>
 );
+
+
+
+// import React from 'react';
+// import AppLayout from '@awsui/components-react/app-layout';
+// import TopNavigation from '@awsui/components-react/top-navigation';
+
+// const i18nStrings = {
+//   overflowMenuTriggerText: 'More',
+// };
+
+// export default () => (
+//   <body>
+//     <div id="h" style={{ position: 'sticky', top: 0, zIndex: 1002 }}>
+//       <TopNavigation identity={{ href: '#' }} i18nStrings={i18nStrings} />
+//     </div>
+//     <AppLayout content="Your main content" headerSelector="#h" />
+//   </body>
+// );

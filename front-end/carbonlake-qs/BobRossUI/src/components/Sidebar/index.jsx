@@ -82,7 +82,7 @@ const Sidebar = () => {
         text: 'Carbon Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'Upload', href: '#/' },
+          { type: 'link', text: 'CarbonLakeUploader', href: '#/' },
           { type: 'link', text: 'Visualizations', href: '#/basic' },
         ]
       },
@@ -96,6 +96,7 @@ const Sidebar = () => {
           { type: 'link', text: 'DQ Escalations', href: '#/basic' },
         ]
       },
+      { type: "link", text: "Logout", href: "#/" },
 
     ]}
     activeHref="#/"

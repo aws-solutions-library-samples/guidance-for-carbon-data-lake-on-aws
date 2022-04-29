@@ -35,6 +35,10 @@ export default class App extends React.Component {
         <Route path="/create" component={CreateForm} />
         <Route path="/table" component={TableView} />
         <Route path="/table-empty" component={EmptyTableView} />
+        <Route path='/about-carbonlake' component={() => {
+            window.location.href = 'https://aws.amazon.com';
+          return null;
+        }}/>
       </div>
     );
   }
