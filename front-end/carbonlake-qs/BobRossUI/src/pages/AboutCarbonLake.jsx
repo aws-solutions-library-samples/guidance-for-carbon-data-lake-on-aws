@@ -22,7 +22,7 @@ import '../styles/servicehomepage.scss';
 // This is not meant to be a template, rather it is the
 // introduction page that you see upon loading the webserver.
 
-const Dashboard = () => {
+const AboutCarbonLake = () => {
   return (
     <>
     <AppLayout
@@ -40,8 +40,17 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
-
+export default AboutCarbonLake;
+// export default function AboutCarbonLake() {
+//   return (
+//     <AppLayout
+//       navigation={<Sidebar />}
+//       content={<Content />}
+//       tools={<Tools />}
+//       disableContentPaddings={true}
+//     />
+//   );
+// }
 
 const Content = () => {
   return (
@@ -59,11 +68,12 @@ const Content = () => {
                 AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-                Dashboard
+                Helping your business revitalize your carbon accounting.
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                  Gain quick insight into your top-priority items.
+                  AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
+                  Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more.
                 </span>
               </Box>
             </div>
@@ -71,8 +81,7 @@ const Content = () => {
         </Grid>
       </div>
 
-{/* Start How it works section */}
-      {/* <Box margin="xxl" padding="l">
+      <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
             <h1>How it works</h1>
@@ -82,6 +91,7 @@ const Content = () => {
                   <li>
                       Navigate to the "CarbonLake Uploader" page and browse for your file.
                     <br />
+                    {/* <img src="./images/project_open_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
                     This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
@@ -95,18 +105,30 @@ const Content = () => {
                     <a href="https://reacttraining.com/react-router/web/api/HashRouter">here</a>
                     .
                     <br />
+                    {/* <img
+                      src="./images/bob_ross_intro_web.png"
+                      className="intro-screenshot intro-code-screenshot"
+                      alt="screenshot"
+                    /> */}
+                    {/* <img src="./images/bob_ross_intro_code.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                   <li>
                     Try viewing the service homepage template page (below) by adding "<strong>service-home</strong>" to
                     the end of the url in your browser: <Link to="service-home">localhost:3000/#/service-home</Link>.
                     When you hit enter you should be redirected to a new page showing the service homepage template.
                     <br />
+                    {/* <img
+                      src="./images/service_homepage_web.png"
+                      className="intro-screenshot intro-code-screenshot"
+                      alt="screenshot"
+                    /> */}
                   </li>
                   <li>
                     Edit the service homepage template in the <code>ServiceHomepage.jsx</code> file.
                     <br />
                     Save your work to see the results on this page.
                     <br />
+                    {/* <img src="./images/service_homepage_file.png" className="intro-screenshot" alt="screenshot" /> */}
                   </li>
                 </ol>
               </div>
@@ -137,6 +159,7 @@ const Content = () => {
                       </a>{' '}
                       and breadcrumb components.
                     </li>
+                    {/* <img src="./images/basic_app_layout.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/service-home">Service homepage</Link>
@@ -154,6 +177,7 @@ const Content = () => {
                       containing components such as: Box, Select, Container, Header, and layout elements like Column
                       layout, Grid, and SpaceBetween.
                     </li>
+                    {/* <img src="./images/service_homepage_web.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/create">Single page create</Link>
@@ -174,6 +198,7 @@ const Content = () => {
                       Form field, Input, Multi-select, Radio group, Select, Textarea, Tiles, Header, SpaceBetween,
                       Container, Box and more.
                     </li>
+                    {/* <img src="./images/create_form.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                   <li>
                     <Link to="/table">Table view</Link>
@@ -191,15 +216,14 @@ const Content = () => {
                       selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
                       more.
                     </li>
+                    {/* <img src="./images/table.png" className="intro-screenshot" alt="screenshot" /> */}
                   </ul>
                 </ol>
               </div>
             </Container>
           </div>
         </SpaceBetween>
-      </Box> */}
-
-
+      </Box>
     </TextContent>
   </div>
 

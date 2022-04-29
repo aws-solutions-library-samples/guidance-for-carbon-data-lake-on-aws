@@ -11,10 +11,11 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import BobRossIntro from './BobRossIntro.jsx';
 import Dashboard from './Dashboard.jsx';
+import AboutCarbonLake from './AboutCarbonLake.jsx';
 import Basic from './BasicLayout.jsx';
 import ServiceHomepage from './ServiceHomepage.jsx';
 import CreateForm from './CreateForm.jsx';
-import TableView from './Table.jsx';
+import TableView from './EmissionRecords.jsx';
 import EmptyTableView from './TableWithEmptyState.jsx';
 
 import '@awsui/global-styles/index.css';
@@ -30,13 +31,18 @@ export default class App extends React.Component {
       <div>
         {/* <Route exact path="/" component={BobRossIntro} /> */}
         <Route exact path="/" component={Dashboard} />
+        <Route exact path="/how-to-use-carbonlake-app" component={AboutCarbonLake} />
         <Route path="/basic" component={Basic} />
         <Route path="/service-home" component={ServiceHomepage} />
         <Route path="/create" component={CreateForm} />
-        <Route path="/table" component={TableView} />
+        <Route path="/emission-records" component={TableView} />
         <Route path="/table-empty" component={EmptyTableView} />
         <Route path='/about-carbonlake' component={() => {
             window.location.href = 'https://aws.amazon.com';
+          return null;
+        }}/>
+        <Route path='/submit-issue' component={() => {
+            window.location.href = 'https://github.com';
           return null;
         }}/>
       </div>

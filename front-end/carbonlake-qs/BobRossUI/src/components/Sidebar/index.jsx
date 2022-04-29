@@ -54,7 +54,7 @@ const Sidebar = () => {
         text: 'CarbonLake',
         expanded: true,
         items: [
-          { type: 'link', text: 'How to use the CarbonLake App', href: '#/' },
+          { type: 'link', text: 'How to use the CarbonLake App', href: '#/how-to-use-carbonlake-app' },
         ]
       },
       {
@@ -83,6 +83,7 @@ const Sidebar = () => {
         expanded: true,
         items: [
           { type: 'link', text: 'CarbonLakeUploader', href: '#/' },
+          { type: 'link', text: 'Emission Records', href: '#/emission-records' },
           { type: 'link', text: 'Visualizations', href: '#/basic' },
         ]
       },
@@ -99,7 +100,7 @@ const Sidebar = () => {
       { type: "link", text: "Logout", href: "#/" },
 
     ]}
-    activeHref="#/"
+    // activeHref="#/"
     />
     </>
   )

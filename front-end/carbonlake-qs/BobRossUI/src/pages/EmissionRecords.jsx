@@ -1,14 +1,6 @@
-/************************************************************************
-                            DISCLAIMER
-
-This is just a playground package. It does not comply with best practices
-of using AWS-UI components. For production code, follow the integration
-guidelines:
-
-https://polaris.a2z.com/develop/integration/react/
-************************************************************************/
 import React, { useState, useEffect } from 'react';
 import DataProvider from '../resources/data-provider';
+import Sidebar from '../components/Sidebar';
 import ServiceNavigation from './ServiceNavigation.jsx';
 import {
   COLUMN_DEFINITIONS,
@@ -41,7 +33,7 @@ import { useCollection } from '@amzn/awsui-collection-hooks';
 export default () => {
   return (
     <AppLayout
-      navigation={<ServiceNavigation />} // Navigation panel content imported from './ServiceNavigation.jsx'
+      navigation={<Sidebar />} // Navigation panel content imported from './ServiceNavigation.jsx'
       notifications={<FlashMessage />}
       breadcrumbs={<Breadcrumbs />}
       content={<DetailsTable />}
@@ -155,7 +147,7 @@ const DetailsTable = () => {
         <TextFilter
           {...filterProps}
           countText={filterCounter(filteredItemsCount)}
-          filteringPlaceholder="Search distributions"
+          filteringPlaceholder="Search emission records"
         />
       }
     />
@@ -176,12 +168,12 @@ const TableHeader = ({ selectedDistributions, counter }) => {
           <Button disabled={!isOnlyOneSelected}> Edit</Button>
           <Button disabled={selectedDistributions.length === 0}> Delete</Button>
           <Button href="#/create" variant="primary">
-            Create distribution
+            Upload Emission Record
           </Button>
         </SpaceBetween>
       }
     >
-      Distributions
+      Emission Records
     </Header>
   );
 };
@@ -191,11 +183,11 @@ const Breadcrumbs = () => (
   <BreadcrumbGroup
     items={[
       {
-        text: 'CloudFront',
+        text: 'Carbon Explorer',
         href: '#/service-home'
       },
       {
-        text: 'Distributions',
+        text: 'Emission Records',
         href: '#/table'
       }
     ]}
@@ -218,7 +210,7 @@ const FlashMessage = () => {
 // Help (right) panel content
 const Tools = [
   <HelpPanel
-    header={<h2>Distributions</h2>}
+    header={<h2>Emission Records</h2>}
     footer={
       <div>
         <h3>
