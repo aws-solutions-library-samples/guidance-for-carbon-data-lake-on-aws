@@ -5,10 +5,16 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
+import { CarbonLakeAnalyticsPipelineStack } from './analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
+import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  transformBucket: s3.Bucket
+  transformBucket: s3.Bucket,
+  glueScriptsBucket: s3.Bucket,
+  enrichedBucket: s3.Bucket,
+  rawBucket: s3.Bucket,
+  uniqueDirectory: any
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
@@ -18,7 +24,12 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     /* ======== DATA QUALITY ======== */
 
     /* ======== GLUE TRANSFORM ======== */
-
+    const { glueTransform } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
+      glueScriptsBucket: props?.enrichedBucket,
+      rawBucket: props?.rawBucket,
+      transformedBucket: props?.transformBucket,
+      uniqueDirectory: 'test-unique-identifier'
+    });
     /* ======== CALCULATION ======== */
 
     /* ======== STATEMACHINE ======== */

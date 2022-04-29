@@ -5,7 +5,6 @@ import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipe
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
-import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -24,12 +23,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     
-    const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {
-      glueScriptsBucket: sharedResources.carbonlakeEnrichedBucket,
-      rawBucket: sharedResources.carbonlakeRawBucket,
-      transformedBucket: sharedResources.carbonlakeTransformedBucket,
-      uniqueDirectory: 'test-unique-identifier'
-    });
 
     // QS4 --> Create the carbonlake calculator stack
     const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {

@@ -1,15 +1,15 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
-interface CarbonLakeAnalyticsPipelineStackProps extends NestedStackProps {
+interface CarbonLakeAnalyticsPipelineStackProps extends StackProps {
   glueScriptsBucket: cdk.aws_s3.Bucket;
   enrichedBucket: cdk.aws_s3.Bucket;
 }
 
 
-export class CarbonLakeAnalyticsPipelineStack extends NestedStack {
+export class CarbonLakeAnalyticsPipelineStack extends Stack {
     constructor(scope: Construct, id: string, props: CarbonLakeAnalyticsPipelineStackProps) {
         super(scope, id, props);
 
