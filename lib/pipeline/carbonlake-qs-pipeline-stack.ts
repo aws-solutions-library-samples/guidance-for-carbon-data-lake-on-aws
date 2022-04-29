@@ -5,10 +5,14 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
+import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  transformBucket: s3.Bucket
+  transformBucket: s3.Bucket,
+  enrichedBucket: s3.Bucket,
+  rawBucket: s3.Bucket,
+  uniqueDirectory: any
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
@@ -18,7 +22,12 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     /* ======== DATA QUALITY ======== */
 
     /* ======== GLUE TRANSFORM ======== */
-
+    // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
+    const { glueTransformJob } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
+      rawBucket: props?.rawBucket,
+      transformedBucket: props?.transformBucket,
+      uniqueDirectory: props?.uniqueDirectory
+    });
     /* ======== CALCULATION ======== */
 
     /* ======== STATEMACHINE ======== */
@@ -31,7 +40,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dataQualityJob: null,
-      glueTransformJob: null,
+      glueTransformJob: glueTransformJob,
       calculationJob: null
     });
 
