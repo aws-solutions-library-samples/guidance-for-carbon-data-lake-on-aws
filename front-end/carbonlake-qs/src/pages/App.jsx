@@ -34,7 +34,8 @@ export default class App extends React.Component {
 
       <div>
         {/* <Route exact path="/" component={BobRossIntro} /> */}
-        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={CarbonLake101} />
+        {/* <Route exact path="/" component={Dashboard} /> */}
         <Route exact path="/carbonlake-101" component={CarbonLake101} />
         <Route exact path="/setup-guide" component={SetupGuide} />
         <Route exact path="/data-uploader" component={DataUploader} />
