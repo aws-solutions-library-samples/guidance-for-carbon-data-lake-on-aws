@@ -19,7 +19,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // QS3 --> Create the carbonlake data pipeline stack
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
     const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(scope, "CarbonLakeAnalyticsPipelineStack", {
-      glueScriptsBucket: sharedResources.carbonlakeEnrichedBucket, //change to correct bucket 
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     
@@ -47,7 +46,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       transformBucket: sharedResources.carbonlakeTransformedBucket,
-      dataLineageFunction: dataLineage.inputFunction
+      dataLineageFunction: dataLineage.inputFunction,
+      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+      rawBucket: sharedResources.carbonlakeRawBucket,
+      uniqueDirectory: 'test-unique-directory'
     });
     
   }

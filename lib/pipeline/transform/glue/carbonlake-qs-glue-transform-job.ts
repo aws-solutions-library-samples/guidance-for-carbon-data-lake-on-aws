@@ -4,23 +4,29 @@ import { Construct } from 'constructs';
 
 
 interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
-  glueScriptsBucket: cdk.aws_s3.Bucket;
   rawBucket: cdk.aws_s3.Bucket;
   transformedBucket: cdk.aws_s3.Bucket;
   uniqueDirectory: any
 }
 
 export class CarbonLakeGlueTransformationStack extends NestedStack {
+
     constructor(scope: Construct, id: string, props: CarbonLakeGlueTransformationStackProps) {
         super(scope, id, props);
+
+        // Create new S3 bucket to store glue script
+          const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueTransformationScriptsBucket', {
+            blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
+        });
+
 
         // Create IAM policy for Glue to assume
         const glueTransformS3Policy = new cdk.aws_iam.PolicyDocument({
           statements: [
             new cdk.aws_iam.PolicyStatement({
               resources: [
-                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}`,
-                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}/*`,
+                `arn:aws:s3:::${glueScriptsBucket.bucketName}`,
+                `arn:aws:s3:::${glueScriptsBucket.bucketName}/*`,
                 `arn:aws:s3:::${props.rawBucket.bucketName}`,
                 `arn:aws:s3:::${props.rawBucket.bucketName}/*`,
                 `arn:aws:s3:::${props.transformedBucket.bucketName}`,
@@ -59,14 +65,14 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
             command: {
               name: "glueetl",
               pythonVersion: "3",
-              scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-split-csv-into-json.py',
+              scriptLocation: 's3://' + glueScriptsBucket.bucketName + '/Scripts/glue-split-csv-into-json.py',
             },
             defaultArguments: { 
               '--job-bookmark-option': 'job-bookmark-enable',
               '--enable-job-insights': 'true',
               "--job-language": "python",
-              "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
-              "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
+              "--TempDir": "s3://" + glueScriptsBucket.bucketName + "/output/temp/",
+              "--spark-event-logs-path": "s3://" + glueScriptsBucket.bucketName + "/output/logs/",    
               "--enable-metrics": "",
               "--enable-continuous-cloudwatch-log": "true",
               '--UNIQUE_DIRECTORY': props.uniqueDirectory,
@@ -82,11 +88,11 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
               maxConcurrentRuns: 100
             }
           });
-      
+
         // Deploy glue job to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
           sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/transform/glue/assets')],
-          destinationBucket: props.glueScriptsBucket,
+          destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
 

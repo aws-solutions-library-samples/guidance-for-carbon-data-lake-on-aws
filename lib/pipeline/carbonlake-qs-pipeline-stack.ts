@@ -11,7 +11,6 @@ import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-q
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
   transformBucket: s3.Bucket,
-  glueScriptsBucket: s3.Bucket,
   enrichedBucket: s3.Bucket,
   rawBucket: s3.Bucket,
   uniqueDirectory: any
@@ -24,11 +23,11 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     /* ======== DATA QUALITY ======== */
 
     /* ======== GLUE TRANSFORM ======== */
-    const { glueTransform } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
-      glueScriptsBucket: props?.enrichedBucket,
+    // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
+    const glueTransformationStack = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
       transformedBucket: props?.transformBucket,
-      uniqueDirectory: 'test-unique-identifier'
+      uniqueDirectory: props?.uniqueDirectory
     });
     /* ======== CALCULATION ======== */
 

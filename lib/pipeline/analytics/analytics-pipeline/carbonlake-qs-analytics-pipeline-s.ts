@@ -4,7 +4,6 @@ import { Construct } from 'constructs';
 
 
 interface CarbonLakeAnalyticsPipelineStackProps extends StackProps {
-  glueScriptsBucket: cdk.aws_s3.Bucket;
   enrichedBucket: cdk.aws_s3.Bucket;
 }
 
@@ -13,16 +12,18 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
     constructor(scope: Construct, id: string, props: CarbonLakeAnalyticsPipelineStackProps) {
         super(scope, id, props);
 
-        // get bucket names
-
+        // Create new S3 bucket to store glue script
+        const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueCompactionJobScriptsBucket', {
+          blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
+        });
 
         // Create IAM policy for Glue to assume
         const glueCompactionJobS3Policy = new cdk.aws_iam.PolicyDocument({
           statements: [
             new cdk.aws_iam.PolicyStatement({
               resources: [
-                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}`,
-                `arn:aws:s3:::${props.glueScriptsBucket.bucketName}/*`,
+                `arn:aws:s3:::${glueScriptsBucket.bucketName}`,
+                `arn:aws:s3:::${glueScriptsBucket.bucketName}/*`,
                 `arn:aws:s3:::${props.enrichedBucket.bucketName}`,
                 `arn:aws:s3:::${props.enrichedBucket.bucketName}/*`
               ],
@@ -59,14 +60,14 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
             command: {
               name: 'pythonshell',
               pythonVersion: '3',
-              scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-purge-old-calculator-records.py'
+              scriptLocation: 's3://' + glueScriptsBucket.bucketName + '/Scripts/glue-purge-old-calculator-records.py'
             },
             defaultArguments: { 
               '--ENRICHED_BUCKET_NAME': props.enrichedBucket.bucketName,
               '--enable-job-insights': 'true',
               "--job-language": "python", 
-              "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
-              "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
+              "--TempDir": "s3://" + glueScriptsBucket.bucketName + "/output/temp/",
+              "--spark-event-logs-path": "s3://" + glueScriptsBucket.bucketName + "/output/logs/",    
               "--enable-metrics": "",
               "--enable-continuous-cloudwatch-log": "true"
             },
@@ -84,14 +85,14 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
           command: {
             name: "glueetl",
             pythonVersion: "3",
-            scriptLocation: 's3://' + props.glueScriptsBucket.bucketName + '/Scripts/glue-compact-calculator-records.py',
+            scriptLocation: 's3://' + glueScriptsBucket.bucketName + '/Scripts/glue-compact-calculator-records.py',
           },
           defaultArguments: { 
             '--job-bookmark-option': 'job-bookmark-enable',
             '--enable-job-insights': 'true',
             "--job-language": "python",
-            "--TempDir": "s3://" + props.glueScriptsBucket.bucketName + "/output/temp/",
-            "--spark-event-logs-path": "s3://" + props.glueScriptsBucket.bucketName + "/output/logs/",    
+            "--TempDir": "s3://" + glueScriptsBucket.bucketName + "/output/temp/",
+            "--spark-event-logs-path": "s3://" + glueScriptsBucket.bucketName + "/output/logs/",    
             "--enable-metrics": "",
             "--enable-continuous-cloudwatch-log": "true",
             '--ENRICHED_BUCKET_NAME': props.enrichedBucket.bucketName
@@ -107,12 +108,10 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
         });
 
         // Deploy glue job to S3 bucket
-        // TODO: move into a shared location
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/analytics/analytics-pipeline/assets')],
-          destinationBucket: props.glueScriptsBucket,
+          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/transform/glue/assets')],
+          destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
-
     }
 }
