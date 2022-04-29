@@ -3,13 +3,7 @@ import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
-<<<<<<< HEAD
-import { CarbonLakeAnalyticsPipelineStack } from './pipeline/analytics/analytics-pipeline/carbonlake-qs-analytics-pipeline-s';
-import { CarbonLakeGlueTransformationStack } from './pipeline/transform/glue/carbonlake-qs-glue-transform-job';
-import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
-=======
 import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
->>>>>>> qsv1-dev
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
