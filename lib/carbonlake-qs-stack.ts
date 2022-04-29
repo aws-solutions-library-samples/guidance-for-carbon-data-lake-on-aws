@@ -33,7 +33,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     
 
     // QS5 --> Create the carbonlake quicksight stack
-    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
+  const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack");
 
     // QS7 --> Create the carbonlake web stack
     const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {
