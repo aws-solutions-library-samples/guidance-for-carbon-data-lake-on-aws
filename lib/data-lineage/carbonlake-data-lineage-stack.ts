@@ -1,4 +1,4 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { App, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
@@ -21,6 +21,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     const table = new dynamodb.Table(this, "carbonlakeDataLineageTable", {
       partitionKey: { name: "root_id", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "child_id", type: dynamodb.AttributeType.STRING },
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     // GSI to allow querying by specific child node in data lineage tree

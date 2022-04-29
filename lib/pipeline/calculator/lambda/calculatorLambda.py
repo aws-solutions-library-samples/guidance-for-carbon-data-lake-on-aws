@@ -4,6 +4,7 @@ import json
 import boto3
 from enum import Enum
 from urllib.parse import urljoin, urlparse
+from decimal import Decimal
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
@@ -11,6 +12,7 @@ LOGGER.setLevel(logging.INFO)
 EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
 INPUT_S3_BUCKET_NAME = os.environ.get('TRANSFORMED_BUCKET_NAME')
 OUTPUT_S3_BUCKET_NAME = os.environ.get('ENRICHED_BUCKET_NAME')
+OUTPUT_DYNAMODB_TABLE_NAME = os.environ.get('CALCULATOR_OUTPUT_TABLE_NAME')
 
 # Versions of the IPPC Report used for CO2e calculation
 class IPCC_AR(Enum):
@@ -127,9 +129,9 @@ def append_emissions_output(activity_event):
     activity_event.update(emissions_output)
     return activity_event
 
-def read_events_from_s3(bucketname, object_key):
+def read_events_from_s3(object_key):
     # Read activity_events object
-    obj = s3.Object(bucketname, object_key)
+    obj = s3.Object(INPUT_S3_BUCKET_NAME, object_key)
     activity_events_string = obj.get()['Body'].read().decode('utf-8')
     # split into individual activity_events
     activity_events = [json.loads(jline) for jline in activity_events_string.splitlines()]
@@ -137,35 +139,46 @@ def read_events_from_s3(bucketname, object_key):
 
 '''
 Input:
-    bucketname:
     object_key:
-    activity_events: dict
+    activity_events: list
+Output: object_key
 '''
-def save_enriched_events_to_s3(bucketname, object_key, activity_events):
+def save_enriched_events_to_s3(object_key, activity_events):
     # generate the payload as string
     body = "\n".join(map(json.dumps, activity_events))
     LOGGER.info('output body: %s', "\n"+body)
     # Write to S3
     output_object_key = "today/"+object_key
-    obj = s3.Object(bucketname, output_object_key)
+    obj = s3.Object(OUTPUT_S3_BUCKET_NAME, output_object_key)
     obj.put(Body=body)
     # Return s3 URL
-    return "s3://"+bucketname+"/"+output_object_key
+    return "s3://"+OUTPUT_S3_BUCKET_NAME+"/"+output_object_key
+
+def save_enriched_events_to_dynamodb(activity_events):
+    table = dynamodb.Table(OUTPUT_DYNAMODB_TABLE_NAME)
+    LOGGER.info('Saving %s activity_events in DynamoDB', len(activity_events))
+    with table.batch_writer() as batch:
+        for activity_event in activity_events:
+            # DynamoDB expects decimals instead of floats
+            activity_event_with_decimal = json.loads(json.dumps(activity_event), parse_float=Decimal)
+            batch.put_item(Item=activity_event_with_decimal)
 
 '''
-Input: {'location': 'calculator_input_example.jsonl'}
-Output: {'location': 'today/calculator_output_example.jsonl'}
+Input: {"location": "calculator_input_example.jsonl"}
+Output: {"location": "today/calculator_output_example.jsonl"}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
     # Load input activity_events
     object_key = urlparse(event['location'], allow_fragments=False).path
-    activity_events = read_events_from_s3(INPUT_S3_BUCKET_NAME, object_key)
+    activity_events = read_events_from_s3(object_key)
     LOGGER.info('activity_events: %s', activity_events)
     # Enrich activity_events with calculated emissions
-    activity_events_with_emissions = map(append_emissions_output, activity_events)
+    activity_events_with_emissions = list(map(append_emissions_output, activity_events))
     # Save enriched activity_events to S3
-    output_object_url = save_enriched_events_to_s3(OUTPUT_S3_BUCKET_NAME, object_key, activity_events_with_emissions)
+    output_object_url = save_enriched_events_to_s3(object_key, activity_events_with_emissions)
+    # Save enriched activity_events to DynamoDB
+    save_enriched_events_to_dynamodb(activity_events_with_emissions)
     return {
         'statusCode': 200,
         'headers': {

@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -18,6 +18,8 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
         // Create new S3 bucket to store glue script
           const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueTransformationScriptsBucket', {
             blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
+            removalPolicy: RemovalPolicy.DESTROY,
+            autoDeleteObjects: true,
         });
 
 
