@@ -1,12 +1,3 @@
-/************************************************************************
-                            DISCLAIMER
-
-This is just a playground package. It does not comply with best practices
-of using AWS-UI components. For production code, follow the integration
-guidelines:
-
-  https://polaris.a2z.com/develop/integration/react/
-************************************************************************/
 import React from 'react';
 import DataProvider from '../resources/data-provider';
 import ServiceNavigation from './ServiceNavigation.jsx';
