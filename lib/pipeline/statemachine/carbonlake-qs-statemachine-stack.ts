@@ -26,12 +26,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const sfnFailure = new sfn.Fail(this, 'Failure');
 
     // Data Lineage Request - 0 - RAW_DATA_INPUT
-    const dataLineageTask0 = new tasks.LambdaInvoke(this, 'DL: RAW_DATA_INPUT', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: this.getCommonDataLineageParameters("RAW_DATA_INPUT"),
-      resultPath: '$.data_lineage',
-    });
+    const dataLineageTask0 = this.buildDataLineageSFNTask(props.dataLineageFunction, "RAW_DATA_INPUT");
 
     // Data Quality Check
     const dataQualityTask = new sfn.Pass(this, 'LAMBDA: Data Quality Check', {
@@ -44,20 +39,10 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataQualityChoice = new sfn.Choice(this, 'CHOICE: Data Quality Passed?')
 
     // Data Lineage Request - 1_1 - DQ_CHECK_PASS
-    const dataLineageTask1_1 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_PASS', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: this.getCommonDataLineageParameters("DQ_CHECK_PASS"),
-      resultPath: '$.data_lineage',
-    });
+    const dataLineageTask1_1 = this.buildDataLineageSFNTask(props.dataLineageFunction, "DQ_CHECK_PASS");
 
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
-    const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'DL: DQ_CHECK_FAIL', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: this.getCommonDataLineageParameters("DQ_CHECK_FAIL"),
-      resultPath: '$.data_lineage',
-    });
+    const dataLineageTask1_2 = this.buildDataLineageSFNTask(props.dataLineageFunction, "DQ_CHECK_FAIL");
 
     // Human-in-the-loop approval step - invoked on data quality check fail
     const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
@@ -85,12 +70,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
-    const dataLineageTask2 = new tasks.LambdaInvoke(this, 'DL: GLUE_BATCH_SPLIT', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: this.getCommonDataLineageParameters("GLUE_BATCH_SPLIT"),
-      resultPath: '$.data_lineage',
-    });
+    const dataLineageTask2 = this.buildDataLineageSFNTask(props.dataLineageFunction, "GLUE_BATCH_SPLIT");
 
     // Dynamic Map State - Run n calculations depending on number of batches
     const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
@@ -112,12 +92,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = new tasks.LambdaInvoke(this, 'DL: CALCULATION_COMPLETE', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: this.getCommonDataLineageParameters("CALCULATION_COMPLETE"),
-      resultPath: '$.data_lineage',
-    })
+    const dataLineageTask3 = this.buildDataLineageSFNTask(props.dataLineageFunction, "CALCULATION_COMPLETE");
     
 
     /* ======== STEP FUNCTION ======== */
@@ -153,13 +128,18 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
   }
 
-  private getCommonDataLineageParameters = (action: string) : sfn.TaskInput => {
-    return sfn.TaskInput.fromObject({
-      "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
-      "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
-      "storage_type":  sfn.JsonPath.stringAt("$.data_lineage.storage_type"),
-      "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location"),
-      "action": action
-    });
+  private buildDataLineageSFNTask = (dlFunction: lambda.Function, action: string) : tasks.LambdaInvoke => {
+    return new tasks.LambdaInvoke(this, `Data Lineage: ${action}`, {
+      lambdaFunction: dlFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
+        "storage_type":  sfn.JsonPath.stringAt("$.data_lineage.storage_type"),
+        "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location"),
+        "action": action
+      }),
+      resultPath: '$.data_lineage',
+    })
   }
 }
