@@ -6,6 +6,7 @@ import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
+import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -24,7 +25,12 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     /* ======== DATA QUALITY ======== */
 
     /* ======== GLUE TRANSFORM ======== */
-
+    // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
+    const { glueTransformJob } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
+      rawBucket: props?.rawBucket,
+      transformedBucket: props?.transformedBucket,
+      uniqueDirectory: props?.uniqueDirectory
+    });
     /* ======== CALCULATION ======== */
 
     const calculator = new CarbonlakeQuickstartCalculatorStack(this, 'CarbonlakeCalculatorStack', {
@@ -43,7 +49,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dataQualityJob: null,
-      glueTransformJob: null,
+      glueTransformJob: glueTransformJob,
       calculationJob: null
     });
 
