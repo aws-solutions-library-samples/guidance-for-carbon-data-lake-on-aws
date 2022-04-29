@@ -123,88 +123,30 @@ const Content = () => {
             </Container>
           </div>
           <div>
-            <h1>Benefits and features</h1>
-            <Container header={<Header>Included templates</Header>}>
+            <h1>CarbonLake Architecture</h1>
+            <Container header={<Header>Basic Architecture</Header>}>
+              {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <h4>
-                  There are 4 templates already provided for you in the <code>src/components</code> folder:
-                </h4>
-                <ol>
-                  <li>
-                    <Link to="/basic">Basic app layout</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/BasicLayout.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/basic</code>
-                    </li>
-                    <li>
-                      The simplest skeleton with just the{' '}
-                      <a href="https://polaris.corp.amazon.com/system/structures/components/awsui-app-layout/">
-                        app layout
-                      </a>{' '}
-                      and breadcrumb components.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/service-home">Service homepage</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/ServiceHomepage.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/service-home</code>
-                    </li>
-                    <li>
-                      A working example of a{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/service_homepage/">service homepage</a>,
-                      containing components such as: Box, Select, Container, Header, and layout elements like Column
-                      layout, Grid, and SpaceBetween.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/create">Single page create</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/CreateForm.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/create</code>
-                    </li>
-                    <li>
-                      A full{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/create/single_page_create/">
-                        single page create
-                      </a>{' '}
-                      form, containing components such as: Attribute editor, Button, Checkbox, Expandable section, Form,
-                      Form field, Input, Multi-select, Radio group, Select, Textarea, Tiles, Header, SpaceBetween,
-                      Container, Box and more.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/table">Table view</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/Table.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/table</code>
-                    </li>
-                    <li>
-                      A working <a href="https://polaris.corp.amazon.com/system/flows/view/table_view/">table view</a>{' '}
-                      example, containing components such as: Table (with features like wrap lines, sorting, and
-                      selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
-                      more.
-                    </li>
-                  </ul>
-                </ol>
+                <img src="../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : 2000, padding: 20 }} />
+              </div>
+              <div>
+                <p>
+                  This is the basic architecture for CarbonLake.
+                </p>
               </div>
             </Container>
+            <Container header={<Header>Detailed Architecture</Header>}>
+              {/* Make this flex later. maxWidth is not mobile responsive */}
+              <div>
+                <img src="../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : 2000, padding: 20 }} />
+              </div>
+              <div>
+                <p>
+                  This is the detailed architecture for CarbonLake.
+                </p>
+              </div>
+            </Container>
+
           </div>
         </SpaceBetween>
       </Box>
