@@ -10,6 +10,7 @@ interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
 }
 
 export class CarbonLakeGlueTransformationStack extends NestedStack {
+  public readonly glueTransformJob: cdk.aws_glue.CfnJob;
 
     constructor(scope: Construct, id: string, props: CarbonLakeGlueTransformationStackProps) {
         super(scope, id, props);
@@ -58,8 +59,8 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
         role.addManagedPolicy(gluePolicy);
 
         // create glue ETL script to process split input CSV files into smaller JSON files and save to S3
-        const glueSplitCsvIntoJsonJobName = 'glue-split-csv-into-json';
-        new cdk.aws_glue.CfnJob(this, glueSplitCsvIntoJsonJobName, {
+        const glueSplitCsvIntoJsonJobName = 'glue-split-large-csv-into-json';
+        this.glueTransformJob = new cdk.aws_glue.CfnJob(this, glueSplitCsvIntoJsonJobName, {
             name: glueSplitCsvIntoJsonJobName,
             role: role.roleArn,
             command: {

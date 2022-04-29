@@ -24,7 +24,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
 
     /* ======== GLUE TRANSFORM ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
-    const glueTransformationStack = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
+    const { glueTransformJob } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
       transformedBucket: props?.transformBucket,
       uniqueDirectory: props?.uniqueDirectory
@@ -41,7 +41,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dataQualityJob: null,
-      glueTransformJob: null,
+      glueTransformJob: glueTransformJob,
       calculationJob: null
     });
 
