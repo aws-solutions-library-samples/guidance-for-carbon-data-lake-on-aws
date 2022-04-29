@@ -1,38 +1,35 @@
 {
-  "name": "carbonlake-qs",
-  "version": "0.1.0",
+  "name": "bob-ross",
+  "description": "Prototyping tool that gives designers access to Polaris React components.",
   "private": true,
-  "dependencies": {
-    "@aws-amplify/ui-react": "^2.15.6",
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.6.2",
-    "@mui/material": "^5.6.3",
-    "@mui/styled-engine-sc": "^5.6.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "prop-types": "^15.8.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-icons": "^4.3.1",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^5.3.5",
-    "uuid": "^8.3.2",
-    "web-vitals": "^2.1.4"
-  },
+  "author": "AWS-UI",
+  "version": "0.0.1",
+  "repository": "",
+  "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "@awsui/collection-hooks": "^1.0.25",
+    "@awsui/components-react": "^3.0.490",
+    "@awsui/design-tokens": "^3.0.21",
+    "@awsui/global-styles": "^1.0.14",
+    "@awsui/test-utils-core": "^1.0.17",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "sass": "^1.32.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.1.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "1.15.3",
+    "vite": "^2.7.13"
   },
   "browserslist": {
     "production": [

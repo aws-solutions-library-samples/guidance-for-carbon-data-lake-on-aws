@@ -20,6 +20,11 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@awsui/collection-hooks": "^1.0.25",
+    "@awsui/components-react": "^3.0.490",
+    "@awsui/design-tokens": "^3.0.21",
+    "@awsui/global-styles": "^1.0.14",
+    "@awsui/test-utils-core": "^1.0.17",
     "@aws-cdk/aws-appsync-alpha": "^2.21.1-alpha.0",
     "aws-cdk-lib": "2.21.1",
     "constructs": "^10.0.0",
