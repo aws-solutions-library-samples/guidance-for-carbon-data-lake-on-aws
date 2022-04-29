@@ -1,4 +1,4 @@
-import { App, NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
@@ -23,11 +23,13 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
         const emissionsFactorReferenceTable = new dynamodb.Table(this, "carbonLakeEmissionsFactorReferenceTable", {
             partitionKey: { name: "category", type: dynamodb.AttributeType.STRING },
             sortKey: { name: "activity", type: dynamodb.AttributeType.STRING },
+            removalPolicy: RemovalPolicy.DESTROY,
         });
 
         // Define DynamoDB Table for calculator output
         this.calculatorOutputTable = new dynamodb.Table(this, "carbonlakeCalculatorOutputTable", {
             partitionKey: { name: "activity_event_id", type: dynamodb.AttributeType.STRING },
+            removalPolicy: RemovalPolicy.DESTROY,
         });
 
         const calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {
@@ -43,6 +45,7 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
         });
 
         emissionsFactorReferenceTable.grantReadData(calculatorLambda);
+        this.calculatorOutputTable.grantWriteData(calculatorLambda);
         props.transformedBucket.grantRead(calculatorLambda);
         props.enrichedBucket.grantWrite(calculatorLambda);
 
