@@ -109,7 +109,7 @@ export class CarbonLakeAnalyticsPipelineStack extends Stack {
 
         // Deploy glue job to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/transform/glue/assets')],
+          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/analytics/analytics-pipeline/assets')],
           destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });
