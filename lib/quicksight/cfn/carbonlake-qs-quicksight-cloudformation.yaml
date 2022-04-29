@@ -6,7 +6,8 @@ Resources:
     Type: AWS::S3::Bucket
     Description: Creating Amazon S3 bucket from CloudFormation
     Properties:
-      BucketName: carbonlake-quicksight-deployment-test-bucket
+      # Create a unique temp bucket name. This can be deleted once we have the actual cloud formation template for this.
+      BucketName: !Join ['-', ['carbonlake-quicksight-deployment-test-bucket', !Select [4, !Split ['-', !Select [2, !Split ['/', !Ref AWS::StackId]]]]]]
 Outputs:
   S3Bucket:
     Description: Bucket Created using this template.
