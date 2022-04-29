@@ -18,31 +18,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack");
 
     // QS3 --> Create the carbonlake data pipeline stack
-    //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
-    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(scope, "CarbonLakeAnalyticsPipelineStack", {
-      //glueScriptsBucketName: "cl-148257099368-glue-scripts"
-    }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
-    const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {});
-
-    // QS4 --> Create the carbonlake calculator stack
-    const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
-      transformedBucket: sharedResources.carbonlakeTransformedBucket,
-      enrichedBucket: sharedResources.carbonlakeEnrichedBucket
-    });
-
-    // QS5 --> Create the carbonlake quicksight stack
-    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
-
-    // QS7 --> Create the carbonlake web stack
-    const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {
-      calculatorOutputTableRef: calculator.calculatorOutputTable
-    });
-
-    // QS8 --> Create the carbonlake forecast stack
-    //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack");
-
-    // TODO --> Creat the carbonlake monitoring and observability stack
-
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
@@ -50,6 +25,31 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     });
+  
+    //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
+    const analyticsPipeline = new CarbonLakeAnalyticsPipelineStack(scope, "CarbonLakeAnalyticsPipelineStack", {
+      //glueScriptsBucketName: "cl-148257099368-glue-scripts"
+    }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
+    const glueTransformJob = new CarbonLakeGlueTransformationStack(scope, "CarbonLakeGlueTransformationStack", {});
+
+    // QS4 --> Create the carbonlake calculator stack
+    // const calculator = new CarbonlakeQuickstartCalculatorStack(scope, "CarbonlakeCalculatorStack", {
+    //   transformedBucket: sharedResources.carbonlakeTransformedBucket,
+    //   enrichedBucket: sharedResources.carbonlakeEnrichedBucket
+    // });
+
+    // QS5 --> Create the carbonlake quicksight stack
+    //const quicksight = new CarbonlakeQuicksightStack(app, "CarbonlakeQuicksightStack");
+
+    // QS7 --> Create the carbonlake web stack
+    const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {
+      calculatorOutputTableRef: pipeline.calculatorOutputTable
+    });
+
+    // QS8 --> Create the carbonlake forecast stack
+    //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack");
+
+    // TODO --> Creat the carbonlake monitoring and observability stack
     
   }
 }

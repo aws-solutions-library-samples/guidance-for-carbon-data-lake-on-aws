@@ -1,9 +1,10 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
+import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 
 interface PipelineProps extends StackProps {
@@ -13,6 +14,8 @@ interface PipelineProps extends StackProps {
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
+  public readonly calculatorOutputTable: ddb.Table;
+
   constructor(scope: App, id: string, props: PipelineProps) {
     super(scope, id, props);
 
@@ -21,6 +24,12 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     /* ======== GLUE TRANSFORM ======== */
 
     /* ======== CALCULATION ======== */
+
+    const calculator = new CarbonlakeQuickstartCalculatorStack(this, 'CarbonlakeCalculatorStack', {
+      transformedBucket: props.transformedBucket,
+      enrichedBucket: props.enrichedBucket
+    })
+    this.calculatorOutputTable = calculator.calculatorOutputTable
 
     /* ======== STATEMACHINE ======== */
 
