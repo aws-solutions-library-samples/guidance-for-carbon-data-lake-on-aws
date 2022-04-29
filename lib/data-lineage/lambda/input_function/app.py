@@ -41,7 +41,7 @@ def lambda_handler(event: Dict, context: Dict):
     response = {
         "root_id": event["root_id"],
         "parent_id": child_id,
-        "action": event["action"],
+        "action_taken": event["action"],
         "storage_type": event["storage_type"],
         "storage_location": event["storage_location"]
     }
