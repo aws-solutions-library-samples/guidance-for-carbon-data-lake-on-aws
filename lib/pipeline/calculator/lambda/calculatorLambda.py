@@ -3,12 +3,15 @@ import os
 import json
 import boto3
 from enum import Enum
+from urllib.parse import urljoin, urlparse
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
-INPUT_S3_BUCKET_NAME = os.environ.get('INPUT_S3_BUCKET_NAME')
+INPUT_S3_BUCKET_NAME = os.environ.get('TRANSFORMED_BUCKET_NAME')
+OUTPUT_S3_BUCKET_NAME = os.environ.get('ENRICHED_BUCKET_NAME')
+
 # Versions of the IPPC Report used for CO2e calculation
 class IPCC_AR(Enum):
     AR4 = 4
@@ -67,11 +70,15 @@ def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
     result += n2o_emissions * GWP[ar_version][Gas.N2O]
     return result
 
-
+'''
+Input: Python Dictionary
+Output: Python Dictionary
+'''
 def append_emissions_output(activity_event):
+    LOGGER.info('appending emissions for: %s', activity_event)
     emissions_factor = get_emissions_factor(activity_event['activity'], activity_event['category'])
     coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
-    LOGGER.debug('coefficients: %s', coefficients)
+    LOGGER.info('coefficients: %s', coefficients)
 
     raw_data = activity_event['raw_data']
     co2_emissions = calculate_emission(raw_data, coefficients['co2_factor'])
@@ -117,26 +124,53 @@ def append_emissions_output(activity_event):
             }
         }
     }
-    return activity_event.update(emissions_output)
+    activity_event.update(emissions_output)
+    return activity_event
 
 def read_events_from_s3(bucketname, object_key):
+    # Read activity_events object
     obj = s3.Object(bucketname, object_key)
-    return obj.get()['Body'].read().decode('utf-8')
+    activity_events_string = obj.get()['Body'].read().decode('utf-8')
+    # split into individual activity_events
+    activity_events = [json.loads(jline) for jline in activity_events_string.splitlines()]
+    return activity_events
 
+'''
+Input:
+    bucketname:
+    object_key:
+    activity_events: dict
+'''
+def save_enriched_events_to_s3(bucketname, object_key, activity_events):
+    # generate the payload as string
+    body = "\n".join(map(json.dumps, activity_events))
+    LOGGER.info('output body: %s', "\n"+body)
+    # Write to S3
+    output_object_key = "today/"+object_key
+    obj = s3.Object(bucketname, output_object_key)
+    obj.put(Body=body)
+    # Return s3 URL
+    return "s3://"+bucketname+"/"+output_object_key
+
+'''
+Input: {'location': 'calculator_input_example.jsonl'}
+Output: {'location': 'today/calculator_output_example.jsonl'}
+'''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    activity_events_s3_key = event
-    activity_events = read_events_from_s3(INPUT_S3_BUCKET_NAME, activity_events_s3_key)
+    # Load input activity_events
+    object_key = urlparse(event['location'], allow_fragments=False).path
+    activity_events = read_events_from_s3(INPUT_S3_BUCKET_NAME, object_key)
     LOGGER.info('activity_events: %s', activity_events)
-    # activity_event_with_emissions = append_emissions_output(activity_event)
-    # LOGGER.info("result:")
-    # LOGGER.info(result)
-    print('request: {}'.format(json.dumps(event)))
+    # Enrich activity_events with calculated emissions
+    activity_events_with_emissions = map(append_emissions_output, activity_events)
+    # Save enriched activity_events to S3
+    output_object_url = save_enriched_events_to_s3(OUTPUT_S3_BUCKET_NAME, object_key, activity_events_with_emissions)
     return {
         'statusCode': 200,
         'headers': {
             'Content-Type': 'text/json'
         },
-        # 'body': result
+        'body': {'location': output_object_url}
     }
     
