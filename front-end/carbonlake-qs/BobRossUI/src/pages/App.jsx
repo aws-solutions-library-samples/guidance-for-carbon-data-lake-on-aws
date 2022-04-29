@@ -10,6 +10,7 @@ https://polaris.corp.amazon.com/getting_started/development/integration/
 import React from 'react';
 import { Route } from 'react-router-dom';
 import BobRossIntro from './BobRossIntro.jsx';
+import Dashboard from './Dashboard.jsx';
 import Basic from './BasicLayout.jsx';
 import ServiceHomepage from './ServiceHomepage.jsx';
 import CreateForm from './CreateForm.jsx';
@@ -27,7 +28,8 @@ export default class App extends React.Component {
       // as a new 'Route' so you can link to it with a url.
 
       <div>
-        <Route exact path="/" component={BobRossIntro} />
+        {/* <Route exact path="/" component={BobRossIntro} /> */}
+        <Route exact path="/" component={Dashboard} />
         <Route path="/basic" component={Basic} />
         <Route path="/service-home" component={ServiceHomepage} />
         <Route path="/create" component={CreateForm} />
