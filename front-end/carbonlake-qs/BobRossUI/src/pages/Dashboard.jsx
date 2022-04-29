@@ -25,17 +25,21 @@ import '../styles/servicehomepage.scss';
 const Dashboard = () => {
   return (
     <>
+    <TopNavigationHeader/>
+
+
+
+
+  {/* <Sidebar /> */}
     <AppLayout
-    navigation={<Sidebar activeHref="#/"></Sidebar>}
+    navigation={<Sidebar activeHref="#/" />}
+    // navigation={<Sidebar activeHref="#/" items={navItems}/>}
     content={<Content />}
     tools={<HelpTools/>}
     headerSelector='#h'
     disableContentPaddings={true}
     // toolsHide={true}
   />
-  <TopNavigationHeader>
-
-</TopNavigationHeader><Sidebar />
 </>
   )
 }
