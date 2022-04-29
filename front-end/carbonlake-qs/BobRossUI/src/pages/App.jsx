@@ -12,6 +12,7 @@ import { Route } from 'react-router-dom';
 import BobRossIntro from './BobRossIntro.jsx';
 import Dashboard from './Dashboard.jsx';
 import AboutCarbonLake from './AboutCarbonLake.jsx';
+import CarbonLakeUploader from './CarbonLakeUploader.jsx';
 import Basic from './BasicLayout.jsx';
 import ServiceHomepage from './ServiceHomepage.jsx';
 import CreateForm from './CreateForm.jsx';
@@ -32,6 +33,7 @@ export default class App extends React.Component {
         {/* <Route exact path="/" component={BobRossIntro} /> */}
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/how-to-use-carbonlake-app" component={AboutCarbonLake} />
+        <Route exact path="/carbonlake-uploader" component={CarbonLakeUploader} />
         <Route path="/basic" component={Basic} />
         <Route path="/service-home" component={ServiceHomepage} />
         <Route path="/create" component={CreateForm} />

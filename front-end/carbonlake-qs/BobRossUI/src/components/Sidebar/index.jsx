@@ -38,7 +38,7 @@ const Sidebar = () => {
         text: 'Carbon Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'CarbonLakeUploader', href: '#/' },
+          { type: 'link', text: 'CarbonLakeUploader', href: '#/carbonlake-uploader' },
           { type: 'link', text: 'Emission Records', href: '#/emission-records' },
           { type: 'link', text: 'Visualizations', href: '#/basic' },
         ]
