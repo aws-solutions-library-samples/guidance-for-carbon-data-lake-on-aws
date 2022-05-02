@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+import { useState } from 'react';
 import { TopNavigation } from '@awsui/components-react';
 import logo from '../../../public/images/AWS_logo_RGB_REV.png'
 
@@ -13,6 +14,7 @@ const appUser = {
   fullName: 'Kevon Mayers',
   userEmail: 'novekm@amazon.com',
 };
+
 const TopNavigationHeader = () => {
   return (
     <div id="h">
