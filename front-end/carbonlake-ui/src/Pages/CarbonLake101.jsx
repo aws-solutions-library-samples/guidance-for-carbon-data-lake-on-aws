@@ -127,7 +127,7 @@ const Content = () => {
             <Container header={<Header>Basic Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <img src="../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : 2000, padding: 20 }} />
+                <img src="../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
@@ -138,7 +138,7 @@ const Content = () => {
             <Container header={<Header>Detailed Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <img src="../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : 2000, padding: 20 }} />
+                <img src="../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
