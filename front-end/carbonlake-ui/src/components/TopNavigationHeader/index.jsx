@@ -4,11 +4,15 @@ import React from 'react';
 import { TopNavigation } from '@awsui/components-react';
 import logo from '../../../public/images/AWS_logo_RGB_REV.png'
 
-
+// Company logo. Upload your own logo and point to it to change this in the TopNavigation.
 import '../../styles/top-navigation.scss';
 
-
-
+// Authenticated user details. These will changed once cognito is connected, but objects will still need to be interpolated
+const appUser = {
+  userName: 'novekm',
+  fullName: 'Kevon Mayers',
+  userEmail: 'novekm@amazon.com',
+};
 const TopNavigationHeader = () => {
   return (
     <div id="h">
@@ -56,8 +60,8 @@ const TopNavigationHeader = () => {
         },
         {
           type: "menu-dropdown",
-          text: "Kevon Mayers",
-          description: "email@example.com",
+          text: `${appUser.fullName}`,
+          description: `${appUser.userEmail}`,
           iconName: "user-profile",
           items: [
             { id: "profile", text: "Profile" },
