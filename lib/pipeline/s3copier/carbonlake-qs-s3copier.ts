@@ -10,10 +10,12 @@ export interface CarbonlakeQuickstartS3copierStackProps extends NestedStackProps
 }
 
 export class CarbonlakeQuickstartS3copierStack extends NestedStack {
+  public readonly s3copierLambda: lambda.Function;
+
   constructor(scope: Construct, id: string, props: CarbonlakeQuickstartS3copierStackProps) {
     super(scope, id, props);
 
-    const s3copierLambda = new lambda.Function(this, "carbonLakeS3copierHandler", {
+    this.s3copierLambda = new lambda.Function(this, "carbonLakeS3copierHandler", {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: "s3copierLambda.lambda_handler",
@@ -23,7 +25,7 @@ export class CarbonlakeQuickstartS3copierStack extends NestedStack {
       }
     });
 
-    props.landingBucket.grantRead(s3copierLambda);
-    props.rawBucket.grantWrite(s3copierLambda);
+    props.landingBucket.grantRead(this.s3copierLambda);
+    props.rawBucket.grantWrite(this.s3copierLambda);
   }
 }

@@ -11,7 +11,7 @@ import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
-  dataLineageFunction: lambda.Function
+  dataLineageFunction: lambda.Function,
   landingBucket: s3.Bucket,
   rawBucket: s3.Bucket,
   transformedBucket: s3.Bucket
@@ -26,25 +26,48 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     super(scope, id, props);
 
     /* ======== DATA QUALITY ======== */
-    new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
+    const { s3copierLambda } = new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
       landingBucket: props.landingBucket,
       rawBucket: props.rawBucket
     });
 
     /* ======== GLUE TRANSFORM ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
-    const { glueTransformJob } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
+    const { glueTransformJobName } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
       transformedBucket: props?.transformedBucket,
       uniqueDirectory: props?.uniqueDirectory
     });
+
+    /* ======== POST-GLUE BATCH LAMBDA ======== */
+
+    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
+    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
+      this,
+      "carbonlakePipelineDependencyLayer",
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+    );
+
+    // Lambda function to list total objects in the directory created by AWS Glue
+    const batchEnumLambda = new lambda.Function(this, "carbonlakePipelineBatchLambda", {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
+      handler: "app.lambda_handler",
+      layers: [dependencyLayer],
+      environment: {
+        TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName
+      }
+    });
+
+    props.transformedBucket.grantRead(batchEnumLambda);
+
     /* ======== CALCULATION ======== */
 
-    const calculator = new CarbonlakeQuickstartCalculatorStack(this, 'CarbonlakeCalculatorStack', {
+    const { calculatorLambda, calculatorOutputTable } = new CarbonlakeQuickstartCalculatorStack(this, 'CarbonlakeCalculatorStack', {
       transformedBucket: props.transformedBucket,
       enrichedBucket: props.enrichedBucket
     })
-    this.calculatorOutputTable = calculator.calculatorOutputTable
+    this.calculatorOutputTable = calculatorOutputTable
 
     /* ======== STATEMACHINE ======== */
 
@@ -55,19 +78,14 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     //  - calculation function
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
+      s3copierLambda: s3copierLambda,
       dataQualityJob: null,
-      glueTransformJob: glueTransformJob,
-      calculationJob: null
+      glueTransformJobName: glueTransformJobName,
+      batchEnumLambda: batchEnumLambda,
+      calculationJob: calculatorLambda
     });
 
     /* ======== KICKOFF LAMBDA ======== */
-
-    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
-    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
-      this,
-      "carbonlakePipelineDependencyLayer",
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
-    );
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
     const kickoffFunction = new lambda.Function(this, "carbonlakePipelineKickoffLambda", {
@@ -76,6 +94,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       handler: "app.lambda_handler",
       layers: [dependencyLayer],
       environment: {
+        LANDING_BUCKET_NAME: props.landingBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn
       }
     });

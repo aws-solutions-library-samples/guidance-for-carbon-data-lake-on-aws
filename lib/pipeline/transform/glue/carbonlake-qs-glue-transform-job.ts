@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
+import { Names, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -10,7 +10,7 @@ interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
 }
 
 export class CarbonLakeGlueTransformationStack extends NestedStack {
-  public readonly glueTransformJob: cdk.aws_glue.CfnJob;
+  public readonly glueTransformJobName: string;
 
     constructor(scope: Construct, id: string, props: CarbonLakeGlueTransformationStackProps) {
         super(scope, id, props);
@@ -61,9 +61,10 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
         role.addManagedPolicy(gluePolicy);
 
         // create glue ETL script to process split input CSV files into smaller JSON files and save to S3
-        const glueSplitCsvIntoJsonJobName = 'glue-split-large-csv-into-json';
-        this.glueTransformJob = new cdk.aws_glue.CfnJob(this, glueSplitCsvIntoJsonJobName, {
-            name: glueSplitCsvIntoJsonJobName,
+        this.glueTransformJobName = `glue-transform-${Names.uniqueId(role).slice(-8)}`;
+
+        const glueTransformJob = new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
+            name: this.glueTransformJobName,
             role: role.roleArn,
             command: {
               name: "glueetl",
@@ -78,7 +79,7 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
               "--spark-event-logs-path": "s3://" + glueScriptsBucket.bucketName + "/output/logs/",    
               "--enable-metrics": "",
               "--enable-continuous-cloudwatch-log": "true",
-              '--UNIQUE_DIRECTORY': props.uniqueDirectory,
+              // '--UNIQUE_DIRECTORY': props.uniqueDirectory,
               '--RAW_BUCKET_NAME': props.rawBucket.bucketName,
               '--TRANFORMED_BUCKET_NAME': props.transformedBucket.bucketName
             },

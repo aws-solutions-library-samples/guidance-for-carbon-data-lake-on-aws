@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
+import { Duration, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
@@ -16,6 +16,7 @@ export interface CarbonlakeQuickstartCalculatorStackProps extends NestedStackPro
 
 export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
     public readonly calculatorOutputTable: dynamodb.Table;
+    public readonly calculatorLambda: lambda.Function;
 
     constructor(scope: Construct, id: string, props: CarbonlakeQuickstartCalculatorStackProps) {
         super(scope, id, props);
@@ -32,10 +33,11 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
             removalPolicy: RemovalPolicy.DESTROY,
         });
 
-        const calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {
+        this.calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {
             runtime: lambda.Runtime.PYTHON_3_9,
             code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
             handler: "calculatorLambda.lambda_handler",
+            timeout: Duration.seconds(60),
             environment: {
                 EMISSIONS_FACTOR_TABLE_NAME: emissionsFactorReferenceTable.tableName,
                 CALCULATOR_OUTPUT_TABLE_NAME: this.calculatorOutputTable.tableName,
@@ -44,10 +46,10 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
             }
         });
 
-        emissionsFactorReferenceTable.grantReadData(calculatorLambda);
-        this.calculatorOutputTable.grantWriteData(calculatorLambda);
-        props.transformedBucket.grantRead(calculatorLambda);
-        props.enrichedBucket.grantWrite(calculatorLambda);
+        emissionsFactorReferenceTable.grantReadData(this.calculatorLambda);
+        this.calculatorOutputTable.grantWriteData(this.calculatorLambda);
+        props.transformedBucket.grantRead(this.calculatorLambda);
+        props.enrichedBucket.grantWrite(this.calculatorLambda);
 
         //We popupate the Emission Factors DB with data from a JSON file
         //We split into chunks because BatchWriteItem has a limitation of 25 items per batch
