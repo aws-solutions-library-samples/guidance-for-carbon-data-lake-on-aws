@@ -1,7 +1,8 @@
-import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { App, CustomResource, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
@@ -60,7 +61,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     });
 
     /* ======== KICKOFF LAMBDA ======== */
-    
+
     // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
@@ -75,14 +76,51 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       handler: "app.lambda_handler",
       layers: [dependencyLayer],
       environment: {
-        // TRANSFORM_BUCKET_NAME: props.transformBucket.bucketName,
-        TRANSFORM_BUCKET_NAME: props.transformedBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn
       }
     });
-
-    // TODO: Need to add event source for the kickoffFunction (S3 PUT Event???)
-
     statemachine.grantStartExecution(kickoffFunction);
+
+    // Triggering lambda from S3 notification doesn't work with CDK: "Adding this dependency would create a cyclic reference."
+    // props.landingBucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(kickoffFunction));
+    // Solution: A Lambda Custom Resource creates the Lambda Event Notification once the pipeline is created
+    // see https://aws.amazon.com/blogs/mt/resolving-circular-dependency-in-provisioning-of-amazon-s3-buckets-with-aws-lambda-event-notifications/
+    const applyS3NotificationFunction = new lambda.Function(this, "carbonlakePipelineApplyS3NotificationLambda", {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/apply_s3_notification'), {
+        bundling: {
+          image: lambda.Runtime.PYTHON_3_9.bundlingImage,
+          command: [
+            'bash', '-c',
+            'pip install -r requirements.txt -t /asset-output && cp -au . /asset-output'
+          ],
+        }
+      }),
+      handler: "applyBucketNotification.handler",
+    });
+    new CustomResource(this, "carbonlakePipelineApplyS3NotificationCustomResource", {
+      serviceToken: applyS3NotificationFunction.functionArn,
+      properties: {
+        "S3Bucket": props.landingBucket.bucketName,
+        "FunctionARN": kickoffFunction.functionArn,
+        "NotificationId": "S3ObjectCreatedEvent"
+      }
+    });
+    kickoffFunction.addPermission("carbonlakePipelineApplyS3NotificationPermission", {
+      principal: new iam.ServicePrincipal("s3.amazonaws.com"),
+      action: "lambda:invokeFunction",
+      sourceArn: props.landingBucket.bucketArn,
+      // sourceAccount is mandatory here
+      // S3 bucket ARNs do not contain account IDs, leaving the consumer open to a potential confused deputy attack if 
+      // the S3 bucket is deleted or part of a predictable pattern. 
+      // Adding an additional condition to explicitly specify the bucket owner's account ID may remediate the issue.
+      sourceAccount: this.account
+    });
+    //Allow the applyS3NotificationFunction to put PutBucketNotification on the bucket
+    applyS3NotificationFunction.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: [props.landingBucket.bucketArn],
+      actions: [ 's3:PutBucketNotification' ],
+    }));
   }
 }
