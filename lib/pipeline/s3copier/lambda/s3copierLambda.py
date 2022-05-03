@@ -25,18 +25,17 @@ def copy_s3_object(object_key):
     return "s3://"+OUTPUT_S3_BUCKET_NAME+"/"+object_key
 
 '''
-Input: {"location": "calculator_input_example.jsonl"}
-Output: {"location": "calculator_output_example.jsonl"}
+Input: {"file": {}, "data_lineage": {}}
+Output: {"file": {}, "data_lineage": {}, "data_quality_check": "PASSED"}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    object_key = urlparse(event['location'], allow_fragments=False).path
+    object_key = urlparse(event['file']["storage_location"], allow_fragments=False).path
+    object_key = object_key.split("/")[-1]
     output_object_url = copy_s3_object(object_key)
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'text/json'
-        },
-        'body': {'location': output_object_url}
-    }
+    
+    response = { **event }
+    response["data_lineage"]["storage_location"] = output_object_url
+    response["data_quality_check"] = "PASSED"
+    return response
     

@@ -2,13 +2,16 @@ import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib'
+import { CfnJob } from 'aws-cdk-lib/aws-glue';
 import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
   dataLineageFunction: lambda.Function,
   dataQualityJob: any,
-  glueTransformJob: any,
-  calculationJob: any
+  s3copierLambda: lambda.Function,
+  glueTransformJobName: string,
+  batchEnumLambda: lambda.Function,
+  calculationJob: lambda.Function
 }
 
 export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
@@ -29,10 +32,9 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const dataLineageTask0 = this.buildDataLineageSFNTask(props.dataLineageFunction, "RAW_DATA_INPUT");
 
     // Data Quality Check
-    const dataQualityTask = new sfn.Pass(this, 'LAMBDA: Data Quality Check', {
-      inputPath: '$.file',
-      result: sfn.Result.fromObject({ result: 'PASSED' }),
-      resultPath: '$.data_quality'
+    const dataQualityTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Check', {
+      lambdaFunction: props.s3copierLambda,
+      payloadResponseOnly: true,
     });
 
     // CHOICE - Data Quality Check Passed?
@@ -48,26 +50,29 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
 
     // Transformation Glue Job - split large input file into optimised batches with known schema
-    // const transflowGlueTask = new tasks.GlueStartJobRun(this, 'carbonlakeTransfromGlueTask', {})
-    const transformGlueTask = new sfn.Pass(this, 'GLUE: Synchronous Transform', {
-      result: sfn.Result.fromObject({
-        location: "s3://<transformed_bucket>/<node_id>",
-        num_files: 5
+    const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
+      glueJobName: props.glueTransformJobName,
+      arguments: sfn.TaskInput.fromObject({
+        "--UNIQUE_DIRECTORY": sfn.JsonPath.stringAt("$.data_lineage.parent_id")
       }),
-      resultPath: '$.glue_output'
-    });
+      integrationPattern: sfn.IntegrationPattern.RUN_JOB,
+      resultSelector: {
+        "job_name": sfn.JsonPath.stringAt("$.JobName"),
+        "job_id": sfn.JsonPath.stringAt("$.Id"),
+        "job_state": sfn.JsonPath.stringAt("$.JobRunState")
+      },
+      resultPath: "$.glue_output"
+    })
 
     // Lambda function to determine number and location of batches created by AWS Glue
-    const batchLambdaTask = new sfn.Pass(this, 'LAMBDA: Handle Batch Data', {
-      result: sfn.Result.fromArray([
-        { location: "s3://<transformed_bucket>/<node_id>/batch1.json" },
-        { location: "s3://<transformed_bucket>/<node_id>/batch2.json" },
-        { location: "s3://<transformed_bucket>/<node_id>/batch3.json" },
-        { location: "s3://<transformed_bucket>/<node_id>/batch4.json" },
-        { location: "s3://<transformed_bucket>/<node_id>/batch5.json" }
-      ]),
+    const batchLambdaTask = new tasks.LambdaInvoke(this, 'LAMBDA: Enumerate Batched Files', {
+      lambdaFunction: props.batchEnumLambda,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "batch_location_dir":  sfn.JsonPath.stringAt("$.data_lineage.parent_id")
+      }),
       resultPath: '$.batches'
-    });
+    })
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
     const dataLineageTask2 = this.buildDataLineageSFNTask(props.dataLineageFunction, "GLUE_BATCH_SPLIT");
@@ -78,18 +83,26 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       inputPath: '$',
       itemsPath: "$.batches",
       parameters: {
-        "location": sfn.JsonPath.objectAt("$$.Map.Item.Value.location"),
+        "location": sfn.JsonPath.objectAt("$$.Map.Item.Value"),
         "data_lineage": sfn.JsonPath.stringAt('$.data_lineage')
       },
       resultPath: '$.batch_results'
     });
 
     // Calculation Lambda function - pass in the batch to be processed
-    const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent', {
-      inputPath: sfn.JsonPath.stringAt("$.location"),
-      result: sfn.Result.fromString("s3://<enriched_bucket>/<node_id>/<batch_id>.json"),
-      resultPath: "$.calculation_results"
-    });
+    // const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent', {
+    //   inputPath: sfn.JsonPath.stringAt("$.location"),
+    //   result: sfn.Result.fromString("s3://<enriched_bucket>/<node_id>/<batch_id>.json"),
+    //   resultPath: "$.calculation_results"
+    // });
+    const calculationLambdaTask = new tasks.LambdaInvoke(this, 'LAMBDA: Calculate CO2 Equivalent', {
+      lambdaFunction: props.calculationJob,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "location":  sfn.JsonPath.stringAt("$.location")
+      }),
+      resultPath: '$.data_lineage.storage_location'
+    })
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
     const dataLineageTask3 = this.buildDataLineageSFNTask(props.dataLineageFunction, "CALCULATION_COMPLETE");
@@ -103,7 +116,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       .next(dataQualityTask)
       .next(dataQualityChoice
         .when(
-          sfn.Condition.stringEquals('$.data_quality.result', "PASSED"),
+          sfn.Condition.stringEquals('$.data_quality_check', "PASSED"),
           sfn.Chain
             .start(dataLineageTask1_1)
             .next(transformGlueTask)
@@ -140,6 +153,6 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "action_taken": action
       }),
       resultPath: '$.data_lineage',
-    })
+    });
   }
 }
