@@ -79,6 +79,8 @@ Output: Python Dictionary
 def append_emissions_output(activity_event):
     LOGGER.info('appending emissions for: %s', activity_event)
     emissions_factor = get_emissions_factor(activity_event['activity'], activity_event['category'])
+    # HACK: hotfix for records without matched emissions_factor in DDB - fix this.
+    if 'Item' not in emissions_factor: return None
     coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
     LOGGER.info('coefficients: %s', coefficients)
 
@@ -175,15 +177,11 @@ def lambda_handler(event, context):
     LOGGER.info('activity_events: %s', activity_events)
     # Enrich activity_events with calculated emissions
     activity_events_with_emissions = list(map(append_emissions_output, activity_events))
+    # TODO: Do something with records that can't be resolved
+    activity_events_with_emissions = [ x for x in activity_events_with_emissions if x is not None ]
     # Save enriched activity_events to S3
     output_object_url = save_enriched_events_to_s3(object_key, activity_events_with_emissions)
     # Save enriched activity_events to DynamoDB
     save_enriched_events_to_dynamodb(activity_events_with_emissions)
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'text/json'
-        },
-        'body': {'location': output_object_url}
-    }
+    return { "location": output_object_url}
     

@@ -6,6 +6,7 @@ import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/car
 import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
 import { CfnOutput } from 'aws-cdk-lib';
 import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
+import { CarbonlakeForecastStack } from './forecast/carbonlake-qs-forecast';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -53,7 +54,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     });
 
     // QS8 --> Create the carbonlake forecast stack
-    //const forecast = new CarbonlakeForecastStack(app, "CarbonlakeForecastStack");
+    const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
 
     // TODO --> Creat the carbonlake monitoring and observability stack
     
