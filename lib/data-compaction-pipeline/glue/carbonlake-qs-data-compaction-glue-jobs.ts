@@ -35,7 +35,8 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
                 "s3:List*",
                 "s3:PutObject",
                 "s3:PutObjectTagging",
-                "s3:PutObjectVersionTagging"
+                "s3:PutObjectVersionTagging",
+                "s3:DeleteObject"
               ],
               effect: cdk.aws_iam.Effect.ALLOW,
             }),

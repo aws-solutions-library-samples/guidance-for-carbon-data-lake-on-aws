@@ -117,6 +117,7 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: "createIndividualAthenaViews.lambda_handler",
+      description: "Lambda function for creating Athena views representing recent and historical formatted emissions data",
       environment: {
         ATHENA_QUERY_OUTPUT_LOCATION: athenaQueryResultsBucket.bucketName,
       }
@@ -128,6 +129,7 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: "createCombinedAthenaView.lambda_handler",
+      description: "Lambda function for creating Athena view representing combined formatted emissions data",
       environment: {
         ATHENA_QUERY_OUTPUT_LOCATION: athenaQueryResultsBucket.bucketName,
       }
