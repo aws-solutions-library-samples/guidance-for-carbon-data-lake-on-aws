@@ -8,6 +8,8 @@ import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data
 import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler';
 import { CarbonLakeGlueEnrichedDataDatabaseStack } from './glue/carbonlake-qs-create-enriched-data-glue-database';
 import { CarbonLakeGlueEnrichedDataTodayTableStack } from './glue/carbonlake-qs-create-enriched-data-glue-today-table';
+import { CarbonlakeQuickstartCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews';
+
 interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
 }
@@ -33,6 +35,10 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     /* ======== HISTORICAL DATA CRAWLER ======== */
     const { glueHistoricalCalculatorCrawler } = new CarbonLakeDataCompactionHistoricalCrawlerStack(this, 'carbonLakeDataCompactionHistoricalCrawlerStack', {
       enrichedBucket: props?.enrichedBucket
+    })
+
+    /** CREATE ATHENA VIEWS */
+    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
     })
 
     /* ======== STATEMACHINE ======== */
