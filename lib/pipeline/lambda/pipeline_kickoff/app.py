@@ -35,29 +35,20 @@ def lambda_handler(event: Dict, context: Dict):
     for record in event.records:
 
         s3uri = f"s3://{event.bucket_name}/{record.s3.get_object.key}"
+        # TODO: Actually do a check to determine file type in s3 - for now, assuming csv
         logger.info(f"Processing file: {s3uri}")
 
-        # DATA LINEAGE
-        ## root_id is the origin for all data lineage requests for this job batch
-        ## since this is the first node in the graph, node is its own parent
+        # root_id is the origin for all data lineage requests for this job batch
+        # since this is the first node in the graph, node is its own parent
         root_id = "".join(random.choices(alphabet, k=12))
-        data_lineage = {
-            "root_id": root_id,
-            "parent_id": root_id,
-            "storage_type": "s3",
-            "storage_location": s3uri
-        }
 
-        # INPUT FILE ATTRIBUTES
-        # TODO: Actually do a check to determine file type in s3 - for now, assuming csv
-        file_attributes = {
-            "file_type": "csv",
-            "storage_type": "s3",
+        data_input = {
+            "root_id": root_id,
             "storage_location": s3uri
         }
         
         # START STEP FUNCTION EXECUTION
-        sfn_payload = { "file": file_attributes, "data_lineage": data_lineage } 
+        sfn_payload = { "input": data_input } 
         data_handler.sfn.start_execution(json.dumps(sfn_payload))
     
-    return
+    return sfn_payload

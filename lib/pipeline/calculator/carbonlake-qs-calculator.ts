@@ -25,12 +25,14 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
             partitionKey: { name: "category", type: dynamodb.AttributeType.STRING },
             sortKey: { name: "activity", type: dynamodb.AttributeType.STRING },
             removalPolicy: RemovalPolicy.DESTROY,
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
         });
 
         // Define DynamoDB Table for calculator output
         this.calculatorOutputTable = new dynamodb.Table(this, "carbonlakeCalculatorOutputTable", {
             partitionKey: { name: "activity_event_id", type: dynamodb.AttributeType.STRING },
             removalPolicy: RemovalPolicy.DESTROY,
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
         });
 
         this.calculatorLambda = new lambda.Function(this, "carbonLakeCalculatorHandler", {

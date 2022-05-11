@@ -1,4 +1,4 @@
-import { App, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
+import { App, Stack, StackProps, RemovalPolicy, Duration } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
@@ -8,6 +8,7 @@ import * as path from 'path';
 
 export class CarbonlakeQuickstartDataLineageStack extends Stack {
   public readonly inputFunction: lambda.Function;
+  public readonly traceFunction: lambda.Function;
 
   constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props);
@@ -20,39 +21,44 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     // DynamoDB Table for data lineage record storage
     const table = new dynamodb.Table(this, "carbonlakeDataLineageTable", {
       partitionKey: { name: "root_id", type: dynamodb.AttributeType.STRING },
-      sortKey: { name: "child_id", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "node_id", type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
     });
 
-    // GSI to allow querying by specific child node in data lineage tree
+    // # GSI to allow querying by specific child node in data lineage tree
     table.addGlobalSecondaryIndex({
-      indexName: "child-index",
+      indexName: "node-index",
       partitionKey: {
-        name: "child_id",
+        name: "node_id",
         type: dynamodb.AttributeType.STRING
       },
       projectionType: dynamodb.ProjectionType.ALL
-    })
+    });
 
-    // GSI to allow querying by specific child node in data lineage tree
-    table.addGlobalSecondaryIndex({
-      indexName: "parent-index",
-      partitionKey: {
-        name: "parent_id",
-        type: dynamodb.AttributeType.STRING
-      },
-      projectionType: dynamodb.ProjectionType.ALL
-    })
-
-    // LSI to allow querying by carbonlake operation type
-    // This reduces branch numbers for the periodic recursive search
+    // # LSI to allow querying by carbonlake operation type
+    // # This reduces branch numbers for the periodic recursive search
     table.addLocalSecondaryIndex({
       indexName: "action-index",
       sortKey:{ name: "action_taken", type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.ALL
+    });
+
+    // DynamoDB Table for reconstructed record traces
+    const trace_table = new dynamodb.Table(this, "carbonlakeDataLineageTrace", {
+      partitionKey: { name: "record_id", type: dynamodb.AttributeType.STRING },
+      removalPolicy: RemovalPolicy.DESTROY,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
     })
 
-    // Audit Bucket for storing reconstructed data lineage trees from record -> parent
+    trace_table.addGlobalSecondaryIndex({
+      indexName: "root-index",
+      partitionKey: {
+        name: "root_id",
+        type: dynamodb.AttributeType.STRING
+      },
+      projectionType: dynamodb.ProjectionType.ALL
+    })
 
     /* ======== DEPENDENCIES ======== */
 
@@ -93,5 +99,25 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
 
     table.grantWriteData(dataLineageOutputFunction);
     dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
+
+    /* ======== TRACE LAMBDA ======== */
+
+    // Lambda function retrace record lineage and store tree in DDB
+    this.traceFunction = new lambda.Function(this, "carbonlakeDataLineageTraceHandler", {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/rebuild_trace/')),
+      handler: "app.lambda_handler",
+      environment: {
+        INPUT_TABLE_NAME: table.tableName,
+        OUTPUT_TABLE_NAME: trace_table.tableName,
+        OUTPUT_BUCKET_NAME: "<imported from props>" // TODO: Build the S3 integration for archive
+      },
+      layers: [dependencyLayer],
+      timeout: Duration.minutes(5)
+    });
+
+    table.grantReadData(this.traceFunction);
+    trace_table.grantWriteData(this.traceFunction);
+    // s3 grant write access here
   }
 }

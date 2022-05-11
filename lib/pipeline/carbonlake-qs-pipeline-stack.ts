@@ -12,6 +12,7 @@ import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-q
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function,
+  dataLineageTraceFunction: lambda.Function,
   landingBucket: s3.Bucket,
   rawBucket: s3.Bucket,
   transformedBucket: s3.Bucket
@@ -78,6 +79,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     //  - calculation function
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
+      dataLineageTraceFunction: props?.dataLineageTraceFunction,
       s3copierLambda: s3copierLambda,
       dataQualityJob: null,
       glueTransformJobName: glueTransformJobName,
