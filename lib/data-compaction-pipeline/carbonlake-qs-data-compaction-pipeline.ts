@@ -53,18 +53,18 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
 
 
     /* ======== STATEMACHINE ======== */
-    const { stateMachine } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
-      glueCompactionJobName: glueCompactionJobName,
-      glueDataFlushJobName: glueDataFlushJobName,
-      createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
-      createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
-      definitionS3Location: stateMachineS3Bucket
-    })
+    // const { stateMachine } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
+    //   glueCompactionJobName: glueCompactionJobName,
+    //   glueDataFlushJobName: glueDataFlushJobName,
+    //   createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
+    //   createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
+    //   definitionS3Location: stateMachineS3Bucket
+    // })
 
-    /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
-    const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
-      stateMachine: stateMachine
-    })
+    // /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
+    // const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
+    //   stateMachine: stateMachine
+    // })
 
   }
 }
