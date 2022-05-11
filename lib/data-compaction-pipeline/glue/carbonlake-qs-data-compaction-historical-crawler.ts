@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -8,7 +8,7 @@ interface CarbonLakeDataCompactionHistoricalCrawlerStackProps extends NestedStac
 }
 
 export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack {
-  public readonly glueHistoricalCalculatorCrawler: cdk.aws_glue.CfnCrawler;
+  public readonly glueHistoricalCalculatorCrawlerName: any;
 
     constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionHistoricalCrawlerStackProps) {
         super(scope, id, props);
@@ -40,10 +40,13 @@ export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack 
           }
         });
         role.addManagedPolicy(gluePolicy);
+
+        this.glueHistoricalCalculatorCrawlerName = `glue-historical-calculator-data-crawler-${Names.uniqueId(role).slice(-8)}`;
+
         
-        this.glueHistoricalCalculatorCrawler = new cdk.aws_glue.CfnCrawler(this, 'GlueHistoricalCalculatorDataCrawler', {
+        const glueHistoricalCalculatorCrawler = new cdk.aws_glue.CfnCrawler(this, this.glueHistoricalCalculatorCrawlerName, {
           role: role.roleArn,
-          name: 'glue-historical-calculator-data-crawler',
+          name: this.glueHistoricalCalculatorCrawlerName,
           description: 'AWS Glue crawler to load new partitions of historical data',
           targets: {
             s3Targets: [

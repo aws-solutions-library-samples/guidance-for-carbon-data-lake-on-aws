@@ -1,11 +1,10 @@
 import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_events as events} from 'aws-cdk-lib';
-import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 interface CarbonLakeEventTriggerStateMachineStackProps extends NestedStackProps {
-  stateMachine: sfn.CfnStateMachine;
+  stateMachineName: any;
 }
 
 export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
@@ -40,12 +39,12 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
     this.eventRule = new events.CfnRule(this, 'TriggerDataCompactionStateMachineRule', {
       description: 'Trigger daily data compaction pipeline at 12AM UTC',
       eventBusName: 'default',
-      name: 'trigger-daily-data-compaction-state-machine',
+      name: props.stateMachineName,
       roleArn: eventRuleRole.roleArn,
       scheduleExpression: 'cron(0 0 * * ? *)',
       targets: [{
-        arn: props.stateMachine.attrArn,
-        id: 'carbonlakeDataCompactionStateMachine',
+        arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
+        id: props.stateMachineName,
         roleArn: eventRuleRole.roleArn
       }]
      });

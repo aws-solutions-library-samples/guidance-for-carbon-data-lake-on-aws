@@ -21,7 +21,7 @@
       "GLUE CRAWLER: Historical Data Crawler": {
         "Type": "Task",
         "Parameters": {
-          "Name": "glue-historical-calculator-data-crawler"
+          "Name": "${historicalCalculatorCrawlerName}"
         },
         "Resource": "arn:aws:states:::aws-sdk:glue:startCrawler",
         "Next": "GET CRAWLER: Historical Data Crawler"
@@ -30,7 +30,7 @@
         "Type": "Task",
         "Next": "CHOICE: Crawler Successful",
         "Parameters": {
-          "Name": "glue-historical-calculator-data-crawler"
+          "Name": "${historicalCalculatorCrawlerName}"
         },
         "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler"
       },

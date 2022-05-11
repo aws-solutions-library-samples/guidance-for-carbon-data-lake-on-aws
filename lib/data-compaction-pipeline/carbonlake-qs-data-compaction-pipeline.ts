@@ -43,7 +43,7 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     });
 
     /* ======== HISTORICAL DATA CRAWLER ======== */
-    const { glueHistoricalCalculatorCrawler } = new CarbonLakeDataCompactionHistoricalCrawlerStack(this, 'carbonLakeDataCompactionHistoricalCrawlerStack', {
+    const { glueHistoricalCalculatorCrawlerName } = new CarbonLakeDataCompactionHistoricalCrawlerStack(this, 'carbonLakeDataCompactionHistoricalCrawlerStack', {
       enrichedBucket: props?.enrichedBucket
     })
 
@@ -52,9 +52,10 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     })
 
     /* ======== STATEMACHINE ======== */
-    const { stateMachine } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
+    const { stateMachineName } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
       glueCompactionJobName: glueCompactionJobName,
       glueDataFlushJobName: glueDataFlushJobName,
+      glueHistoricalCalculatorCrawlerName: glueHistoricalCalculatorCrawlerName,
       createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
       createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
       stateMachineS3Bucket: stateMachineS3Bucket
@@ -62,7 +63,7 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
 
     /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
     const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
-      stateMachine: stateMachine
+      stateMachineName: stateMachineName
     })
 
   }

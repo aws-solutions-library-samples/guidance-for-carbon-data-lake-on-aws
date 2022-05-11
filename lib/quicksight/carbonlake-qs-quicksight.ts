@@ -33,7 +33,7 @@ export class CarbonlakeQuicksightStack extends Stack {
     role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
     // Create unique identifier to be appended to QuickSight Dashboard Template
-    const templateUniqueIdentifier = `CarbonLake-Combined-Emissions-Template--${Names.uniqueId(role).slice(-8)}`;
+    const templateUniqueIdentifier = `CarbonLake-Combined-Emissions-Template-${Names.uniqueId(role).slice(-8)}`;
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template

@@ -1,22 +1,21 @@
-import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
-import * as cfninc from 'aws-cdk-lib/cloudformation-include';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as path from 'path';
 
 interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProps {
   glueCompactionJobName: any,
   glueDataFlushJobName: any,
+  glueHistoricalCalculatorCrawlerName: any,
   createIndividualAthenaViewsLambda: lambda.Function,
   createCombinedAthenaViewLambda: lambda.Function,
   stateMachineS3Bucket: s3.Bucket
 }
 
 export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
-  public readonly stateMachine: sfn.CfnStateMachine;
+  public readonly stateMachineName: any;
 
   constructor(scope: Construct, id: string, props: CarbonlakeDataCompactionStateMachineStackProps) {
     super(scope, id, props);
@@ -90,8 +89,10 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
       }
     });
 
+    this.stateMachineName = `NightlyDataCompactionStateMachine-${Names.uniqueId(stateMachineRole).slice(-8)}`;
 
-    this.stateMachine = new sfn.CfnStateMachine(this, 'NightlyDataCompactionStateMachine', {
+
+    const stateMachine = new sfn.CfnStateMachine(this, this.stateMachineName, {
       roleArn: stateMachineRole.roleArn,
     
       // the properties below are optional
@@ -102,10 +103,11 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
       definitionSubstitutions: {
         dataCompactionJobName: props.glueCompactionJobName,
         dataFlushJobName: props.glueDataFlushJobName,
+        historicalCalculatorCrawlerName: props.glueHistoricalCalculatorCrawlerName,
         createIndividualAthenaViewsLambdaName: props.createIndividualAthenaViewsLambda.functionName,
         createCombinedAthenaViewLambdaName: props.createCombinedAthenaViewLambda.functionName
       },
-      stateMachineName: 'NightlyDataCompactionStateMachine',
+      stateMachineName: this.stateMachineName,
       tracingConfiguration: {
         enabled: true,
       },
