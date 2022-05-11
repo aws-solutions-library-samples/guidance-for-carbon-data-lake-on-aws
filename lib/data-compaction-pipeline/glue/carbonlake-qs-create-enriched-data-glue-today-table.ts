@@ -21,7 +21,7 @@ export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
               bucketColumns: [],
               columns: [
                 {
-                  name: 'record_id',
+                  name: 'activity_event_id',
                   type: 'string',
                 },
                 {
@@ -29,31 +29,43 @@ export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
                   type: 'string',
                 },
                 {
-                  name: 'activity_id',
-                  type: 'struct<activity:string,category:string,scope:int>',
-                },
-                {
-                  name: 'emissions_output',
-                  type: 'struct<calculated_emissions:struct<ch4:struct<amount:double,unit:string>,co2:struct<amount:double,unit:string>,co2e:struct<amount:double,unit:string>,n20:struct<amount:double,unit:string>>,emissions_factor:double,emissions_factor_reference:string>',
-                },
-                {
                   name: 'geo',
-                  type: 'struct<lat:double,long:double>',
+                  type: 'string',
                 },
                 {
                   name: 'origin_measurement_timestamp',
                   type: 'string',
                 },
                 {
-                  name: 'raw_data',
-                  type: 'double',
+                  name: 'scope',
+                  type: 'string',
+                },
+                {
+                  name: 'category',
+                  type: 'string',
+                },
+                {
+                  name: 'activity',
+                  type: 'string',
                 },
                 {
                   name: 'source',
                   type: 'string',
                 },
                 {
+                  name: 'raw_data',
+                  type: 'string',
+                },
+                {
                   name: 'units',
+                  type: 'string',
+                },
+                {
+                  name: 'emissions_output',
+                  type: 'struct<calculated_emissions:struct<co2:struct<amount:double,unit:string>,ch4:struct<amount:double,unit:string>,n2o:struct<amount:double,unit:string>,co2e:struct<ar4:struct<amount:double,unit:string>,ar5:struct<amount:double,unit:string>>>,emissions_factor:struct<ar4:struct<amount:string,unit:string>,ar5:struct<amount:string,unit:string>>>',
+                },
+                {
+                  name: 'partition_0',
                   type: 'string',
                 }
               ],
@@ -68,7 +80,7 @@ export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
               serdeInfo: {
                 name: 'today',
                 parameters: {
-                  paths: "activity_id,asset_id,emissions_output,geo,origin_measurement_timestamp,raw_data,record_id,source,units"
+                  paths: "activity,activity_event_id,asset_id,category,emissions_output,geo,origin_measurement_timestamp,raw_data,scope,source,units"
                 },
                 serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
               },
