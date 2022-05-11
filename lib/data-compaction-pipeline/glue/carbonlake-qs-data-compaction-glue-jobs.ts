@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -8,8 +8,8 @@ interface CarbonLakeDataCompactionGlueJobsStackProps extends NestedStackProps {
 }
 
 export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
-  public readonly glueCompactionJob: cdk.aws_glue.CfnJob;
-  public readonly glueDataFlushJob: cdk.aws_glue.CfnJob;
+  public readonly glueCompactionJobName: any;
+  public readonly glueDataFlushJobName: any;
 
     constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionGlueJobsStackProps) {
         super(scope, id, props);
@@ -56,9 +56,10 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
         role.addManagedPolicy(gluePolicy);
 
         // create glue python shell script for purging old calculator records
-        const gluePurgeOldCalculatorRecordsJobName = 'glue-remove-old-calculator-records';
-        this.glueDataFlushJob = new cdk.aws_glue.CfnJob(this, gluePurgeOldCalculatorRecordsJobName, {
-            name: gluePurgeOldCalculatorRecordsJobName,
+        this.glueDataFlushJobName = `glue-remove-old-calculator-records-${Names.uniqueId(role).slice(-8)}`;
+
+        const glueDataFlushJob = new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
+            name: this.glueDataFlushJobName,
             role: role.roleArn,
             command: {
               name: 'pythonshell',
@@ -80,10 +81,10 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
           });
 
         // create glue ETL script to process compact calculator output data and save to S3
-        const glueCompactCalculatorRecordsJobName = 'glue-compact-daily-calculator-records';
-        
-        this.glueCompactionJob = new cdk.aws_glue.CfnJob(this, glueCompactCalculatorRecordsJobName, {
-          name: glueCompactCalculatorRecordsJobName,
+        this.glueCompactionJobName = `glue-compact-daily-calculator-records-${Names.uniqueId(role).slice(-8)}`;
+
+        const glueCompactionJob = new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
+          name: this.glueCompactionJobName,
           role: role.roleArn,
           command: {
             name: "glueetl",

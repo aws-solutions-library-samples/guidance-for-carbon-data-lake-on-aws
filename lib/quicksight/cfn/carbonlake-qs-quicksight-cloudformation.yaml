@@ -196,7 +196,7 @@ Resources:
             - quicksight:DeleteDataSet
             - quicksight:CreateIngestion
             - quicksight:CancelIngestion
-      ImportMode: SPICE
+      ImportMode: DIRECT_QUERY
 
 
   #TODO: figure out a way to delete and redeploy template
