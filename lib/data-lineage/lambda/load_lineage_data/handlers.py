@@ -19,4 +19,10 @@ class DBHandler:
         self.logger.info(f"Adding item '{item}' to table {self.table.name}")
         response = self.table.put_item(Item=item)
         return response["ResponseMetadata"]["HTTPStatusCode"]
+    
+    def put_batch(self, items) -> None:
+        self.logger.info(f"Adding {len(items)} to table {self.table.name}")
+        with self.table.batch_writer() as batch:
+            for item in items:
+                batch.put_item(Item=item)
 

@@ -22,9 +22,10 @@ def lambda_handler(event: Dict, context: Dict):
     event = SQSEvent(event)
     data_handler = DataHandler(os.environ["OUTPUT_TABLE_NAME"])
 
+    messages = []
     for record in event.records:
         message = json.loads(record.body)
-        logger.info(f"Processing record - child id = {message['child_id']}")
+        logger.info(f"Processing record - child id = {message['node_id']}")
 
         # [OPTIONALLY] Fetch additional metadata and support information for the data lineage record
         ## Line number?
@@ -32,6 +33,8 @@ def lambda_handler(event: Dict, context: Dict):
         ## Store the actual record?
         ## Sequence number?
 
-        data_handler.db.put(message)
+        messages.append(message)
+
+    data_handler.db.put_batch(messages)
 
     return

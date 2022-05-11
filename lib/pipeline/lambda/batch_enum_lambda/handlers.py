@@ -22,7 +22,7 @@ class S3Handler:
         files = []
         for page in paginator.paginate(**kwargs):
             try:
-                [ files.append(obj["Key"]) for obj in page["Contents"] if obj["Key"].endswith(suffix) ]
+                [ files.append(f"s3://{self.bucket}/{obj['Key']}") for obj in page["Contents"] if obj["Key"].endswith(suffix) ]
             except:
                 break
         return files

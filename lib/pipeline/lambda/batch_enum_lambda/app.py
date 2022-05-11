@@ -13,6 +13,8 @@ from handlers import DataHandler
 logger = Logger(service="carbonlake", level="debug")
 tracer = Tracer()
 
+ALPHABET = string.ascii_letters + string.digits
+
 """
 INPUT: Payload from Amazon Step Function - {
     "batch_location_dir": "<parent_id>"
@@ -36,5 +38,9 @@ def lambda_handler(event: Dict, context: Dict):
     logger.info(f"Found {len(files)} files in directory {event['batch_location_dir']}")
 
     # build sanitised array of objects
-    # return array
-    return files
+    batches = [ { "node_id": generate_uid(), "storage_location": x } for x in files ]
+
+    return batches
+
+def generate_uid(length=8):
+    return "".join(random.choices(ALPHABET, k=length))

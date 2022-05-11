@@ -166,13 +166,13 @@ def save_enriched_events_to_dynamodb(activity_events):
             batch.put_item(Item=activity_event_with_decimal)
 
 '''
-Input: {"location": "calculator_input_example.jsonl"}
-Output: {"location": "today/calculator_output_example.jsonl"}
+Input: {"storage_location": "calculator_input_example.jsonl" }
+Output: [ { "node_id": "<activity_event_id>, "storage_location": "s3://<output_bucket>/<key> }, {}, {} ... ]
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
     # Load input activity_events
-    object_key = urlparse(event['location'], allow_fragments=False).path
+    object_key = urlparse(event['storage_location'], allow_fragments=False).path.strip("/")
     activity_events = read_events_from_s3(object_key)
     LOGGER.info('activity_events: %s', activity_events)
     # Enrich activity_events with calculated emissions
@@ -183,5 +183,6 @@ def lambda_handler(event, context):
     output_object_url = save_enriched_events_to_s3(object_key, activity_events_with_emissions)
     # Save enriched activity_events to DynamoDB
     save_enriched_events_to_dynamodb(activity_events_with_emissions)
-    return { "location": output_object_url}
-    
+
+    activity_ids = [ { "node_id": x["activity_event_id"], "storage_location": output_object_url } for x in activity_events_with_emissions ] 
+    return activity_ids
