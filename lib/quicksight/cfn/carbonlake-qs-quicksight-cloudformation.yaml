@@ -8,6 +8,9 @@ Parameters:
   Email:
     Type: String
     Description: Email associated to Admin QuickSight user that will be granted access to BI assets.
+  Template_Unique_Identifier:
+    Type: String
+    Description: Unique string that will be added to Dashboard template each time it is deployed
 
 Resources:
   CombinedEmissionsAthenaDataSource:
@@ -50,45 +53,45 @@ Resources:
             Catalog: AwsDataCatalog
             DataSourceArn: !GetAtt CombinedEmissionsAthenaDataSource.Arn          
             InputColumns:
-              - Name: record_id
+              - Name: activity_event_id
                 Type: STRING
               - Name: asset_id
                 Type: STRING
-              - Name: activity
+              - Name: geo
+                Type: STRING
+              - Name: origin_measurement_timestamp
+                Type: STRING
+              - Name: scope
                 Type: STRING
               - Name: category
                 Type: STRING
-              - Name: ch4_amount
-                Type: DECIMAL
-              - Name: ch4_unit
+              - Name: activity
+                Type: STRING
+              - Name: source
+                Type: STRING
+              - Name: raw_data
+                Type: STRING
+              - Name: units
                 Type: STRING
               - Name: co2_amount
                 Type: DECIMAL
               - Name: co2_unit
                 Type: STRING
-              - Name: co2e_amount
+              - Name: ch4_amount
                 Type: DECIMAL
-              - Name: co2e_unit
+              - Name: ch4_unit
                 Type: STRING
-              - Name: n20_amount
+              - Name: n2o_amount
                 Type: DECIMAL
-              - Name: n20_unit
+              - Name: n2o_unit
                 Type: STRING
-              - Name: emissions_factor
+              - Name: co2e_ar4_amount
                 Type: DECIMAL
-              - Name: emissions_factor_reference
+              - Name: co2e_ar4_unit
                 Type: STRING
-              - Name: latitude
+              - Name: co2e_ar5_amount
                 Type: DECIMAL
-              - Name: longitude
-                Type: DECIMAL
-              - Name: origin_measurement_timestamp
-                Type: STRING
-              - Name: raw_data
-                Type: DECIMAL
-              - Name: source
-                Type: STRING
-              - Name: units
+              - Name: co2e_ar5_unit
                 Type: STRING
               - Name: date
                 Type: DATETIME
@@ -99,20 +102,39 @@ Resources:
           Alias: combined-emissions
           DataTransforms:
             - RenameColumnOperation:
-                ColumnName: record_id
-                NewColumnName: Record ID
+                ColumnName: activity_event_id
+                NewColumnName: Acitivity Event ID
             - RenameColumnOperation:
                 ColumnName: asset_id
                 NewColumnName: Asset ID
             - RenameColumnOperation:
+                ColumnName: geo
+                NewColumnName: Geo
+            - RenameColumnOperation:
+                ColumnName: origin_measurement_timestamp
+                NewColumnName: Origin Measurement Timestamp
+            - CastColumnTypeOperation:
+                ColumnName: Origin Measurement Timestamp
+                NewColumnType: DATETIME
+                Format: yyyy-MM
+            - RenameColumnOperation:
+                ColumnName: scope
+                NewColumnName: Scope
+            - RenameColumnOperation:
+                ColumnName: category
+                NewColumnName: Category
+            - RenameColumnOperation:
                 ColumnName: activity
                 NewColumnName: Activity
             - RenameColumnOperation:
-                ColumnName: ch4_amount
-                NewColumnName: CH4 Amount
+                ColumnName: source
+                NewColumnName: Source
             - RenameColumnOperation:
-                ColumnName: ch4_unit
-                NewColumnName: CH4 Unit
+                ColumnName: raw_data
+                NewColumnName: Raw Data
+            - RenameColumnOperation:
+                ColumnName: units
+                NewColumnName: Units
             - RenameColumnOperation:
                 ColumnName: co2_amount
                 NewColumnName: CO2 Amount
@@ -120,52 +142,46 @@ Resources:
                 ColumnName: co2_unit
                 NewColumnName: CO2 Unit
             - RenameColumnOperation:
-                ColumnName: co2e_amount
-                NewColumnName: CO2E Amount
+                ColumnName: ch4_amount
+                NewColumnName: CH4 Amount
             - RenameColumnOperation:
-                ColumnName: co2e_unit
-                NewColumnName: CO2E Unit  
+                ColumnName: ch4_unit
+                NewColumnName: CH4 Unit
             - RenameColumnOperation:
-                ColumnName: n20_amount
-                NewColumnName: n20 Amount
+                ColumnName: n2o_amount
+                NewColumnName: N2O Amount
             - RenameColumnOperation:
-                ColumnName: n20_unit
-                NewColumnName: n20 Unit 
+                ColumnName: n2o_unit
+                NewColumnName: N2O Unit
             - RenameColumnOperation:
-                ColumnName: emissions_factor
-                NewColumnName: Emissions Factor
+                ColumnName: co2e_ar4_amount
+                NewColumnName: CO2E AR4 Amount
             - RenameColumnOperation:
-                ColumnName: emissions_factor_reference
-                NewColumnName: Emissions Factor Reference
+                ColumnName: co2e_ar4_unit
+                NewColumnName: CO2E AR4 Unit  
             - RenameColumnOperation:
-                ColumnName: latitude
-                NewColumnName: Latitude
+                ColumnName: co2e_ar5_amount
+                NewColumnName: CO2E AR5 Amount
             - RenameColumnOperation:
-                ColumnName: longitude
-                NewColumnName: Longitude
-            - RenameColumnOperation:
-                ColumnName: origin_measurement_timestamp
-                NewColumnName: Origin Measurement Timestamp
-            - CastColumnTypeOperation:
-                ColumnName: Origin Measurement Timestamp
-                NewColumnType: DATETIME
-                Format: yyyy-MM-dd HH:mm:ss
-            - RenameColumnOperation:
-                ColumnName: raw_data
-                NewColumnName: Raw Data
-            - RenameColumnOperation:
-                ColumnName: source
-                NewColumnName: Source
-            - RenameColumnOperation:
-                ColumnName: units
-                NewColumnName: Units
+                ColumnName: co2e_ar5_unit
+                NewColumnName: CO2E AR5 Unit  
             - RenameColumnOperation:
                 ColumnName: date
-                NewColumnName: Date
+                NewColumnName: Data Calculation Date
             - CastColumnTypeOperation:
-                ColumnName: Date
+                ColumnName: Data Calculation Date
                 NewColumnType: DATETIME
                 Format: yyyy-MM-dd
+            - CreateColumnsOperation:
+                Columns:
+                  - CalculatedColumn:
+                    ColumnId: Latitude
+                    ColumnName: Latitude
+                    Expression: parseDecimal(Right(split(toString({Geo}), ',', 1), strlen(split(toString({Geo}), ',', 1))-1))
+                  - CalculatedColumn:
+                    ColumnId: Longitude
+                    ColumnName: Longitude
+                    Expression: parseDecimal(Left(split(toString({Geo}), ',', 2), strlen(split(toString({Geo}), ',', 2))-1))
             - TagColumnOperation:
                   ColumnName: Latitude
                   Tags:
@@ -203,12 +219,12 @@ Resources:
   CombinedEmissionsDashboardTemplate:
     Type: AWS::QuickSight::Template
     Properties:
-      TemplateId: CarbonLake-Combined-Emissions-Template
+      TemplateId: !Ref Template_Unique_Identifier
       Name: CarbonLake Combined Emissions Template
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
         SourceAnalysis: #TODO: point to analysis created in the main CarbonLake dev account
-          Arn: arn:aws:quicksight:us-east-1:148257099368:analysis/5ca1a81f-6ee2-427b-9d02-6ac4c020fb56
+          Arn: arn:aws:quicksight:us-east-1:148257099368:analysis/474d94db-5aa5-4fe5-ae26-404bd4a32853
           DataSetReferences:
             - DataSetPlaceholder: CombinedEmissionsDataset
               DataSetArn: !GetAtt CombinedEmissionsDataset.Arn

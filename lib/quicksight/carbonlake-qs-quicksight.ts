@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Names } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import * as cfninc from 'aws-cdk-lib/cloudformation-include';
@@ -32,13 +32,18 @@ export class CarbonlakeQuicksightStack extends Stack {
     const role = iam.Role.fromRoleArn(this, 'Role', `arn:aws:iam::${this.account}:role/aws-quicksight-service-role-v0`);
     role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
+    // Create unique identifier to be appended to QuickSight Dashboard Template
+    const templateUniqueIdentifier = `CarbonLake-Combined-Emissions-Template--${Names.uniqueId(role).slice(-8)}`;
+
+
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
     const template = new cfninc.CfnInclude(this, 'Template', { 
       templateFile: path.join(process.cwd(), 'lib','quicksight','cfn', 'carbonlake-qs-quicksight-cloudformation.yaml'),
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
-        Email: props.adminEmail
+        Email: props.adminEmail,
+        Template_Unique_Identifier: templateUniqueIdentifier
       }
     });
     
