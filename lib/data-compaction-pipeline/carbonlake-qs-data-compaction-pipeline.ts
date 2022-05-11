@@ -1,6 +1,6 @@
 import { App, Stack, StackProps, RemovalPolicy, } from 'aws-cdk-lib';
-import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib';
 
 import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data-compaction-glue-jobs';
 import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler';
@@ -17,6 +17,18 @@ interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
 export class CarbonLakeDataCompactionPipelineStack extends Stack {
   constructor(scope: App, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
     super(scope, id, props);
+
+    /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
+    const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+
+    new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
+      sources: [s3_deployment.Source.asset('./lib/data-compaction-pipeline/statemachine/json')],
+      destinationBucket: stateMachineS3Bucket
+    });
 
     /* ======== GLUE METADATA CATALOG DATABASE & TABLE ======== */
     const { glueEnrichedDataDatabase } = new CarbonLakeGlueEnrichedDataDatabaseStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {});
@@ -39,32 +51,19 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
     })
 
-    /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
-    const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-    });
-
-    new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
-      sources: [s3_deployment.Source.asset('./lib/data-compaction-pipeline/statemachine/json')],
-      destinationBucket: stateMachineS3Bucket,
-    });
-
-
     /* ======== STATEMACHINE ======== */
-    // const { stateMachine } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
-    //   glueCompactionJobName: glueCompactionJobName,
-    //   glueDataFlushJobName: glueDataFlushJobName,
-    //   createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
-    //   createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
-    //   definitionS3Location: stateMachineS3Bucket
-    // })
+    const { stateMachine } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
+      glueCompactionJobName: glueCompactionJobName,
+      glueDataFlushJobName: glueDataFlushJobName,
+      createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
+      createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
+      stateMachineS3Bucket: stateMachineS3Bucket
+    })
 
-    // /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
-    // const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
-    //   stateMachine: stateMachine
-    // })
+    /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
+    const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
+      stateMachine: stateMachine
+    })
 
   }
 }

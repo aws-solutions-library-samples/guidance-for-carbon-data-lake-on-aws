@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
@@ -12,7 +12,7 @@ interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProp
   glueDataFlushJobName: any,
   createIndividualAthenaViewsLambda: lambda.Function,
   createCombinedAthenaViewLambda: lambda.Function,
-  definitionS3Location: s3.Bucket
+  stateMachineS3Bucket: s3.Bucket
 }
 
 export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
@@ -90,33 +90,20 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
       }
     });
 
-    // Create Step Functions State Machine
-    // const cfnTemplate = new cfninc.CfnInclude(this, 'Template', { 
-    //   templateFile: path.join(process.cwd(), 'lib','data-compaction-pipeline', 'statemachine', 'cfn', 'carbonlake-qs-data-compaction-statemachine-stack.yml'),
-    //   preserveLogicalIds: false,
-    //   parameters: {
-    //     dataCompactionJobName: props.glueCompactionJobName,
-    //     dataFlushJobName: props.glueDataFlushJobName,
-    //     createIndividualAthenaViewsLambdaName: props.createIndividualAthenaViewsLambda.functionArn,
-    //     createCombinedAthenaViewLambdaName: props.createCombinedAthenaViewLambda.functionArn,
-    //     stateMachineRoleArn: stateMachineRole.roleArn,
-    //     definitionS3Location: props.definitionS3Location.bucketName
-    //   }
-    // });
 
     this.stateMachine = new sfn.CfnStateMachine(this, 'NightlyDataCompactionStateMachine', {
       roleArn: stateMachineRole.roleArn,
     
       // the properties below are optional
       definitionS3Location: {
-        bucket: props.definitionS3Location.bucketName,
-        key: ''
+        bucket: props.stateMachineS3Bucket.bucketName,
+        key: 'stateMachineDefinition.json'
       },
       definitionSubstitutions: {
-        dataCompactionJobName: 'definitionSubstitutions',
-        dataFlushJobName: 'dataFlushJobName',
-        createIndividualAthenaViewsLambdaName: 'createIndividualAthenaViewsLambdaName',
-        createCombinedAthenaViewLambdaName: 'createCombinedAthenaViewLambdaName'
+        dataCompactionJobName: props.glueCompactionJobName,
+        dataFlushJobName: props.glueDataFlushJobName,
+        createIndividualAthenaViewsLambdaName: props.createIndividualAthenaViewsLambda.functionName,
+        createCombinedAthenaViewLambdaName: props.createCombinedAthenaViewLambda.functionName
       },
       stateMachineName: 'NightlyDataCompactionStateMachine',
       tracingConfiguration: {
