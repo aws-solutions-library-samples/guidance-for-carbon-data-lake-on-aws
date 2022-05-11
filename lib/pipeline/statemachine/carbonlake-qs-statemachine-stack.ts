@@ -7,6 +7,7 @@ import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
   dataLineageFunction: lambda.Function,
+  dataLineageTraceFunction: lambda.Function,
   dataQualityJob: any,
   s3copierLambda: lambda.Function,
   glueTransformJobName: string,
@@ -29,22 +30,62 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const sfnFailure = new sfn.Fail(this, 'Failure');
 
     // Data Lineage Request - 0 - RAW_DATA_INPUT
-    const dataLineageTask0 = this.buildDataLineageSFNTask(props.dataLineageFunction, "RAW_DATA_INPUT");
+    const dataLineageTask0 = new tasks.LambdaInvoke(this, 'Data Lineage: RAW_DATA_INPUT', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.input.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.input.root_id"),
+        "action_taken": "RAW_DATA_INPUT",
+        "record": {
+          "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
+        }
+        
+      }),
+      resultPath: '$.data_lineage',
+    });
 
     // Data Quality Check
     const dataQualityTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Check', {
       lambdaFunction: props.s3copierLambda,
       payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
+      }),
+      resultPath: '$.data_quality'
     });
 
     // CHOICE - Data Quality Check Passed?
     const dataQualityChoice = new sfn.Choice(this, 'CHOICE: Data Quality Passed?')
 
     // Data Lineage Request - 1_1 - DQ_CHECK_PASS
-    const dataLineageTask1_1 = this.buildDataLineageSFNTask(props.dataLineageFunction, "DQ_CHECK_PASS");
-
+    const dataLineageTask1_1 = new tasks.LambdaInvoke(this, 'Data Lineage: DQ_CHECK_PASS', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.node_id"),
+        "record": {
+          "storage_location": sfn.JsonPath.stringAt("$.data_quality.storage_location")
+        },
+        "action_taken": "DQ_CHECK_PASS"
+      }),
+      resultPath: '$.data_lineage',
+    });
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
-    const dataLineageTask1_2 = this.buildDataLineageSFNTask(props.dataLineageFunction, "DQ_CHECK_FAIL");
+    const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'Data Lineage: DQ_CHECK_FAIL', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.node_id"),
+        "record": {
+          "storage_location": sfn.JsonPath.stringAt("$.data_quality.storage_location")
+        },
+        "action_taken": "DQ_CHECK_FAIL"
+      }),
+      resultPath: '$.data_lineage',
+    });
 
     // Human-in-the-loop approval step - invoked on data quality check fail
     const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
@@ -53,7 +94,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
       glueJobName: props.glueTransformJobName,
       arguments: sfn.TaskInput.fromObject({
-        "--UNIQUE_DIRECTORY": sfn.JsonPath.stringAt("$.data_lineage.parent_id")
+        "--UNIQUE_DIRECTORY": sfn.JsonPath.stringAt("$.data_lineage.node_id")
       }),
       integrationPattern: sfn.IntegrationPattern.RUN_JOB,
       resultSelector: {
@@ -69,44 +110,71 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       lambdaFunction: props.batchEnumLambda,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
-        "batch_location_dir":  sfn.JsonPath.stringAt("$.data_lineage.parent_id")
+        "batch_location_dir":  sfn.JsonPath.stringAt("$.data_lineage.node_id")
       }),
       resultPath: '$.batches'
     })
 
     // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
-    const dataLineageTask2 = this.buildDataLineageSFNTask(props.dataLineageFunction, "GLUE_BATCH_SPLIT");
+    const dataLineageTask2 = new tasks.LambdaInvoke(this, 'Data Lineage: GLUE_BATCH_SPLIT', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.node_id"),
+        "action_taken": "GLUE_BATCH_SPLIT",
+        "records": sfn.JsonPath.objectAt("$.batches")
+      }),
+      resultPath: '$.data_lineage',
+    });
 
     // Dynamic Map State - Run n calculations depending on number of batches
     const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
-      maxConcurrency: 40,
+      maxConcurrency: 10,
       inputPath: '$',
       itemsPath: "$.batches",
       parameters: {
-        "location": sfn.JsonPath.objectAt("$$.Map.Item.Value"),
-        "data_lineage": sfn.JsonPath.stringAt('$.data_lineage')
+        "storage_location": sfn.JsonPath.objectAt("$$.Map.Item.Value.storage_location"),
+        "data_lineage": {
+          "root_id": sfn.JsonPath.stringAt('$.data_lineage.root_id'),
+          "parent_id": sfn.JsonPath.stringAt('$$.Map.Item.Value.node_id')
+        }
       },
-      resultPath: '$.batch_results'
+      resultPath: sfn.JsonPath.DISCARD
     });
 
     // Calculation Lambda function - pass in the batch to be processed
-    // const calculationLambdaTask = new sfn.Pass(this, 'LAMBDA: Calculate CO2 Equivalent', {
-    //   inputPath: sfn.JsonPath.stringAt("$.location"),
-    //   result: sfn.Result.fromString("s3://<enriched_bucket>/<node_id>/<batch_id>.json"),
-    //   resultPath: "$.calculation_results"
-    // });
     const calculationLambdaTask = new tasks.LambdaInvoke(this, 'LAMBDA: Calculate CO2 Equivalent', {
       lambdaFunction: props.calculationJob,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
-        "location":  sfn.JsonPath.stringAt("$.location")
+        "storage_location":  sfn.JsonPath.stringAt("$.storage_location")
       }),
-      resultPath: '$.data_lineage.storage_location'
+      resultPath: '$.calculations'
     })
 
     // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = this.buildDataLineageSFNTask(props.dataLineageFunction, "CALCULATION_COMPLETE");
-    
+    const dataLineageTask3 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_COMPLETE', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
+        "action_taken": "CALCULATION_COMPLETE",
+        "records": sfn.JsonPath.objectAt("$.calculations")
+      }),
+      resultPath: '$.data_lineage',
+    });
+
+    // Data Lineage Trace Function - rebuild the lineage tree for a given root_id
+    const dataLineageTraceTask = new tasks.LambdaInvoke(this, 'Data Lineage - retrace tree', {
+      lambdaFunction: props.dataLineageTraceFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id")
+      }),
+      resultPath: "$.data_lineage"
+    })
 
     /* ======== STEP FUNCTION ======== */
 
@@ -116,7 +184,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       .next(dataQualityTask)
       .next(dataQualityChoice
         .when(
-          sfn.Condition.stringEquals('$.data_quality_check', "PASSED"),
+          sfn.Condition.stringEquals('$.data_quality.status', "PASSED"),
           sfn.Chain
             .start(dataLineageTask1_1)
             .next(transformGlueTask)
@@ -126,33 +194,19 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
               .start(calculationLambdaTask)
               .next(dataLineageTask3)
             ))
-            .next(sfnSuccess)
         )
         .otherwise(sfn.Chain
           .start(humanApprovalTask)
           .next(dataLineageTask1_2)
-          .next(sfnFailure)
         )
+        .afterwards()
       )
+      .next(dataLineageTraceTask)
+      .next(sfnSuccess)
 
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
       definition,
-      timeout: Duration.minutes(15)
-    });
-  }
-
-  private buildDataLineageSFNTask = (dlFunction: lambda.Function, action: string) : tasks.LambdaInvoke => {
-    return new tasks.LambdaInvoke(this, `Data Lineage: ${action}`, {
-      lambdaFunction: dlFunction,
-      payloadResponseOnly: true,
-      payload: sfn.TaskInput.fromObject({
-        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
-        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
-        "storage_type":  sfn.JsonPath.stringAt("$.data_lineage.storage_type"),
-        "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location"),
-        "action_taken": action
-      }),
-      resultPath: '$.data_lineage',
+      timeout: Duration.minutes(60)
     });
   }
 }
