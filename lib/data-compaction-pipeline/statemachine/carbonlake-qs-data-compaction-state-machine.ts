@@ -84,7 +84,6 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
       assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
       description: 'IAM role to be assumed by Step Functions State Machine',
       inlinePolicies: {
-        // 👇 attach the Policy Document as inline policies
         StepFunctionExecutionPolicy: stepFunctionsExecutionPolicy,
       }
     });

@@ -105,8 +105,7 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       description: 'IAM role to be assumed by Lambda to create Athena views',
       inlinePolicies: {
-        // 👇 attach the Policy Document as inline policies
-        GlueTranformationS3Policy: createAthenaViewsLambdaRolePolicy,
+        LambdaAthenaPolicy: createAthenaViewsLambdaRolePolicy,
       }
     });
     role.addManagedPolicy(lambdaPolicy);

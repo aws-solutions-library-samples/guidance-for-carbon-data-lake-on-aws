@@ -49,7 +49,6 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
           assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
           description: 'IAM role to be assumed by Glue transformation job',
           inlinePolicies: {
-            // 👇 attach the Policy Document as inline policies
             GlueCompactionJobS3Policy: glueCompactionJobS3Policy,
           }
         });

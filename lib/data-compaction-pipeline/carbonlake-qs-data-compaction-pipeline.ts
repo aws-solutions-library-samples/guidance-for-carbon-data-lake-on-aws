@@ -4,7 +4,6 @@ import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib';
 
 import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data-compaction-glue-jobs';
 import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler';
-import { CarbonLakeGlueEnrichedDataDatabaseStack } from './glue/carbonlake-qs-create-enriched-data-glue-database';
 import { CarbonLakeGlueEnrichedDataTodayTableStack } from './glue/carbonlake-qs-create-enriched-data-glue-today-table';
 import { CarbonlakeQuickstartCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews';
 import { CarbonlakeDataCompactionStateMachineStack } from './statemachine/carbonlake-qs-data-compaction-state-machine';
@@ -18,8 +17,8 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
   constructor(scope: App, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
     super(scope, id, props);
 
-    /* ======== GLUE METADATA CATALOG DATABASE & TABLE ======== */
-    const { glueEnrichedDataDatabase } = new CarbonLakeGlueEnrichedDataDatabaseStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {
+    /* ======== GLUE METADATA CATALOG TABLE ======== */
+    const { glueEnrichedDataTodayTable } = new CarbonLakeGlueEnrichedDataTodayTableStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {
       enrichedBucket: props?.enrichedBucket
     });
 

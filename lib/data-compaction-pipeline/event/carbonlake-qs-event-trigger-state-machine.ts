@@ -30,18 +30,17 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
       assumedBy: new iam.ServicePrincipal('events.amazonaws.com'),
       description: 'IAM role to be assumed by Event Bridge Event Rule',
       inlinePolicies: {
-        // 👇 attach the Policy Document as inline policies
-        EventTriggerStateMachine: eventRulePolicy,
+        EventTriggerStateMachinePolicy: eventRulePolicy,
       }
     });
 
 
-    this.eventRule = new events.CfnRule(this, 'TriggerDataCompactionStateMachineRule', {
+    this.eventRule = new events.CfnRule(this, `trigger-${props.stateMachineName}`, {
       description: 'Trigger daily data compaction pipeline at 12AM UTC',
       eventBusName: 'default',
-      name: props.stateMachineName,
+      name: `trigger-${props.stateMachineName}`,
       roleArn: eventRuleRole.roleArn,
-      scheduleExpression: 'cron(0 1 * * ? *)',
+      scheduleExpression: 'cron(0 0 * * ? *)',
       targets: [{
         arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
         id: props.stateMachineName,

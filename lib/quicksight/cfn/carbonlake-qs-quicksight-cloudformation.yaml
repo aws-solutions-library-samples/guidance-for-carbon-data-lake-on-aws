@@ -215,7 +215,6 @@ Resources:
       ImportMode: DIRECT_QUERY
 
 
-  #TODO: figure out a way to delete and redeploy template
   CombinedEmissionsDashboardTemplate:
     Type: AWS::QuickSight::Template
     Properties:
