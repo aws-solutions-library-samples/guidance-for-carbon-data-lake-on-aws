@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as codecommit from 'aws-cdk-lib/aws-codecommit';
 import { Construct } from 'constructs';
 import {CodeBuildStep, CodePipeline, CodePipelineSource, ManualApprovalStep} from "aws-cdk-lib/pipelines";
+import { CarbonlakeQuickstartPipelineStage } from './stages/carbonlake-qs-ci-cd-stage';
 
 export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -44,7 +45,12 @@ export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
 
           });
 
-          
+            const deploy = new CarbonlakeQuickstartPipelineStage(this, 'Deploy');
+            const deployStage = pipeline.addStage(deploy);
+
+          /*
+
+
           const testStage = pipeline.addStage(new cdk.Stage(this, "test", {
             env: { region: "us-east-1"}
           }));
@@ -54,6 +60,7 @@ export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
           const productionStage = pipeline.addStage(new cdk.Stage(this, "production", {
             env: { region: "us-east-1"}       
           }));
+          */
 
 
           

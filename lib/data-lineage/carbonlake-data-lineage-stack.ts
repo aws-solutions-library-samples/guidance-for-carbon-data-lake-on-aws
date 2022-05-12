@@ -4,13 +4,14 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as path from 'path';
 
 export class CarbonlakeQuickstartDataLineageStack extends Stack {
   public readonly inputFunction: lambda.Function;
   public readonly traceFunction: lambda.Function;
 
-  constructor(scope: App, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     /* ======== STORAGE ======== */
