@@ -1,12 +1,21 @@
 import React from 'react'
+import { useState } from 'react'
 import { SideNavigation } from '@awsui/components-react';
 const Sidebar = () => {
+  const [activeHref, setActiveHref] = useState('#/');
   return (
     <>
   <SideNavigation
+    activeHref={activeHref}
     header={{ text: 'AWS CarbonLake', href: '#/' }}
+    // onFollow={event => {
+    //   if (!event.detail.external) {
+    //     event.preventDefault();
+    //     setActiveHref(event.detail.href);
+    //   }
+    // }}
     items={[
-      { type: "link", text: "Dashboard", href: "#/" },
+      // { type: "link", text: "Dashboard", href: "#/" },
       {
         type: 'section',
         text: 'Getting Started',
@@ -78,7 +87,7 @@ const Sidebar = () => {
       // { type: "link", text: "Logout", href: "#/" },
 
     ]}
-    activeHref="#/carbonlake-101"
+    // activeHref="#/carbonlake-101"
     />
     </>
   )
