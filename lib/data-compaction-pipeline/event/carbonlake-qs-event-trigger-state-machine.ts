@@ -41,7 +41,7 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
       eventBusName: 'default',
       name: props.stateMachineName,
       roleArn: eventRuleRole.roleArn,
-      scheduleExpression: 'cron(0 0 * * ? *)',
+      scheduleExpression: 'cron(0 1 * * ? *)',
       targets: [{
         arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
         id: props.stateMachineName,

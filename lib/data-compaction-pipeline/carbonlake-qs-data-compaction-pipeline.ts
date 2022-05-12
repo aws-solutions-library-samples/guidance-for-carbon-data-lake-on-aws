@@ -18,21 +18,8 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
   constructor(scope: App, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
     super(scope, id, props);
 
-    /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
-    const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-    });
-
-    new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
-      sources: [s3_deployment.Source.asset('./lib/data-compaction-pipeline/statemachine/json')],
-      destinationBucket: stateMachineS3Bucket
-    });
-
     /* ======== GLUE METADATA CATALOG DATABASE & TABLE ======== */
-    const { glueEnrichedDataDatabase } = new CarbonLakeGlueEnrichedDataDatabaseStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {});
-    const { glueEnrichedDataTodayTable } = new CarbonLakeGlueEnrichedDataTodayTableStack(this, 'carbonLakeGlueEnrichedDataTodayTableStack', {
+    const { glueEnrichedDataDatabase } = new CarbonLakeGlueEnrichedDataDatabaseStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {
       enrichedBucket: props?.enrichedBucket
     });
 
@@ -50,6 +37,18 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     /** ATHENA VIEWS */
     const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
     })
+
+    /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
+    const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+
+    new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
+      sources: [s3_deployment.Source.asset('./lib/data-compaction-pipeline/statemachine/json')],
+      destinationBucket: stateMachineS3Bucket
+    });
 
     /* ======== STATEMACHINE ======== */
     const { stateMachineName } = new CarbonlakeDataCompactionStateMachineStack(this, 'carbonlakeDataCompactionStateMachineStack', {
