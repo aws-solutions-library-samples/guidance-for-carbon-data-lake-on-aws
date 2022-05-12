@@ -88,9 +88,11 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
       }
     });
 
+    // Create unique name for state machine that will be used to trigger Event Bridge Event
     this.stateMachineName = `NightlyDataCompactionStateMachine-${Names.uniqueId(stateMachineRole).slice(-8)}`;
 
 
+    // Create Step Functions State Machine using JSON definition stored in S3
     const stateMachine = new sfn.CfnStateMachine(this, this.stateMachineName, {
       roleArn: stateMachineRole.roleArn,
     

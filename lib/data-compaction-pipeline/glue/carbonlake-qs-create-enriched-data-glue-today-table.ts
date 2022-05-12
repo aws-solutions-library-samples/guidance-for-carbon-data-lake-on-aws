@@ -11,6 +11,7 @@ export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
     constructor(scope: Construct, id: string, props: CarbonLakeGlueEnrichedDataTodayTableStackProps) {
         super(scope, id, props);
 
+        // Create 'today' enriched data table in Glue Metadata Catalog ahead of time with pre-defined schema to match JSON output of calculator microservice
         this.glueEnrichedDataTodayTable = new glue.CfnTable(this, "enrichedCalculatorDataTodayData", {
           catalogId: this.account,
           databaseName: 'enriched-calculator-data',

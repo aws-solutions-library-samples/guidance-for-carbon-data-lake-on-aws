@@ -14,7 +14,7 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
     constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionGlueJobsStackProps) {
         super(scope, id, props);
 
-        // Create new S3 bucket to store glue script
+        // Create new S3 bucket to store glue data compaction script
         const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueCompactionJobScriptsBucket', {
           blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
         });
@@ -54,9 +54,10 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
         });
         role.addManagedPolicy(gluePolicy);
 
-        // create glue python shell script for purging old calculator records
+        // create unique name for glue data flush job that will be passed to state machine
         this.glueDataFlushJobName = `glue-remove-old-calculator-records-${Names.uniqueId(role).slice(-8)}`;
 
+        // create glue python shell script for purging old calculator records
         const glueDataFlushJob = new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
             name: this.glueDataFlushJobName,
             role: role.roleArn,
@@ -79,9 +80,10 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
             }
           });
 
-        // create glue ETL script to process compact calculator output data and save to S3
+        // create unique name for glue data compaction job that will be passed to state machine
         this.glueCompactionJobName = `glue-compact-daily-calculator-records-${Names.uniqueId(role).slice(-8)}`;
 
+        // create glue ETL script to process and compact calculator output data and save to S3
         const glueCompactionJob = new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
           name: this.glueCompactionJobName,
           role: role.roleArn,
@@ -110,7 +112,7 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
           }
         });
 
-        // Deploy glue job to S3 bucket
+        // Deploy glue job scripts to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
           sources: [cdk.aws_s3_deployment.Source.asset('./lib/data-compaction-pipeline/glue/assets')],
           destinationBucket: glueScriptsBucket,

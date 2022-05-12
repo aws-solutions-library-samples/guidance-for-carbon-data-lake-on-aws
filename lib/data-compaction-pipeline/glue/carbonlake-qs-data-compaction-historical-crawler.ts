@@ -41,9 +41,11 @@ export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack 
         });
         role.addManagedPolicy(gluePolicy);
 
+        // create unique name for data crawler that will be used to trigger in state machine
         this.glueHistoricalCalculatorCrawlerName = `glue-historical-calculator-data-crawler-${Names.uniqueId(role).slice(-8)}`;
 
         
+        // Create Glue crawler to update partitions in metadata catalog table for historical calculator records
         const glueHistoricalCalculatorCrawler = new cdk.aws_glue.CfnCrawler(this, this.glueHistoricalCalculatorCrawlerName, {
           role: role.roleArn,
           name: this.glueHistoricalCalculatorCrawlerName,
@@ -56,7 +58,6 @@ export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack 
             ],
           },
           databaseName: 'enriched-calculator-data',
-          // the properties below are optional
           recrawlPolicy: {
             recrawlBehavior: 'CRAWL_NEW_FOLDERS_ONLY',
           }

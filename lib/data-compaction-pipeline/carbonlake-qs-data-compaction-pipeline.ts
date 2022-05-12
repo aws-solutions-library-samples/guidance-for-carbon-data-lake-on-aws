@@ -33,7 +33,7 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
       enrichedBucket: props?.enrichedBucket
     })
 
-    /** ATHENA VIEWS */
+    /** LAMBDAS TO CREATE ATHENA VIEWS */
     const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
     })
 
@@ -59,7 +59,7 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
       stateMachineS3Bucket: stateMachineS3Bucket
     })
 
-    /** CREATE EVENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
+    /** VENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
     const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName
     })
