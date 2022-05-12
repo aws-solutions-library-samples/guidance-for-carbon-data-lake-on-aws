@@ -40,13 +40,16 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
   
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
-    const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(scope, "CarbonLakeDataCompactionPipelineStack", {
+    const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(scope, "CarbonlakeDataCompactionPipelineStack", {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     
 
     // QS5 --> Create the carbonlake quicksight stack
-  //const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack");
+    const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack", {
+      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+      adminEmail: adminEmail,
+    });
 
     // QS7 --> Create the carbonlake web stack
     const api = new CarbonLakeQuickStartApiStack(scope, "CarbonLakeApiStack", {

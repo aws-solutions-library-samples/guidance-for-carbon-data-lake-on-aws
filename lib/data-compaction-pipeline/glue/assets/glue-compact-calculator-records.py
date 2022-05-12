@@ -4,7 +4,7 @@ from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from datetime import datetime
+from datetime import datetime, timedelta
 
 args = getResolvedOptions(sys.argv, ["JOB_NAME", "ENRICHED_BUCKET_NAME"])
 sc = SparkContext()
@@ -14,8 +14,10 @@ job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
 
 glue_temp_storage = "s3://" + args["ENRICHED_BUCKET_NAME"] + "/temp"
-today_date = datetime.today().strftime('%Y-%m-%d');
-glue_relationalize_output_s3_path = "s3://" + args["ENRICHED_BUCKET_NAME"] + "/historical/" + today_date
+time_delta = timedelta(1)
+today_date = datetime.today() - time_delta
+formatted_today_date = today_date.strftime('%Y-%m-%d');
+glue_relationalize_output_s3_path = "s3://" + args["ENRICHED_BUCKET_NAME"] + "/historical/" + formatted_today_date
 dfc_root_table_name = "root" #default value is "roottable"
 # End variables to customize with your information
 

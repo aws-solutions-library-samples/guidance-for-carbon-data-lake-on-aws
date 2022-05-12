@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
@@ -8,13 +8,13 @@ interface CarbonLakeDataCompactionGlueJobsStackProps extends NestedStackProps {
 }
 
 export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
-  public readonly glueCompactionJob: cdk.aws_glue.CfnJob;
-  public readonly glueDataFlushJob: cdk.aws_glue.CfnJob;
+  public readonly glueCompactionJobName: any;
+  public readonly glueDataFlushJobName: any;
 
     constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionGlueJobsStackProps) {
         super(scope, id, props);
 
-        // Create new S3 bucket to store glue script
+        // Create new S3 bucket to store glue data compaction script
         const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueCompactionJobScriptsBucket', {
           blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
         });
@@ -35,7 +35,8 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
                 "s3:List*",
                 "s3:PutObject",
                 "s3:PutObjectTagging",
-                "s3:PutObjectVersionTagging"
+                "s3:PutObjectVersionTagging",
+                "s3:DeleteObject"
               ],
               effect: cdk.aws_iam.Effect.ALLOW,
             }),
@@ -48,16 +49,17 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
           assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
           description: 'IAM role to be assumed by Glue transformation job',
           inlinePolicies: {
-            // 👇 attach the Policy Document as inline policies
             GlueCompactionJobS3Policy: glueCompactionJobS3Policy,
           }
         });
         role.addManagedPolicy(gluePolicy);
 
+        // create unique name for glue data flush job that will be passed to state machine
+        this.glueDataFlushJobName = `glue-remove-old-calculator-records-${Names.uniqueId(role).slice(-8)}`;
+
         // create glue python shell script for purging old calculator records
-        const gluePurgeOldCalculatorRecordsJobName = 'glue-remove-old-calculator-records';
-        this.glueDataFlushJob = new cdk.aws_glue.CfnJob(this, gluePurgeOldCalculatorRecordsJobName, {
-            name: gluePurgeOldCalculatorRecordsJobName,
+        const glueDataFlushJob = new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
+            name: this.glueDataFlushJobName,
             role: role.roleArn,
             command: {
               name: 'pythonshell',
@@ -78,11 +80,12 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
             }
           });
 
-        // create glue ETL script to process compact calculator output data and save to S3
-        const glueCompactCalculatorRecordsJobName = 'glue-compact-daily-calculator-records';
-        
-        this.glueCompactionJob = new cdk.aws_glue.CfnJob(this, glueCompactCalculatorRecordsJobName, {
-          name: glueCompactCalculatorRecordsJobName,
+        // create unique name for glue data compaction job that will be passed to state machine
+        this.glueCompactionJobName = `glue-compact-daily-calculator-records-${Names.uniqueId(role).slice(-8)}`;
+
+        // create glue ETL script to process and compact calculator output data and save to S3
+        const glueCompactionJob = new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
+          name: this.glueCompactionJobName,
           role: role.roleArn,
           command: {
             name: "glueetl",
@@ -109,7 +112,7 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
           }
         });
 
-        // Deploy glue job to S3 bucket
+        // Deploy glue job scripts to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
           sources: [cdk.aws_s3_deployment.Source.asset('./lib/data-compaction-pipeline/glue/assets')],
           destinationBucket: glueScriptsBucket,
