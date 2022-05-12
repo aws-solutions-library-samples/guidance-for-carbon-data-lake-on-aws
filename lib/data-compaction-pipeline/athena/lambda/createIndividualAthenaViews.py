@@ -24,8 +24,25 @@ create_historial_formatted_view_query = 'CREATE OR REPLACE VIEW "' + FORMATTED_H
 client = boto3.client('athena')
 
 '''
-Input: TBD
-Output: TBD
+Input:
+- query: String
+- database_name: String
+- athena_query_output_location: String
+Output: {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:33:40 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    }
 '''
 def create_athena_view(query, database_name, athena_query_output_location):
     response = client.start_query_execution(
@@ -41,8 +58,47 @@ def create_athena_view(query, database_name, athena_query_output_location):
 
 
 '''
-Input: TBD
-Output: TBD
+Input: Step Functions Glue Crawler output: {
+  "Crawler": {<Glue Crawler Configuration Data>}
+}
+Output: {
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "text/json"
+  },
+  "body": {
+    "create_today_formatted_view_response": {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:19:30 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    },
+    "create_historical_formatted_view_response": {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:19:31 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    }
+  }
+}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)

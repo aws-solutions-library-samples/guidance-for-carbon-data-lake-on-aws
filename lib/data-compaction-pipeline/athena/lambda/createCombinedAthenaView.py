@@ -7,7 +7,7 @@ from urllib.parse import urljoin, urlparse
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-# database/table/view names hardcoded for now. Partitions should not change. 
+# database/table/view names hardcoded for now. Top level partitions should not change. 
 GLUE_DATABASE_NAME = 'enriched-calculator-data'
 FORMATTED_TODAY_VIEW_NAME = 'formatted_today_data'
 FORMATTED_HISTORICAL_VIEW_NAME = 'formatted_historical_data'
@@ -21,8 +21,25 @@ create_combined_view_query = 'CREATE OR REPLACE VIEW "' + COMBINED_DATA_VIEW_NAM
 client = boto3.client('athena')
 
 '''
-Input: TBD
-Output: TBD
+Input: 
+- query: String
+- database_name: String
+- athena_query_output_location: String
+Output: {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:33:40 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    }
 '''
 def create_athena_view(query, database_name, athena_query_output_location):
     response = client.start_query_execution(
@@ -38,15 +55,73 @@ def create_athena_view(query, database_name, athena_query_output_location):
 
 
 '''
-Input: TBD
-Output: TBD
+Input: Step Functions Lambda output: {
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "text/json"
+  },
+  "body": {
+    "create_today_formatted_view_response": {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:19:30 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    },
+    "create_historical_formatted_view_response": {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:19:31 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    }
+  }
+}
+Output: {
+  "statusCode": 200,
+  "headers": {
+    "Content-Type": "text/json"
+  },
+  "body": {
+    "create_combined_formatted_view_response": {
+      "QueryExecutionId": "<QueryExecutionId>",
+      "ResponseMetadata": {
+        "RequestId": "<RequestId>",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "content-type": "application/x-amz-json-1.1",
+          "date": "Thu, 12 May 2022 03:19:32 GMT",
+          "x-amzn-requestid": "<x-amzn-requestid>",
+          "content-length": "59",
+          "connection": "keep-alive"
+        },
+        "RetryAttempts": 0
+      }
+    }
+  }
+}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
     
     # create combined view in Athena
     combined_formatted_view = create_athena_view(create_combined_view_query, GLUE_DATABASE_NAME, ATHENA_QUERY_OUTPUT_LOCATION)
-    print(combined_formatted_view)
     
     return {
         'statusCode': 200,
