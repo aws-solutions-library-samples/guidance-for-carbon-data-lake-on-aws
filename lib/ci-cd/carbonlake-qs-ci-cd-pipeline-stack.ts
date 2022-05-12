@@ -26,10 +26,10 @@ export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
                   ],
                   // if you run into issues with docker build follow these steps: https://docs.aws.amazon.com/codebuild/latest/userguide/troubleshooting.html#troubleshooting-cannot-connect-to-docker-daemon
                   commands: [
-                      //'npm ci', <-- uncomment this and comment next line if you want to install from package-lock.json
+                      'npm ci', //<-- uncomment this and comment next line if you want to install from package-lock.json
                       'cdk --version',
                       'node --version',
-                      'npm install',
+                      //'npm install',
                       'npm run build',
                       'npx cdk synth --context adminEmail=carbonlake-quickstart@amazon.com'
                     ],
