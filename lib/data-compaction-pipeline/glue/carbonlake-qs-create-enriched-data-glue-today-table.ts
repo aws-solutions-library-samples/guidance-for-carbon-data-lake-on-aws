@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 
 interface CarbonLakeGlueEnrichedDataTodayTableStackProps extends NestedStackProps {
   enrichedBucket: s3.Bucket;
+  enrichedDataDatabase: glue.CfnDatabase
 }
 
 export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
@@ -14,7 +15,7 @@ export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
         // Create 'today' enriched data table in Glue Metadata Catalog ahead of time with pre-defined schema to match JSON output of calculator microservice
         this.glueEnrichedDataTodayTable = new glue.CfnTable(this, "enrichedCalculatorDataTodayData", {
           catalogId: this.account,
-          databaseName: 'enriched-calculator-data',
+          databaseName: props.enrichedDataDatabase.ref,
           tableInput: {
             description: "Glue Metadata Catalog table for today's calculator data",
             name: 'today',

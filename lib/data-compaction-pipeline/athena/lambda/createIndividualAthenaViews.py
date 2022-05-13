@@ -8,7 +8,8 @@ LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
 # database/table/view names hardcoded for now. Partitions should not change. 
-GLUE_DATABASE_NAME = 'enriched-calculator-data'
+#GLUE_DATABASE_NAME = 'enriched-calculator-data'
+GLUE_DATABASE_NAME = os.environ.get('GLUE_DATABASE_NAME')
 GLUE_TODAY_TABLE_NAME = 'today'
 GLUE_HISTORICAL_TABLE_NAME = 'historical'
 FORMATTED_TODAY_VIEW_NAME = 'formatted_today_data'

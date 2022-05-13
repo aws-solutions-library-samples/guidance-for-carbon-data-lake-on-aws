@@ -6,7 +6,9 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
-export interface CarbonlakeQuickstartCreateAthenaViewsStackProps extends NestedStackProps {}
+export interface CarbonlakeQuickstartCreateAthenaViewsStackProps extends NestedStackProps {
+  enrichedDataDatabase: glue.CfnDatabase;
+}
 
 export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
   public readonly createIndividualAthenaViewsLambda: lambda.Function;
@@ -70,8 +72,8 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
         new iam.PolicyStatement({
           resources: [
             `arn:aws:glue:${this.region}:${this.account}:catalog`,
-            `arn:aws:glue:${this.region}:${this.account}:database/enriched-calculator-data`,
-            `arn:aws:glue:${this.region}:${this.account}:table/enriched-calculator-data/*`
+            `arn:aws:glue:${this.region}:${this.account}:database/${props.enrichedDataDatabase.ref}`,
+            `arn:aws:glue:${this.region}:${this.account}:table/${props.enrichedDataDatabase.ref}/*`
           ],
           actions: [
             "glue:CreateDatabase",
@@ -119,6 +121,7 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
       description: "Lambda function for creating Athena views representing recent and historical formatted emissions data",
       environment: {
         ATHENA_QUERY_OUTPUT_LOCATION: athenaQueryResultsBucket.bucketName,
+        GLUE_DATABASE_NAME: props.enrichedDataDatabase.ref
       }
     });
 
@@ -131,6 +134,7 @@ export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
       description: "Lambda function for creating Athena view representing combined formatted emissions data",
       environment: {
         ATHENA_QUERY_OUTPUT_LOCATION: athenaQueryResultsBucket.bucketName,
+        GLUE_DATABASE_NAME: props.enrichedDataDatabase.ref
       }
     });
   }

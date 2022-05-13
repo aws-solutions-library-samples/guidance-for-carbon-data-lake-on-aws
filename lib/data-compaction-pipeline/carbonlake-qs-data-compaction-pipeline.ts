@@ -1,6 +1,7 @@
 import { App, Stack, StackProps, RemovalPolicy, } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib';
+import { aws_glue as glue } from 'aws-cdk-lib';
 
 import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data-compaction-glue-jobs';
 import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler';
@@ -11,6 +12,7 @@ import { CarbonLakeEventTriggerStateMachineStack } from './event/carbonlake-qs-e
 
 interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
+  enrichedDataDatabase: glue.CfnDatabase
 }
 
 export class CarbonLakeDataCompactionPipelineStack extends Stack {
@@ -19,7 +21,8 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */
     const { glueEnrichedDataTodayTable } = new CarbonLakeGlueEnrichedDataTodayTableStack(this, 'carbonLakeGlueEnrichedDataDatabaseStack', {
-      enrichedBucket: props?.enrichedBucket
+      enrichedBucket: props?.enrichedBucket,
+      enrichedDataDatabase: props?.enrichedDataDatabase
     });
 
     /* ======== GLUE COMPACTION & FLUSHING JOBS ======== */
@@ -30,11 +33,13 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
 
     /* ======== HISTORICAL DATA CRAWLER ======== */
     const { glueHistoricalCalculatorCrawlerName } = new CarbonLakeDataCompactionHistoricalCrawlerStack(this, 'carbonLakeDataCompactionHistoricalCrawlerStack', {
-      enrichedBucket: props?.enrichedBucket
+      enrichedBucket: props?.enrichedBucket,
+      enrichedDataDatabase: props?.enrichedDataDatabase
     })
 
     /** LAMBDAS TO CREATE ATHENA VIEWS */
     const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
+      enrichedDataDatabase: props?.enrichedDataDatabase
     })
 
     /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */

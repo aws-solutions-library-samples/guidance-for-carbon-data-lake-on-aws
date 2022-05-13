@@ -77,7 +77,6 @@ export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
             catalogId: this.account,
             databaseInput: {
               description: 'Glue Metadata Catalog  database for enriched calculator data',
-              name: 'enriched-calculator-data'
             },
           });
     }
