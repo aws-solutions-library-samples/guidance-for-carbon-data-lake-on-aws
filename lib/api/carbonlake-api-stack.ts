@@ -1,103 +1,115 @@
+import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { App, CfnOutput, Stack, StackProps } from 'aws-cdk-lib';                 // core constructs
-import { aws_apigateway as apigw } from 'aws-cdk-lib';
-import { aws_lambda as lambda } from 'aws-cdk-lib';
-import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_iam } from 'aws-cdk-lib';
-import { aws_cognito as cognito } from 'aws-cdk-lib';
-import { AssetCode, Runtime } from 'aws-cdk-lib/aws-lambda';
-import { AuthorizationType, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
+import * as path from 'path';
+import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from '@aws-cdk/aws-appsync-alpha';
+import { CfnOutput } from 'aws-cdk-lib';
+import { CfnUserPoolUser, IUserPool, IUserPoolClient, UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 
+export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
+    calculatorOutputTableRef: cdk.aws_dynamodb.Table;
+    adminEmail: string;
+}
 
-export class CarbonlakeApiStack extends Stack {
-    constructor(scope: App, id: string, props?: StackProps) {
+export class CarbonLakeQuickStartApiStack extends cdk.Stack {
+    public readonly graphqlUrl: string;
+    public readonly apiId: string;
+    public readonly userPool: IUserPool;
+    public readonly userPoolClient: IUserPoolClient;
+    public readonly adminUser: CfnUserPoolUser;
+
+    constructor(scope: Construct, id: string, props: CarbonLakeQuickStartApiStackProps) {
         super(scope, id, props);
 
-        // Create s3 raw data upload bucket
-        const inputBucket = new s3.Bucket(this, 'sample-bucket', {
-            encryption: s3.BucketEncryption.S3_MANAGED,
-            publicReadAccess: false
-        })
-        
-        var lambdaS3PolicyStatement = new iam.PolicyStatement()
-        lambdaS3PolicyStatement.addActions(
-          's3:PutObject',
-          's3:GetObject'
-        )
-        lambdaS3PolicyStatement.addResources(
-          inputBucket.bucketArn + '/*'
-        );
+        // Create a sample Cognito user pool to use in providing authentication & authorization for the API
+        const userPool = new UserPool(this, 'CarbonLakeQuickStartUserPool', {
+            userPoolName: 'CarbonLakeQuickStartUserPool'
+        });
 
-        const s3AuthLambda = new lambda.Function(this, "s3UploadLambdaHandler", {
-            runtime: lambda.Runtime.NODEJS_14_X,
-            code: lambda.Code.fromAsset('lambda/s3-authorizer'),
-            handler: "index.handler",
-            environment: {
-                S3_RAW_DATA_BUCKET: inputBucket.bucketName
+        // Create a sample Cognito user pool client to allow users created in Cognito to login and use the API
+        const userPoolClient = new UserPoolClient(this, 'CarbonLakeQuickStartUserPoolClient', {
+            userPool: userPool,
+            userPoolClientName: 'CarbonLakeQuickStartUserPoolClient',
+            generateSecret: false
+        });
+
+        const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartAdminUser', {
+            userPoolId: userPool.userPoolId,
+            desiredDeliveryMediums: ['EMAIL'],
+            userAttributes: [{
+              name: 'email',
+              value: props.adminEmail
+            }],
+            username: props.adminEmail
+          });
+
+        // Set the public variables so other stacks can access the deployed userPoolId & userPoolClientId as well as set as CloudFormation output variables
+        this.userPool = userPool;
+        new CfnOutput(this, 'userPoolId', {value: userPool.userPoolId});
+        this.userPoolClient = userPoolClient;
+        new CfnOutput(this, 'userPoolClientId', {value: userPoolClient.userPoolClientId});
+        this.adminUser = adminUser;
+        new CfnOutput(this, 'adminUser', {value: adminUser.username ?? ''});
+
+        // Create the GraphQL api and provide the schema.graphql file
+        const api = new GraphqlApi(this, 'CarbonLakeApi', {
+            name: 'CarbonLakeApi',
+            schema: Schema.fromAsset(path.join(__dirname, 'schema.graphql')),
+            authorizationConfig: {
+                defaultAuthorization: {
+                    authorizationType: AuthorizationType.USER_POOL,
+                    userPoolConfig: {
+                        userPool: userPool
+                    }
+                },
             },
-            initialPolicy: [lambdaS3PolicyStatement]
-        })
-
-        const carbonLakeCalculatorLambda = new Function(this, 'carbonLakeCalculatorLambda', {
-            code: new AssetCode('lambda/hello'),
-            handler: 'hello.handler',
-            runtime: Runtime.NODEJS_14_X
-          });
-
-        new lambda.CfnPermission(this, "ApiGatewayPermission", {
-            functionName: s3AuthLambda.functionArn,
-            action: "lambda:InvokeFunction",
-            principal: "apigateway.amazonaws.com",
-          });
-
-        const uploadApiAuthorizer = new apigw.LambdaRestApi(
-            this,
-            "UploadApi",
-            {
-                handler: s3AuthLambda,
-            }
-        );
-
-        // Define rest api with lambda handler backend
-        const api = new apigw.LambdaRestApi(this, 'carbonlakeLambdaRestApi', {
-            restApiName: 'Carbonlake API',
-            handler: carbonLakeCalculatorLambda,
-            proxy: false,
+            logConfig: {
+                excludeVerboseContent: true,
+                fieldLogLevel: FieldLogLevel.ERROR
+            },
+            // Uncomment the below line to enable AWS X-Ray distributed tracing for this api
+            //xrayEnabled: true
         });
 
-        // Define CarbonLake cognito user pool for authentication
-        const userPool = new cognito.UserPool(this, 'carbonlakeUserPool', {
-            signInAliases: {
-                email: true
-            }
-        })
+        // Set the public variables so other stacks can access the deployed graphqlUrl & apiId as well as set as CloudFormation output variables
+        this.graphqlUrl = api.graphqlUrl;
+        new CfnOutput(this, 'graphqlUrl', {value: api.graphqlUrl});
+        this.apiId = api.apiId;
+        new CfnOutput(this, 'apiId', {value: api.apiId});
 
-        // Create API authorized for cognito user pool
-        const authorizer = new apigw.CfnAuthorizer(this, 'cfnAuth', {
-            restApiId: carbonLakeCalculatorLambda.restApiId,
-            name: 'CarbonLakeCalculatorAPIAuthorizer',
-            type: 'COGNITO_USER_POOLS',
-            identitySource: 'method.request.header.Authorization',
-            providerArns: [userPool.userPoolArn],
-          })
-
-        api.root.addMethod('ANY');
-
-        const input = api.root.addResource('input');
-        input.addMethod('POST', new LambdaIntegration(carbonLakeCalculatorLambda), {
-            authorizationType: AuthorizationType.COGNITO,
-            authorizer: {
-                authorizerId: authorizer.ref
-            }
+        // Add a DynamoDB datasource. The DynamoDB table we will use is created by another stack
+        // and is provided in the props of this stack.
+        const datasource = api.addDynamoDbDataSource('CalculatorOutputDataSource', props.calculatorOutputTableRef, {
+            name: 'CalculatorOutputDataSource'
         });
-        
-        const upload = input.addResource('upload');
-        upload.addMethod('POST');
 
-        const data = input.addResource('data');
-        data.addMethod('POST')
+        // Create a resolver for getting 1 record by the activity_event_id
+        datasource.createResolver({
+            typeName: 'Query',
+            fieldName: 'getOne',
+            requestMappingTemplate: MappingTemplate.dynamoDbGetItem("activity_event_id", "activity_event_id"),
+            responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
+        });
 
+        // Create a resolver for getting a list of records. This resolver will limit the number of records
+        // returned by a value provided or by a default of 20. This resolver can be used for pagination.
+        datasource.createResolver({
+            typeName: 'Query',
+            fieldName: 'all',
+            requestMappingTemplate: MappingTemplate.fromString(`{
+                "version": "2018-05-29",
+                "operation": "Scan",
+                "limit": $util.defaultIfNull($ctx.args.limit, 20),
+                "nextToken": $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null))
+            }`),
+            responseMappingTemplate: MappingTemplate.dynamoDbResultItem()
+        });
 
-
+        // Create a resolver for deleting a record by the activity_event_id
+        datasource.createResolver({
+            typeName: 'Mutation',
+            fieldName: 'delete',
+            requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem("activity_event_id", "activity_event_id"),
+            responseMappingTemplate: MappingTemplate.dynamoDbResultItem()
+        });
     }
 }

@@ -1,0 +1,32 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type CalculatorOutput {
+    activity_event_id: String!
+    asset_id: String
+    activity: String
+    category: String
+    scope: Int
+    emissions_output: AWSJSON
+    geo: AWSJSON
+    origin_measurement_timestamp: String
+    raw_data: Float
+    source: String
+    units: String
+}
+
+type PaginatedCalculatorOutput {
+    items: [CalculatorOutput]
+    nextToken: String
+}
+
+type Query {
+    all(limit: Int, nextToken: String): PaginatedCalculatorOutput
+    getOne(activity_event_id: String!): CalculatorOutput
+}
+
+type Mutation {
+    delete(activity_event_id: String!): CalculatorOutput
+}
