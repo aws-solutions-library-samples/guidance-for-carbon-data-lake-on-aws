@@ -3,7 +3,7 @@ import { CarbonLakeQuickStartApiStack } from './api/carbonlake-api-stack';
 import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipeline-stack';
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
-import { CarbonLakeDataCompactionPipelineStack } from './pipeline/data-compaction/carbonlake-qs-data-compaction-pipeline';
+import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
 import { CfnOutput, Stack } from 'aws-cdk-lib';
 import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
 import { CarbonlakeForecastStack } from './forecast/carbonlake-qs-forecast';
