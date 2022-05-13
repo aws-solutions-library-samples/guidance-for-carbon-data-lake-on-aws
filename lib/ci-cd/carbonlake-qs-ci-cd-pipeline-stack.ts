@@ -14,12 +14,14 @@ export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
             repositoryName: "CarbonLakeRepo"
         });
 
+        const repoBranch = this.node.tryGetContext('repo');
+
         // Creates a pipeline for deployment and build of CDK app
         // If you are repurposing this repository change the name of the pipeline
         // Update the branch from 'qsv1-dev' to the name of the branch you want to deploy from your repo
         const pipeline = new CodePipeline(this, 'Pipeline', {
           synth: new CodeBuildStep('SynthStep', {
-                  input: CodePipelineSource.codeCommit(repo, 'qsv1-test'),
+                  input: CodePipelineSource.codeCommit(repo, repoBranch),
                   installCommands: [
                     'npm uninstall -g aws-cdk',
                     'npm install -g aws-cdk@latest'
@@ -30,7 +32,7 @@ export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
                       'cdk --version',
                       'node --version',
                       //'npm install',
-                      'cdk synth --context adminEmail=carbonlake-quickstart@amazon.com --all'
+                      'cdk synth --all'
                     ],
                     // this sets the build environment to privileged image for docker execution
                     buildEnvironment: {
