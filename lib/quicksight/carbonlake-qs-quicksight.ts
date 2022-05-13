@@ -7,7 +7,7 @@ import * as path from 'path';
 
 interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
-  adminEmail: any;
+  adminEmail?: any;
 }
 
 export class CarbonlakeQuicksightStack extends Stack {
@@ -42,7 +42,7 @@ export class CarbonlakeQuicksightStack extends Stack {
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
-        Email: props.adminEmail,
+        Email: props.adminEmail ?? '',
         Template_Unique_Identifier: templateUniqueIdentifier
       }
     });

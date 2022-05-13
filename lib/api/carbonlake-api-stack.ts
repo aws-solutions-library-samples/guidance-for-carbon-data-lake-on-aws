@@ -7,7 +7,7 @@ import { CfnUserPoolUser, IUserPool, IUserPoolClient, UserPool, UserPoolClient }
 
 export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
-    adminEmail: string;
+    adminEmail?: string;
 }
 
 export class CarbonLakeQuickStartApiStack extends cdk.Stack {
