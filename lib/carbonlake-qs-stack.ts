@@ -14,10 +14,14 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     const adminEmail = this.node.tryGetContext('adminEmail');
     if (!adminEmail) {
-      console.error('You must provide a valid admin email address via --context adminEmail=value');
-      process.exit(1);
+      console.warn('****************************************************************');
+      console.warn('*** WARNING: If you will be deploying CarbonLakeApiStack     ***');
+      console.warn('*** or CarbonlakeQuicksightStack, you must provide a         ***');
+      console.warn('*** valid admin email address via --context adminEmail=value ***');
+      console.warn('****************************************************************');
+    } else {
+      new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
-    new CfnOutput(this, 'adminEmail', {value: adminEmail});
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
