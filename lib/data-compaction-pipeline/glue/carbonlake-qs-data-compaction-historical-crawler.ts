@@ -5,6 +5,7 @@ import { Construct } from 'constructs';
 
 interface CarbonLakeDataCompactionHistoricalCrawlerStackProps extends NestedStackProps {
   enrichedBucket: cdk.aws_s3.Bucket;
+  enrichedDataDatabase: cdk.aws_glue.CfnDatabase;
 }
 
 export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack {
@@ -53,14 +54,11 @@ export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack 
           targets: {
             s3Targets: [
               {
-                path: `s3://${props.enrichedBucket.bucketName}/historical`,
+                path: `s3://${props.enrichedBucket.bucketName}/historical/`,
               },
             ],
           },
-          databaseName: 'enriched-calculator-data',
-          recrawlPolicy: {
-            recrawlBehavior: 'CRAWL_NEW_FOLDERS_ONLY',
-          }
+          databaseName: props.enrichedDataDatabase.ref
         });
     }
 }
