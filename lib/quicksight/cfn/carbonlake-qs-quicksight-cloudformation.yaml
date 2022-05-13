@@ -222,7 +222,7 @@ Resources:
       Name: CarbonLake Combined Emissions Template
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
-        SourceTemplate: #TODO: point to analysis template created in the main CarbonLake dev account
+        SourceTemplate: #TODO: point to template created in the main CarbonLake dev account
           Arn: arn:aws:quicksight:us-east-1:148257099368:template/CarbonLake-Combined-Emissions-Template-145CA4B5
       Permissions:
         - Principal: !Join
