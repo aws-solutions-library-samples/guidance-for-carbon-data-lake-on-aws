@@ -11,6 +11,9 @@ Parameters:
   Template_Unique_Identifier:
     Type: String
     Description: Unique string that will be added to Dashboard template each time it is deployed
+  EnrichedDataDatabaseName:
+    Type: String
+    Description: Name of enriched calculator data database created by shared resources stack in Glue Metadata Catalog
 
 Resources:
   CombinedEmissionsAthenaDataSource:
@@ -96,7 +99,7 @@ Resources:
               - Name: date
                 Type: DATETIME
             Name: combined_emissions_data
-            Schema: enriched-calculator-data
+            Schema: !Ref EnrichedDataDatabaseName
       LogicalTableMap:
         CombinedEmissionsMapped:
           Alias: combined-emissions
