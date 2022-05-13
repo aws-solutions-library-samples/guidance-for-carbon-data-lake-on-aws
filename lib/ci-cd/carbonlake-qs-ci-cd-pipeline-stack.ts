@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import {CodeBuildStep, CodePipeline, CodePipelineSource, ManualApprovalStep} from "aws-cdk-lib/pipelines";
 import { CarbonlakeQuickstartPipelineStage } from './stages/carbonlake-qs-ci-cd-stage';
 
-export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
+export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
@@ -18,9 +18,8 @@ export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
         // If you are repurposing this repository change the name of the pipeline
         // Update the branch from 'qsv1-dev' to the name of the branch you want to deploy from your repo
         const pipeline = new CodePipeline(this, 'Pipeline', {
-          pipelineName: 'CarbonLakePipeline',
           synth: new CodeBuildStep('SynthStep', {
-                  input: CodePipelineSource.codeCommit(repo, 'qsv1-dev'),
+                  input: CodePipelineSource.codeCommit(repo, 'qsv1-test'),
                   installCommands: [
                     'npm uninstall -g aws-cdk',
                     'npm install -g aws-cdk@latest'
@@ -31,8 +30,7 @@ export class CarbonlakeQuickstartCiCdPipelineStack extends cdk.Stack {
                       'cdk --version',
                       'node --version',
                       //'npm install',
-                      'npm run build',
-                      'npx cdk synth --context adminEmail=carbonlake-quickstart@amazon.com'
+                      'cdk synth --context adminEmail=carbonlake-quickstart@amazon.com --all'
                     ],
                     // this sets the build environment to privileged image for docker execution
                     buildEnvironment: {
