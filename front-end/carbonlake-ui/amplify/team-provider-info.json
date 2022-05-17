@@ -10,6 +10,23 @@
       "StackName": "amplify-carbonlakeqs-dev-124353",
       "StackId": "arn:aws:cloudformation:us-east-1:122173967814:stack/amplify-carbonlakeqs-dev-124353/8ab62660-d600-11ec-9b5f-0a20745f8a15",
       "AmplifyAppId": "d1bwg568rhwgvp"
+    },
+    "categories": {
+      "auth": {
+        "carbonlakeqs63341bf1": {
+          "userPoolId": "us-east-1_6FkoMPs6j",
+          "userPoolName": "CarbonLakeQS-test",
+          "webClientId": "6i9pe0ntcql0npt54eemv4bi1p",
+          "nativeClientId": "6i9pe0ntcql0npt54eemv4bi1p",
+          "identityPoolId": "us-east-1:941eee7c-6ef3-4915-a5a8-8b2eacc7e898",
+          "identityPoolName": "CarbonLake-QS-test",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::122173967814:role/amplify-carbonlakeqs-dev-124353-authRole",
+          "authRoleName": "amplify-carbonlakeqs-dev-124353-authRole",
+          "unauthRoleArn": "arn:aws:iam::122173967814:role/amplify-carbonlakeqs-dev-124353-unauthRole",
+          "unauthRoleName": "amplify-carbonlakeqs-dev-124353-unauthRole"
+        }
+      }
     }
   }
 }
