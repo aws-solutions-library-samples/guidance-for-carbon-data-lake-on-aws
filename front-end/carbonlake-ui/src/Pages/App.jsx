@@ -24,10 +24,17 @@ import EmptyTableView from './TableWithEmptyState.jsx';
 
 import '@awsui/global-styles/index.css';
 
+
+// Amplify
+import Amplify from 'aws-amplify';
+import awsconfig from '../aws-exports';
+import { AmplifySignOut, withAuthenticator} from '@aws-amplify/ui-react'
+
+
+Amplify.configure(awsconfig);
 // Class App is the "output" generated on every build,
 // it is what you will see on the webpage.
-export default class App extends React.Component {
-  render() {
+function App() {
     return (
       // When you create a new file or template, add it below
       // as a new 'Route' so you can link to it with a url.
@@ -54,7 +61,10 @@ export default class App extends React.Component {
             window.location.href = 'https://github.com';
           return null;
         }}/>
+
+        <AmplifySignOut />
       </div>
     );
-  }
+
 }
+export default withAuthenticator(App);
