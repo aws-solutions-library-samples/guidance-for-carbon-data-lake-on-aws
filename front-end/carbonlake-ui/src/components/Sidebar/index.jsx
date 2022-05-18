@@ -2,12 +2,12 @@ import React from 'react'
 import { useState } from 'react'
 import { SideNavigation } from '@awsui/components-react';
 const Sidebar = () => {
-  const [activeHref, setActiveHref] = useState('#/');
+  const [activeHref, setActiveHref] = useState('/');
   return (
     <>
   <SideNavigation
     activeHref={activeHref}
-    header={{ text: 'AWS CarbonLake', href: '#/' }}
+    header={{ text: 'AWS CarbonLake', href: '/' }}
     // onFollow={event => {
     //   if (!event.detail.external) {
     //     event.preventDefault();
@@ -15,15 +15,15 @@ const Sidebar = () => {
     //   }
     // }}
     items={[
-      // { type: "link", text: "Dashboard", href: "#/" },
+      // { type: "link", text: "Dashboard", href: "/" },
       {
         type: 'section',
         text: 'Getting Started',
         expanded: true,
         items: [
-          { type: 'link', text: 'CarbonLake 101', href: '#/carbonlake-101' },
-          { type: 'link', text: 'Setup Guide', href: '#/setup-guide' },
-          { type: 'link', text: 'Case Studies', href: '#/case-studies' },
+          { type: 'link', text: 'CarbonLake 101', href: '/carbonlake-101' },
+          { type: 'link', text: 'Setup Guide', href: '/setup-guide' },
+          { type: 'link', text: 'Case Studies', href: '/case-studies' },
         ]
       },
       {
@@ -41,7 +41,7 @@ const Sidebar = () => {
       //   text: 'Account',
       //   expanded: true,
       //   items: [
-      //     { type: 'link', text: 'Settings', href: '#/account-settings' },
+      //     { type: 'link', text: 'Settings', href: '/account-settings' },
       //   ]
       // },
       {
@@ -49,10 +49,10 @@ const Sidebar = () => {
         text: 'Data Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'Data Uploader', href: '#/data-uploader' },
-          { type: 'link', text: 'Emission Records', href: '#/emission-records' },
-          { type: 'link', text: 'Decarb Intelligence', href: '#/decarb-intelligence' },
-          { type: 'link', text: 'Visualizations', href: '#/visualizations' },
+          { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
+          { type: 'link', text: 'Emission Records', href: '/emission-records' },
+          { type: 'link', text: 'Decarb Intelligence', href: '/decarb-intelligence' },
+          { type: 'link', text: 'Visualizations', href: '/visualizations' },
         ]
       },
       {
@@ -60,9 +60,9 @@ const Sidebar = () => {
         text: 'Data Quality',
         expanded: true,
         items: [
-          { type: 'link', text: 'Metrics', href: '#/metrics' },
-          { type: 'link', text: 'Model Editor', href: '#/model-editor' },
-          { type: 'link', text: 'Alerts', href: '#/dq-alerts' },
+          { type: 'link', text: 'Metrics', href: '/metrics' },
+          { type: 'link', text: 'Model Editor', href: '/model-editor' },
+          { type: 'link', text: 'Alerts', href: '/dq-alerts' },
         ]
       },
       {
@@ -70,8 +70,8 @@ const Sidebar = () => {
         text: 'Forecasting',
         expanded: true,
         items: [
-          { type: 'link', text: 'Models', href: '#/forecasting-models' },
-          { type: 'link', text: 'Training', href: '#/forecasting-model-training' },
+          { type: 'link', text: 'Models', href: '/forecasting-models' },
+          { type: 'link', text: 'Training', href: '/forecasting-model-training' },
         ]
       },
       {
@@ -79,12 +79,12 @@ const Sidebar = () => {
         text: 'Data Exchange',
         expanded: true,
         items: [
-          { type: 'link', text: 'AWS Data Exchange', href: '#/aws-data-exchange' },
-          { type: 'link', text: 'ASDI', href: '#/asdi' },
-          { type: 'link', text: 'Data Marketplace', href: '#/data-marketplace' },
+          { type: 'link', text: 'AWS Data Exchange', href: '/aws-data-exchange' },
+          { type: 'link', text: 'ASDI', href: '/asdi' },
+          { type: 'link', text: 'Data Marketplace', href: '/data-marketplace' },
         ]
       },
-      // { type: "link", text: "Logout", href: "#/" },
+      // { type: "link", text: "Logout", href: "/" },
 
     ]}
     // activeHref="#/carbonlake-101"
