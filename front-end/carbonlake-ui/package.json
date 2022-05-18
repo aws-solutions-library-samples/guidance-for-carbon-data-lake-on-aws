@@ -11,14 +11,16 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^2.18.0",
     "@awsui/collection-hooks": "^1.0.25",
     "@awsui/components-react": "^3.0.490",
     "@awsui/design-tokens": "^3.0.21",
     "@awsui/global-styles": "^1.0.14",
     "@awsui/test-utils-core": "^1.0.17",
+    "aws-amplify": "^4.3.22",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.3.0",
     "sass": "^1.32.8"
   },
   "devDependencies": {

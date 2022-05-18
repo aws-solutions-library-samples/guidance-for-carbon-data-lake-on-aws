@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataProvider from '../resources/data-provider';
 import Sidebar from '../components/Sidebar';
-import ServiceNavigation from './ServiceNavigation.jsx';
+// import ServiceNavigation from './ServiceNavigation.jsx';
 import TopNavigationHeader from '../components/TopNavigationHeader';
 import HelpTools from '../components/HelpTools';
 import {
@@ -38,7 +38,7 @@ export default () => {
     <TopNavigationHeader/>
 
 
-
+{/* TODO - Connect this to GraphQL API and fetch correct data */}
 
     {/* <Sidebar /> */}
       <AppLayout

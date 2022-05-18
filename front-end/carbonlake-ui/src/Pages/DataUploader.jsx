@@ -70,17 +70,16 @@ const Content = () => {
                   Upload your files below to start the pipeline.
                 </span>
               </Box>
-            </div>
+            </div>``
           </Box>
         </Grid>
       </div>
-
 {/* Start How it works section */}
-      {/* <Box margin="xxl" padding="l">
+      <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>How it works</h1>
-            <Container>
+            <h1>TODO - Add S3 File Uploader</h1>
+            {/* <Container>
               <div>
                 <ol>
                   <li>
@@ -198,70 +197,12 @@ const Content = () => {
                   </ul>
                 </ol>
               </div>
-            </Container>
+            </Container> */}
           </div>
         </SpaceBetween>
-      </Box> */}
-
-
+      </Box>
     </TextContent>
   </div>
-
-
-
   )
-
-
 }
-
-
-
-// const Sidebar = () => {
-//   return (
-//     <>
-//   <SideNavigation
-//     header={{ text: 'Navigation panel', href: '#/' }}
-//     items={[
-//       {
-//         type: 'section',
-//         text: 'My pages',
-//         expanded: true,
-//         items: [
-//           { type: 'link', text: 'Bob Ross intro', href: '#/' },
-//           { type: 'link', text: 'Basic layout', href: '#/basic' },
-//           { type: 'link', text: 'Service homepage', href: '#/service-home' },
-//           { type: 'link', text: 'Single page create', href: '#/create' },
-//           { type: 'link', text: 'Table view', href: '#/table' },
-//           {
-//             type: 'link',
-//             text: 'Table with Empty State',
-//             href: '#/table-empty'
-//           }
-//         ]
-//       }
-//     ]}
-//     activeHref="#/"
-//     />
-//     </>
-//   )
-//   }
-
 <HelpTools/>
-
-
-// import React from 'react';
-// import AppLayout from '@awsui/components-react/app-layout';
-// import TopNavigation from '@awsui/components-react/top-navigation';
-
-// const i18nStrings = {
-//   overflowMenuTriggerText: 'More',
-// };
-
-// export default () => (
-//   <body>
-//     <div id="h" style={{ position: 'sticky', top: 0, zIndex: 1002 }}>
-//       <TopNavigation identity={{ href: '#' }} i18nStrings={i18nStrings} />
-//     </div>
-//     <AppLayout content="Your main content" headerSelector="#h" />
-//   </body>
-// );

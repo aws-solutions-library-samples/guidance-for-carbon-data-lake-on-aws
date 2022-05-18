@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "carbonlakeqs63341bf1": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
