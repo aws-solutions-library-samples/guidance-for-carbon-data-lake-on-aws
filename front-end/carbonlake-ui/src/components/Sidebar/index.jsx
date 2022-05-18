@@ -6,6 +6,7 @@ const Sidebar = () => {
   return (
     <>
   <SideNavigation
+  // TODO - Make active link work for navigation
     activeHref={activeHref}
     header={{ text: 'AWS CarbonLake', href: '/' }}
     // onFollow={event => {
