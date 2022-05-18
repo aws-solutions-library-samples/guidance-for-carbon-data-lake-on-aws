@@ -3,6 +3,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
@@ -23,7 +24,7 @@ interface PipelineProps extends StackProps {
 export class CarbonlakeQuickstartPipelineStack extends Stack {
   public readonly calculatorOutputTable: ddb.Table;
 
-  constructor(scope: App, id: string, props: PipelineProps) {
+  constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id, props);
 
     /* ======== DATA QUALITY ======== */

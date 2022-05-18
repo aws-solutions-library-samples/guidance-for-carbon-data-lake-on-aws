@@ -9,6 +9,7 @@ import { CarbonLakeGlueEnrichedDataTodayTableStack } from './glue/carbonlake-qs-
 import { CarbonlakeQuickstartCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews';
 import { CarbonlakeDataCompactionStateMachineStack } from './statemachine/carbonlake-qs-data-compaction-state-machine';
 import { CarbonLakeEventTriggerStateMachineStack } from './event/carbonlake-qs-event-trigger-state-machine';
+import { Construct } from 'constructs';
 
 interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
@@ -16,7 +17,7 @@ interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
 }
 
 export class CarbonLakeDataCompactionPipelineStack extends Stack {
-  constructor(scope: App, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
+  constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
     super(scope, id, props);
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */

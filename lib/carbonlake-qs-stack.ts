@@ -4,12 +4,13 @@ import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipe
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
-import { CfnOutput } from 'aws-cdk-lib';
+import { CfnOutput, Stack } from 'aws-cdk-lib';
 import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
 import { CarbonlakeForecastStack } from './forecast/carbonlake-qs-forecast';
+import { Construct } from 'constructs';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
     super(scope, id, props);
 
     const adminEmail = this.node.tryGetContext('adminEmail');
@@ -20,6 +21,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       console.warn('*** valid admin email address via --context adminEmail=value ***');
       console.warn('****************************************************************');
     } else {
+      console.log(adminEmail)
       new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
 
@@ -67,6 +69,8 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
 
     // TODO --> Creat the carbonlake monitoring and observability stack
+
+    console.log('context passed in App 👉', this.node.tryGetContext('adminEmail'));
     
   }
 }
