@@ -38,7 +38,7 @@ export default () => {
     <TopNavigationHeader/>
 
 
-
+{/* TODO - Connect this to GraphQL API and fetch correct data */}
 
     {/* <Sidebar /> */}
       <AppLayout
