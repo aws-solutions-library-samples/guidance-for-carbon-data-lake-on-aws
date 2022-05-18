@@ -126,11 +126,4 @@ const TopNavigationHeader = ({signOut, user}) => {
   )
 }
 
-
-
-
-
-
-
-
 export default withAuthenticator(TopNavigationHeader);
