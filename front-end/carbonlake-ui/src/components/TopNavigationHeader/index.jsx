@@ -1,27 +1,39 @@
-
-
 import React from 'react';
 import { useState } from 'react';
 import { TopNavigation } from '@awsui/components-react';
-import logo from '../../../public/images/AWS_logo_RGB_REV.png'
 
 // Company logo. Upload your own logo and point to it to change this in the TopNavigation.
+import logo from '../../../public/images/AWS_logo_RGB_REV.png'
+
+// Styles
 import '../../styles/top-navigation.scss';
 
-// Authenticated user details. These will changed once cognito is connected, but objects will still need to be interpolated
-const appUser = {
-  userName: 'novekm',
-  fullName: 'Kevon Mayers',
-  userEmail: 'novekm@amazon.com',
-};
+// Amplify
+import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
-const TopNavigationHeader = () => {
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
+
+
+
+
+const TopNavigationHeader = ({signOut, user}) => {
+  // Authenticated user details. These will changed once cognito is connected, but objects will still need to be interpolated
+  const appUser = {
+    userName: 'novekm',
+    // Pull in logged in user attributes from cognito user pool
+    fullName: `${user.attributes.given_name} ${user.attributes.family_name}`,
+    userEmail: `${user.attributes.email}`,
+  };
   return (
     <div id="h">
     <TopNavigation
       identity={{
         href: "/",
-        title: "Powered by AWS CarbonLake",
+        title: `"Powered by AWS CarbonLake"`,
         logo: {
           src:
           logo,
@@ -76,7 +88,8 @@ const TopNavigationHeader = () => {
                 {
                   id: "documentation",
                   text: "Documentation",
-                  href: "#",
+                  //TODO - Replace this with link to our GitHub docs
+                  href: "https://github.com",
                   external: true,
                   externalIconAriaLabel:
                   " (opens in new tab)"
@@ -85,14 +98,16 @@ const TopNavigationHeader = () => {
                 {
                   id: "feedback",
                   text: "Feedback",
-                  href: "#",
+                  //TODO - Replace this with link to our GitHub feedback mechanism
+                  href: "https://github.com",
                   external: true,
                   externalIconAriaLabel:
                   " (opens in new tab)"
                 }
               ]
             },
-            { id: "signout", text: "Sign out" }
+            // TODO - Make Sign out button work using existing signOut function onClick
+            { id: "signout", text: "Sign out",  function: signOut }
           ]
         }
       ]}
@@ -105,6 +120,8 @@ const TopNavigationHeader = () => {
         // overflowMenuDismissIconAriaLabel: "Close menu"
       }}
       />
+      {/* TODO - Remove this when dropdown sign out button is working */}
+      <button onClick={signOut}>sign out</button>
       </div>
   )
 }
@@ -116,4 +133,4 @@ const TopNavigationHeader = () => {
 
 
 
-export default TopNavigationHeader;
+export default withAuthenticator(TopNavigationHeader);
