@@ -1,17 +1,23 @@
-# Welcome to your CDK TypeScript project
+# Welcome to CarbonLake Quickstart CDK Application
 
 This is a blank project for TypeScript development with CDK.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
+The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app. You will need to define:
+
+* `adminEmail`            The email address for the administrator of the app
+* `repoBranch`            The branch name that you want to automatically deploy in your pipeline
+
 ## Useful commands
 
 * `npm run build`                          compile typescript to js
 * `npm run watch`                          watch for changes and compile
-* `npm run test`                           perform the jest unit tests
-* `cdk deploy --context adminEmail=value`  deploy this stack to your default AWS account/region w/ a pre-created admin user
+* `npm run test`                           perform the jest unit tests\
 * `cdk diff`                               compare deployed stack with current state
 * `cdk synth`                              emits the synthesized CloudFormation template
+* `cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"`     deploy this stack to your default AWS account/region w/o the CDK pipeline
+* `cdk deploy --all`                       deploy this application CI/CD stack and then link your repo for automated pipeline
 
 ## To set up your environment
 
@@ -20,11 +26,26 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 * `aws sts get-caller-identity`
 * `cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
 
+## To start deploying the CDK Stacks
+
+* If you are deploying only for local development `cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"` will deploy all of the CarbonLake stacks without the CI/CD pipeline
+* If you are deploying the full CI/CD pipeline `cdk deploy --all` will deploy the pipeline and you will have to connect your repo for automated deployment
+
+### The most common workflow is to:
+1. Check out a branch
+2. Work on the branch, deploying for local development via `cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"`
+3. Merge your branch back into the development branch
+4. This will trigger deployment in an automated test environment
+
 # What you'll build
 
-* Pipeline
-* Calculator
-* Data Lineage
+* Shared Resource Stack
+* Data Pipeline Step Function Workflow
+* Data Quality Module
+* Event-Driven Carbon Emissions Calculator
+* Data Lineage Module
+* Forecasting Module
+* BI and Analytics Module
 * Web Application
 
 # AWS Architecture
