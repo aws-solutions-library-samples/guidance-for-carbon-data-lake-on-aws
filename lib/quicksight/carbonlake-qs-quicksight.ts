@@ -9,7 +9,7 @@ import * as path from 'path';
 interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
   adminEmail?: any;
-  enrichedDataDatabase: glue.CfnDatabase
+  enrichedDataDatabase: glue.CfnDatabase;
 }
 
 export class CarbonlakeQuicksightStack extends Stack {
@@ -45,7 +45,8 @@ export class CarbonlakeQuicksightStack extends Stack {
       parameters: {
         Region: this.region,
         Email: props.adminEmail ?? '',
-        Template_Unique_Identifier: templateUniqueIdentifier
+        Template_Unique_Identifier: templateUniqueIdentifier,
+        EnrichedDataDatabaseName: props.enrichedDataDatabase.ref
       }
     });
     
