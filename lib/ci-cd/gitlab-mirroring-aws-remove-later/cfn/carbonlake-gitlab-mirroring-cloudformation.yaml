@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  AWS Gitlab mirroring to CodeCommit for internal use.
+
+  For more information on how to deploy, follow the README.md
+
+Parameters:
+  CreateCodeCommitRepository:
+    Description: Would you like to create a new CodeCommit repository?
+    Type: String
+    Default: 'create-new'
+    AllowedValues: ['create-new', 'use-existing']
+  CodeCommitRepositoryName:
+    Type: String
+    Description: The name of the code commit repository that will be the target for mirroring. (This will be created for you if you chose it)
+  IamUserName:
+    Type: String
+    Default: aws-gitlab-mirroring
+    Description: IAM user's name that will be created for you to connect Gitlab to your AWS account.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: IAM User settings
+        Parameters:
+          - IamUserName
+      - Label:
+          default: Repository settings
+        Parameters:
+          - CreateCodeCommitRepository
+          - CodeCommitRepositoryName
+          - CreateCodeCommitRepositoryDeletionPolicy
+
+Conditions:
+  ShouldCreateCodeCommitRepository: !Equals [!Ref CreateCodeCommitRepository, 'create-new']
+
+Resources:
+  # the IAM user that will be used to pull/push the CodeCommit repository
+  IAMUser:
+    Type: AWS::IAM::User
+    Properties: 
+      UserName: !Sub ${IamUserName}
+      Path: '/'
+      Policies: 
+        - PolicyName: !Sub "${IamUserName}-iam-user-policy"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'codecommit:GitPull'
+                  - 'codecommit:GitPush'
+                Resource:
+                  - !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:${CodeCommitRepositoryName}'
+  # Optional creation of the CodeCommit repository
+  CodeCommitRepository:
+    Type: AWS::CodeCommit::Repository
+    Condition: ShouldCreateCodeCommitRepository
+    DeletionPolicy: Delete # Set this to "Retain" to keep the repository once the CloudFormation stack is deleted.
+    Properties: 
+      RepositoryDescription: Mirrored repository from AWS Gitlab.
+      RepositoryName: !Sub ${CodeCommitRepositoryName}
+
+Outputs:
+  IAMUserDetails:
+    Description: URL of the page where you should create the HTTPS Git credentials for AWS CodeCommit
+    Value: !Sub "https://console.aws.amazon.com/iam/home?region=${AWS::Region}#/users/${IamUserName}?section=security_credentials"
+  GitRepositoryURL:
+    Description: URL for Gitlab. The username (the part before the @ character) might need to be changed. Please, check it when you create the user in the next step
+    Value: !Sub "https://${IamUserName}-at-${AWS::AccountId}@git-codecommit.${AWS::Region}.amazonaws.com/v1/repos/${CodeCommitRepositoryName}"
