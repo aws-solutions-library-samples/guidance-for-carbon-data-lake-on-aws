@@ -9,6 +9,7 @@ import * as path from 'path';
 interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
   adminEmail?: any;
+  enrichedDataDatabase: glue.CfnDatabase
 }
 
 export class CarbonlakeQuicksightStack extends Stack {

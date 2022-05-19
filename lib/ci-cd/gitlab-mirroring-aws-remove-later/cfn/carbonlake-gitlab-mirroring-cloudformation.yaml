@@ -9,11 +9,12 @@ Parameters:
   CreateCodeCommitRepository:
     Description: Would you like to create a new CodeCommit repository?
     Type: String
-    Default: 'create-new'
+    Default: 'use-existing'
     AllowedValues: ['create-new', 'use-existing']
   CodeCommitRepositoryName:
     Type: String
     Description: The name of the code commit repository that will be the target for mirroring. (This will be created for you if you chose it)
+    Default: 'use-existing'
   IamUserName:
     Type: String
     Default: aws-gitlab-mirroring

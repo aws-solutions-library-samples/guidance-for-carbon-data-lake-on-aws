@@ -74,11 +74,10 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO --> Creat the carbonlake monitoring and observability stack
 
     const gitlabMirroring = new CarbonlakeGitlabMirroringStack(scope, "CabonLakeGitlabMirroringStack", {
-      repoName: 
-    }
-      )
+      repoName: "CarbonLakeRepo" // repo name currently hard-coded TODO: take as parameter from pipeline
+    });
 
-    console.log('context passed in App 👉', this.node.tryGetContext('adminEmail'));
+    console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
     
   }
 }
