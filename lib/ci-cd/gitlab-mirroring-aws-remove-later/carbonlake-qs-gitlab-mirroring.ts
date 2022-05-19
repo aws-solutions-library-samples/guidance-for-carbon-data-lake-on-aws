@@ -14,14 +14,9 @@ export class CarbonlakeGitlabMirroringStack extends Stack {
   constructor(scope: Construct, id: string, props: CarbonlakeGitlabMirroringStackProps) {
     super(scope, id, props);
 
-
-    // Create unique identifier to be appended to QuickSight Dashboard Template
-    const templateUniqueIdentifier = `CarbonLake-Combined-Emissions-Template-${Names.uniqueId(role).slice(-8)}`;
-
-
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
     const template = new cfninc.CfnInclude(this, 'Template', { 
-      templateFile: path.join(process.cwd(), 'lib','ci-cd','gitlab-mirroring','cfn', 'carbonlake-gitlab-mirroring-cloudformation.yaml'),
+      templateFile: path.join(process.cwd(), 'lib','ci-cd','gitlab-mirroring-aws-remove-later','cfn', 'carbonlake-gitlab-mirroring-cloudformation.yaml'),
       preserveLogicalIds: false,
       parameters: {
         CodeCommitRepositoryName: props.repoName

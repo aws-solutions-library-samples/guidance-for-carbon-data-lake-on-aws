@@ -8,7 +8,6 @@ import { CfnOutput, Stack } from 'aws-cdk-lib';
 import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
 import { CarbonlakeForecastStack } from './forecast/carbonlake-qs-forecast';
 import { Construct } from 'constructs';
-import { CarbonlakeGitlabMirroringStack } from './ci-cd/gitlab-mirroring-aws-remove-later/carbonlake-qs-gitlab-mirroring';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
@@ -72,10 +71,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
 
     // TODO --> Creat the carbonlake monitoring and observability stack
-
-    const gitlabMirroring = new CarbonlakeGitlabMirroringStack(scope, "CabonLakeGitlabMirroringStack", {
-      repoName: "CarbonLakeRepo" // repo name currently hard-coded TODO: take as parameter from pipeline
-    });
 
     console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
     

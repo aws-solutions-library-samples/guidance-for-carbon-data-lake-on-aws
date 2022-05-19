@@ -27,8 +27,6 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ],
-    "adminEmail": "carbonlake-quickstart+dev@amazon.com",
-    "repoBranch": "qsv1-dev"
+    ]
   }
 }
