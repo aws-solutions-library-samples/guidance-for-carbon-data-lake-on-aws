@@ -10,8 +10,5 @@ const app = new cdk.App();
 // Creates a reference to the CarbonLake pipeline in the stack deployment
 new CarbonlakeQuickstartCiCdStack(app, 'CarbonLakeQuickstartCiCdStack');
 
-/*
-new CarbonlakeQuickstartStack(app, 'CarbonlakeQuickstartStack', {
-});
 
-*/
+// new CarbonlakeQuickstartStack(app, 'CarbonlakeQuickstartStack');

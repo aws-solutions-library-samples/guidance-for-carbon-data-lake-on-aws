@@ -25,6 +25,8 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
 
+    const repoName = this.node.tryGetContext('repoName')
+
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
     
@@ -70,7 +72,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // TODO --> Creat the carbonlake monitoring and observability stack
 
-    console.log('context passed in App 👉', this.node.tryGetContext('adminEmail'));
+    console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
     
   }
 }

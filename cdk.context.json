@@ -1,1 +1,4 @@
-{}
+{
+    "adminEmail": "carbonlake-quickstart+dev@amazon.com",
+    "repoBranch": "qsv1-dev"
+}

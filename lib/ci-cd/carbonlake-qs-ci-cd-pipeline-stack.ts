@@ -3,6 +3,7 @@ import * as codecommit from 'aws-cdk-lib/aws-codecommit';
 import { Construct } from 'constructs';
 import {CodeBuildStep, CodePipeline, CodePipelineSource, ManualApprovalStep} from "aws-cdk-lib/pipelines";
 import { CarbonlakeQuickstartPipelineStage } from './stages/carbonlake-qs-ci-cd-stage';
+import { CarbonlakeGitlabMirroringStack } from './gitlab-mirroring-aws-remove-later/carbonlake-qs-gitlab-mirroring';
 
 export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -14,7 +15,7 @@ export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
             repositoryName: "CarbonLakeRepo"
         });
 
-        const repoBranch = this.node.tryGetContext('repo');
+        const repoBranch = this.node.tryGetContext('repoBranch');
 
         // Creates a pipeline for deployment and build of CDK app
         // If you are repurposing this repository change the name of the pipeline
@@ -43,6 +44,10 @@ export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
               dockerEnabledForSynth: true
               
 
+          });
+
+          const gitlabMirroring = new CarbonlakeGitlabMirroringStack(scope, "CarbonLakeGitlabMirroringStack", {
+            repoName: "CarbonLakeRepo" // repo name currently hard-coded TODO: take as parameter from pipeline
           });
 
             const deploy = new CarbonlakeQuickstartPipelineStage(this, 'Deploy');
