@@ -1,4 +1,7 @@
 # this takes an emissions factors table as input and parses it to generate json of emissions factors outputs
+# to run the script cd to the parent directory and run `python3 generate_emissions_factors.py`
+# this will produce a new output emissions_factor_model_date file that you can now use to seed the database
+
 import datetime
 import csv
 import json
@@ -6,7 +9,7 @@ import time
 import os
 
 date_entry = datetime.datetime.today().strftime('%Y-%m-%d')
-csvFilePath = r'ghg_emissionsfactor_comprehensive_Jan2022.csv'
+csvFilePath = r'ghg_emissionsfactor_comprehensive_May2022.csv'
 jsonFileName = rf'emissions_factor_model_{date_entry}.json'
 jsonFilePath = os.path.join(os.getcwd(), jsonFileName)
 start = time.perf_counter()

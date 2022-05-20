@@ -14,7 +14,7 @@
                     "AR5-kgco2e": "0",
                     "units": "kWh"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -35,7 +35,7 @@
                     "AR5-kgco2e": "8.812364",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -56,7 +56,7 @@
                     "AR5-kgco2e": "8.81572748",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -77,7 +77,7 @@
                     "AR5-kgco2e": "8.81945392",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -98,7 +98,7 @@
                     "AR5-kgco2e": "10.2162775",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -119,7 +119,7 @@
                     "AR5-kgco2e": "10.2168931",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -140,7 +140,7 @@
                     "AR5-kgco2e": "10.22245024",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -161,7 +161,7 @@
                     "AR5-kgco2e": "0.0062775",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -182,7 +182,7 @@
                     "AR5-kgco2e": "0.0045198",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -203,7 +203,7 @@
                     "AR5-kgco2e": "0.012892",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -224,7 +224,7 @@
                     "AR5-kgco2e": "4.513694587",
                     "units": "scf"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -245,7 +245,7 @@
                     "AR5-kgco2e": "7.08377068",
                     "units": "scf"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -266,7 +266,7 @@
                     "AR5-kgco2e": "0.312579",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -287,7 +287,7 @@
                     "AR5-kgco2e": "0.4566408",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -308,7 +308,7 @@
                     "AR5-kgco2e": "8.82481997",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -329,7 +329,7 @@
                     "AR5-kgco2e": "8.87358",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -350,7 +350,7 @@
                     "AR5-kgco2e": "10.31922",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -371,7 +371,7 @@
                     "AR5-kgco2e": "8.85622",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -392,7 +392,7 @@
                     "AR5-kgco2e": "10.33093",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -413,7 +413,7 @@
                     "AR5-kgco2e": "9.8295",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -434,7 +434,7 @@
                     "AR5-kgco2e": "8.53683",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -455,7 +455,7 @@
                     "AR5-kgco2e": "8.965505",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -476,7 +476,7 @@
                     "AR5-kgco2e": "8.8523",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -497,7 +497,28 @@
                     "AR5-kgco2e": "10.29486",
                     "units": "gal (US)"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
+            }
+        }
+    },
+    {
+        "category": "mobile-combustion",
+        "activity": "Biodiesel (100%) - Biodiesel Medium- and Heavy-duty Vehicles",
+        "scope": "1",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0",
+                    "ch4_factor": "0.0000295",
+                    "n2o_factor": "0.0000295",
+                    "biofuel_co2": "9.45",
+                    "AR4-kgco2e": "0.0095285",
+                    "AR5-kgco2e": "0.0086435",
+                    "units": "gal (US)"
+                },
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories\", March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub); WRI, GHG Protocol - Emission Factors from Cross-Sector Tools, April 2014"
             }
@@ -518,7 +539,7 @@
                     "AR5-kgco2e": "0.346447",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -539,7 +560,7 @@
                     "AR5-kgco2e": "0.477302",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -560,7 +581,7 @@
                     "AR5-kgco2e": "0.192815",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -581,7 +602,7 @@
                     "AR5-kgco2e": "0.1410651",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -602,7 +623,7 @@
                     "AR5-kgco2e": "0.1620748",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -623,7 +644,7 @@
                     "AR5-kgco2e": "0.1195205",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -644,7 +665,7 @@
                     "AR5-kgco2e": "0.056265903",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -665,7 +686,7 @@
                     "AR5-kgco2e": "0.227010676",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -673,7 +694,7 @@
     },
     {
         "category": "transport",
-        "activity": "Air Travel - Medium Haul (>= 300 miles, < 2300 miles) ",
+        "activity": "Air Travel - Medium Haul (>= 300 miles, \n< 2300 miles) ",
         "scope": "3",
         "emissions_factor_standards": {
             "ghg": {
@@ -686,7 +707,7 @@
                     "AR5-kgco2e": "0.1371563",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -707,7 +728,7 @@
                     "AR5-kgco2e": "0.1674213",
                     "units": "passenger-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -728,7 +749,7 @@
                     "AR5-kgco2e": "0.27681733",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -749,7 +770,7 @@
                     "AR5-kgco2e": "0.29008593",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -770,7 +791,7 @@
                     "AR5-kgco2e": "0.18307163",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -791,7 +812,7 @@
                     "AR5-kgco2e": "0.28350276",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -812,7 +833,7 @@
                     "AR5-kgco2e": "0.31966304",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -833,7 +854,7 @@
                     "AR5-kgco2e": "0.18454564",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -854,7 +875,7 @@
                     "AR5-kgco2e": "0.09626452",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -875,7 +896,7 @@
                     "AR5-kgco2e": "0.28345163",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -896,7 +917,7 @@
                     "AR5-kgco2e": "0.18241183",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -917,7 +938,7 @@
                     "AR5-kgco2e": "0.149209886",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -938,7 +959,7 @@
                     "AR5-kgco2e": "0.10411489",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Passenger vehicles, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -959,7 +980,7 @@
                     "AR5-kgco2e": "0.04085411",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - land, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -980,7 +1001,7 @@
                     "AR5-kgco2e": "0.00592851",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - land, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1001,7 +1022,7 @@
                     "AR5-kgco2e": "0.03485287",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - land, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1022,7 +1043,7 @@
                     "AR5-kgco2e": "0.13378726",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1043,7 +1064,7 @@
                     "AR5-kgco2e": "0.08311698",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1064,7 +1085,7 @@
                     "AR5-kgco2e": "0.08175433",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1085,7 +1106,7 @@
                     "AR5-kgco2e": "0.12263768",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1106,7 +1127,7 @@
                     "AR5-kgco2e": "0.10269733",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1127,7 +1148,7 @@
                     "AR5-kgco2e": "0.07864638",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1148,7 +1169,7 @@
                     "AR5-kgco2e": "0.12584563",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1169,7 +1190,7 @@
                     "AR5-kgco2e": "0.22809031",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1190,7 +1211,7 @@
                     "AR5-kgco2e": "0.31460761",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1211,7 +1232,7 @@
                     "AR5-kgco2e": "0.09490878",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1232,7 +1253,7 @@
                     "AR5-kgco2e": "0.07268299",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1253,7 +1274,7 @@
                     "AR5-kgco2e": "0.11629178",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1274,7 +1295,7 @@
                     "AR5-kgco2e": "0.21077791",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1295,7 +1316,7 @@
                     "AR5-kgco2e": "0.29072666",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1316,7 +1337,7 @@
                     "AR5-kgco2e": "0.111715929",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - sea, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1337,7 +1358,7 @@
                     "AR5-kgco2e": "1.470042",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1358,7 +1379,7 @@
                     "AR5-kgco2e": "0.346447",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1379,7 +1400,7 @@
                     "AR5-kgco2e": "0.477302",
                     "units": "vehicle-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1400,7 +1421,7 @@
                     "AR5-kgco2e": "0.202795022",
                     "units": "ton-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1421,7 +1442,7 @@
                     "AR5-kgco2e": "0.0232094",
                     "units": "ton-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1442,7 +1463,7 @@
                     "AR5-kgco2e": "0.060074",
                     "units": "ton-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1463,7 +1484,7 @@
                     "AR5-kgco2e": "1.318653",
                     "units": "ton-mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 8 Business Travel and Employee Commuting, March 9, 2018 (https://www.epa.gov/climateleadership/center-corporate-climate-leadership-ghg-emission-factors-hub)."
             }
@@ -1484,7 +1505,7 @@
                     "AR5-kgco2e": "0.40357468",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1505,7 +1526,7 @@
                     "AR5-kgco2e": "0.37929358",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1526,7 +1547,7 @@
                     "AR5-kgco2e": "0.39583487",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1547,7 +1568,7 @@
                     "AR5-kgco2e": "0.43739943",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1568,7 +1589,7 @@
                     "AR5-kgco2e": "0.40277906",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1589,7 +1610,7 @@
                     "AR5-kgco2e": "0.10049303",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1610,7 +1631,7 @@
                     "AR5-kgco2e": "0.10855412",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1631,7 +1652,7 @@
                     "AR5-kgco2e": "0.85699881",
                     "units": "km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1652,7 +1673,7 @@
                     "AR5-kgco2e": "1.37920331",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1673,7 +1694,7 @@
                     "AR5-kgco2e": "0.127430973",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1694,7 +1715,7 @@
                     "AR5-kgco2e": "1.006239064",
                     "units": "km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1715,7 +1736,7 @@
                     "AR5-kgco2e": "1.61938331",
                     "units": "mile"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1736,7 +1757,7 @@
                     "AR5-kgco2e": "2.62223427",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1757,7 +1778,7 @@
                     "AR5-kgco2e": "1.24933687",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1778,7 +1799,7 @@
                     "AR5-kgco2e": "0.59416777",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1799,7 +1820,7 @@
                     "AR5-kgco2e": "0.59416777",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1820,7 +1841,7 @@
                     "AR5-kgco2e": "0.03307299",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1841,7 +1862,7 @@
                     "AR5-kgco2e": "0.004526193",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1862,7 +1883,7 @@
                     "AR5-kgco2e": "0.008942149",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1883,7 +1904,7 @@
                     "AR5-kgco2e": "0.010216919",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1904,7 +1925,7 @@
                     "AR5-kgco2e": "0.011431159",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1925,7 +1946,7 @@
                     "AR5-kgco2e": "0.010277184",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1946,7 +1967,7 @@
                     "AR5-kgco2e": "0.003502748",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1967,7 +1988,7 @@
                     "AR5-kgco2e": "0.013097282",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -1988,7 +2009,7 @@
                     "AR5-kgco2e": "0.015977645",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2009,7 +2030,7 @@
                     "AR5-kgco2e": "0.038187843",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2030,7 +2051,7 @@
                     "AR5-kgco2e": "0.05113433",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2051,7 +2072,7 @@
                     "AR5-kgco2e": "0.372844566",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2072,7 +2093,7 @@
                     "AR5-kgco2e": "0.012946752",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2093,7 +2114,7 @@
                     "AR5-kgco2e": "0.25388726",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2114,7 +2135,7 @@
                     "AR5-kgco2e": "0.15773698",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2135,7 +2156,7 @@
                     "AR5-kgco2e": "0.15515433",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2156,7 +2177,7 @@
                     "AR5-kgco2e": "0.23273768",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2177,7 +2198,7 @@
                     "AR5-kgco2e": "0.19489733",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2198,7 +2219,7 @@
                     "AR5-kgco2e": "0.14925638",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2219,7 +2240,7 @@
                     "AR5-kgco2e": "0.23881563",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2240,7 +2261,7 @@
                     "AR5-kgco2e": "0.43286031",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2261,7 +2282,7 @@
                     "AR5-kgco2e": "0.59704761",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2282,7 +2303,7 @@
                     "AR5-kgco2e": "0.18010878",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2303,7 +2324,7 @@
                     "AR5-kgco2e": "0.13793299",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2324,7 +2345,7 @@
                     "AR5-kgco2e": "0.22069178",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2345,7 +2366,7 @@
                     "AR5-kgco2e": "0.40000791",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2366,7 +2387,7 @@
                     "AR5-kgco2e": "0.55172666",
                     "units": "passenger-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Business Travel - air, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2387,7 +2408,7 @@
                     "AR5-kgco2e": "4.97627427",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2408,7 +2429,7 @@
                     "AR5-kgco2e": "2.37092687",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2429,7 +2450,7 @@
                     "AR5-kgco2e": "1.12757777",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
             }
@@ -2450,9 +2471,2508 @@
                     "AR5-kgco2e": "1.12757777",
                     "units": "tonne-km"
                 },
-                "last_updated": "2022-04-26",
+                "last_updated": "2022-05-19",
                 "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
                 "source_origin": "UK DEFRA, Freighting goods, 2019 (https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/891105/Conversion_Factors_2020_-_Condensed_set__for_most_users_.xlsx)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "AKGD",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.471570504",
+                    "ch4_factor": "3.71946E-05",
+                    "n2o_factor": "4.98952E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.473987244",
+                    "AR5-kgco2e": "0.473934173",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "AKMS",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.238173642",
+                    "ch4_factor": "1.08862E-05",
+                    "n2o_factor": "1.81437E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.23898648",
+                    "AR5-kgco2e": "0.238959264",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "AZNM",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.463732427",
+                    "ch4_factor": "3.49266E-05",
+                    "n2o_factor": "4.98952E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.466092469",
+                    "AR5-kgco2e": "0.466032594",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "CAMX",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.225224941",
+                    "ch4_factor": "1.54221E-05",
+                    "n2o_factor": "1.81437E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.226151177",
+                    "AR5-kgco2e": "0.226137569",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "ERCT",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.422599311",
+                    "ch4_factor": "2.99371E-05",
+                    "n2o_factor": "4.08233E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.424564273",
+                    "AR5-kgco2e": "0.424519367",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "FRCC",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.422676421",
+                    "ch4_factor": "2.99371E-05",
+                    "n2o_factor": "4.08233E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.424641383",
+                    "AR5-kgco2e": "0.424596478",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "HIMS",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.503800056",
+                    "ch4_factor": "5.35239E-05",
+                    "n2o_factor": "8.16466E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.507571223",
+                    "AR5-kgco2e": "0.507462361",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "HIOA",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.757473403",
+                    "ch4_factor": "8.16466E-05",
+                    "n2o_factor": "1.2247E-05",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.763164173",
+                    "AR5-kgco2e": "0.763004962",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "MROE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.761135254",
+                    "ch4_factor": "7.66571E-05",
+                    "n2o_factor": "1.13398E-05",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.766430945",
+                    "AR5-kgco2e": "0.766286703",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "MROW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.562385593",
+                    "ch4_factor": "6.25957E-05",
+                    "n2o_factor": "9.07185E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.566653897",
+                    "AR5-kgco2e": "0.566542313",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "NEWE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.236916738",
+                    "ch4_factor": "3.71946E-05",
+                    "n2o_factor": "4.98952E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.239333478",
+                    "AR5-kgco2e": "0.239280408",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "NWPP",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.289862307",
+                    "ch4_factor": "2.90299E-05",
+                    "n2o_factor": "4.08233E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.29180459",
+                    "AR5-kgco2e": "0.291756963",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "NYCW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.27052884",
+                    "ch4_factor": "9.97903E-06",
+                    "n2o_factor": "1.36078E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.271183827",
+                    "AR5-kgco2e": "0.271168859",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "NYLI",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.537162682",
+                    "ch4_factor": "6.30493E-05",
+                    "n2o_factor": "8.16466E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.541171985",
+                    "AR5-kgco2e": "0.541091699",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "NYUP",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.114809672",
+                    "ch4_factor": "8.16466E-06",
+                    "n2o_factor": "9.07185E-07",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.11528413",
+                    "AR5-kgco2e": "0.115278686",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "RFCE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.324756715",
+                    "ch4_factor": "2.76691E-05",
+                    "n2o_factor": "3.62874E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.326529807",
+                    "AR5-kgco2e": "0.326493066",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "RFCM",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.595367201",
+                    "ch4_factor": "5.85134E-05",
+                    "n2o_factor": "8.16466E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.599263106",
+                    "AR5-kgco2e": "0.599169212",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "RFCW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.528932248",
+                    "ch4_factor": "5.30703E-05",
+                    "n2o_factor": "7.71107E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.532556905",
+                    "AR5-kgco2e": "0.532461651",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "RMPA",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.577702046",
+                    "ch4_factor": "5.57919E-05",
+                    "n2o_factor": "8.16466E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.581529912",
+                    "AR5-kgco2e": "0.581427854",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SPNO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.527612748",
+                    "ch4_factor": "5.62455E-05",
+                    "n2o_factor": "8.16466E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.531451954",
+                    "AR5-kgco2e": "0.531351256",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SPSO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.529152694",
+                    "ch4_factor": "4.12769E-05",
+                    "n2o_factor": "5.8967E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.531941834",
+                    "AR5-kgco2e": "0.531871073",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SRMV",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.387660451",
+                    "ch4_factor": "2.49476E-05",
+                    "n2o_factor": "3.62874E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.389365505",
+                    "AR5-kgco2e": "0.389320599",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SRMW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.754845743",
+                    "ch4_factor": "8.39146E-05",
+                    "n2o_factor": "1.2247E-05",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.760593211",
+                    "AR5-kgco2e": "0.760440804",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SRSO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.466260298",
+                    "ch4_factor": "3.6741E-05",
+                    "n2o_factor": "5.44311E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.468800869",
+                    "AR5-kgco2e": "0.468731469",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SRTV",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.467897313",
+                    "ch4_factor": "4.39985E-05",
+                    "n2o_factor": "6.35029E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.470889661",
+                    "AR5-kgco2e": "0.470812097",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SRVC",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.337167909",
+                    "ch4_factor": "3.03907E-05",
+                    "n2o_factor": "4.08233E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.339144211",
+                    "AR5-kgco2e": "0.339100666",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "U.S.",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.429634528",
+                    "ch4_factor": "3.85554E-05",
+                    "n2o_factor": "5.44311E-06",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.432220458",
+                    "AR5-kgco2e": "0.432156502",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "EPA, \"Emission Factors for Greenhouse Gas Inventories,\" Table 6 Electricity, March 9, 2018. From EPA eGRID2016, February 2018. (https://www.epa.gov/sites/production/files/2020-01/egrid2018_summary_tables.xlsx)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "CA",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.13",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.13",
+                    "AR5-kgco2e": "0.13",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Newfoundland and Labrador",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.04",
+                    "ch4_factor": "0.0000006",
+                    "n2o_factor": "0.000001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.040313",
+                    "AR5-kgco2e": "0.0402818",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Prince Edward Island",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.014",
+                    "ch4_factor": "0.0000005",
+                    "n2o_factor": "0.0000002",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.0140721",
+                    "AR5-kgco2e": "0.014067",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Nova Scotia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.67",
+                    "ch4_factor": "0.00003",
+                    "n2o_factor": "0.00001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.67373",
+                    "AR5-kgco2e": "0.67349",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "New Brunswick",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.31",
+                    "ch4_factor": "0.00002",
+                    "n2o_factor": "0.000004",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.311692",
+                    "AR5-kgco2e": "0.31162",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Quebec",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.0012",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0.0000001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.0012298",
+                    "AR5-kgco2e": "0.0012265",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Ontario",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.017",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0.000001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.017298",
+                    "AR5-kgco2e": "0.017265",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Manitoba",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.0019",
+                    "ch4_factor": "0.0000001",
+                    "n2o_factor": "0.0000001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.0019323",
+                    "AR5-kgco2e": "0.0019293",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Saskatchewan",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.65",
+                    "ch4_factor": "0.00005",
+                    "n2o_factor": "0.00002",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.65721",
+                    "AR5-kgco2e": "0.6567",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Alberta",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.75",
+                    "ch4_factor": "0.00004",
+                    "n2o_factor": "0.00001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.75398",
+                    "AR5-kgco2e": "0.75377",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "British Columbia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.009",
+                    "ch4_factor": "0.000003",
+                    "n2o_factor": "0.0000007",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.0092836",
+                    "AR5-kgco2e": "0.0092695",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Yukon",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.048",
+                    "ch4_factor": "0.000004",
+                    "n2o_factor": "0.00001",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.05108",
+                    "AR5-kgco2e": "0.050762",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Northwest Territories and Nunavut",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.17",
+                    "ch4_factor": "0.00001",
+                    "n2o_factor": "0.00002",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.17621",
+                    "AR5-kgco2e": "0.17558",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Canada NIR 2018 - https://unfccc.int/documents/65715 - (part 3, from various tables for each region)"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "New South Wales and ACT",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.81",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.81",
+                    "AR5-kgco2e": "0.81",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2019"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Victoria",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "1.02",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "1.02",
+                    "AR5-kgco2e": "1.02",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2020"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Queensland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.81",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.81",
+                    "AR5-kgco2e": "0.81",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2021"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "South Australia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.44",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.44",
+                    "AR5-kgco2e": "0.44",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2022"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "SWIS in Western Australia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.69",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.69",
+                    "AR5-kgco2e": "0.69",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2023"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Tasmania",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.15",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.15",
+                    "AR5-kgco2e": "0.15",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2024"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Northern Territory",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.63",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.63",
+                    "AR5-kgco2e": "0.63",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Department of the Environment and Energy, Australian National Greenhouse Accounts, National Greenhouse Accounts Factors, August 2025"
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "North China Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.968",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.968",
+                    "AR5-kgco2e": "0.968",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "China Northeast Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "1.1082",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "1.1082",
+                    "AR5-kgco2e": "1.1082",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "East China Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.8046",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.8046",
+                    "AR5-kgco2e": "0.8046",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Central China Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.9014",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.9014",
+                    "AR5-kgco2e": "0.9014",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "China Northwest Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.9155",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.9155",
+                    "AR5-kgco2e": "0.9155",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "China Southern Grid",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.8367",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.8367",
+                    "AR5-kgco2e": "0.8367",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "grid-region-location-based",
+        "activity": "Hainan Province China Power Grid ",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0",
+                    "ch4_factor": "0",
+                    "n2o_factor": "0",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0",
+                    "AR5-kgco2e": "0",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": ""
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "AKGD",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.490900342",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.490900342",
+                    "AR5-kgco2e": "0.490900342",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "AKMS",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.228215929",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.228215929",
+                    "AR5-kgco2e": "0.228215929",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "AZNM",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.474108353",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.474108353",
+                    "AR5-kgco2e": "0.474108353",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "CAMX",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.240140873",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.240140873",
+                    "AR5-kgco2e": "0.240140873",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "ERCT",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.485452698",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.485452698",
+                    "AR5-kgco2e": "0.485452698",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "FRCC",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.461385087",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.461385087",
+                    "AR5-kgco2e": "0.461385087",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "HIMS",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.522547482",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.522547482",
+                    "AR5-kgco2e": "0.522547482",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "HIOA",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.754274216",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.754274216",
+                    "AR5-kgco2e": "0.754274216",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "MROE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.756959483",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.756959483",
+                    "AR5-kgco2e": "0.756959483",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "MROW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.586748946",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.586748946",
+                    "AR5-kgco2e": "0.586748946",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "NEWE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.253190725",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.253190725",
+                    "AR5-kgco2e": "0.253190725",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "NWPP",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.300636487",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.300636487",
+                    "AR5-kgco2e": "0.300636487",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "NYCW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.288398565",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.288398565",
+                    "AR5-kgco2e": "0.288398565",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "NYLI",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.534476961",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.534476961",
+                    "AR5-kgco2e": "0.534476961",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "NYUP",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.133673671",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.133673671",
+                    "AR5-kgco2e": "0.133673671",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "RFCE",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.344031669",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.344031669",
+                    "AR5-kgco2e": "0.344031669",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "RFCM",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.577332369",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.577332369",
+                    "AR5-kgco2e": "0.577332369",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "RFCW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.564250765",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.564250765",
+                    "AR5-kgco2e": "0.564250765",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "RMPA",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.625653564",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.625653564",
+                    "AR5-kgco2e": "0.625653564",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SPNO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.686861318",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.686861318",
+                    "AR5-kgco2e": "0.686861318",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SPSO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.641796916",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.641796916",
+                    "AR5-kgco2e": "0.641796916",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SRMV",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.381081094",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.381081094",
+                    "AR5-kgco2e": "0.381081094",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SRMW",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.739174126",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.739174126",
+                    "AR5-kgco2e": "0.739174126",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SRSO",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.49653396",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.49653396",
+                    "AR5-kgco2e": "0.49653396",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SRTV",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.53790612",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.53790612",
+                    "AR5-kgco2e": "0.53790612",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "SRVC",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.366198728",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.366198728",
+                    "AR5-kgco2e": "0.366198728",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "US Average",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.460364622",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.460364622",
+                    "AR5-kgco2e": "0.460364622",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Newfoundland and Labrador",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.045064402",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.045064402",
+                    "AR5-kgco2e": "0.045064402",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Quebec",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.045064402",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.045064402",
+                    "AR5-kgco2e": "0.045064402",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Ontario",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.045064402",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.045064402",
+                    "AR5-kgco2e": "0.045064402",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Manitoba",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.239945828",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.239945828",
+                    "AR5-kgco2e": "0.239945828",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Saskatchewan",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.239945828",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.239945828",
+                    "AR5-kgco2e": "0.239945828",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Alberta",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.381793234",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.381793234",
+                    "AR5-kgco2e": "0.381793234",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "British Columbia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.381793234",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.381793234",
+                    "AR5-kgco2e": "0.381793234",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "Green-e Energy Residual Mix Emissions Rates (2018)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Austria",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.54587",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.54587",
+                    "AR5-kgco2e": "0.54587",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Belgium",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.18906",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.18906",
+                    "AR5-kgco2e": "0.18906",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Bulgaria",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.49543",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.49543",
+                    "AR5-kgco2e": "0.49543",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Croatia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.56168",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.56168",
+                    "AR5-kgco2e": "0.56168",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Cyprus",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.77021",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.77021",
+                    "AR5-kgco2e": "0.77021",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Czech Republic",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.6123",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.6123",
+                    "AR5-kgco2e": "0.6123",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Denmark",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.50937",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.50937",
+                    "AR5-kgco2e": "0.50937",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Estonia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "1.04329",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "1.04329",
+                    "AR5-kgco2e": "1.04329",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Finland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.30164",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.30164",
+                    "AR5-kgco2e": "0.30164",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "France",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.0532",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.0532",
+                    "AR5-kgco2e": "0.0532",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Germany",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.72869",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.72869",
+                    "AR5-kgco2e": "0.72869",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "United Kingdom",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.38096",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.38096",
+                    "AR5-kgco2e": "0.38096",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Greece",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.69583",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.69583",
+                    "AR5-kgco2e": "0.69583",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Hungary",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.37898",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.37898",
+                    "AR5-kgco2e": "0.37898",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Iceland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.48224",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.48224",
+                    "AR5-kgco2e": "0.48224",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Ireland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.64035",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.64035",
+                    "AR5-kgco2e": "0.64035",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Italy",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.48723",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.48723",
+                    "AR5-kgco2e": "0.48723",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Latvia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.32276",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.32276",
+                    "AR5-kgco2e": "0.32276",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Lithuania",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.38073",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.38073",
+                    "AR5-kgco2e": "0.38073",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Luxembourg",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.36121",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.36121",
+                    "AR5-kgco2e": "0.36121",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Malta",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.66892",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.66892",
+                    "AR5-kgco2e": "0.66892",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Netherlands",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.53339",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.53339",
+                    "AR5-kgco2e": "0.53339",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Norway",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.28049",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.28049",
+                    "AR5-kgco2e": "0.28049",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Poland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.90462",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.90462",
+                    "AR5-kgco2e": "0.90462",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Portugal",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.31552",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.31552",
+                    "AR5-kgco2e": "0.31552",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Romania",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.40259",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.40259",
+                    "AR5-kgco2e": "0.40259",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Slovakia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.19395",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.19395",
+                    "AR5-kgco2e": "0.19395",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Slovenia",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.50223",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.50223",
+                    "AR5-kgco2e": "0.50223",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Spain",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.45091",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.45091",
+                    "AR5-kgco2e": "0.45091",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Sweden",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.03742",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.03742",
+                    "AR5-kgco2e": "0.03742",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
+            }
+        }
+    },
+    {
+        "category": "egrid-subregion-residual-mix-market-based",
+        "activity": "Switzerland",
+        "scope": "2",
+        "emissions_factor_standards": {
+            "ghg": {
+                "coefficients": {
+                    "co2_factor": "0.03484",
+                    "ch4_factor": "",
+                    "n2o_factor": "",
+                    "biofuel_co2": "",
+                    "AR4-kgco2e": "0.03484",
+                    "AR5-kgco2e": "0.03484",
+                    "units": "kwH"
+                },
+                "last_updated": "2022-05-19",
+                "source": "ghg_protocol_emissions_factor_calculator - https://ghgprotocol.org/ghg-emissions-calculation-tool",
+                "source_origin": "European Residual Mixes 2018 v1.2 (published July 2019) - Table 2, Direct GWP (gCO2/kWh)"
             }
         }
     }

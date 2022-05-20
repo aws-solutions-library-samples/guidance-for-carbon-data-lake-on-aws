@@ -3,7 +3,7 @@ import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { custom_resources as cr } from 'aws-cdk-lib';
-import emission_factors from './emissions_factor_model_2022-04-26.json';
+import emission_factors from './emissions_factor_model_2022-05-19.json';
 import * as path from 'path';
 import { Construct } from 'constructs';
 
