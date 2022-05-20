@@ -16,6 +16,9 @@ amplify-gradle-config.json
 amplifyxc.config
 # package-lock.json <-- commenting out for pipeline troubleshooting
 
+### vsCode ###
+.vscode
+
 ### macOS ###
 # General
 .DS_Store
