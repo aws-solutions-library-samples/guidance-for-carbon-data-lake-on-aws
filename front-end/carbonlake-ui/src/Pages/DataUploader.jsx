@@ -19,6 +19,37 @@ import {
 import '../styles/intro.scss';
 import '../styles/servicehomepage.scss';
 
+
+
+// Amplify
+import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsExports from '../../aws-exports';
+Amplify.configure(awsExports);
+
+// S3 Upload Parameters
+Amplify.configure({
+  Auth: {
+      identityPoolId: 'us-east-1:941eee7c-6ef3-4915-a5a8-8b2eacc7e898', //REQUIRED - Amazon Cognito Identity Pool ID
+      region: 'us-east-1', // REQUIRED - Amazon Cognito Region
+      userPoolId: 'us-east-1_6FkoMPs6j', //OPTIONAL - Amazon Cognito User Pool ID
+      userPoolWebClientId: '6i9pe0ntcql0npt54eemv4bi1p', //OPTIONAL - Amazon Cognito Web Client ID
+  },
+  Storage: {
+      AWSS3: {
+          bucket: 'carbonlake-quickstart-test-input-bucket', //REQUIRED -  Amazon S3 bucket name
+          region: 'us-east-1', //OPTIONAL -  Amazon service region
+      }
+  }
+});
+
+
+
+
+
 // This is not meant to be a template, rather it is the
 // introduction page that you see upon loading the webserver.
 
