@@ -3,7 +3,7 @@ import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { custom_resources as cr } from 'aws-cdk-lib';
-import emission_factors from './emissions_factor_model_2022-05-19.json';
+import emission_factors from './emissions_factor_model_2022-05-22.json';
 import * as path from 'path';
 import { Construct } from 'constructs';
 
@@ -53,6 +53,7 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
         props.transformedBucket.grantRead(this.calculatorLambda);
         props.enrichedBucket.grantWrite(this.calculatorLambda);
 
+        checkDuplicatedEmissionFactors();
         //We popupate the Emission Factors DB with data from a JSON file
         //We split into chunks because BatchWriteItem has a limitation of 25 items per batch
         //See https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html
@@ -153,4 +154,12 @@ interface IGhgEmissionFactor {
             source_origin: string;
         };
     };
+}
+
+function checkDuplicatedEmissionFactors() {
+    const categories_and_activities = emission_factors.map(factor => factor.category + "_" + factor.activity);
+    const duplicates = categories_and_activities.filter((item, index) => categories_and_activities.indexOf(item) != index);
+    if (duplicates.length > 0) {
+        throw Error("duplicates found in Emission Factors: " + duplicates);
+    }
 }
