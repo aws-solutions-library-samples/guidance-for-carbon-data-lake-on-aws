@@ -11,4 +11,4 @@ const app = new cdk.App();
 new CarbonlakeQuickstartCiCdStack(app, 'CarbonLakeQuickstartCiCdStack');
 
 
-// new CarbonlakeQuickstartStack(app, 'CarbonlakeQuickstartStack');
+new CarbonlakeQuickstartStack(app, 'CarbonlakeQuickstartStack');
