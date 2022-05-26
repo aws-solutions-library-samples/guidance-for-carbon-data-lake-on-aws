@@ -8,7 +8,7 @@ import * as path from 'path';
 
 interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
-  adminEmail?: any;
+  quicksightUserName?: any;
   enrichedDataDatabase: glue.CfnDatabase;
 }
 
@@ -34,8 +34,8 @@ export class CarbonlakeQuicksightStack extends Stack {
     const role = iam.Role.fromRoleArn(this, 'Role', `arn:aws:iam::${this.account}:role/aws-quicksight-service-role-v0`);
     role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
-    // Create unique identifier to be appended to QuickSight Dashboard Template
-    const templateUniqueIdentifier = `CarbonLake-Combined-Emissions-Template-${Names.uniqueId(role).slice(-8)}`;
+    // Create unique identifier to be appended to QuickSight resources
+    const quicksightUniqueIdentifier = `CarbonLake-Combined-Emissions-${Names.uniqueId(role).slice(-8)}`;
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
@@ -44,8 +44,8 @@ export class CarbonlakeQuicksightStack extends Stack {
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
-        Email: props.adminEmail ?? '',
-        Template_Unique_Identifier: templateUniqueIdentifier,
+        Username: props.quicksightUserName ?? '',
+        Unique_Identifier: quicksightUniqueIdentifier,
         EnrichedDataDatabaseName: props.enrichedDataDatabase.ref
       }
     });

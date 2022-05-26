@@ -5,12 +5,12 @@ Parameters:
   Region:
     Type: String
     Description: Region in which the Athena data source exists (i.e. us-east-1).
-  Email:
+  Username:
     Type: String
-    Description: Email associated to Admin QuickSight user that will be granted access to BI assets.
-  Template_Unique_Identifier:
+    Description: Username associated to Admin QuickSight user that will be granted access to BI assets.
+  Unique_Identifier:
     Type: String
-    Description: Unique string that will be added to Dashboard template each time it is deployed
+    Description: Unique string that will be added to all resources each time they are deployed
   EnrichedDataDatabaseName:
     Type: String
     Description: Name of enriched calculator data database created by shared resources stack in Glue Metadata Catalog
@@ -19,7 +19,10 @@ Resources:
   CombinedEmissionsAthenaDataSource:
     Type: AWS::QuickSight::DataSource
     Properties:
-      DataSourceId: Combined-Emissions-Athena-DataSource
+      DataSourceId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Athena-DataSource'
       Name: Combined Emissions Athena Data Source
       AwsAccountId: !Ref AWS::AccountId
       Type: ATHENA
@@ -34,7 +37,7 @@ Resources:
               - ':'
               - !Ref AWS::AccountId
               - ':user/default/' 
-              - !Ref Email
+              - !Ref Username
           Actions:
             - quicksight:UpdateDataSourcePermissions
             - quicksight:DescribeDataSource
@@ -47,7 +50,10 @@ Resources:
   CombinedEmissionsDataset:
     Type: AWS::QuickSight::DataSet
     Properties:
-      DataSetId: Combined-Emissions-Data-Set
+      DataSetId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Data-Set'
       Name: Combined Emissions Data Set
       AwsAccountId: !Ref AWS::AccountId
       PhysicalTableMap:
@@ -203,7 +209,7 @@ Resources:
               - ':'
               - !Ref AWS::AccountId
               - ':user/default/' 
-              - !Ref Email
+              - !Ref Username
           Actions:
             - quicksight:UpdateDataSetPermissions
             - quicksight:DescribeDataSet
@@ -221,7 +227,10 @@ Resources:
   CombinedEmissionsDashboardTemplate:
     Type: AWS::QuickSight::Template
     Properties:
-      TemplateId: !Ref Template_Unique_Identifier
+      TemplateId: !Ref !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Template'
       Name: CarbonLake Combined Emissions Template
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
@@ -235,7 +244,7 @@ Resources:
               - ':'
               - !Ref AWS::AccountId
               - ':user/default/' 
-              - !Ref Email 
+              - !Ref Username 
           Actions:
             - quicksight:DescribeTemplate
       VersionDescription: Initial dashboard template version - Created from pre-created analysis.
@@ -244,7 +253,10 @@ Resources:
   CombinedEmissionsDashboard:
     Type: AWS::QuickSight::Dashboard
     Properties:
-      DashboardId: CarbonLake-Combined-Emissions-Dashboard
+      DashboardId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Dashboard'
       Name: CarbonLake Combined Scopes Dashboard
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
@@ -261,7 +273,7 @@ Resources:
               - ':'
               - !Ref AWS::AccountId
               - ':user/default/' 
-              - !Ref Email
+              - !Ref Username
           Actions:
             - quicksight:DescribeDashboard
             - quicksight:ListDashboardVersions
