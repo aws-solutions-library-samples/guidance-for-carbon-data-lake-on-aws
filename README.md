@@ -7,6 +7,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app. You will need to define:
 
 * `adminEmail`            The email address for the administrator of the app
+* `quicksightUserName`    Required if deploying QuickSight stack. Username of user who will have access to the carbon emissions dataset and dashboard
 * `repoBranch`            The branch name that you want to automatically deploy in your pipeline
 
 ## Useful commands

@@ -25,6 +25,18 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
 
+    const quicksightUserName = this.node.tryGetContext('quicksightUserName');
+    if (!quicksightUserName) {
+      console.warn('*****************************************************************');
+      console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack,*');
+      console.warn('*** you must provide a valid admin email address ****************');
+      console.warn('***  via --context quicksightUserName=value *********************');
+      console.warn('*****************************************************************');
+    } else {
+      console.log(quicksightUserName)
+      new CfnOutput(this, 'quicksightUserName', {value: quicksightUserName});
+    }
+
     const repoName = this.node.tryGetContext('repoName')
 
     // QS1 --> Create the carbonlake shared resource stack
@@ -57,7 +69,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // QS5 --> Create the carbonlake quicksight stack
     const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack", {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-      adminEmail: adminEmail,
+      quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
     });
 
@@ -73,6 +85,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO --> Creat the carbonlake monitoring and observability stack
 
     console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
-    
+    console.log('quicksightUserName context passed into App 👉', this.node.tryGetContext('quicksightUserName'));
   }
 }
