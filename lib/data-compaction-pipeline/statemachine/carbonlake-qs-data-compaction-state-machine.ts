@@ -1,6 +1,7 @@
 import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sqs as sqs } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -11,7 +12,8 @@ interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProp
   glueHistoricalCalculatorCrawlerName: any,
   createIndividualAthenaViewsLambda: lambda.Function,
   createCombinedAthenaViewLambda: lambda.Function,
-  stateMachineS3Bucket: s3.Bucket
+  stateMachineS3Bucket: s3.Bucket,
+  enemerateDirectoriesFunction: lambda.Function
 }
 
 export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
@@ -52,7 +54,8 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
             `${props.createIndividualAthenaViewsLambda.functionArn}:*`,
             `${props.createCombinedAthenaViewLambda.functionArn}:*`,
             `${props.createIndividualAthenaViewsLambda.functionArn}`,
-            `${props.createCombinedAthenaViewLambda.functionArn}`
+            `${props.createCombinedAthenaViewLambda.functionArn}`,
+            `${props.enemerateDirectoriesFunction.functionArn}`
           ],
           actions: [
             "lambda:InvokeFunction"
@@ -106,7 +109,8 @@ export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
         dataFlushJobName: props.glueDataFlushJobName,
         historicalCalculatorCrawlerName: props.glueHistoricalCalculatorCrawlerName,
         createIndividualAthenaViewsLambdaName: props.createIndividualAthenaViewsLambda.functionName,
-        createCombinedAthenaViewLambdaName: props.createCombinedAthenaViewLambda.functionName
+        createCombinedAthenaViewLambdaName: props.createCombinedAthenaViewLambda.functionName,
+        enemerateDirectoriesFunction: props.enemerateDirectoriesFunction.functionName
       },
       stateMachineName: this.stateMachineName,
       tracingConfiguration: {

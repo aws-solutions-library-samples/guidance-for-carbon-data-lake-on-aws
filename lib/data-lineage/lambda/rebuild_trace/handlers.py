@@ -8,11 +8,10 @@ from boto3.dynamodb.conditions import Key
 from aws_lambda_powertools import Logger
 
 class DataHandler:
-    def __init__(self, input_table, output_table, output_bucket) -> None:        
+    def __init__(self, input_table, output_bucket) -> None:        
         self.session = boto3.Session()
         self.input_db = InputDBHandler(self.session, input_table)
-        self.output_db = OutputDBHandler(self.session, output_table)
-        # self.s3 = S3Handler(self.session, output_bucket)
+        self.s3 = S3Handler(self.session, output_bucket)
     
 class S3Handler:
     def __init__(self, session, bucket) -> None:
@@ -20,22 +19,11 @@ class S3Handler:
         self.s3 = session.resource("s3")
         self.bucket = self.s3.Bucket(bucket)
     
-    def put_item_jsonl(self, data: List) -> None:
-        return
-
-class OutputDBHandler:
-    def __init__(self, session, table_name) -> None:
-        self.logger = Logger("dbhandler", child=True)
-        self.db = session.resource("dynamodb")
-        self.table = self.db.Table(table_name)
-    
-    def put_item(self, item) -> None:
-        return
-
-    def batch_put_item(self, items) -> None:
-        with self.table.batch_writer() as batch:
-            for item in items:
-                batch.put_item(Item=item)
+    def put_item_jsonl(self, data: List, key: str) -> None:
+        self.logger.info(f"Adding {len(data)} records to s3")
+        body = "\n".join([ json.dumps(x, cls=DecimalEncoder) for x in data ])
+        self.bucket.put_object(Body=body, Key=key)
+        return f"{self.bucket.name}/{key}"
 
 class InputDBHandler:
     def __init__(self, session, table_name) -> None:
