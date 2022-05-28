@@ -1,0 +1,297 @@
+Transform: AWS::Serverless-2016-10-31
+
+Description: Data Quality check for carbon lake emission data
+
+Parameters:
+  SNSDQTopic:
+    Type: String
+    Default: dq-status
+    Description: SNS topic where the failed DQ job status is published
+
+  GlueDataBrewOutputS3Bucket:
+    Type: String
+    Default: carbonlake-databrew-output-data
+    Description: S3 bucket name where the output of the Glue DataBrew job is stored
+
+  GlueDataBrewInputS3Bucket:
+    Type: String
+    Default: carbonlake-databrew-input-data
+    Description: S3 bucket name where the icoming data is stored for Glue DataBrew job. This bucket MUST have 'EventBridgeEnabled'
+  
+  S3Key:
+    Type: String
+    Default: emissions.csv
+    Description: S3 key name of the incoming emission csv file. This file must be stored in the GlueDataBrewInputS3Bucket before running the CFN stack
+
+  EmailAddress:
+    Type: String
+    AllowedPattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
+    Description: Email address of carbon lake admin for receiving notifications
+
+Globals:
+  Function:
+    Runtime: python3.8
+    Handler: app.handler
+    Timeout: 300 
+
+Resources:
+  
+  EventsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - states:StartExecution
+            Resource:
+              - !Ref ProfileJobStepFunction
+
+  EventsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - !Ref EventsPolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+  
+  
+  S3EventBridgeRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Targets:
+        - Arn: !Ref ProfileJobStepFunction
+          Id: DQ49
+          RoleArn: !GetAtt EventsRole.Arn
+      RoleArn: !GetAtt EventsRole.Arn
+      EventPattern:
+        source: 
+          - "aws.s3"
+        detail-type:
+          - "Object Created"
+        detail:
+          bucket:
+            name: 
+              - !Ref GlueDataBrewInputS3Bucket
+
+  GlueDataBrewDataset:    
+    Type: AWS::DataBrew::Dataset
+    Properties:
+      Format: CSV
+      Input:
+        S3InputDefinition:
+          Bucket:
+            Ref: GlueDataBrewInputS3Bucket
+          Key:
+            Ref: S3Key
+      Name: emission-data 
+  
+  GlueDataBrewDataQualityRuleset:
+    Type: AWS::DataBrew::Ruleset
+    Properties:
+      Name: carbonlake-data-quality-ruleset
+      Description: AWS Carbon Lake Data Quality Ruleset
+      Rules:
+        - Name: Check activity_event_id column For missing Values
+          Disabled: false
+          CheckExpression: AGG(:col1, MISSING_VALUES_COUNT) <= :val1
+          SubstitutionMap:
+            - ValueReference: ":col1"
+              Value: "`activity_event_id`"
+            - ValueReference: ":val1"
+              Value: '0'
+        - Name: Check activity_event_id column For duplicate Values
+          Disabled: false
+          CheckExpression: AGG(:col1, DUPLICATE_VALUES_COUNT) <= :val1
+          SubstitutionMap:
+            - ValueReference: ":col1"
+              Value: "`activity_event_id`"
+            - ValueReference: ":val1"
+              Value: '0'
+        - Name: Check asset_id column For missing Values
+          Disabled: false
+          CheckExpression: AGG(:col1, MISSING_VALUES_COUNT) <= :val1
+          SubstitutionMap:
+            - ValueReference: ":col1"
+              Value: "`asset_id`"
+            - ValueReference: ":val1"
+              Value: '0'
+      TargetArn: !Sub arn:${AWS::Partition}:databrew:${AWS::Region}:${AWS::AccountId}:dataset/${GlueDataBrewDataset}
+
+  ProfileJobIAMPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+              - s3:ListBucket
+              - s3:PutObjectAcl
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${GlueDataBrewOutputS3Bucket}/*
+              - !Sub arn:${AWS::Partition}:s3:::${GlueDataBrewOutputS3Bucket}
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+              - s3:GetObject
+            Resource:
+              - !Sub arn:aws:s3:::${GlueDataBrewInputS3Bucket}
+              - !Sub arn:aws:s3:::${GlueDataBrewInputS3Bucket}/*
+
+  ProfileJobIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSGlueDataBrewServiceRole
+        - !Ref ProfileJobIAMPolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: databrew.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+
+  GlueDataBrewProfileJob:
+    Type: AWS::DataBrew::Job
+    Properties:
+      OutputLocation:
+        Bucket: !Ref GlueDataBrewOutputS3Bucket
+        Key: !Sub ${GlueDataBrewDataset}/profile-job/
+      RoleArn: !GetAtt ProfileJobIAMRole.Arn
+      ValidationConfigurations:
+        - RulesetArn: !Sub arn:${AWS::Partition}:databrew:${AWS::Region}:${AWS::AccountId}:ruleset/${GlueDataBrewDataQualityRuleset}
+      DatasetName: !Ref GlueDataBrewDataset
+      Name: carbon-lake-emission-profile
+      EncryptionMode: SSE-S3
+      LogSubscription: ENABLE
+      MaxCapacity: 5
+      MaxRetries: 0
+      Type: PROFILE
+      Timeout: 2880
+      JobSample:
+        Mode: CUSTOM_ROWS
+        Size: 20000
+
+  SNSNotifierTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      TopicName: !Ref 'SNSDQTopic'
+      KmsMasterKeyId: alias/aws/sns
+      Subscription:
+        - Endpoint: !Ref EmailAddress
+          Protocol: email
+
+  TopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Id: sns-topic-policy
+        Version: '2012-10-17'
+        Statement:
+          - Sid: allow-sns
+            Effect: Allow
+            Principal:
+              AWS: !Ref 'AWS::AccountId'
+            Action: sns:Publish
+            Resource: '*'
+      Topics:
+        - !Ref SNSNotifierTopic
+
+  StepFunctionsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - databrew:startJobRun
+              - databrew:stopJobRun
+              - databrew:listJobRuns
+            Resource:
+              - !Sub arn:${AWS::Partition}:databrew:${AWS::Region}:${AWS::AccountId}:job/${GlueDataBrewProfileJob}
+          - Effect: Allow
+            Action:
+              - lambda:InvokeFunction
+            Resource:
+              - !GetAtt DQCheckFunction.Arn
+          - Effect: Allow
+            Action:
+              - sns:Publish
+            Resource:
+              - !Ref SNSNotifierTopic
+
+  DQCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      # S3 URI where the lambda function is stored
+      CodeUri: s3://carbonlake-databrew-lambda-function/app.zip
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref GlueDataBrewOutputS3Bucket
+
+  ProfileJobStepFunction:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Definition:
+        StartAt: StartDQJob
+        States:
+          StartDQJob:
+            Type: Task
+            Resource: !Sub arn:${AWS::Partition}:states:::databrew:startJobRun.sync
+            Parameters:
+              Name: !Ref GlueDataBrewProfileJob
+            Next: Check
+          Check:
+            Type: Task
+            Resource: !GetAtt DQCheckFunction.Arn
+            ResultPath: $.CheckTaskResult
+            Next: NotifyChoice
+          NotifyChoice:
+            Type: Choice
+            Choices:
+              - Next: Notify
+                Variable: "$.CheckTaskResult.status"
+                BooleanEquals: false
+            Default: Success
+          Notify:
+            Type: Task
+            Resource: arn:aws:states:::sns:publish
+            Next: Fail
+            Parameters:
+              TopicArn: !Ref SNSNotifierTopic
+              Message.$: "States.Format('Your Carbon Lake Data Quality job failed. Job Name: {}', $['JobName'])"
+              Subject: Data Quality check failed.
+          Fail:
+            Type: Fail
+          Success:
+            Type: Succeed
+      Policies:
+        - !Ref StepFunctionsPolicy
+
+Outputs:
+  AWSGlueDataBrewProfileJob:
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=${AWS::Region}#job-details?job=${GlueDataBrewProfileJob}&tab=details
+  AWSGlueDataBrewRuleset:
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=us-east-1#ruleset-details?ruleset=${GlueDataBrewDataQualityRuleset}
+  AWSGlueDataBrewProfileResults:
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=${AWS::Region}#dataset-details?dataset=${GlueDataBrewDataset}&tab=data-quality-rules
+  AWSStepFunctionsStateMachine:
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/states/home?region=${AWS::Region}#/statemachines/view/${ProfileJobStepFunction}
