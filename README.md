@@ -4,7 +4,7 @@ CarbonLake Quickstart is a decarbonization measurement data solution built on AW
 
 # Prepare your environment and launch CarbonLake (Quick Setup)
 
-1. Navigate to CDK Directory --> `cd ~`
+1. Navigate to CDK Directory --> `cd <the directory of this readme>`
 2. Run `carbonlake-quick-setup.sh`
 3. Install required dependencies
     * AWS CLI
@@ -12,24 +12,18 @@ CarbonLake Quickstart is a decarbonization measurement data solution built on AW
     * Node
     * NPM
 
-This script will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the script:
-* 
+This script will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the script.
 
 When you run the script here are the actions it will take in your AWS account:
 
 1. Configure your AWS environment credentials
-2. Bootstrap
+2. Bootstrap the CDK 
 3. Install all dependencies
 4. Open link to install Docket
 5. Open link to setup Quicksight account in your AWS region
-6. Define inputs for context file include: adminemail etc
+6. Define inputs for context file include: adminEmail etc
 7. Prompt for selection of optional CarbonLake modules that you would like to deploy
 8. Deploy all modules in your AWS account
-
-## Get Started Deploying the CDK App and Stacks
-
-* `cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"`     deploy this stack to your default AWS account/region w/o the CDK pipeline
-* `cdk deploy --all`                       deploy this application CI/CD stack and then link your repo for automated pipeline
 
 # Prepare your environment (Manual Setup)
 
@@ -47,8 +41,6 @@ When you run the script here are the actions it will take in your AWS account:
 * Node -->
 * NPM --> 
 * CDK --> `npm install -g aws-cdk`
-
-
 
 ## Prepare your environment (Manual Setup)
 
