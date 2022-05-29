@@ -2,6 +2,28 @@
 
 CarbonLake Quickstart is a decarbonization measurement data solution built on AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products to drive innovation. CarbonLake includes a purpose-built data pipeline, data quality stack, data lineage stack, calculator engine, Business Intelligence tools, managed forecasting service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
+- [Welcome to CarbonLake Quickstart CDK Application](#welcome-to-carbonlake-quickstart-cdk-application)
+- [Prepare your environment and launch CarbonLake (Quick Setup)](#prepare-your-environment-and-launch-carbonlake-quick-setup)
+- [Prepare your environment (Manual Setup)](#prepare-your-environment-manual-setup)
+  - [Setup up AWS dependencies](#setup-up-aws-dependencies)
+    - [Set up your Quicksight Account](#set-up-your-quicksight-account)
+  - [Install Dependencies](#install-dependencies)
+  - [Prepare your environment (Manual Setup)](#prepare-your-environment-manual-setup-1)
+  - [To set up your environment for CDK Development](#to-set-up-your-environment-for-cdk-development)
+  - [Get Started Deploying the CDK App and Stacks](#get-started-deploying-the-cdk-app-and-stacks)
+  - [Helpful Commands for CDK](#helpful-commands-for-cdk)
+  - [Context File](#context-file)
+  - [To start deploying the CDK Stacks](#to-start-deploying-the-cdk-stacks)
+    - [The most common workflow is to:](#the-most-common-workflow-is-to)
+- [What you'll build](#what-youll-build)
+- [AWS Architecture](#aws-architecture)
+      - [Description](#description)
+  - [Calculator Input Model](#calculator-input-model)
+  - [Calculator Output Model](#calculator-output-model)
+  - [GHG Protocol Emission factors](#ghg-protocol-emission-factors)
+- [How to deploy](#how-to-deploy)
+- [Cost and Licenses](#cost-and-licenses)
+
 # Prepare your environment and launch CarbonLake (Quick Setup)
 
 1. Navigate to CDK Directory --> `cd <the directory of this readme>`
