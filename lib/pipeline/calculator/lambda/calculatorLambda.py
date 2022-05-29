@@ -26,6 +26,7 @@ class Gas(Enum):
     NF3 = 4
     SF6 = 5
 
+# Global warming potential
 GWP = {
     IPCC_AR.AR4: {
         Gas.CO2: 1,
@@ -64,7 +65,7 @@ def get_emissions_factor(activity, category):
     return coefficient
 
 def calculate_emission(raw_data, factor):
-    return float(raw_data) * float(factor) / 1000
+    return float(raw_data) * float(0 if factor=='' else factor) / 1000
 
 def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
     result  = co2_emissions * GWP[ar_version][Gas.CO2]
@@ -118,11 +119,11 @@ def append_emissions_output(activity_event):
             },
             "emissions_factor": {
                 "ar4": {
-                    "amount": coefficients['AR4_kgco2e'],
+                    "amount": float(coefficients['AR4_kgco2e']),
                     "unit": "kgCO2e/unit",
                 },
                 "ar5": {
-                    "amount": coefficients['AR5_kgco2e'],
+                    "amount": float(coefficients['AR5_kgco2e']),
                     "unit": "kgCO2e/unit"
                 }
             }

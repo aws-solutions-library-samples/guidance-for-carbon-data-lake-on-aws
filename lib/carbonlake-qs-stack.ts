@@ -25,20 +25,33 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
 
+    const quicksightUserName = this.node.tryGetContext('quicksightUserName');
+    if (!quicksightUserName) {
+      console.warn('*****************************************************************');
+      console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack,*');
+      console.warn('*** you must provide a valid admin email address ****************');
+      console.warn('***  via --context quicksightUserName=value *********************');
+      console.warn('*****************************************************************');
+    } else {
+      console.log(quicksightUserName)
+      new CfnOutput(this, 'quicksightUserName', {value: quicksightUserName});
+    }
+
     const repoName = this.node.tryGetContext('repoName')
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
     
     // QS2 --> Create the carbonlake data lineage stack
-    const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack");
+    const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack", {
+      archiveBucket: sharedResources.carbonlakeDataLineageBucket
+    });
 
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       dataLineageFunction: dataLineage.inputFunction,
-      dataLineageTraceFunction: dataLineage.traceFunction,
       landingBucket: sharedResources.carbonlakeLandingBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
@@ -50,14 +63,15 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
     const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(scope, "CarbonlakeDataCompactionPipelineStack", {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
+      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
+      dataLineageTraceQueue: dataLineage.traceQueue
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     
 
     // QS5 --> Create the carbonlake quicksight stack
     const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack", {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-      adminEmail: adminEmail,
+      quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
     });
 
@@ -73,6 +87,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     // TODO --> Creat the carbonlake monitoring and observability stack
 
     console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
-    
+    console.log('quicksightUserName context passed into App 👉', this.node.tryGetContext('quicksightUserName'));
   }
 }

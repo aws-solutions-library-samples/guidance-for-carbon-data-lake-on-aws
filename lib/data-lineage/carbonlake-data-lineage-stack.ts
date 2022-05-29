@@ -2,29 +2,40 @@ import { App, Stack, StackProps, RemovalPolicy, Duration } from 'aws-cdk-lib';
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
+interface DataLineageStackProps extends StackProps {
+  archiveBucket: s3.Bucket;
+}
+
 export class CarbonlakeQuickstartDataLineageStack extends Stack {
   public readonly inputFunction: lambda.Function;
-  public readonly traceFunction: lambda.Function;
+  public readonly traceQueue: sqs.Queue;
 
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: DataLineageStackProps) {
     super(scope, id, props);
 
     /* ======== STORAGE ======== */
 
     // Input SQS Queue
-    const queue = new sqs.Queue(this, 'carbonlakeDataLineageQueue', {});
+    const recordQueue = new sqs.Queue(this, 'carbonlakeDataLineageQueue', {});
+
+    // Retrace SQS Queue
+    this.traceQueue = new sqs.Queue(this, 'carbonlakeDataLineageTraceQueue', {
+      visibilityTimeout: Duration.seconds(300)
+    });
 
     // DynamoDB Table for data lineage record storage
     const table = new dynamodb.Table(this, "carbonlakeDataLineageTable", {
       partitionKey: { name: "root_id", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "node_id", type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      timeToLiveAttribute: "ttl_expiry"
     });
 
     // # GSI to allow querying by specific child node in data lineage tree
@@ -45,22 +56,6 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       projectionType: dynamodb.ProjectionType.ALL
     });
 
-    // DynamoDB Table for reconstructed record traces
-    const trace_table = new dynamodb.Table(this, "carbonlakeDataLineageTrace", {
-      partitionKey: { name: "record_id", type: dynamodb.AttributeType.STRING },
-      removalPolicy: RemovalPolicy.DESTROY,
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
-    })
-
-    trace_table.addGlobalSecondaryIndex({
-      indexName: "root-index",
-      partitionKey: {
-        name: "root_id",
-        type: dynamodb.AttributeType.STRING
-      },
-      projectionType: dynamodb.ProjectionType.ALL
-    })
-
     /* ======== DEPENDENCIES ======== */
 
     // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
@@ -78,12 +73,12 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/input_function/')),
       handler: "app.lambda_handler",
       environment: {
-        SQS_QUEUE_URL: queue.queueUrl
+        SQS_QUEUE_URL: recordQueue.queueUrl
       },
       layers: [dependencyLayer]
     });
 
-    queue.grantSendMessages(this.inputFunction);
+    recordQueue.grantSendMessages(this.inputFunction);
 
     /* ======== PROCESS LAMBDA ======== */
 
@@ -99,26 +94,28 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     });
 
     table.grantWriteData(dataLineageOutputFunction);
-    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(queue));
+    dataLineageOutputFunction.addEventSource(new event_sources.SqsEventSource(recordQueue, {
+      batchSize: 100,
+      maxBatchingWindow: Duration.minutes(1)
+    }));
 
     /* ======== TRACE LAMBDA ======== */
 
     // Lambda function retrace record lineage and store tree in DDB
-    this.traceFunction = new lambda.Function(this, "carbonlakeDataLineageTraceHandler", {
+    const traceFunction = new lambda.Function(this, "carbonlakeDataLineageTraceHandler", {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/rebuild_trace/')),
       handler: "app.lambda_handler",
       environment: {
         INPUT_TABLE_NAME: table.tableName,
-        OUTPUT_TABLE_NAME: trace_table.tableName,
-        OUTPUT_BUCKET_NAME: "<imported from props>" // TODO: Build the S3 integration for archive
+        OUTPUT_BUCKET_NAME: props.archiveBucket.bucketName
       },
       layers: [dependencyLayer],
       timeout: Duration.minutes(5)
     });
 
-    table.grantReadData(this.traceFunction);
-    trace_table.grantWriteData(this.traceFunction);
-    // s3 grant write access here
+    table.grantReadData(traceFunction);
+    props.archiveBucket.grantReadWrite(traceFunction);
+    traceFunction.addEventSource(new event_sources.SqsEventSource(this.traceQueue));
   }
 }

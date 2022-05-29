@@ -2,12 +2,10 @@ import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib'
-import { CfnJob } from 'aws-cdk-lib/aws-glue';
 import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
   dataLineageFunction: lambda.Function,
-  dataLineageTraceFunction: lambda.Function,
   dataQualityJob: any,
   s3copierLambda: lambda.Function,
   glueTransformJobName: string,
@@ -94,7 +92,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
       glueJobName: props.glueTransformJobName,
       arguments: sfn.TaskInput.fromObject({
-        "--UNIQUE_DIRECTORY": sfn.JsonPath.stringAt("$.data_lineage.node_id")
+        "--UNIQUE_DIRECTORY": sfn.JsonPath.stringAt("$.data_lineage.root_id")
       }),
       integrationPattern: sfn.IntegrationPattern.RUN_JOB,
       resultSelector: {
@@ -110,7 +108,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       lambdaFunction: props.batchEnumLambda,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
-        "batch_location_dir":  sfn.JsonPath.stringAt("$.data_lineage.node_id")
+        "batch_location_dir":  sfn.JsonPath.stringAt("$.data_lineage.root_id")
       }),
       resultPath: '$.batches'
     })
@@ -166,16 +164,6 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       resultPath: '$.data_lineage',
     });
 
-    // Data Lineage Trace Function - rebuild the lineage tree for a given root_id
-    const dataLineageTraceTask = new tasks.LambdaInvoke(this, 'Data Lineage - retrace tree', {
-      lambdaFunction: props.dataLineageTraceFunction,
-      payloadResponseOnly: true,
-      payload: sfn.TaskInput.fromObject({
-        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id")
-      }),
-      resultPath: "$.data_lineage"
-    })
-
     /* ======== STEP FUNCTION ======== */
 
     // State machine definition
@@ -201,7 +189,6 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         )
         .afterwards()
       )
-      .next(dataLineageTraceTask)
       .next(sfnSuccess)
 
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {

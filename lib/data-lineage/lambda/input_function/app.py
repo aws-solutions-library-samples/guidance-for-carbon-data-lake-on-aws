@@ -41,11 +41,13 @@ def lambda_handler(event: Dict, context: Dict):
     
     # timestamp attribute is used to rebuild the DL tree and set TTL on DDB
     recordedAt = int(time.time())
+    ttl = recordedAt + 60 * 60 * 24 # ttl of 24 hours after creation
     
     record = {
         "root_id": event["root_id"],
         "parent_id": event["parent_id"],
         "action_taken": event["action_taken"],
+        "ttl_expiry": ttl,
         "recordedAt": recordedAt
     }
     
