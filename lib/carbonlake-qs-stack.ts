@@ -37,8 +37,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       new CfnOutput(this, 'quicksightUserName', {value: quicksightUserName});
     }
 
-    const repoName = this.node.tryGetContext('repoName')
-
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
     
