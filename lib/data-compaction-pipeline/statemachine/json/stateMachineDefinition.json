@@ -8,6 +8,30 @@
         "Parameters": {
           "JobName": "${dataCompactionJobName}"
         },
+        "Next": "LAMBDA: Enumerate Compaction Directories"
+      },
+      "LAMBDA: Enumerate Compaction Directories": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "ResultPath": null,
+        "Parameters": {
+          "Payload": {
+            "dir_location": "today"
+          },
+          "FunctionName": "${enemerateDirectoriesFunction}"
+        },
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 6,
+            "BackoffRate": 2
+          }
+        ],
         "Next": "GLUE JOB: Data Flush"
       },
       "GLUE JOB: Data Flush": {

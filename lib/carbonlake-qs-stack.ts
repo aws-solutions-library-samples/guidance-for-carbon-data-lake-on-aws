@@ -43,14 +43,15 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
     
     // QS2 --> Create the carbonlake data lineage stack
-    const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack");
+    const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack", {
+      archiveBucket: sharedResources.carbonlakeDataLineageBucket
+    });
 
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       dataLineageFunction: dataLineage.inputFunction,
-      dataLineageTraceFunction: dataLineage.traceFunction,
       landingBucket: sharedResources.carbonlakeLandingBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
@@ -62,7 +63,8 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
     const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(scope, "CarbonlakeDataCompactionPipelineStack", {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
+      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
+      dataLineageTraceQueue: dataLineage.traceQueue
     }); //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
     
 
