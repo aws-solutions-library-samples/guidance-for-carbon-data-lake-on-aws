@@ -10,9 +10,11 @@ The `cdk.context.json` file tells the CDK Toolkit the context and parameters for
 * `quicksightUserName`    Required if deploying QuickSight stack. Username of user who will have access to the carbon emissions dataset and dashboard
 * `repoBranch`            The branch name that you want to automatically deploy in your pipeline
 
-STOP! Before you proceed you also need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](carbonlake-quickstart/lib/quicksight/README.md).
+## Prerequisites (under construction)
 
-Deploying the Forecast stack? If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase at this link:
+STOP! Before you proceed you also need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/quicksight/README.md).
+
+Deploying the Forecast stack? If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase using the following directions:
 
 1. Go to [Sagemaker Tools](https://sagemaker-tools.corp.amazon.com/limits)
 2. Select the resource type dropdown
