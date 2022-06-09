@@ -4,6 +4,7 @@ import * as path from 'path';
 import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema } from '@aws-cdk/aws-appsync-alpha';
 import { CfnOutput } from 'aws-cdk-lib';
 import { CfnUserPoolUser, IUserPool, IUserPoolClient, UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
+import { IdentityPool, IIdentityPool, UserPoolAuthenticationProvider } from '@aws-cdk/aws-cognito-identitypool-alpha';
 
 export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
@@ -14,6 +15,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
     public readonly graphqlUrl: string;
     public readonly apiId: string;
     public readonly userPool: IUserPool;
+    public readonly identityPool: IIdentityPool;
     public readonly userPoolClient: IUserPoolClient;
     public readonly adminUser: CfnUserPoolUser;
 
@@ -25,13 +27,22 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             userPoolName: 'CarbonLakeQuickStartUserPool'
         });
 
+        // Create a Cognito identity pool to be used with the Amplify sample app
+        const identityPool = new IdentityPool(this, 'CarbonLakeQuickStartIdentityPool', {
+            identityPoolName: 'CarbonLakeQuickStartIdentityPool',
+            authenticationProviders: {
+                userPools: [new UserPoolAuthenticationProvider({ userPool })],
+            },
+        });
+
         // Create a sample Cognito user pool client to allow users created in Cognito to login and use the API
         const userPoolClient = new UserPoolClient(this, 'CarbonLakeQuickStartUserPoolClient', {
             userPool: userPool,
             userPoolClientName: 'CarbonLakeQuickStartUserPoolClient',
             generateSecret: false
-        });
+        });        
 
+        // Create an initial admin user with the email address provided in the CDK context
         const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartAdminUser', {
             userPoolId: userPool.userPoolId,
             desiredDeliveryMediums: ['EMAIL'],
@@ -42,9 +53,11 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             username: props.adminEmail
           });
 
-        // Set the public variables so other stacks can access the deployed userPoolId & userPoolClientId as well as set as CloudFormation output variables
+        // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables
         this.userPool = userPool;
         new CfnOutput(this, 'userPoolId', {value: userPool.userPoolId});
+        this.identityPool = identityPool;
+        new CfnOutput(this, 'identityPoolId', {value: identityPool.identityPoolId});
         this.userPoolClient = userPoolClient;
         new CfnOutput(this, 'userPoolClientId', {value: userPoolClient.userPoolClientId});
         this.adminUser = adminUser;

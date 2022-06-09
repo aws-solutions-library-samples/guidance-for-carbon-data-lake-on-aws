@@ -27,11 +27,11 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     const quicksightUserName = this.node.tryGetContext('quicksightUserName');
     if (!quicksightUserName) {
-      console.warn('*****************************************************************');
-      console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack,*');
-      console.warn('*** you must provide a valid admin email address ****************');
-      console.warn('***  via --context quicksightUserName=value *********************');
-      console.warn('*****************************************************************');
+      console.warn('********************************************************************');
+      console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack, ***');
+      console.warn('*** you must provide a valid admin email address                 ***');
+      console.warn('*** via --context quicksightUserName=value                       ***');
+      console.warn('********************************************************************');
     } else {
       console.log(quicksightUserName)
       new CfnOutput(this, 'quicksightUserName', {value: quicksightUserName});
