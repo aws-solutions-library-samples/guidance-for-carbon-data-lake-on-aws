@@ -31,7 +31,7 @@ OUTPUT: [
 @tracer.capture_lambda_handler()
 def lambda_handler(event: Dict, context: Dict):
     # setup data handler to manage communications with other AWS services
-    data_handler = DataHandler(os.environ.get("TRANSFORMED_BUCKET_NAME"))
+    data_handler = DataHandler(os.environ["TRANSFORMED_BUCKET_NAME"])
 
     # list objects in directory
     files = data_handler.s3.list_directory_files(event["batch_location_dir"])
