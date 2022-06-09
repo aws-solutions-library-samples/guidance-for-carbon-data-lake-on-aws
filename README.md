@@ -12,6 +12,13 @@ The `cdk.context.json` file tells the CDK Toolkit the context and parameters for
 
 STOP! Before you proceed you also need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions here.
 
+Deploying the Forecast stack? If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase at this link
+1. Go to: https://sagemaker-tools.corp.amazon.com/limits
+2. Select the resource type dropdown
+3. Select `notebook instances`
+4. Select `notebook-instance/ml.t2.large` and select 1 instance as the limit
+5. Under justification required enter: Quickstart development.
+
 ## Useful commands for reference only
 
 * `npm run build`                          compile typescript to js
@@ -27,7 +34,7 @@ STOP! Before you proceed you also need to set up your quicksight account and use
 * Configure your AWS credentials --> `aws configure` or for internal AWS users `isengardcli assume <yourrole>`
 * Install CDK if you haven't already --> `npm install -g aws-cdk`
 * Get your AWS Account Number --> `aws sts get-caller-identity`
-* Boostrap CDK so that you can build cdk assets -->`cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
+* Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
 
 ## To start deploying the CDK Stacks
 
