@@ -107,7 +107,8 @@ const TopNavigationHeader = ({signOut, user}) => {
               ]
             },
             // TODO - Make Sign out button work using existing signOut function onClick
-            { id: "signout", text: "Sign out",  function: signOut }
+            { id: "signout", text: <span onClick = {signOut}>Sign out </span> }
+
           ]
         }
       ]}
@@ -120,8 +121,6 @@ const TopNavigationHeader = ({signOut, user}) => {
         // overflowMenuDismissIconAriaLabel: "Close menu"
       }}
       />
-      {/* TODO - Remove this when dropdown sign out button is working */}
-      <button onClick={signOut}>sign out</button>
       </div>
   )
 }

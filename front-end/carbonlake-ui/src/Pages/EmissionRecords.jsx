@@ -49,7 +49,7 @@ export default () => {
       disableContentPaddings={true}
       // toolsHide={true}
 
-      notifications={<FlashMessage />}
+      // notifications={<FlashMessage />}
       breadcrumbs={<Breadcrumbs />}
       content={<DetailsTable />}
       contentType="table"
@@ -96,6 +96,7 @@ const DetailsTable = () => {
     new DataProvider().getData('distributions', distributions => {
       setDistributions(distributions);
       setLoading(false);
+      console.log(distributions)
     });
   }, []);
 

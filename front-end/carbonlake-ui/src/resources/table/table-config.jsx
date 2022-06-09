@@ -4,7 +4,7 @@ import { Link, StatusIndicator } from '@awsui/components-react';
 export const COLUMN_DEFINITIONS = [
   {
     id: 'id',
-    header: 'Distribution ID',
+    header: 'Category',
     cell: item => <Link>{item.id}</Link>,
     minWidth: '180px',
     sortingField: 'id'
@@ -12,7 +12,7 @@ export const COLUMN_DEFINITIONS = [
   {
     id: 'domainName',
     cell: item => item.domainName,
-    header: 'Domain name',
+    header: 'Activity',
     minWidth: '160px',
     sortingField: 'domainName'
   },
