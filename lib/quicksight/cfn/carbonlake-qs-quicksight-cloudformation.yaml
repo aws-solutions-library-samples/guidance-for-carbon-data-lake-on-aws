@@ -227,7 +227,7 @@ Resources:
   CombinedEmissionsDashboardTemplate:
     Type: AWS::QuickSight::Template
     Properties:
-      TemplateId: !Ref !Join
+      TemplateId: !Join
         - ''
         - - !Ref Unique_Identifier
           - '-Template'
