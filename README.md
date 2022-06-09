@@ -10,7 +10,9 @@ The `cdk.context.json` file tells the CDK Toolkit the context and parameters for
 * `quicksightUserName`    Required if deploying QuickSight stack. Username of user who will have access to the carbon emissions dataset and dashboard
 * `repoBranch`            The branch name that you want to automatically deploy in your pipeline
 
-## Useful commands
+STOP! Before you proceed you also need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions here.
+
+## Useful commands for reference only
 
 * `npm run build`                          compile typescript to js
 * `npm run watch`                          watch for changes and compile
@@ -22,10 +24,10 @@ The `cdk.context.json` file tells the CDK Toolkit the context and parameters for
 
 ## To set up your environment
 
-* `aws configure`
-* `npm install -g aws-cdk`
-* `aws sts get-caller-identity`
-* `cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
+* Configure your AWS credentials --> `aws configure` or for internal AWS users `isengardcli assume <yourrole>`
+* Install CDK if you haven't already --> `npm install -g aws-cdk`
+* Get your AWS Account Number --> `aws sts get-caller-identity`
+* Boostrap CDK so that you can build cdk assets -->`cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
 
 ## To start deploying the CDK Stacks
 
@@ -54,6 +56,8 @@ The `cdk.context.json` file tells the CDK Toolkit the context and parameters for
 [See working architectural diagram here](https://design-inspector.a2z.com/?#ICarbonLake-QSV1-Simplified-Architecture)
 
 ## Calculator Input Model
+
+The model below describes the required schema for input to the CarbonLake calculator microservice. This is
 [Calculator Data Input Model](carbonlake-quickstart/sample-data/calculator_input_single_record_example.json)
 ```json
 {
