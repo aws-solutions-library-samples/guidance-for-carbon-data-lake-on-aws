@@ -18,6 +18,7 @@ Deploying the Forecast stack? If you're an internal AWS Isengard user you will n
 3. Select `notebook instances`
 4. Select `notebook-instance/ml.t2.large` and select 1 instance as the limit
 5. Under justification required enter: Quickstart development.
+6. Press enter
 
 ## Useful commands for reference only
 
