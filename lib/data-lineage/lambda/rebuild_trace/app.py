@@ -30,8 +30,8 @@ def lambda_handler(event: Dict, context: Dict):
     _record = json.loads(next(event.records).body) # function only takes one message from SQS
 
     dh = DataHandler(
-        input_table=os.environ.get("INPUT_TABLE_NAME"),
-        output_bucket=os.environ.get("OUTPUT_BUCKET_NAME")
+        input_table=os.environ["INPUT_TABLE_NAME"],
+        output_bucket=os.environ["OUTPUT_BUCKET_NAME"]
     )
     
     trace = []
