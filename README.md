@@ -2,10 +2,10 @@
 
 CarbonLake Quickstart is a decarbonization measurement data solution built on AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products to drive innovation. CarbonLake includes a purpose-built data pipeline, data quality stack, data lineage stack, calculator engine, Business Intelligence tools, managed forecasting service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
+- [What you will build](#what-you-will-build)
+- [Costs and licenses](#costs-and-licenses)
 - [Prepare your environment and launch CarbonLake (Quick Setup)](#prepare-your-environment-and-launch-carbonlake-quick-setup)
 - [Prepare your environment (Manual Setup)](#prepare-your-environment-manual-setup)
-- [How to deploy](#how-to-deploy)
-- [Cost and Licenses](#cost-and-licenses)
 
 ## What you will build
 
