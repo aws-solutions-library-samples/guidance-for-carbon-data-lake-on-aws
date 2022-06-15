@@ -28,16 +28,16 @@ sleep 1
 aws --version
 docker --version
 node --version
-read -p "Did you install the latest versions of all of these and see that they are ready to go? (y/n) " RESPDependencies
+read -p "Do you have the latest versions of all of these and see that they are ready to go? (y/n) " RESPDependencies
 while true; do
     case $RESPDependencies in
-        [y]* ) echo "✅ Great! Let's move on to the next step. Installing additional dependencies"; break;;
-            [n]* ) "🤨 Oops. That's okay. Please we are going to exit this process now. Please review the prerequisites section of the README and return when you have completed all prerequisites."; exit;;
+        [y]* ) echo "✅ Great! Let's move on to the next step --> configuring your AWS environment"; break;;
+            [n]* ) "🤨 Oops. That's okay. You can install them now. Go do that and ";; open https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html; open https://nodejs.org/en/download/; open https://docs.amplify.aws/cli/start/install/;
             * ) echo "❓Please answer y or n"
         esac
     done
 # Open link to install Docker
-
+open https://docs.docker.com/get-docker/
 
 # Install dependencies 
 
@@ -59,7 +59,7 @@ read -p "\nDid you successfully configure your AWS Credentials? (y/n)" RESPCrede
 while true; do
     case $RESPCredentials in
         [y]* ) echo "✅ Great! Let's move on to the next step -- configuring docker registry access"; break;;
-            [n]* ) "🤨 Oops. That's okay. Please we are going to exit this process now. Please review the prerequisites section of the README. Please come back when you are ready.."; exit;;
+            [n]* ) "🤨 Oops. That's okay. We are going to exit this process now. Please review the prerequisites section of the README. Please come back when you are ready.."; exit;;
             * ) echo "❓Please answer y or n"
         esac
     done
@@ -87,38 +87,44 @@ while true; do
         esac
     done
 
-# Define inputs for context file include: adminemail etc
+# Define selected optional stacks
 echo "Okay. It's time to select the CDK stacks you want to deploy in CarbonLake.\nWe are going to ask you some questions to determine which optional modules you plan to use.\nYou can always change these later."
 echo "The optional modules include: \n1)CarbonLake Amplify Sample Web Application\n2) CarbonLake Quicksight Business Intelligence Module\n3) CarbonLake Sagemaker Forecasting Machine Learning Notebook\n\n"
+
+# select web application
 read -p "Do you want to launch the CarbonLake Amplify Sample Web Application? (y/n)" LAUNCHWEBAPP 
 if [ "$LAUNCHWEBAPP" = "y" ]; then
     echo "Got it! We will launch the web app for you. Adding that to the cdk.context.json file output!"
     # set web app variable to true
 else
     echo "Great. We will not include that one. On to the next..."
-read -p "Do you want to launch the CarbonLake Amplify Sample Web Application? (y/n)" LAUNCHQUICKSIGHT 
+
+# select quicksight business intelligence stack
+read -p "Do you want to launch the CarbonLake Quicksight BI stack? (y/n)" LAUNCHQUICKSIGHT 
 if [ "$LAUNCHQUICKSIGHT" = "y" ]; then
     echo "Got it! We will launch the Quicksight module for you. Adding that to the cdk.context.json file output!"
-    # set web app variable to true
+    echo "Okay. Before you proceed you need to set up Quicksight"
+    # Open link to setup Quicksight account in your AWS region
+
+    echo "You will need to set up a quicksight account and user"
+
+    open https://$AWS_DEFAULT_REGION.quicksight.aws.amazon.com/sn/start/
+
+    echo "Great! Now time to set up a Quicksight user..."
+
+    open https://$AWS_DEFAULT_REGION.quicksight.aws.amazon.com/sn/start/
+    # set quicksight variable to true
 else
     echo "Great. We will not include that one. On to the next..."
-read -p "Do you want to launch the CarbonLake Amplify Sample Web Application? (y/n)" LAUNCHSAGEMAKER 
+
+
+read -p "Do you want to launch the sagemaker forecast notebook instance? (y/n)" LAUNCHSAGEMAKER 
 if [ "$LAUNCHSAGEMAKER" = "y" ]; then
     echo "Got it! We will launch the Quicksight module for you. Adding that to the cdk.context.json file output!"
-    # set web app variable to true
+    # set sagemaker variable to true
 else
     echo "Great. We will not include that one. On to the next..."
 
-
-# Open link to setup Quicksight account in your AWS region
-
-echo "You will need to set up a quicksight account and user"
-
-open https://$AWS_DEFAULT_REGION.quicksight.aws.amazon.com/sn/start/
-
-echo "Great! Now time to set up a Quicksight user..."
-
-open https://$AWS_DEFAULT_REGION.quicksight.aws.amazon.com/sn/start/
 
 # Define inputs for context file include: adminemail etc
 read -p "What admin email would you like to use for this application?" ADMINEMAIL 
