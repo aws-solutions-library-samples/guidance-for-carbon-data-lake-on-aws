@@ -14,7 +14,7 @@ export class CarbonlakeGitlabMirroringStack extends Stack {
   constructor(scope: Construct, id: string, props: CarbonlakeGitlabMirroringStackProps) {
     super(scope, id, props);
 
-    // Create Quicksight data source, data set, template and dashboard via CloudFormation template
+    // Create new IAM user with permissions to access codecommit repository (from CFN template)
     const template = new cfninc.CfnInclude(this, 'Template', { 
       templateFile: path.join(process.cwd(), 'lib','ci-cd','gitlab-mirroring-aws-remove-later','cfn', 'carbonlake-gitlab-mirroring-cloudformation.yaml'),
       preserveLogicalIds: false,

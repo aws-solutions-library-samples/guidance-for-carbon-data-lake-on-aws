@@ -5,8 +5,10 @@ The Data Lineage component maintains a complete and verifiable history of data c
 ## Input Function
 
 INPUT:
+
 - Single or batched data lineage requests from the step functions pipeline
 - At a minimum, requests must contain `root_id`, `parent_id`, `action_taken` and `storage_location`
+
 ```jsonc
 {
   "root_id": "",
