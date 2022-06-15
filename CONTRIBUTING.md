@@ -23,9 +23,55 @@ So there are a few things you'll want to do to get started developing with Gitla
 
 ## Picking an Issue & Getting Started**
 
-**1. Pick an Issue**
+**1. Pick an Issue OR Create One** 
 
 Whew! You did it. You're up and running and now it's time to pick an issue and get started. If you've been assigned an issue that's easy-sauce. Go get started there. If you haven't been assigned an issue now is a great time to pick one. You will notice that all issues have tags (or should...at least). If this is your first time contributing we recommend you pick a `good-first-issue` tag and start there. It will be much more gratifying and let you get used to contributing. If you're not new, then we recommend you pick something that matches your general desire to commit time and your overall skillset and/or desire to learn.
+
+If you are creating an issue or you simply have one that's not well defined please use the issue template below and fill in all the sections. Generally we try to keep issue writing simple but make sure we're covering all the details. You will keep adding details to the issue and it will make things go really awesome...
+
+```markdown
+**User Story**
+
+As a ##### I want to ##### so that ####
+
+**Feature Description**
+
+Insert single sentence description of the feature that helps accomplish the user story above
+
+**Inputs**
+- Input 1
+- Input 2
+
+**Functions**
+- List the things that the feature does with the inputs
+- List the other things that the feature does with the inputs
+
+**Outputs**
+- List the outputs
+- List more outputs
+
+**Requirements**
+- List functional requirement
+- List functional requirement
+
+**Dependencies**
+- List dependency
+- List dependency
+
+**Limitations**
+- List known limitationt
+- List known limitations
+
+**Tasks**
+- [ ] Task
+- [ ] Task
+
+**Next Steps**
+
+List the next steps in the process
+
+
+```
 
 **2. Make sure you know what to do**
 
