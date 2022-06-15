@@ -50,6 +50,10 @@ Insert single sentence description of the feature that helps accomplish the user
 - List the outputs
 - List more outputs
 
+**AWS Services**
+- List Services
+- List Services
+
 **Requirements**
 - List functional requirement
 - List functional requirement
@@ -58,9 +62,15 @@ Insert single sentence description of the feature that helps accomplish the user
 - List dependency
 - List dependency
 
+**Constraints and Performance Parameters**
+- List here
+
 **Limitations**
 - List known limitationt
 - List known limitations
+
+**Open Questions**
+- List open questions
 
 **Tasks**
 - [ ] Task
