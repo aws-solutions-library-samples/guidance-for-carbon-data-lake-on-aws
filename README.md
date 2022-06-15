@@ -48,7 +48,7 @@ When you run the script here are the actions it will take on your local machine 
 1. Configure your AWS environment credentials
 2. Bootstrap the CDK
 3. Install all dependencies
-4. Open link to install Docket
+4. Open link to install Docker
 5. Open link to setup Quicksight account in your AWS region
 6. Define inputs for context file include: adminEmail etc
 7. Prompt for selection of optional CarbonLake modules that you would like to deploy
