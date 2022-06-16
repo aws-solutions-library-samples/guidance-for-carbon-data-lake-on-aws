@@ -168,7 +168,10 @@ def save_enriched_events_to_dynamodb(activity_events):
 
 '''
 Input: {"storage_location": "calculator_input_example.jsonl" }
-Output: [ { "node_id": "<activity_event_id>, "storage_location": "s3://<output_bucket>/<key> }, {}, {} ... ]
+Output: {
+    "storage_location": "s3://<output_bucket>/<key>",
+    "records": [ { "node_id": "<activity_event_id>" }, {}, {} ... ]
+}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
@@ -185,5 +188,5 @@ def lambda_handler(event, context):
     # Save enriched activity_events to DynamoDB
     save_enriched_events_to_dynamodb(activity_events_with_emissions)
 
-    activity_ids = [ { "node_id": x["activity_event_id"], "storage_location": output_object_url } for x in activity_events_with_emissions ] 
-    return activity_ids
+    activity_ids = [ { "node_id": x["activity_event_id"] } for x in activity_events_with_emissions ] 
+    return { "storage_location": output_object_url, "records": activity_ids }

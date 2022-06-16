@@ -1,4 +1,4 @@
-import { App, CustomResource, Stack, StackProps } from 'aws-cdk-lib';
+import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
@@ -12,12 +12,11 @@ import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 
 interface PipelineProps extends StackProps {
-  dataLineageFunction: lambda.Function,
-  landingBucket: s3.Bucket,
-  rawBucket: s3.Bucket,
-  transformedBucket: s3.Bucket
-  enrichedBucket: s3.Bucket,
-  uniqueDirectory: string
+  dataLineageFunction: lambda.Function;
+  landingBucket: s3.Bucket;
+  rawBucket: s3.Bucket;
+  transformedBucket: s3.Bucket;
+  enrichedBucket: s3.Bucket;
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
@@ -36,8 +35,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
     const { glueTransformJobName } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
-      transformedBucket: props?.transformedBucket,
-      uniqueDirectory: props?.uniqueDirectory
+      transformedBucket: props?.transformedBucket
     });
 
     /* ======== POST-GLUE BATCH LAMBDA ======== */
@@ -55,6 +53,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: "app.lambda_handler",
       layers: [dependencyLayer],
+      timeout: Duration.seconds(60),
       environment: {
         TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName
       }

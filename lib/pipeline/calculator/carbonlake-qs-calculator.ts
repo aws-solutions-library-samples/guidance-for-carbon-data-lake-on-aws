@@ -39,7 +39,7 @@ export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
             runtime: lambda.Runtime.PYTHON_3_9,
             code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
             handler: "calculatorLambda.lambda_handler",
-            timeout: Duration.seconds(60),
+            timeout: Duration.minutes(5),
             environment: {
                 EMISSIONS_FACTOR_TABLE_NAME: emissionsFactorReferenceTable.tableName,
                 CALCULATOR_OUTPUT_TABLE_NAME: this.calculatorOutputTable.tableName,
