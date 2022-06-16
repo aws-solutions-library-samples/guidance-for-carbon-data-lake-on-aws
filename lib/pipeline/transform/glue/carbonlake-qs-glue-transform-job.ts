@@ -6,7 +6,6 @@ import { Construct } from 'constructs';
 interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
   rawBucket: cdk.aws_s3.Bucket;
   transformedBucket: cdk.aws_s3.Bucket;
-  uniqueDirectory: any
 }
 
 export class CarbonLakeGlueTransformationStack extends NestedStack {

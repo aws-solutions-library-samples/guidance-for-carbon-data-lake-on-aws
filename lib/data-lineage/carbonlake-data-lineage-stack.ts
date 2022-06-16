@@ -72,6 +72,7 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/input_function/')),
       handler: "app.lambda_handler",
+      timeout: Duration.seconds(60),
       environment: {
         SQS_QUEUE_URL: recordQueue.queueUrl
       },
