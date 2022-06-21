@@ -41,18 +41,20 @@ You can deploy CarbonLake Quickstart through the quick setup process, or through
 1. Navigate to CDK Directory --> `cd <the directory of this readme>`
 2. Run `carbonlake-quick-setup.sh`
 
-This script will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the script.
+This command line interface will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the command line interface to set up CarbonLake through a guided process or skip down below to the manual setup process if you prefer.
 
 When you run the script here are the actions it will take on your local machine and in your AWS account:
 
 1. Configure your AWS environment credentials
 2. Bootstrap the CDK
-3. Install all dependencies
-4. Open link to install Docker
-5. Open link to setup Quicksight account in your AWS region
-6. Define inputs for context file include: adminEmail etc
-7. Prompt for selection of optional CarbonLake modules that you would like to deploy
-8. Deploy all modules in your AWS account
+3. Check for all dependencies
+4. If you do not have docker installed it will open link to install Docker in your default browser
+5. Install all dependencies that still need to be installed
+6. Prompt for selection of optional CarbonLake modules that you would like to deploy
+7. If you choose to use the optional Quicksight module it will open your default browser to setup Quicksight account in your AWS region and guide you through the setup steps
+8. Define inputs for context file include: adminEmail, repoName, quicksightUserName and output the `cdk.context.json` file
+9. Deploy all modules in your AWS account
+10. Prompt you to run optional end to end integration tests in your account
 
 ### Prepare your environment and launch CarbonLake (Manual Setup)
 
