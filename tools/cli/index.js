@@ -4,7 +4,7 @@ import chalk from "chalk";
 import clear from "clear";
 import figlet from "figlet";
 import ora from "ora";
-import {askApplicationName} from './lib/inquirer.js'
+import {askAppConfig} from './lib/inquirer.js'
 
 clear();
 
@@ -15,9 +15,10 @@ console.log(
 );
 
 const run = async () => {
-  const spinner = ora("Getting stuff you asked for...").start();
+  const spinner = ora("Getting CarbonLake CLI ready for you...").start();
+  await new Promise(resolve => setTimeout(resolve, 2000));
   spinner.succeed("Ready!");
-  const config = await askApplicationName();
+  const config = await askAppConfig();
   console.log(config);
 };
 
