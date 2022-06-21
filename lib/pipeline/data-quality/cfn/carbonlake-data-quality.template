@@ -3,10 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: Data Quality check for carbon lake emission data
 
 Parameters:
-  SNSDQTopic:
-    Type: String
-    Default: dq-status
-    Description: SNS topic where the failed DQ job status is published
 
   GlueDataBrewOutputS3Bucket:
     Type: String
@@ -35,52 +31,6 @@ Globals:
     Timeout: 300 
 
 Resources:
-  
-  EventsPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Action:
-              - states:StartExecution
-            Resource:
-              - !Ref ProfileJobStepFunction
-
-  EventsRole:
-    Type: AWS::IAM::Role
-    Properties:
-      ManagedPolicyArns:
-        - !Ref EventsPolicy
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: events.amazonaws.com
-            Action: sts:AssumeRole
-      Path: /
-  
-  
-  S3EventBridgeRule:
-    Type: AWS::Events::Rule
-    Properties:
-      Targets:
-        - Arn: !Ref ProfileJobStepFunction
-          Id: DQ49
-          RoleArn: !GetAtt EventsRole.Arn
-      RoleArn: !GetAtt EventsRole.Arn
-      EventPattern:
-        source: 
-          - "aws.s3"
-        detail-type:
-          - "Object Created"
-        detail:
-          bucket:
-            name: 
-              - !Ref GlueDataBrewInputS3Bucket
-
   GlueDataBrewDataset:    
     Type: AWS::DataBrew::Dataset
     Properties:
