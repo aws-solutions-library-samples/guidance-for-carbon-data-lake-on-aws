@@ -24,7 +24,28 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
 
         // Create a sample Cognito user pool to use in providing authentication & authorization for the API
         const userPool = new UserPool(this, 'CarbonLakeQuickStartUserPool', {
-            userPoolName: 'CarbonLakeQuickStartUserPool'
+            userPoolName: 'CarbonLakeQuickStartUserPool',
+            signInAliases: {
+                email: true,
+                username: false,
+              },
+            selfSignUpEnabled: false, // Prevent users to sign up (security mechanism)
+            autoVerify: { email: true }, // Verify email addresses by sending a verification code
+            standardAttributes: {
+                email: {
+                  required: true,
+                  mutable: false,
+                },
+                givenName: {
+                  required: true,
+                  mutable: true,
+                },
+                familyName: {
+                  required: true,
+                  mutable: true,
+                },
+            }
+
         });
 
         // Create a Cognito identity pool to be used with the Amplify sample app
@@ -40,7 +61,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             userPool: userPool,
             userPoolClientName: 'CarbonLakeQuickStartUserPoolClient',
             generateSecret: false
-        });        
+        });
 
         // Create an initial admin user with the email address provided in the CDK context
         const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartAdminUser', {
