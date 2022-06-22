@@ -55,10 +55,9 @@ def move_s3_object(object_key, status):
         'Bucket': INPUT_BUCKET_NAME,
         'Key': object_key
     }
-    if status == "SUCCEEDED":
-        output_bucket = s3_resource.Bucket(OUTPUT_BUCKET_NAME)
-    else:
-        output_bucket = s3_resource.Bucket(ERROR_BUCKET_NAME)
+    output_bucket = s3_resource.Bucket(OUTPUT_BUCKET_NAME) \
+        if status \
+        else s3_resource.Bucket(ERROR_BUCKET_NAME)
     
     output_obj = output_bucket.Object(object_key)
     output_obj.copy(copy_source)
@@ -84,6 +83,6 @@ def handler(event, context):
 
     input_s3_key = urlparse(event["storage_location"], allow_fragments=False).path
     input_s3_key = input_s3_key.split("/")[-1]
-    output_object_url = move_s3_object(input_s3_key)
+    output_object_url = move_s3_object(input_s3_key, dq_passfail)
 
     return {"status": dq_passfail, "storage_location": output_object_url}
