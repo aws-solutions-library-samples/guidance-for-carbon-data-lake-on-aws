@@ -13,6 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 INPUT_BUCKET_NAME = os.environ["INPUT_BUCKET_NAME"]
+ERROR_BUCKET_NAME = os.environ["ERROR_BUCKET_NAME"]
 OUTPUT_BUCKET_NAME = os.environ["OUTPUT_BUCKET_NAME"]
 
 def get_dq_results(bucket, key):

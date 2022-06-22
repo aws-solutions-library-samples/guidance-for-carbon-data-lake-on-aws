@@ -83,7 +83,12 @@ export class CarbonlakeDataQualityStack extends NestedStack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/parse_results/')),
       handler: "app.lambda_handler",
       timeout: Duration.seconds(60),
-      environment: {} // TODO: refactor app to use env var for bucket name
+      environment: {
+        INPUT_BUCKET_NAME: props.inputBucket.bucketName,
+        ERROR_BUCKET_NAME: props.errorBucket.bucketName,
+        OUTPUT_BUCKET_NAME: props.outputBucket.bucketName
+
+      } // TODO: refactor app to use env var for bucket name
     });
     resultsBucket.grantRead(this.resultsLambda);
     props.inputBucket.grantRead(this.resultsLambda);
