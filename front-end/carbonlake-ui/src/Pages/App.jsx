@@ -2,10 +2,8 @@
                             DISCLAIMER
 
 This is just a playground package. It does not comply with best practices
-of using AWS-UI components. For production code, follow the integration
-guidelines:
+of using AWS-UI components.
 
-https://polaris.corp.amazon.com/getting_started/development/integration/
 ************************************************************************/
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -31,7 +29,7 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
+// Amplify.configure(awsExports);
 
 
 // Class App is the "output" generated on every build,
@@ -73,5 +71,6 @@ function App({signOut, user}) {
       </div>
     );
 }
+
 
 export default withAuthenticator(App);

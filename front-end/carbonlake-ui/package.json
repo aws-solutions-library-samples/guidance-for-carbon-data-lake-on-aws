@@ -17,7 +17,7 @@
     "@awsui/design-tokens": "^3.0.21",
     "@awsui/global-styles": "^1.0.14",
     "@awsui/test-utils-core": "^1.0.17",
-    "aws-amplify": "^4.3.22",
+    "aws-amplify": "^4.3.26",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^6.3.0",
