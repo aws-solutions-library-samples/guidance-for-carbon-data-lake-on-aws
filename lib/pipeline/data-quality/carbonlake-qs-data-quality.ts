@@ -24,16 +24,19 @@ export class CarbonlakeDataQualityStack extends NestedStack {
   constructor(scope: Construct, id: string, props: DataQualityStackProps) {
     super(scope, id, props);
 
-    /* ====== PERMISSIONS ====== */
+    /* ====== DEPENDENCIES ====== */
+
+    // s3 bucket to store results from the data quality profile job
+    const resultsBucket = new s3.Bucket(this, "DataQualityResultsBucket");
 
     // role used by the databrew profiling job -> read/write to S3
-    const role = new iam.Role(this, "DataQualityProfileRole", {
+    const databrewRole = new iam.Role(this, "DataQualityProfileRole", {
       assumedBy: new iam.ServicePrincipal('databrew.amazonaws.com'),
       description: 'IAM role to be assumed by Glue DataBrew for Data Quality checks'
     })
-    role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSGlueDataBrewServiceRole"))
-    props.inputBucket.grantRead(role);
-    props.outputBucket.grantReadWrite(role);
+    databrewRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSGlueDataBrewServiceRole"))
+    props.inputBucket.grantRead(databrewRole);
+    resultsBucket.grantReadWrite(databrewRole);
 
     /* ====== RESOURCES LAMBDA ====== */
 
@@ -45,10 +48,31 @@ export class CarbonlakeDataQualityStack extends NestedStack {
       timeout: Duration.seconds(60),
       environment: {
         INPUT_BUCKET_NAME: props.inputBucket.bucketName,
-        OUTPUT_BUCKET_NAME: props.outputBucket.bucketName,
-        PROFILE_JOB_ROLE: role.roleArn
+        RESULTS_BUCKET_NAME: resultsBucket.bucketName,
+        PROFILE_JOB_ROLE: databrewRole.roleArn
       }
     });
+
+    this.resourcesLambda.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        "databrew:CreateDataset",
+        "databrew:DescribeDataset",
+        "databrew:DeleteDataset",
+        "databrew:CreateRuleset",
+        "databrew:DescribeRuleset",
+        "databrew:DeleteRuleset",
+        "databrew:CreateProfileJob",
+        "databrew:DescribeJob",
+        "databrew:DeleteJob"
+      ],
+      resources: [ "*" ]
+    }));
+
+    this.resourcesLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['iam:PassRole'], 
+      resources: [databrewRole.roleArn]
+    }));
 
     /* ====== PARSE RESULTS LAMBDA ====== */
 
@@ -60,5 +84,8 @@ export class CarbonlakeDataQualityStack extends NestedStack {
       timeout: Duration.seconds(60),
       environment: {} // TODO: refactor app to use env var for bucket name
     });
+    resultsBucket.grantRead(this.resultsLambda);
+    props.inputBucket.grantRead(this.resultsLambda);
+    props.outputBucket.grantReadWrite(this.resultsLambda);
   }
 }

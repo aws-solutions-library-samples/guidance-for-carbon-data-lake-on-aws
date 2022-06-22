@@ -7,6 +7,7 @@ import json
 import boto3
 import logging
 from typing import Dict, List
+from urllib.parse import urlparse
 from uuid import uuid4
 
 logger = logging.getLogger()
@@ -15,7 +16,7 @@ logger.setLevel(logging.DEBUG)
 databrew = boto3.client('databrew')
 
 INPUT_BUCKET_NAME = os.environ["INPUT_BUCKET_NAME"]
-OUTPUT_BUCKET_NAME = os.environ["OUTPUT_BUCKET_NAME"]
+RESULTS_BUCKET_NAME = os.environ["RESULTS_BUCKET_NAME"]
 PROFILE_JOB_ROLE = os.environ["PROFILE_JOB_ROLE"]
 
 def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
@@ -25,8 +26,11 @@ def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
         # generate a unique id shared amongst dq resources
         job_id = uuid4()
 
+        # separate out s3key from full s3 uri
+        s3_key = urlparse(event["storage_location"], allow_fragments=False).path.strip("/")
+
         # create a dataset for the provided s3 key
-        dataset = create_databrew_dataset(f"dataset-{job_id}", event["storage_location"])
+        dataset = create_databrew_dataset(f"dataset-{job_id}", s3_key)
         # get the arn of the newly created dataset
         dataset_arn = describe_databrew_dataset(dataset)
 
@@ -44,7 +48,7 @@ def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
             name=f'profile-job-{job_id}',
             dataset_name=dataset,
             ruleset_arn=ruleset_arn,
-            s3_key=event["storage_location"]
+            s3_key=s3_key
         )
         # get the arn of the newly created profile job
         job_arn = describe_databrew_profile_job(job)
@@ -117,7 +121,7 @@ def create_databrew_profile_job(name: str, dataset_name: str, ruleset_arn: str, 
             { 'RulesetArn': ruleset_arn }
         ],
         OutputLocation={
-            "Bucket": OUTPUT_BUCKET_NAME,
+            "Bucket": RESULTS_BUCKET_NAME,
             'Key': s3_key
         },
         MaxCapacity=5,
