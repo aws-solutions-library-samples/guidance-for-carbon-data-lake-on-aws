@@ -10,6 +10,7 @@ import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-
 import { CarbonlakeQuickstartS3copierStack } from './s3copier/carbonlake-qs-s3copier';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
+import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality';
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function;
@@ -29,6 +30,11 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     const { s3copierLambda } = new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
       landingBucket: props.landingBucket,
       rawBucket: props.rawBucket
+    });
+
+    const dataQualityStack = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
+      inputBucket: props.landingBucket,
+      outputBucket: props.rawBucket
     });
 
     /* ======== GLUE TRANSFORM ======== */

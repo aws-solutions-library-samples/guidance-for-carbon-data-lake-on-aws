@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import path from 'path';
 
@@ -6,7 +6,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 
-interface DataQualityStackProps extends StackProps {
+interface DataQualityStackProps extends NestedStackProps {
   inputBucket: s3.Bucket;
   outputBucket: s3.Bucket;
 }
@@ -18,7 +18,7 @@ interface DataQualityStackProps extends StackProps {
   stack defines a lambda function to handle the deployment and tear down of
   databrew resources to be executed from within the step functions pipeline.
 */
-export class DataQualityStack extends Stack {
+export class CarbonlakeDataQualityStack extends NestedStack {
   public readonly resourcesLambda: lambda.Function;
   public readonly resultsLambda: lambda.Function;
   constructor(scope: Construct, id: string, props: DataQualityStackProps) {
