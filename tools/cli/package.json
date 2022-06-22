@@ -1,0 +1,31 @@
+{
+  "name": "carbonlakecli",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "cli for configuration, test, and management of carbonlake quickstart infrastructure",
+  "main": "index.js",
+  "bin": {
+    "jsonp": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sam Ward Biddle sambiddl@amazon.com",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/auth-basic": "^1.4.8",
+    "@octokit/rest": "^18.12.0",
+    "chalk": "^5.0.1",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^6.0.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.4",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.6",
+    "ora": "^6.1.0",
+    "simple-git": "^3.7.1",
+    "touch": "^3.1.0"
+  }
+}
