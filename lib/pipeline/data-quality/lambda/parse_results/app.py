@@ -1,17 +1,25 @@
+"""
+original author: @jangna
+modified by: @awsford
+"""
+import os
 import boto3
 import json
 import logging
+from urllib.parse import urlparse
 
-s3_resouce = boto3.resource("s3")
+s3_resource = boto3.resource("s3")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+INPUT_BUCKET_NAME = os.environ["INPUT_BUCKET_NAME"]
+OUTPUT_BUCKET_NAME = os.environ["OUTPUT_BUCKET_NAME"]
 
 def get_dq_results(bucket, key):
     """
     Get the data quality results from the S3 bucket.
     """
-    s3_object = s3_resouce.Object(bucket, key)
+    s3_object = s3_resource.Object(bucket, key)
     dq_results = s3_object.get()["Body"].read().decode("utf-8")
     dict_results = json.loads(dq_results)
 
@@ -38,6 +46,19 @@ def extract_validation_results(event):
             return output["Location"]
         else:
             continue
+    
+""" original function written by @chateauv """
+def copy_s3_object(object_key):
+    logger.info('copy_s3_object: %s', object_key)
+    copy_source = {
+        'Bucket': INPUT_BUCKET_NAME,
+        'Key': object_key
+    }
+    bucket = s3_resource.Bucket(OUTPUT_BUCKET_NAME)
+    obj = bucket.Object(object_key)
+    obj.copy(copy_source)
+    # Return s3 URL
+    return "s3://"+OUTPUT_BUCKET_NAME+"/"+object_key
 
 
 def handler(event, context):
@@ -52,4 +73,8 @@ def handler(event, context):
     dq_passfail = dq_check_passfail(dq_results["rulesetResults"])
     logger.info(f"DQ Pass/Fail: {dq_passfail}")
 
-    return {"status": dq_passfail}
+    input_s3_key = urlparse(event["storage_location"], allow_fragments=False).path
+    input_s3_key = input_s3_key.split("/")[-1]
+    output_object_url = copy_s3_object(input_s3_key)
+
+    return {"status": dq_passfail, "storage_location": output_object_url}
