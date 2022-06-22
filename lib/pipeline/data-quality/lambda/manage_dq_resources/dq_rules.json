@@ -1,0 +1,29 @@
+[
+    {
+        "Name": "Check activity_event_id column For missing Values",
+        "Disabled": "false",
+        "CheckExpression": "AGG(:col1, MISSING_VALUES_COUNT) <= :val1",
+        "SubstitutionMap": {
+            ":col1": "`activity_event_id`",
+            ":val1": "0"
+        }
+    },
+    {
+        "Name": "Check activity_event_id column For duplicate Values",
+        "Disabled": "false",
+        "CheckExpression": "AGG(:col1, DUPLICATE_VALUES_COUNT) <= :val1",
+        "SubstitutionMap":  {
+            ":col1": "`activity_event_id`",
+            ":val1": "0"
+        }
+    },
+    {
+        "Name": "Check asset_id column For missing Values",
+        "Disabled": "false",
+        "CheckExpression": "AGG(:col1, MISSING_VALUES_COUNT) <= :val1",
+        "SubstitutionMap": {
+            ":col1": "`asset_id`",
+            ":val1": "0"
+        }
+    }
+]
