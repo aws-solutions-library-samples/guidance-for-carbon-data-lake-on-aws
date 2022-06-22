@@ -49,16 +49,23 @@ def extract_validation_results(event):
             continue
     
 """ original function written by @chateauv """
-def move_s3_object(object_key):
+def move_s3_object(object_key, status):
     logger.info('copy_s3_object: %s', object_key)
     copy_source = {
         'Bucket': INPUT_BUCKET_NAME,
         'Key': object_key
     }
-    bucket = s3_resource.Bucket(OUTPUT_BUCKET_NAME)
-    obj = bucket.Object(object_key)
-    obj.copy(copy_source)
-    obj.delete()
+    if status == "SUCCEEDED":
+        output_bucket = s3_resource.Bucket(OUTPUT_BUCKET_NAME)
+    else:
+        output_bucket = s3_resource.Bucket(ERROR_BUCKET_NAME)
+    
+    output_obj = output_bucket.Object(object_key)
+    output_obj.copy(copy_source)
+    # delete the source copy
+    input_bucket = s3_resource.Bucket(INPUT_BUCKET_NAME)
+    input_source = input_bucket.Object(object_key)
+    input_source.delete()
     # Return s3 URL
     return "s3://"+OUTPUT_BUCKET_NAME+"/"+object_key
 
