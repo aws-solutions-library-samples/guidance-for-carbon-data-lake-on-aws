@@ -69,7 +69,7 @@ def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
         delete_databrew_profile_job(event["job_name"])
         delete_databrew_ruleset(event["ruleset_name"])
         delete_databrew_dataset(event["dataset_name"])
-        return {}
+        return event
     else:
         raise Exception(f"{event['event_type']} : event_type is unknown")
 

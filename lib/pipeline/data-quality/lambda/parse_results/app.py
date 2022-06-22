@@ -69,8 +69,8 @@ def move_s3_object(object_key, status):
     return "s3://"+OUTPUT_BUCKET_NAME+"/"+object_key
 
 
-def handler(event, context):
-    location = extract_validation_results(event)
+def lambda_handler(event, context):
+    location = extract_validation_results(event["dq_results"])
     bucket = location["Bucket"]
     key = location["Key"]
     logger.info(f"Location: {location}")
