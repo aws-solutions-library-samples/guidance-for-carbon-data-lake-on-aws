@@ -51,6 +51,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, "CarbonlakePipelineStack", {
       dataLineageFunction: dataLineage.inputFunction,
       landingBucket: sharedResources.carbonlakeLandingBucket,
+      errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,

@@ -9,6 +9,7 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 interface DataQualityStackProps extends NestedStackProps {
   inputBucket: s3.Bucket;
   outputBucket: s3.Bucket;
+  errorBucket: s3.Bucket;
 }
 
 /*

@@ -15,6 +15,7 @@ import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-qu
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function;
   landingBucket: s3.Bucket;
+  errorBucket: s3.Bucket;
   rawBucket: s3.Bucket;
   transformedBucket: s3.Bucket;
   enrichedBucket: s3.Bucket;
@@ -34,7 +35,8 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
 
     const dataQualityStack = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
       inputBucket: props.landingBucket,
-      outputBucket: props.rawBucket
+      outputBucket: props.rawBucket,
+      errorBucket: props.errorBucket
     });
 
     /* ======== GLUE TRANSFORM ======== */
