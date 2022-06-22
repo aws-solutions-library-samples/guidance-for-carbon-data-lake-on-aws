@@ -28,12 +28,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     super(scope, id, props);
 
     /* ======== DATA QUALITY ======== */
-    const { s3copierLambda } = new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
-      landingBucket: props.landingBucket,
-      rawBucket: props.rawBucket
-    });
-
-    const dataQualityStack = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
+    const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
       inputBucket: props.landingBucket,
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket
@@ -86,8 +81,8 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     //  - calculation function
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
-      s3copierLambda: s3copierLambda,
-      dataQualityJob: null,
+      dqResourcesLambda: resourcesLambda,
+      dqResultsLambda: resultsLambda,
       glueTransformJobName: glueTransformJobName,
       batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda
