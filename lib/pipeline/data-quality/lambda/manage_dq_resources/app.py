@@ -14,8 +14,8 @@ logger.setLevel(logging.DEBUG)
 
 databrew = boto3.client('databrew')
 
-INPUT_BUCKET = os.environ["INPUT_BUCKET"]
-OUTPUT_BUCKET = os.environ["OUTPUT_BUCKET"]
+INPUT_BUCKET_NAME = os.environ["INPUT_BUCKET_NAME"]
+OUTPUT_BUCKET_NAME = os.environ["OUTPUT_BUCKET_NAME"]
 PROFILE_JOB_ROLE = os.environ["PROFILE_JOB_ROLE"]
 
 def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
@@ -76,7 +76,7 @@ def create_databrew_dataset(name: str, s3_key: str) -> str:
         Format='CSV',
         Input={
             'S3InputDefinition': {
-                'Bucket': INPUT_BUCKET,
+                'Bucket': INPUT_BUCKET_NAME,
                 'Key': s3_key
             }
         }
@@ -117,7 +117,7 @@ def create_databrew_profile_job(name: str, dataset_name: str, ruleset_arn: str, 
             { 'RulesetArn': ruleset_arn }
         ],
         OutputLocation={
-            "Bucket": OUTPUT_BUCKET,
+            "Bucket": OUTPUT_BUCKET_NAME,
             'Key': s3_key
         },
         MaxCapacity=5,
