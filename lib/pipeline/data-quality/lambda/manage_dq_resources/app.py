@@ -43,7 +43,7 @@ def lambda_handler(event: Dict[str, str], context: Dict) -> Dict:
             name=f'profile-job-{job_id}',
             dataset_name=dataset,
             ruleset_arn=ruleset_arn,
-            s3_key=s3_key
+            results_key=event["root_id"]
         )
         # get the arn of the newly created profile job
         job_arn = describe_databrew_profile_job(job)
@@ -107,7 +107,7 @@ def delete_databrew_ruleset(name: str) -> str:
     response = databrew.delete_ruleset(Name=name)
     return response["Name"]
 
-def create_databrew_profile_job(name: str, dataset_name: str, ruleset_arn: str, s3_key: str) -> str:
+def create_databrew_profile_job(name: str, dataset_name: str, ruleset_arn: str, results_key: str) -> str:
     response = databrew.create_profile_job(
         Name=name,
         RoleArn=os.environ["PROFILE_JOB_ROLE"],
@@ -117,7 +117,7 @@ def create_databrew_profile_job(name: str, dataset_name: str, ruleset_arn: str, 
         ],
         OutputLocation={
             "Bucket": os.environ["RESULTS_BUCKET_NAME"],
-            'Key': s3_key
+            'Key': results_key
         },
         MaxCapacity=5,
         MaxRetries=0,

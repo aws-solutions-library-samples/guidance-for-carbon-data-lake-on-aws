@@ -53,6 +53,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       resultPath: '$.data_quality',
       payload: sfn.TaskInput.fromObject({
         "event_type": "SETUP",
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
         "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
       }),
     });
