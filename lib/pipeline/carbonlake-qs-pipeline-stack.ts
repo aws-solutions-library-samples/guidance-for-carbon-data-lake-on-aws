@@ -7,7 +7,6 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
-import { CarbonlakeQuickstartS3copierStack } from './s3copier/carbonlake-qs-s3copier';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality';
