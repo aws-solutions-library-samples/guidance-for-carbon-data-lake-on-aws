@@ -1,4 +1,4 @@
-import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { Duration, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import path from 'path';
 
@@ -28,7 +28,11 @@ export class CarbonlakeDataQualityStack extends NestedStack {
     /* ====== DEPENDENCIES ====== */
 
     // s3 bucket to store results from the data quality profile job
-    const resultsBucket = new s3.Bucket(this, "DataQualityResultsBucket");
+    const resultsBucket = new s3.Bucket(this, "DataQualityResultsBucket", {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
 
     // role used by the databrew profiling job -> read/write to S3
     const databrewRole = new iam.Role(this, "DataQualityProfileRole", {
