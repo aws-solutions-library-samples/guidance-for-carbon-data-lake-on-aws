@@ -128,7 +128,8 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       message: sfn.TaskInput.fromText(sfn.JsonPath.format(
         'Your Carbonlake Data Quality job has failed. Please review your dataset: {}',
         sfn.JsonPath.stringAt('$.data_quality.storage_location')
-      ))
+      )),
+      resultPath: sfn.JsonPath.DISCARD
     })
 
     // Transformation Glue Job - split large input file into optimised batches with known schema
