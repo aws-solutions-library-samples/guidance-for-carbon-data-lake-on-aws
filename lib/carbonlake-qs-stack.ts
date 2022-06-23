@@ -55,6 +55,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+      notificationEmailAddress: adminEmail
     });
 
   

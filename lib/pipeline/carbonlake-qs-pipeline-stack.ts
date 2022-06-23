@@ -1,6 +1,8 @@
 import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -18,6 +20,7 @@ interface PipelineProps extends StackProps {
   rawBucket: s3.Bucket;
   transformedBucket: s3.Bucket;
   enrichedBucket: s3.Bucket;
+  notificationEmailAddress: string;
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
@@ -32,6 +35,10 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket
     });
+
+    const dqErrorNotificationSNS = new sns.Topic(this, 'carbonlakeDataQualityNotification', {});
+    const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
+    dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
     /* ======== GLUE TRANSFORM ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
@@ -82,6 +89,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       dataLineageFunction: props?.dataLineageFunction,
       dqResourcesLambda: resourcesLambda,
       dqResultsLambda: resultsLambda,
+      dqErrorNotification: dqErrorNotificationSNS,
       glueTransformJobName: glueTransformJobName,
       batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda

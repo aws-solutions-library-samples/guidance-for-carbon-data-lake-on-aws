@@ -3,12 +3,14 @@ import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
   dataLineageFunction: lambda.Function,
   dqResourcesLambda: lambda.Function,
   dqResultsLambda: lambda.Function,
+  dqErrorNotification: sns.Topic,
   glueTransformJobName: string,
   batchEnumLambda: lambda.Function,
   calculationJob: lambda.Function
@@ -76,7 +78,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     });
 
     // Data Quality Check
-    const dataQualityCheckTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Check', {
+    const dataQualityCheckTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Results Check', {
       lambdaFunction: props.dqResultsLambda,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
@@ -103,6 +105,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       }),
       resultPath: '$.data_lineage',
     });
+
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
     const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'Data Lineage: DQ_CHECK_FAIL', {
       lambdaFunction: props.dataLineageFunction,
@@ -118,8 +121,15 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       resultPath: '$.data_lineage',
     });
 
-    // Human-in-the-loop approval step - invoked on data quality check fail
-    const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
+    // Data Quality error notification - invoked on data quality check fail
+    const errorNotificaiton = new tasks.SnsPublish(this, 'SNS: Notify Data Quality Error', {
+      topic: props.dqErrorNotification,
+      subject: "Data Quality check failed",
+      message: sfn.TaskInput.fromText(sfn.JsonPath.format(
+        'Your Carbonlake Data Quality job has failed. Please review your dataset: {}',
+        sfn.JsonPath.stringAt('$.data_quality.storage_location')
+      ))
+    })
 
     // Transformation Glue Job - split large input file into optimised batches with known schema
     const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
@@ -219,14 +229,15 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
               .start(calculationLambdaTask)
               .next(dataLineageTask3)
             ))
+            .next(sfnSuccess)
         )
         .otherwise(sfn.Chain
-          .start(humanApprovalTask)
+          .start(errorNotificaiton)
           .next(dataLineageTask1_2)
+          .next(sfnFailure)
         )
-        .afterwards()
       )
-      .next(sfnSuccess)
+      
 
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
       definition,
