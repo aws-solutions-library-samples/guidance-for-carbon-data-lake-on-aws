@@ -1,24 +1,22 @@
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --
 
-// // Imports
-// import {Amplify, Auth } from 'aws-amplify';
-
 // Existing API
 const existingAPI = {
   // ...
-  'aws_appsync_graphqlEndpoint': 'https://r3l3yd5w7rhi7i5xqzci2z5cva.appsync-api.us-east-1.amazonaws.com/graphql', // Replace with your GraphQL Endpoint
-  'aws_appsync_region': 'us-east-1', // Replace with the region you deployed CDK with
-  'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS', // No touchy
-}
+  API: {
+    aws_appsync_graphqlEndpoint: 'https://gckuq7n4yrh45hx5zvgp2ecxua.appsync-api.us-east-1.amazonaws.com/graphql', // Replace with your GraphQL Endpoint
+    aws_appsync_region: 'us-east-1', // Replace with the region you deployed CDK with
+    aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS', // No touchy
+  }
 
-// Amplify.configure(existingAPI);
+}
 
 // Existing Auth
 const existingAuth = {
   Auth: {
 
     // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-    identityPoolId: 'us-east-1:a7e6e7e1-58f6-47a6-962c-1d1a9b03dccd',
+    identityPoolId: 'us-east-1:52468e33-f23a-4ae2-92ca-071bd1bcb366',
 
     // REQUIRED - Amazon Cognito Region
     region: 'us-east-1',
@@ -28,10 +26,10 @@ const existingAuth = {
     identityPoolRegion: 'us-east-1',
 
     // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: 'us-east-1_coenekNZw',
+    userPoolId: 'us-east-1_5PG9MH9sj',
 
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: '35og1jbd7gufgg5948k2223oor',
+    userPoolWebClientId: '74or209ii70dhrkusnq5pt0sd7',
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,
