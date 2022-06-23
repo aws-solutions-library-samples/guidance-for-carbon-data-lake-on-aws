@@ -88,7 +88,7 @@ export class CarbonlakeDataQualityStack extends NestedStack {
         ERROR_BUCKET_NAME: props.errorBucket.bucketName,
         OUTPUT_BUCKET_NAME: props.outputBucket.bucketName
 
-      } // TODO: refactor app to use env var for bucket name
+      }
     });
     resultsBucket.grantRead(this.resultsLambda);
     props.errorBucket.grantReadWrite(this.resultsLambda);
