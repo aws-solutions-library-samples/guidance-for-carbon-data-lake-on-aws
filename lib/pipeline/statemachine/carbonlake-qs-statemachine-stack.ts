@@ -168,7 +168,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "action_taken": "GLUE_BATCH_SPLIT",
         "records": sfn.JsonPath.objectAt("$.batches")
       }),
-      resultPath: '$.data_lineage',
+      resultPath: '$.data_lineage', // TODO: look at discarding this to reduce payload size
     });
 
     // Dynamic Map State - Run n calculations depending on number of batches
