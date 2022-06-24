@@ -111,15 +111,11 @@ def handle_multiple_records(event: Dict, record_template: Dict, dh: DataHandler)
     dh.sqs.send_batched_messages(records)
     
     # keep node_id and storage_location in records for next node
-    if event.storage_location != "":
-        record_template["storage_location"] = event.storage_location
-        record_template["records"] = [{ "node_id": x["node_id"] } for x in records ]
-    else:
-        record_template["records"] = [
-            {
-                "node_id": x["node_id"],
-                "storage_location": x["storage_location"]
-            } for x in records
-        ]
+    record_template["records"] = [
+        {
+            "node_id": x["node_id"],
+            "storage_location": x["storage_location"]
+        } for x in records
+    ]
 
     return record_template
