@@ -27,8 +27,8 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
+// import awsExports from '../aws-exports';
+// Amplify.configure(awsExports);
 
 // S3 Upload Parameters
 // Amplify.configure({

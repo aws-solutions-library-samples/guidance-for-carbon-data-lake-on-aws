@@ -6,6 +6,7 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { CfnUserPoolUser, IUserPool, IUserPoolClient, UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { IdentityPool, IIdentityPool, UserPoolAuthenticationProvider } from '@aws-cdk/aws-cognito-identitypool-alpha';
 
+
 export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
     adminEmail?: string;
@@ -60,7 +61,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         const userPoolClient = new UserPoolClient(this, 'CarbonLakeQuickStartUserPoolClient', {
             userPool: userPool,
             userPoolClientName: 'CarbonLakeQuickStartUserPoolClient',
-            generateSecret: false
+            generateSecret: false // Don't need to generate secret for web app running on browsers
         });
 
         // Create an initial admin user with the email address provided in the CDK context

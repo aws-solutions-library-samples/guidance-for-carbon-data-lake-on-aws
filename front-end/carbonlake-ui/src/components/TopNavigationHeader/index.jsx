@@ -14,9 +14,11 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import awsExports from '../../aws-exports';
-Amplify.configure(awsExports);
-
+// import awsExports from '../../aws-exports';
+// Amplify.configure(awsExports);
+import {existingAPI, existingAuth} from '../../amplify-config';
+Amplify.configure(existingAuth)
+Amplify.configure(existingAPI)
 
 
 
@@ -25,9 +27,12 @@ const TopNavigationHeader = ({signOut, user}) => {
   const appUser = {
     userName: 'novekm',
     // Pull in logged in user attributes from cognito user pool
-    fullName: `${user.attributes.given_name} ${user.attributes.family_name}`,
+    fullName: `${user.attributes.given_name} ${user.attributes.family_name}`|| 'Default',
     userEmail: `${user.attributes.email}`,
   };
+  console.log(`${user.attributes.email}`)
+  console.log(`${user.attributes.given_name}`)
+  // console.log (json.stringify(user.attributes))
   return (
     <div id="h">
     <TopNavigation
