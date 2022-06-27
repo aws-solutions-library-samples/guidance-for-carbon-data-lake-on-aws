@@ -1,6 +1,7 @@
 import { Match, Template } from "aws-cdk-lib/assertions";
 import { App, Stack } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 
 import { CarbonlakeQuickstartStatemachineStack } from "../../../lib/pipeline/statemachine/carbonlake-qs-statemachine-stack";
@@ -21,6 +22,7 @@ describe('test statemachine stack', () => {
         //   - batchEnumLambda
         //   - calculationJob
         const dummyInputsStack = new Stack(app, "DummyInputsStack");
+        const dummyTopic = new sns.Topic(dummyInputsStack, 'dummyTopic', {});
         const dummyLambda = new lambda.Function(dummyInputsStack, "dummyLambda", {
             runtime: lambda.Runtime.PYTHON_3_9,
             code: lambda.Code.fromInline("def lambda_handler(): pass"),
@@ -33,8 +35,9 @@ describe('test statemachine stack', () => {
         // create the pipeline stack with the required props
         const statemachineStack = new CarbonlakeQuickstartStatemachineStack(parentStack, "PipelineStack", {
             dataLineageFunction: dummyLambda,
-            dataQualityJob: "abc",
-            s3copierLambda: dummyLambda,
+            dqResourcesLambda: dummyLambda,
+            dqResultsLambda: dummyLambda,
+            dqErrorNotification: dummyTopic,
             glueTransformJobName: "xyz",
             batchEnumLambda: dummyLambda,
             calculationJob: dummyLambda,

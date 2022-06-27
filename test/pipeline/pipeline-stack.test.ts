@@ -31,9 +31,11 @@ describe("test pipeline stack", () => {
         const pipelineStack = new CarbonlakeQuickstartPipelineStack(app, "PipelineStack", {
             dataLineageFunction: dummyFunction,
             landingBucket: dummyBucket,
+            errorBucket: dummyBucket,
             rawBucket: dummyBucket,
             transformedBucket: dummyBucket,
-            enrichedBucket: dummyBucket
+            enrichedBucket: dummyBucket,
+            notificationEmailAddress: "a@b.com"
         });
 
         // synth a cloudformation template from the stack
