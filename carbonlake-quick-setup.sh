@@ -7,7 +7,7 @@ while true; do
     read -p "Ready to get started? (y/n) " READY
     case $READY in
         [y]* ) echo "Great! Let's get started..."; break;;
-        [n]* ) "That's okay. If you're not ready to get started, just come back when you are."; exit;;
+        [n]* ) echo "That's okay. If you're not ready to get started, just come back when you are."; exit;;
         * ) echo "Please answer y or n"
     esac
 done
@@ -32,8 +32,8 @@ read -p "Do you have the latest versions of all of these and see that they are r
 while true; do
     case $RESPDependencies in
         [y]* ) echo "✅ Great! Let's move on to the next step --> configuring your AWS environment"; break;;
-            [n]* ) "🤨 Oops. That's okay. You can install them now. Go do that and ";; open https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html; open https://nodejs.org/en/download/; open https://docs.amplify.aws/cli/start/install/;
-            * ) echo "❓Please answer y or n"
+        [n]* ) echo "🤨 Oops. That's okay. You can install them now. Go do that and "; open https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html; open https://nodejs.org/en/download/; open https://docs.amplify.aws/cli/start/install/;;
+        * ) echo "❓Please answer y or n"
         esac
     done
 # Open link to install Docker
@@ -59,8 +59,8 @@ read -p "\nDid you successfully configure your AWS Credentials? (y/n)" RESPCrede
 while true; do
     case $RESPCredentials in
         [y]* ) echo "✅ Great! Let's move on to the next step -- configuring docker registry access"; break;;
-            [n]* ) "🤨 Oops. That's okay. We are going to exit this process now. Please review the prerequisites section of the README. Please come back when you are ready.."; exit;;
-            * ) echo "❓Please answer y or n"
+        [n]* ) echo "🤨 Oops. That's okay. We are going to exit this process now. Please review the prerequisites section of the README. Please come back when you are ready.."; exit;;
+        * ) echo "❓Please answer y or n"
         esac
     done
 
@@ -82,8 +82,8 @@ read -p "Did you successfully install node.js? (y/n)" NODEINSTALL
 while true; do
     case $NODEINSTALL in
         [y]* ) echo "✅ Great! Let's move on to the next step -- installing dependencies"; break;;
-            [n]* ) "🚨 Okay. Go back to the readme and follow directions to install node. Then return to this...";
-            * ) echo "❓ Please answer y or n"
+        [n]* ) echo "🚨 Okay. Go back to the readme and follow directions to install node. Then return to this...";;
+        * ) echo "❓ Please answer y or n"
         esac
     done
 
