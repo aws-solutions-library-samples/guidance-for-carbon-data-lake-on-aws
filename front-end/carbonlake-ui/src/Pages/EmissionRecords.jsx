@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+
+import {existingAPI, existingAuth} from '../amplify-config';
+import { API, graphqlOperation } from 'aws-amplify';
+import { all, getOne } from '../graphql/queries';
+
 import DataProvider from '../resources/data-provider';
 import Sidebar from '../components/Sidebar';
 // import ServiceNavigation from './ServiceNavigation.jsx';
@@ -37,9 +42,6 @@ export default () => {
     <>
     <TopNavigationHeader/>
 
-
-{/* TODO - Connect this to GraphQL API and fetch correct data */}
-
     {/* <Sidebar /> */}
       <AppLayout
       navigation={<Sidebar activeHref="#/" />}
@@ -61,19 +63,24 @@ export default () => {
 };
 
 const DetailsTable = () => {
+
+const [emissions, setEmissions] = useState([])
+const [selectedEmissions, setSelectedEmissions] = useState([]);
+
   // Below are variables declared to maintain the table's state.
   // Each declaration returns two values: the first value is the current state, and the second value is the function that updates it.
   // They use the general format: [x, setX] = useState(defaultX), where x is the attribute you want to keep track of.
   // For more info about state variables and hooks, see https://reactjs.org/docs/hooks-state.html.
   const [distributions, setDistributions] = useState([]);
   const [selectedDistributions, setSelectedDistributions] = useState([]);
+
   const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
   const [loading, setLoading] = useState(true);
 
   // a utility to handle operations on the data set (such as filtering, sorting and pagination)
   // https://polaris.a2z.com/develop/guides/collection_hooks/
   const { items, actions, collectionProps, filterProps, paginationProps, filteredItemsCount } = useCollection(
-    distributions,
+    emissions,
     {
       pagination: { pageSize: preferences.pageSize },
       sorting: {},
@@ -91,21 +98,55 @@ const DetailsTable = () => {
     }
   );
 
+
+  useEffect(()=> {
+    fetchEmissions()
+  }, [] )
+
+const fetchEmissions = async () => {
+  try{
+      const emissionData = await API.graphql(graphqlOperation(all, {limit:10000}));
+      const emissionsDataList = emissionData.data.all.items
+      console.log('Emissions List', emissionsDataList)
+      setEmissions(emissionsDataList)
+      setLoading(false)
+  } catch (error) {
+    console.log('error on fetching emissions', error)
+  }
+};
+
+
+
+  // // Fetch data using GraphQL API
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await existingAPI.graphql ({ query: All })
+  //     console.log(data)
+  //   }
+  // }, []);
+
   // fetch distributions after render of the component
-  useEffect(() => {
-    new DataProvider().getData('distributions', distributions => {
-      setDistributions(distributions);
-      setLoading(false);
-      console.log(distributions)
-    });
-  }, []);
+  // useEffect(() => {
+  //   new DataProvider().getData('distributions', distributions => {
+  //     setDistributions(distributions);
+  //     setLoading(false);
+  //     console.log(distributions)
+  //   });
+  // }, []);
+
+  // Keeps track of how many emissions are selected
+  function headerCounter(selectedEmissions, emissions) {
+    return selectedEmissions.length
+      ? `(${selectedEmissions.length} of ${emissions.length})`
+      : `(${emissions.length})`;
+  }
 
   // Keeps track of how many distributions are selected
-  function headerCounter(selectedDistributions, distributions) {
-    return selectedDistributions.length
-      ? `(${selectedDistributions.length} of ${distributions.length})`
-      : `(${distributions.length})`;
-  }
+  // function headerCounter(selectedDistributions, distributions) {
+  //   return selectedDistributions.length
+  //     ? `(${selectedDistributions.length} of ${distributions.length})`
+  //     : `(${distributions.length})`;
+  // }
 
   function filterCounter(count) {
     return `${count} ${count === 1 ? 'match' : 'matches'}`;
@@ -122,8 +163,9 @@ const DetailsTable = () => {
       loadingText="Loading resources"
       header={
         <TableHeader
-          selectedDistributions={selectedDistributions}
-          counter={headerCounter(selectedDistributions, distributions)}
+        // TODO - FIX selectedDistributions
+          selectedEmissions={selectedEmissions}
+          counter={headerCounter(selectedEmissions, emissions)}
         />
       }
       preferences={
@@ -157,8 +199,8 @@ const DetailsTable = () => {
         />
       }
       wrapLines={preferences.wrapLines}
-      selectedItems={selectedDistributions}
-      onSelectionChange={({ detail }) => setSelectedDistributions(detail.selectedItems)}
+      selectedItems={selectedEmissions}
+      onSelectionChange={({ detail }) => setSelectedEmissions(detail.selectedItems)}
       selectionType="multi"
       pagination={<Pagination {...paginationProps} />}
       filter={
@@ -169,12 +211,69 @@ const DetailsTable = () => {
         />
       }
     />
+    // <Table
+    //   {...collectionProps}
+    //   variant="full-page"
+    //   columnDefinitions={COLUMN_DEFINITIONS}
+    //   visibleColumns={preferences.visibleContent}
+    //   items={items}
+    //   loading={loading}
+    //   loadingText="Loading resources"
+    //   header={
+    //     <TableHeader
+    //       selectedDistributions={selectedDistributions}
+    //       counter={headerCounter(selectedDistributions, distributions)}
+    //     />
+    //   }
+    //   preferences={
+    //     <CollectionPreferences
+    //       title="Preferences"
+    //       confirmLabel="Confirm"
+    //       cancelLabel="Cancel"
+    //       preferences={preferences}
+    //       onConfirm={({ detail }) => setPreferences(detail)}
+    //       pageSizePreference={{
+    //         title: 'Page size',
+    //         options: PAGE_SELECTOR_OPTIONS
+    //       }}
+    //       visibleContentPreference={{
+    //         title: 'Select visible columns',
+    //         options: CONTENT_SELECTOR_OPTIONS
+    //       }}
+    //       wrapLinesPreference={{
+    //         label: 'Wrap lines',
+    //         description: 'Check to see all the text and wrap the lines'
+    //       }}
+    //       customPreference={(value, setValue) => (
+    //         <FormField stretch={true} label="View as">
+    //           <RadioGroup
+    //             value={value}
+    //             onChange={({ detail }) => setValue(detail.value)}
+    //             items={CUSTOM_PREFERENCE_OPTIONS}
+    //           />
+    //         </FormField>
+    //       )}
+    //     />
+    //   }
+    //   wrapLines={preferences.wrapLines}
+    //   selectedItems={selectedDistributions}
+    //   onSelectionChange={({ detail }) => setSelectedDistributions(detail.selectedItems)}
+    //   selectionType="multi"
+    //   pagination={<Pagination {...paginationProps} />}
+    //   filter={
+    //     <TextFilter
+    //       {...filterProps}
+    //       countText={filterCounter(filteredItemsCount)}
+    //       filteringPlaceholder="Search emission records"
+    //     />
+    //   }
+    // />
   );
 };
 
 // Table header content, shows how many distributions are selected and contains the action stripe
-const TableHeader = ({ selectedDistributions, counter }) => {
-  const isOnlyOneSelected = selectedDistributions.length === 1;
+const TableHeader = ({ selectedEmissions, counter }) => {
+  const isOnlyOneSelected = selectedEmissions.length === 1;
 
   return (
     <Header
@@ -184,7 +283,7 @@ const TableHeader = ({ selectedDistributions, counter }) => {
         <SpaceBetween direction="horizontal" size="s">
           <Button disabled={!isOnlyOneSelected}> View details </Button>
           <Button disabled={!isOnlyOneSelected}> Edit</Button>
-          <Button disabled={selectedDistributions.length === 0}> Delete</Button>
+          <Button disabled={selectedEmissions.length === 0}> Delete</Button>
           <Button href="#/create" variant="primary">
             Upload Emission Record
           </Button>
@@ -226,6 +325,7 @@ const FlashMessage = () => {
 };
 
 // Help (right) panel content
+// Overwritten by main help panel in src/components/HelpTools/index.jsx
 const Tools = [
   <HelpPanel
     header={<h2>Emission Records</h2>}

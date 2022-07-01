@@ -1,43 +1,53 @@
-import { App, CustomResource, Stack, StackProps } from 'aws-cdk-lib';
+import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
+import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
 import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator';
-import { CarbonlakeQuickstartS3copierStack } from './s3copier/carbonlake-qs-s3copier';
 import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack';
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
+import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality';
 
 interface PipelineProps extends StackProps {
-  dataLineageFunction: lambda.Function,
-  landingBucket: s3.Bucket,
-  rawBucket: s3.Bucket,
-  transformedBucket: s3.Bucket
-  enrichedBucket: s3.Bucket,
-  uniqueDirectory: string
+  dataLineageFunction: lambda.Function;
+  landingBucket: s3.Bucket;
+  errorBucket: s3.Bucket;
+  rawBucket: s3.Bucket;
+  transformedBucket: s3.Bucket;
+  enrichedBucket: s3.Bucket;
+  notificationEmailAddress: string;
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
   public readonly calculatorOutputTable: ddb.Table;
+  public readonly calculatorFunction: lambda.Function;
+  public readonly pipelineStateMachine: stepfunctions.StateMachine;
 
   constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id, props);
 
     /* ======== DATA QUALITY ======== */
-    const { s3copierLambda } = new CarbonlakeQuickstartS3copierStack(this, 'carbonlakeQuickstartS3copier', {
-      landingBucket: props.landingBucket,
-      rawBucket: props.rawBucket
+    const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
+      inputBucket: props.landingBucket,
+      outputBucket: props.rawBucket,
+      errorBucket: props.errorBucket
     });
+
+    const dqErrorNotificationSNS = new sns.Topic(this, 'carbonlakeDataQualityNotification', {});
+    const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
+    dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
     /* ======== GLUE TRANSFORM ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
     const { glueTransformJobName } = new CarbonLakeGlueTransformationStack(this, 'carbonlakeQuickstartGlueTransformationStack', {
       rawBucket: props?.rawBucket,
-      transformedBucket: props?.transformedBucket,
-      uniqueDirectory: props?.uniqueDirectory
+      transformedBucket: props?.transformedBucket
     });
 
     /* ======== POST-GLUE BATCH LAMBDA ======== */
@@ -55,6 +65,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: "app.lambda_handler",
       layers: [dependencyLayer],
+      timeout: Duration.seconds(60),
       environment: {
         TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName
       }
@@ -68,7 +79,8 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       transformedBucket: props.transformedBucket,
       enrichedBucket: props.enrichedBucket
     })
-    this.calculatorOutputTable = calculatorOutputTable
+    this.calculatorOutputTable = calculatorOutputTable;
+    this.calculatorFunction = calculatorLambda;
 
     /* ======== STATEMACHINE ======== */
 
@@ -79,12 +91,14 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     //  - calculation function
     const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
-      s3copierLambda: s3copierLambda,
-      dataQualityJob: null,
+      dqResourcesLambda: resourcesLambda,
+      dqResultsLambda: resultsLambda,
+      dqErrorNotification: dqErrorNotificationSNS,
       glueTransformJobName: glueTransformJobName,
       batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda
     });
+    this.pipelineStateMachine = statemachine;
 
     /* ======== KICKOFF LAMBDA ======== */
 

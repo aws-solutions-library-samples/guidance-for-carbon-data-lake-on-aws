@@ -1,9 +1,13 @@
 import sys
+import math
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
+
+# from testing, 2000 records per file takes about 140 secs for the calculator to process
+MAX_CALCULATOR_BATCH_SIZE = 2000
 
 
 # PySpark ETL job takes in 3 additional parameters:
@@ -49,7 +53,11 @@ ApplyMapping_node2 = ApplyMapping.apply(
     transformation_ctx="ApplyMapping_node2",
 )
 
-repartitoned_data = ApplyMapping_node2.repartition(100) #TODO: repartition the data into 1 MB files based on total file size.
+num_lines = ApplyMapping_node2.count()
+num_partitions = math.ceil(num_lines / MAX_CALCULATOR_BATCH_SIZE)
+#FIX: Changed number of partitions to create files with 2000 records each, which is ~600KB
+#Could make this more dynamic, but will need to adjust Lambda timeouts downstream
+repartitoned_data = ApplyMapping_node2.repartition(num_partitions) #TODO: repartition the data into 1 MB files based on total file size.
 
 # Script generated for node S3 bucket
 S3bucket_node3 = glueContext.write_dynamic_frame.from_options(

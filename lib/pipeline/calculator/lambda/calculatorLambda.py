@@ -53,7 +53,7 @@ input: activity
 output: emissions factor coefficient
 TODO Add a cache
 '''
-def get_emissions_factor(activity, category):
+def __get_emissions_factor(activity, category):
     LOGGER.info("getting emissions factor from database")
     table = dynamodb.Table(EMISSION_FACTORS_TABLE_NAME)
     coefficient = table.get_item(
@@ -64,10 +64,10 @@ def get_emissions_factor(activity, category):
     )
     return coefficient
 
-def calculate_emission(raw_data, factor):
+def __calculate_emission(raw_data, factor):
     return float(raw_data) * float(0 if factor=='' else factor) / 1000
 
-def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
+def __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
     result  = co2_emissions * GWP[ar_version][Gas.CO2]
     result += ch4_emissions * GWP[ar_version][Gas.CH4]
     result += n2o_emissions * GWP[ar_version][Gas.N2O]
@@ -77,20 +77,20 @@ def calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, ar_version):
 Input: Python Dictionary
 Output: Python Dictionary
 '''
-def append_emissions_output(activity_event):
+def __append_emissions_output(activity_event):
     LOGGER.info('appending emissions for: %s', activity_event)
-    emissions_factor = get_emissions_factor(activity_event['activity'], activity_event['category'])
+    emissions_factor = __get_emissions_factor(activity_event['activity'], activity_event['category'])
     # HACK: hotfix for records without matched emissions_factor in DDB - fix this.
     if 'Item' not in emissions_factor: return None
     coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
     LOGGER.info('coefficients: %s', coefficients)
 
     raw_data = activity_event['raw_data']
-    co2_emissions = calculate_emission(raw_data, coefficients['co2_factor'])
-    ch4_emissions = calculate_emission(raw_data, coefficients['ch4_factor'])
-    n2o_emissions = calculate_emission(raw_data, coefficients['n2o_factor'])
-    co2e_ar4      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
-    co2e_ar5      = calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
+    co2_emissions = __calculate_emission(raw_data, coefficients['co2_factor'])
+    ch4_emissions = __calculate_emission(raw_data, coefficients['ch4_factor'])
+    n2o_emissions = __calculate_emission(raw_data, coefficients['n2o_factor'])
+    co2e_ar4      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
+    co2e_ar5      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
     emissions_output = {
         "emissions_output": {
             "calculated_emissions": {
@@ -132,7 +132,7 @@ def append_emissions_output(activity_event):
     activity_event.update(emissions_output)
     return activity_event
 
-def read_events_from_s3(object_key):
+def __read_events_from_s3(object_key):
     # Read activity_events object
     obj = s3.Object(INPUT_S3_BUCKET_NAME, object_key)
     activity_events_string = obj.get()['Body'].read().decode('utf-8')
@@ -146,7 +146,7 @@ Input:
     activity_events: list
 Output: object_key
 '''
-def save_enriched_events_to_s3(object_key, activity_events):
+def __save_enriched_events_to_s3(object_key, activity_events):
     # generate the payload as string
     body = "\n".join(map(json.dumps, activity_events))
     LOGGER.info('output body: %s', "\n"+body)
@@ -157,7 +157,7 @@ def save_enriched_events_to_s3(object_key, activity_events):
     # Return s3 URL
     return "s3://"+OUTPUT_S3_BUCKET_NAME+"/"+output_object_key
 
-def save_enriched_events_to_dynamodb(activity_events):
+def __save_enriched_events_to_dynamodb(activity_events):
     table = dynamodb.Table(OUTPUT_DYNAMODB_TABLE_NAME)
     LOGGER.info('Saving %s activity_events in DynamoDB', len(activity_events))
     with table.batch_writer() as batch:
@@ -168,22 +168,25 @@ def save_enriched_events_to_dynamodb(activity_events):
 
 '''
 Input: {"storage_location": "calculator_input_example.jsonl" }
-Output: [ { "node_id": "<activity_event_id>, "storage_location": "s3://<output_bucket>/<key> }, {}, {} ... ]
+Output: {
+    "storage_location": "s3://<output_bucket>/<key>",
+    "records": [ { "node_id": "<activity_event_id>" }, {}, {} ... ]
+}
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
     # Load input activity_events
     object_key = urlparse(event['storage_location'], allow_fragments=False).path.strip("/")
-    activity_events = read_events_from_s3(object_key)
+    activity_events = __read_events_from_s3(object_key)
     LOGGER.info('activity_events: %s', activity_events)
     # Enrich activity_events with calculated emissions
-    activity_events_with_emissions = list(map(append_emissions_output, activity_events))
+    activity_events_with_emissions = list(map(__append_emissions_output, activity_events))
     # TODO: Do something with records that can't be resolved
     activity_events_with_emissions = [ x for x in activity_events_with_emissions if x is not None ]
     # Save enriched activity_events to S3
-    output_object_url = save_enriched_events_to_s3(object_key, activity_events_with_emissions)
+    output_object_url = __save_enriched_events_to_s3(object_key, activity_events_with_emissions)
     # Save enriched activity_events to DynamoDB
-    save_enriched_events_to_dynamodb(activity_events_with_emissions)
+    __save_enriched_events_to_dynamodb(activity_events_with_emissions)
 
-    activity_ids = [ { "node_id": x["activity_event_id"], "storage_location": output_object_url } for x in activity_events_with_emissions ] 
-    return activity_ids
+    activity_ids = [ { "node_id": x["activity_event_id"] } for x in activity_events_with_emissions ] 
+    return { "storage_location": output_object_url, "records": activity_ids }

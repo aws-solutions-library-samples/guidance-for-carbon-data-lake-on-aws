@@ -2,12 +2,15 @@ import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib'
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 interface StateMachineProps extends NestedStackProps {
   dataLineageFunction: lambda.Function,
-  dataQualityJob: any,
-  s3copierLambda: lambda.Function,
+  dqResourcesLambda: lambda.Function,
+  dqResultsLambda: lambda.Function,
+  dqErrorNotification: sns.Topic,
   glueTransformJobName: string,
   batchEnumLambda: lambda.Function,
   calculationJob: lambda.Function
@@ -38,16 +41,49 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "record": {
           "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
         }
-        
+
       }),
       resultPath: '$.data_lineage',
     });
 
+    // Standup Data Quality Resources
+    const dataQualitySetupTask = new tasks.LambdaInvoke(this, "LAMBDA: Data Quality Setup", {
+      lambdaFunction: props.dqResourcesLambda,
+      payloadResponseOnly: true,
+      resultPath: '$.data_quality',
+      payload: sfn.TaskInput.fromObject({
+        "event_type": "SETUP",
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
+      }),
+    });
+
+    // Run Data Quality Job
+    const dataQualityProfileTask = new tasks.GlueDataBrewStartJobRun(this, "DATABREW: Run Profile Job", {
+      name: sfn.JsonPath.stringAt('$.data_quality.job_name'),
+      integrationPattern: sfn.IntegrationPattern.RUN_JOB,
+      resultPath: '$.data_quality.results'
+    })
+  
+    // Cleanup Data Quality Resources
+    const dataQualityCleanupTask = new tasks.LambdaInvoke(this, "LAMBDA: Data Quality Cleanup", {
+      lambdaFunction: props.dqResourcesLambda,
+      payloadResponseOnly: true,
+      resultPath: sfn.JsonPath.DISCARD,
+      payload: sfn.TaskInput.fromObject({
+        "event_type": "CLEANUP",
+        "job_name": sfn.JsonPath.stringAt('$.data_quality.job_name'),
+        "ruleset_name": sfn.JsonPath.stringAt('$.data_quality.ruleset_name'),
+        "dataset_name": sfn.JsonPath.stringAt('$.data_quality.dataset_name')
+      }),
+    });
+
     // Data Quality Check
-    const dataQualityTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Check', {
-      lambdaFunction: props.s3copierLambda,
+    const dataQualityCheckTask = new tasks.LambdaInvoke(this, 'LAMBDA: Data Quality Results Check', {
+      lambdaFunction: props.dqResultsLambda,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
+        "dq_results": sfn.JsonPath.objectAt('$.data_quality.results'),
         "storage_location": sfn.JsonPath.stringAt("$.input.storage_location")
       }),
       resultPath: '$.data_quality'
@@ -70,6 +106,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       }),
       resultPath: '$.data_lineage',
     });
+
     // Data Lineage Request - 1_2 - DQ_CHECK_FAIL
     const dataLineageTask1_2 = new tasks.LambdaInvoke(this, 'Data Lineage: DQ_CHECK_FAIL', {
       lambdaFunction: props.dataLineageFunction,
@@ -85,8 +122,16 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       resultPath: '$.data_lineage',
     });
 
-    // Human-in-the-loop approval step - invoked on data quality check fail
-    const humanApprovalTask = new sfn.Pass(this, 'SNS: Human Approval Step');
+    // Data Quality error notification - invoked on data quality check fail
+    const errorNotificaiton = new tasks.SnsPublish(this, 'SNS: Notify Data Quality Error', {
+      topic: props.dqErrorNotification,
+      subject: "Data Quality check failed",
+      message: sfn.TaskInput.fromText(sfn.JsonPath.format(
+        'Your Carbonlake Data Quality job has failed. Please review your dataset: {}',
+        sfn.JsonPath.stringAt('$.data_quality.storage_location')
+      )),
+      resultPath: sfn.JsonPath.DISCARD
+    })
 
     // Transformation Glue Job - split large input file into optimised batches with known schema
     const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
@@ -123,7 +168,8 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "action_taken": "GLUE_BATCH_SPLIT",
         "records": sfn.JsonPath.objectAt("$.batches")
       }),
-      resultPath: '$.data_lineage',
+      // discarding the output as all required downstream data is already included in the `batches` array
+      resultPath: sfn.JsonPath.DISCARD
     });
 
     // Dynamic Map State - Run n calculations depending on number of batches
@@ -159,9 +205,11 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
         "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
         "parent_id": sfn.JsonPath.stringAt("$.data_lineage.parent_id"),
         "action_taken": "CALCULATION_COMPLETE",
-        "records": sfn.JsonPath.objectAt("$.calculations")
+        "storage_location": sfn.JsonPath.stringAt("$.calculations.storage_location"),
+        "records": sfn.JsonPath.objectAt("$.calculations.records")
       }),
-      resultPath: '$.data_lineage',
+      // discarding output to reduce payload size, this is the last task in the pipeline so output is not needed.
+      resultPath: sfn.JsonPath.DISCARD 
     });
 
     /* ======== STEP FUNCTION ======== */
@@ -169,10 +217,13 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
     // State machine definition
     const definition = sfn.Chain
       .start(dataLineageTask0)
-      .next(dataQualityTask)
+      .next(dataQualitySetupTask)
+      .next(dataQualityProfileTask)
+      .next(dataQualityCleanupTask)
+      .next(dataQualityCheckTask)
       .next(dataQualityChoice
         .when(
-          sfn.Condition.stringEquals('$.data_quality.status', "PASSED"),
+          sfn.Condition.booleanEquals('$.data_quality.status', true),
           sfn.Chain
             .start(dataLineageTask1_1)
             .next(transformGlueTask)
@@ -182,18 +233,25 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
               .start(calculationLambdaTask)
               .next(dataLineageTask3)
             ))
+            .next(sfnSuccess)
         )
         .otherwise(sfn.Chain
-          .start(humanApprovalTask)
+          .start(errorNotificaiton)
           .next(dataLineageTask1_2)
+          .next(sfnFailure)
         )
-        .afterwards()
       )
-      .next(sfnSuccess)
+      
 
     this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
       definition,
       timeout: Duration.minutes(60)
     });
+
+    this.statemachine.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ["databrew:StartJobRun"],
+      resources: ["*"]
+    }))
   }
 }
