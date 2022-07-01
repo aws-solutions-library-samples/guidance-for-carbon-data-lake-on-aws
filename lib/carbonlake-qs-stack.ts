@@ -4,12 +4,23 @@ import { CarbonlakeQuickstartPipelineStack } from './pipeline/carbonlake-qs-pipe
 import { CarbonlakeQuickstartDataLineageStack } from './data-lineage/carbonlake-data-lineage-stack';
 import { CarbonlakeQuickstartSharedResourcesStack } from './shared-resources/carbonlake-qs-shared-resources-stack';
 import { CarbonLakeDataCompactionPipelineStack } from './data-compaction-pipeline/carbonlake-qs-data-compaction-pipeline';
-import { CfnOutput, Stack } from 'aws-cdk-lib';
+import { CfnOutput } from 'aws-cdk-lib';
 import { CarbonlakeQuicksightStack } from './quicksight/carbonlake-qs-quicksight';
 import { CarbonlakeForecastStack } from './forecast/carbonlake-qs-forecast';
 import { Construct } from 'constructs';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_dynamodb as dynamodb } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib';
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
+  public readonly calculatorFunction: lambda.Function;
+  public readonly landingBucket: s3.Bucket;
+  public readonly transformedBucket: s3.Bucket;
+  public readonly enrichedBucket: s3.Bucket;
+  public readonly pipelineStateMachine: stepfunctions.StateMachine;
+  public readonly calculatorOutputTable: dynamodb.Table;
+
   constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
     super(scope, id, props);
 
@@ -39,6 +50,9 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, "CarbonlakeSharedResourceStack");
+    this.landingBucket = sharedResources.carbonlakeLandingBucket;
+    this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket;
+    this.transformedBucket = sharedResources.carbonlakeTransformedBucket;
     
     // QS2 --> Create the carbonlake data lineage stack
     const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack", {
@@ -57,6 +71,9 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail
     });
+    this.calculatorFunction = pipeline.calculatorFunction;
+    this.pipelineStateMachine = pipeline.pipelineStateMachine;
+    this.calculatorOutputTable = pipeline.calculatorOutputTable;
 
   
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
