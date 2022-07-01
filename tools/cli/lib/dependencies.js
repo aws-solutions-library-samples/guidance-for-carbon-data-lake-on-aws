@@ -22,7 +22,6 @@ export async function checkDependencies() {
     type: "input",
     name: "check_aws_cli",
     message: "Have you successfully installed the AWS CLI? (yes/no)",
-    choices: ["yes", "no"],
     validate: function(answer) {
       const dependencyRegex = /yes/
       if(!dependencyRegex.test(answer)) {
@@ -44,7 +43,6 @@ export async function checkQuicksight() {
     type: "input",
     name: "check_quicksight_setup",
     message: "Have you set up Quicksight in your AWS account yet?",
-    choices: ["yes", "no"],
     validate: function(answer) {
       const dependencyRegex = /yes/;
       if(!dependencyRegex.test(answer)) {
@@ -76,9 +74,10 @@ export async function installDependencies() {
   //Check to make sure in the CarbonLake directory
   await commandInput("cd ../../");
   console.log("Moved to the correct directory");
-  await commandInput("aws configure");
-  //Install all node dependencies
+  await commandInput("pwd");
+  //await commandInput("aws configure");
+  //Install all node dependencies;
   await commandInput("npm install");
-  console.log("installed all npm packages")
+  console.log("installed all npm packages");
   await commandInput("aws configure");
 };
