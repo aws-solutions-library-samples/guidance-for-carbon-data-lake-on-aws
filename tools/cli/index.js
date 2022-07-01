@@ -6,8 +6,9 @@ import figlet from "figlet";
 import ora from "ora";
 import {askApplicationParameters, askName} from './lib/setup.js';
 import fs from "fs";
-import { checkDependencies } from "./lib/dependencies.js";
-import {createConfiguration} from "./lib/configure.js"
+import { checkDependencies, checkQuicksight, installDependencies } from "./lib/dependencies.js";
+import {createConfiguration} from "./lib/configure.js";
+import {commandInput} from "./lib/command.js";
 
 //clear whole command line before initiating CLI
 clear();
@@ -17,7 +18,7 @@ const sleep = (delay=2000) => new Promise((resolve) => setTimeout(resolve,delay)
 
 // log the title of the CLI to the console
 console.log(
-  chalk.bgCyan(
+  chalk.cyanBright(
     figlet.textSync('CarbonLake CLI', { horizontalLayout: 'full' })
   )
 );
@@ -39,7 +40,18 @@ const run = async () => {
   await welcome(userName);
   // ask for the application parameters required for setup
   const setup = await askApplicationParameters();
+
+  // check for manually installed dependencies
   const dependencies = await checkDependencies();
+
+  // install all required dependencies via npm
+  await installDependencies();
+
+  // TODO --> Ask for optional setup parameters for Quickstart
+
+  // TODO --> Ask for optional setup parameters for Amplify Web Application
+
+  // use info from CLI to create configuration files
   const configuration = await createConfiguration(setup.optionalModules);
   let launch = {
     ...setup,
@@ -59,18 +71,18 @@ const run = async () => {
   }
   const configCheckSpinner = ora("Checking to make sure that your configuration is complete...").start();
   await sleep(3000);
-  configCheckSpinner.succeed("Got it! Now let's check to see if you have all the required dependencies...");
+  configCheckSpinner.succeed("Got it! Now let's deploy your app!");
 
-  // TODO --> Check for dependencies: Docker, Node
-
-
-  // TODO --> Ask for optional setup parameters for Quickstart
-
-  // TODO --> Ask for optional setup parameters for Amplify Web Application
+  // TODO --> Change to quickstart main directory
+  await commandInput("cd ../../");
 
   // TODO --> Bootstrap CDK
+  await commandInput("cdk boostrap");
 
-  // TODO --> Bootstrap CDK
+  // TODO --> Deploy CDK
+  await commandInput("cdk deploy");
+
+
 };
 
 

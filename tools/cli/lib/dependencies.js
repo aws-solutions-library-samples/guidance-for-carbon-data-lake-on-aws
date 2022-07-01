@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from "chalk";
+import { commandInput } from "./command.js"
 
 export async function checkDependencies() {
   const answers = await inquirer.prompt([{
@@ -12,7 +13,8 @@ export async function checkDependencies() {
       if(!dependencyRegex.test(answer)) {
         return "🛑 Go to >>> https://docs.docker.com/get-docker/ and follow the directions there.\n>> 🟢 Come back and write yes when it's done."
       }
-      console.log(chalk.BlueBright("✅ Docker installed and Daemon running! Awesome! Continue..."));
+      //TODO --> Use exec and argv to check if the dependency is actually installed
+      console.log(chalk.blueBright("\n✅ Docker installed and Daemon running! Awesome! Continue..."));
       return true;
   }
   },
@@ -26,7 +28,8 @@ export async function checkDependencies() {
       if(!dependencyRegex.test(answer)) {
           return "🛑 Go to >>> https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html and follow the directions there.\n>> 🟢 Come back and write yes when it's done."
       }
-      console.log(chalk.BlueBright("✅ AWS CLI installed! Awesome! Continue..."))
+      //TODO --> Use exec and argv to check if the dependency is actually installed
+      console.log(chalk.blueBright("\n✅ AWS CLI installed! Awesome! Continue..."))
       return true
   }
   }]);
@@ -47,7 +50,8 @@ export async function checkQuicksight() {
       if(!dependencyRegex.test(answer)) {
         return "🛑 Go to >>> carbonlake-quickstart/lib/quicksight/README.md and follow the directions there.\n>> 🟢 Come back and write yes when it's done."
       }
-      console.log(chalk.BlueBright("✅ Docker installed and Daemon running! Awesome! Continue..."));
+      //TODO --> Use exec and argv to check if the dependency is actually installed
+      console.log(chalk.blueBright("\n✅ Docker installed and Daemon running! Awesome! Continue..."));
       return true;
   }
   },
@@ -60,9 +64,21 @@ export async function checkQuicksight() {
       if(!dependencyRegex.test(answer)) {
           return "🛑 Go to >>> carbonlake-quickstart/lib/quicksight/README.md and follow the directions there.\n>> 🟢 Come back and write the credentials when it's done."
       }
-      console.log(chalk.cyanBright("✅ AWS CLI installed! Awesome! Continue..."))
+      //TODO --> Use exec and argv to check if the dependency is actually installed
+      console.log(chalk.cyanBright("\n✅ AWS CLI installed! Awesome! Continue..."))
       return true
   }
   }]);
   return inquirer.prompt(answers);
+};
+
+export async function installDependencies() {
+  //Check to make sure in the CarbonLake directory
+  await commandInput("cd ../../");
+  console.log("Moved to the correct directory");
+  await commandInput("aws configure");
+  //Install all node dependencies
+  await commandInput("npm install");
+  console.log("installed all npm packages")
+  await commandInput("aws configure");
 };

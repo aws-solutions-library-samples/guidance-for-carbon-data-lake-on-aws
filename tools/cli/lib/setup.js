@@ -47,9 +47,7 @@ export async function askApplicationParameters() {
           choices: optionalModules,
           default: []
         }]);
-        let output = answers;
-        console.log(output);
         console.log(chalk.greenBright("Got it! Getting ready to deploy those modules 🥳"))
 
-        return output;
+        return answers;
     };
