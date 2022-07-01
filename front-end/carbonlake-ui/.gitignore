@@ -7,7 +7,7 @@ build
 package-lock.json
 dist
 /Pages/sample-pages/*
-sample-pages/*
+/sample-pages/*
 #amplify-do-not-edit-begin
 /amplify/*
 /amplify
