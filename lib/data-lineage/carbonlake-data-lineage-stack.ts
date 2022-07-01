@@ -7,6 +7,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
+import { DataLineageQueryStack } from './query/data-lineage-query-stack';
 
 interface DataLineageStackProps extends StackProps {
   archiveBucket: s3.Bucket;
@@ -118,5 +119,11 @@ export class CarbonlakeQuickstartDataLineageStack extends Stack {
     table.grantReadData(traceFunction);
     props.archiveBucket.grantReadWrite(traceFunction);
     traceFunction.addEventSource(new event_sources.SqsEventSource(this.traceQueue));
+
+    /* ======== QUERY STACK ======== */
+    // This is an optional stack to add query support on the archive bucket
+    const queryStack = new DataLineageQueryStack(this, 'carbonlakeDataLineageQueryStack', {
+      dataLineageBucket: props.archiveBucket
+    })
   }
 }
