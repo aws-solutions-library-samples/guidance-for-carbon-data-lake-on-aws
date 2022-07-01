@@ -2,6 +2,7 @@ import time
 import json
 import os
 from typing import Dict
+from datetime import datetime
 
 from aws_lambda_powertools.logging import Logger
 from aws_lambda_powertools.tracing import Tracer
@@ -85,6 +86,8 @@ def lambda_handler(event: Dict, context: Dict):
         })
 
     # save output to s3
-    dh.s3.put_item_jsonl(trace, f"{_record['root_id']}.jsonl")
+    now = datetime.now()
+    prefix = f"{str(now.year)}/{datetime.strftime(now, '%m')}/{datetime.strftime(now, '%d')}" # /year/month/day
+    dh.s3.put_item_jsonl(trace, f"{prefix}/{_record['root_id']}.jsonl")
 
     return { "root_id": _record["root_id"], "total_records": len(trace) }

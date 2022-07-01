@@ -63,7 +63,23 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       name: sfn.JsonPath.stringAt('$.data_quality.job_name'),
       integrationPattern: sfn.IntegrationPattern.RUN_JOB,
       resultPath: '$.data_quality.results'
-    })
+    });
+
+    // Data Lineage Request - 0 - PROFILE_COMPLETE
+    const dataLineageTask1 = new tasks.LambdaInvoke(this, 'Data Lineage: PROFILE_COMPLETE', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        "root_id": sfn.JsonPath.stringAt("$.data_lineage.root_id"),
+        "parent_id": sfn.JsonPath.stringAt("$.data_lineage.node_id"),
+        "action_taken": "PROFILE_COMPLETE",
+        "record": {
+          "storage_location": sfn.JsonPath.stringAt("$.data_lineage.storage_location")
+        }
+
+      }),
+      resultPath: '$.data_lineage',
+    });
   
     // Cleanup Data Quality Resources
     const dataQualityCleanupTask = new tasks.LambdaInvoke(this, "LAMBDA: Data Quality Cleanup", {
@@ -219,6 +235,7 @@ export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
       .start(dataLineageTask0)
       .next(dataQualitySetupTask)
       .next(dataQualityProfileTask)
+      .next(dataLineageTask1)
       .next(dataQualityCleanupTask)
       .next(dataQualityCheckTask)
       .next(dataQualityChoice
