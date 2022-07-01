@@ -5,7 +5,7 @@
   "description": "cli for configuration, test, and management of carbonlake quickstart infrastructure",
   "main": "index.js",
   "bin": {
-    "jsonp": "index.js"
+    "carbonlake": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
