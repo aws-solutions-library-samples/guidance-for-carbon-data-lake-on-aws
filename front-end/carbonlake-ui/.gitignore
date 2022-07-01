@@ -6,7 +6,7 @@ build
 # so we want to exclude that from commits
 package-lock.json
 dist
-/Pages/sample-pages/*
+src/Pages/sample-pages/*
 /sample-pages/*
 #amplify-do-not-edit-begin
 /amplify/*
