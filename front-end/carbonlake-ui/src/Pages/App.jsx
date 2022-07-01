@@ -40,41 +40,36 @@ export default function App({signOut, user}) {
       // When you create a new file or template, add it below
       // as a new 'Route' so you can link to it with a url.
 <Authenticator loginMechanisms={['email']}  hideSignUp>
-
-      <div>
-        <Router>
-
-        <Routes>
-
-        {/* <Route exact path="/" element={BobRossIntro} /> */}
-        <Route  path="/" element={<CarbonLake101 />} />
-        {/* <Route exact path="/" element={Dashboard} /> */}
-        <Route  path="/carbonlake-101" element={<CarbonLake101 />} />
-        <Route  path="/setup-guide" element={<SetupGuide />} />
-        <Route  path="/data-uploader" element={<DataUploader />} />
-        <Route  path="/account-settings" element={<AccountSettings />} />
-        {/* <Route exact path="/visualizations" element={Visualizations} /> */}
-        {/* <Route path="/basic" element={<Basic />} />
-        <Route path="/service-home" element={<ServiceHomepage />} />
-      <Route path="/create" element={<CreateForm />} /> */}
-        <Route path="/emission-records" element={<TableView />} />
-        {/* <Route path="/table-empty" element={<EmptyTableView />} /> */}
-        <Route path='/about-carbonlake' element={() => {
-          window.location.href = 'https://aws.amazon.com';
-          return null;
-        }}/>
-        <Route path='/submit-issue' element={() => {
-          window.location.href = 'https://github.com';
-          return null;
-        }}/>
-        </Routes>
-        </Router>
-
-      </div>
-        </Authenticator>
+    <div>
+      <Router>
+          <Routes>
+              <Route  path="/" element={<CarbonLake101 />} />
+              {/* <Route exact path="/" element={Dashboard} /> */}
+              <Route  path="/carbonlake-101" element={<CarbonLake101 />} />
+              <Route  path="/setup-guide" element={<SetupGuide />} />
+              <Route  path="/data-uploader" element={<DataUploader />} />
+              <Route  path="/account-settings" element={<AccountSettings />} />
+              {/* <Route exact path="/visualizations" element={Visualizations} /> */}
+              {/* <Route path="/basic" element={<Basic />} />
+              <Route path="/service-home" element={<ServiceHomepage />} />
+            <Route path="/create" element={<CreateForm />} /> */}
+              <Route path="/emission-records" element={<TableView />} />
+              {/* <Route path="/table-empty" element={<EmptyTableView />} /> */}
+              <Route path='/about-carbonlake' element={() => {
+                window.location.href = 'https://aws.amazon.com';
+                return null;
+              }}/>
+              <Route path='/submit-issue' element={() => {
+                // TODO - Replace with GitHub issue link
+                window.location.href = 'https://github.com';
+                return null;
+              }}/>
+          </Routes>
+      </Router>
+    </div>
+</Authenticator>
     );
 }
-
 
 // export default withAuthenticator(App);
 // export default Authenticator(App);

@@ -112,10 +112,10 @@ const existingAuth = {
     // Required only if it's different from Amazon Cognito Region
     identityPoolRegion: 'us-east-1',
 
-    // OPTIONAL - Amazon Cognito User Pool ID
+    // REQUIRED - Amazon Cognito User Pool ID
     userPoolId: 'us-east-1_abcd1234',
 
-    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+    // REQUIRED - Amazon Cognito Web Client ID (26-char alphanumeric string)
     userPoolWebClientId: 'abcdefg123456',
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not

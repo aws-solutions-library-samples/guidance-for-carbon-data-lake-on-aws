@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from 'react';
+/************************************************************************
+                            DISCLAIMER
 
+This is just a playground package. It does not comply with best practices
+of using AWS-UI components.
+
+************************************************************************/
+import React, { useState, useEffect } from 'react';
 import {existingAPI, existingAuth} from '../amplify-config';
 import { API, graphqlOperation } from 'aws-amplify';
 import { all, getOne } from '../graphql/queries';
@@ -78,7 +84,6 @@ const [selectedEmissions, setSelectedEmissions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // a utility to handle operations on the data set (such as filtering, sorting and pagination)
-  // https://polaris.a2z.com/develop/guides/collection_hooks/
   const { items, actions, collectionProps, filterProps, paginationProps, filteredItemsCount } = useCollection(
     emissions,
     {
@@ -115,38 +120,12 @@ const fetchEmissions = async () => {
   }
 };
 
-
-
-  // // Fetch data using GraphQL API
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await existingAPI.graphql ({ query: All })
-  //     console.log(data)
-  //   }
-  // }, []);
-
-  // fetch distributions after render of the component
-  // useEffect(() => {
-  //   new DataProvider().getData('distributions', distributions => {
-  //     setDistributions(distributions);
-  //     setLoading(false);
-  //     console.log(distributions)
-  //   });
-  // }, []);
-
   // Keeps track of how many emissions are selected
   function headerCounter(selectedEmissions, emissions) {
     return selectedEmissions.length
       ? `(${selectedEmissions.length} of ${emissions.length})`
       : `(${emissions.length})`;
   }
-
-  // Keeps track of how many distributions are selected
-  // function headerCounter(selectedDistributions, distributions) {
-  //   return selectedDistributions.length
-  //     ? `(${selectedDistributions.length} of ${distributions.length})`
-  //     : `(${distributions.length})`;
-  // }
 
   function filterCounter(count) {
     return `${count} ${count === 1 ? 'match' : 'matches'}`;
@@ -163,7 +142,6 @@ const fetchEmissions = async () => {
       loadingText="Loading resources"
       header={
         <TableHeader
-        // TODO - FIX selectedDistributions
           selectedEmissions={selectedEmissions}
           counter={headerCounter(selectedEmissions, emissions)}
         />
@@ -211,63 +189,6 @@ const fetchEmissions = async () => {
         />
       }
     />
-    // <Table
-    //   {...collectionProps}
-    //   variant="full-page"
-    //   columnDefinitions={COLUMN_DEFINITIONS}
-    //   visibleColumns={preferences.visibleContent}
-    //   items={items}
-    //   loading={loading}
-    //   loadingText="Loading resources"
-    //   header={
-    //     <TableHeader
-    //       selectedDistributions={selectedDistributions}
-    //       counter={headerCounter(selectedDistributions, distributions)}
-    //     />
-    //   }
-    //   preferences={
-    //     <CollectionPreferences
-    //       title="Preferences"
-    //       confirmLabel="Confirm"
-    //       cancelLabel="Cancel"
-    //       preferences={preferences}
-    //       onConfirm={({ detail }) => setPreferences(detail)}
-    //       pageSizePreference={{
-    //         title: 'Page size',
-    //         options: PAGE_SELECTOR_OPTIONS
-    //       }}
-    //       visibleContentPreference={{
-    //         title: 'Select visible columns',
-    //         options: CONTENT_SELECTOR_OPTIONS
-    //       }}
-    //       wrapLinesPreference={{
-    //         label: 'Wrap lines',
-    //         description: 'Check to see all the text and wrap the lines'
-    //       }}
-    //       customPreference={(value, setValue) => (
-    //         <FormField stretch={true} label="View as">
-    //           <RadioGroup
-    //             value={value}
-    //             onChange={({ detail }) => setValue(detail.value)}
-    //             items={CUSTOM_PREFERENCE_OPTIONS}
-    //           />
-    //         </FormField>
-    //       )}
-    //     />
-    //   }
-    //   wrapLines={preferences.wrapLines}
-    //   selectedItems={selectedDistributions}
-    //   onSelectionChange={({ detail }) => setSelectedDistributions(detail.selectedItems)}
-    //   selectionType="multi"
-    //   pagination={<Pagination {...paginationProps} />}
-    //   filter={
-    //     <TextFilter
-    //       {...filterProps}
-    //       countText={filterCounter(filteredItemsCount)}
-    //       filteringPlaceholder="Search emission records"
-    //     />
-    //   }
-    // />
   );
 };
 

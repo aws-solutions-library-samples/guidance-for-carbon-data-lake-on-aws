@@ -2,10 +2,8 @@
                             DISCLAIMER
 
 This is just a playground package. It does not comply with best practices
-of using AWS-UI components. For production code, follow the integration
-guidelines:
+of using AWS-UI components.
 
-https://polaris.a2z.com/develop/integration/react/
 ************************************************************************/
 import React from 'react';
 import { Link } from 'react-router-dom';

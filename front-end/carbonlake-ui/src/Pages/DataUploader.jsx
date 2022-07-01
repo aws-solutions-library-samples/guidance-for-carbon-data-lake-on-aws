@@ -1,9 +1,15 @@
+/************************************************************************
+                            DISCLAIMER
+
+This is just a playground package. It does not comply with best practices
+of using AWS-UI components.
+
+************************************************************************/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import TopNavigationHeader from '../components/TopNavigationHeader';
 import HelpTools from '../components/HelpTools';
-// import { Sidebar } from '../components/Navigation/Sidebar'
 import {
   AppLayout,
   SideNavigation,
@@ -166,7 +172,7 @@ const Content = () => {
                     </li>
                     <li>
                       The simplest skeleton with just the{' '}
-                      <a href="https://polaris.corp.amazon.com/system/structures/components/awsui-app-layout/">
+                      <a href="#">
                         app layout
                       </a>{' '}
                       and breadcrumb components.
@@ -184,7 +190,7 @@ const Content = () => {
                     </li>
                     <li>
                       A working example of a{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/service_homepage/">service homepage</a>,
+                      <a href="#">service homepage</a>,
                       containing components such as: Box, Select, Container, Header, and layout elements like Column
                       layout, Grid, and SpaceBetween.
                     </li>
@@ -201,7 +207,7 @@ const Content = () => {
                     </li>
                     <li>
                       A full{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/create/single_page_create/">
+                      <a href="#">
                         single page create
                       </a>{' '}
                       form, containing components such as: Attribute editor, Button, Checkbox, Expandable section, Form,
@@ -220,7 +226,7 @@ const Content = () => {
                       Url route: <code>/table</code>
                     </li>
                     <li>
-                      A working <a href="https://polaris.corp.amazon.com/system/flows/view/table_view/">table view</a>{' '}
+                      A working <a href="#">table view</a>{' '}
                       example, containing components such as: Table (with features like wrap lines, sorting, and
                       selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
                       more.
