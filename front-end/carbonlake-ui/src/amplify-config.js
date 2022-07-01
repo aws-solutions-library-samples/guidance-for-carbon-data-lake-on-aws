@@ -16,7 +16,7 @@ const existingAuth = {
   Auth: {
 
     // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-    identityPoolId: 'us-east-1:52468e33-f23a-4ae2-92ca-071bd1bcb366',
+    identityPoolId: 'YOUR-AWS-REGION:abcdefg-123456',
 
     // REQUIRED - Amazon Cognito Region
     region: 'YOUR-AWS-REGION', // Replace with the region you deployed CDK with
