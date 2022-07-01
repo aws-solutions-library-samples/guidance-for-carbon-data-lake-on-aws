@@ -5,6 +5,7 @@ import { aws_sns as sns } from 'aws-cdk-lib';
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -25,6 +26,8 @@ interface PipelineProps extends StackProps {
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
   public readonly calculatorOutputTable: ddb.Table;
+  public readonly calculatorFunction: lambda.Function;
+  public readonly pipelineStateMachine: stepfunctions.StateMachine;
 
   constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id, props);
@@ -76,7 +79,8 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       transformedBucket: props.transformedBucket,
       enrichedBucket: props.enrichedBucket
     })
-    this.calculatorOutputTable = calculatorOutputTable
+    this.calculatorOutputTable = calculatorOutputTable;
+    this.calculatorFunction = calculatorLambda;
 
     /* ======== STATEMACHINE ======== */
 
@@ -94,6 +98,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda
     });
+    this.pipelineStateMachine = statemachine;
 
     /* ======== KICKOFF LAMBDA ======== */
 
