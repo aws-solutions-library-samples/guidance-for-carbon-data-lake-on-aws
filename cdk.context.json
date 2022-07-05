@@ -1,5 +1,5 @@
 {
-    "adminEmail": "novekm@amazon.com",
-    "quicksightUserName": "novekm@amazon.com",
-    "repoBranch": "your-branch-name"
+    "adminEmail": "carbonlake-quickstart@amazon.com",
+    "quicksightUserName": "carbonlake-quickstart@amazon.com",
+    "repoBranch": "main"
 }

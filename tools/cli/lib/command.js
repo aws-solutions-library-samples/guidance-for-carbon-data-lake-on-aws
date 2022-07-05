@@ -1,8 +1,8 @@
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 
 export async function commandInput(command) {
   
-    exec(command, (error, stdout, stderr) => {
+    execSync(command, (error, stdout, stderr) => {
       if (error) {
           console.log(`error: ${error.message}`);
           return;

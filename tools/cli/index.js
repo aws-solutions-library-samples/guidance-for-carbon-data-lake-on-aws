@@ -77,10 +77,9 @@ const run = async () => {
   await commandInput("cd ../../");
 
   // TODO --> Bootstrap CDK
-  await commandInput("cdk boostrap");
+  
 
   // TODO --> Deploy CDK
-  await commandInput("cdk deploy");
 
 
 };
