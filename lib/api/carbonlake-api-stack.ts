@@ -29,7 +29,8 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             signInAliases: {
                 email: true,
                 username: false,
-              },
+            },
+            removalPolicy: cdk.RemovalPolicy.DESTROY, // Set the user pool to be detroyed if the stack that deployed it is destroyed
             selfSignUpEnabled: false, // Prevent users to sign up (security mechanism)
             autoVerify: { email: true }, // Verify email addresses by sending a verification code
             standardAttributes: {
@@ -68,10 +69,20 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartAdminUser', {
             userPoolId: userPool.userPoolId,
             desiredDeliveryMediums: ['EMAIL'],
-            userAttributes: [{
-              name: 'email',
-              value: props.adminEmail
-            }],
+            userAttributes: [
+                {
+                    name: 'email',
+                    value: props.adminEmail
+                },
+                {
+                    name: 'given_name',
+                    value: 'CarbonLake'
+                },
+                {
+                    name: 'family_name',
+                    value: 'Admin'
+                }
+            ],
             username: props.adminEmail
           });
 
