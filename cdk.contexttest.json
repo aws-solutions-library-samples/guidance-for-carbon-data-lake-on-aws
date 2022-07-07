@@ -1,0 +1,1 @@
+{"appName":"Test Application","adminEmail":"sam@sam.com","optionalModules":["CarbonLake Quickstart Module","CarbonLake Web Application Module","CarbonLake CI/CD Pipeline"],"check_docker":"yes","check_aws_cli":"yes","CarbonLake Quickstart Module":true,"CarbonLake Web Application Module":true,"CarbonLake CI/CD Pipeline":true}

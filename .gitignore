@@ -403,3 +403,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+#cdk context test
+cdk.contexttest.json

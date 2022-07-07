@@ -1,6 +1,6 @@
 # Welcome to CarbonLake Quickstart CDK Application
 
-CarbonLake Quickstart is a decarbonization measurement data solution built on AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products to drive innovation. CarbonLake includes a purpose-built data pipeline, data quality stack, data lineage stack, calculator engine, Business Intelligence tools, managed forecasting service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+CarbonLake Quickstart is a decarbonization measurement data solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products to drive innovation. CarbonLake includes a purpose-built data pipeline, data quality stack, data lineage stack, calculator engine, Business Intelligence tools, managed forecasting service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
 - [What you will build](#what-you-will-build)
 - [Costs and licenses](#costs-and-licenses)
@@ -30,33 +30,41 @@ CarbonLake Quickstart is a decarbonization measurement data solution built on AW
 
 ## Cost and Licenses
 
-Insert cost table here...
+TODO --> Insert cost table for services
 
 ## How to Deploy
 
 You can deploy CarbonLake Quickstart through the quick setup process, or through the manual setup process. Read on for information about each.
 
-### Prepare your environment and launch CarbonLake (Quick Setup)
+### (Quick Setup) Prepare your environment and launch CarbonLake
 
-1. Navigate to CDK Directory --> `cd <the directory of this readme>`
-2. Run `carbonlake-quick-setup.sh`
+#### Prerequisites
 
-This command line interface will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the command line interface to set up CarbonLake through a guided process or skip down below to the manual setup process if you prefer.
+1. Install node.js
+2. Install AWS CLI
+3. Install Docker
+
+#### Quick setup with CarbonLake CLI (WIP Under Contstruction)
+
+1. Navigate to CarbonLake CLI Directory --> `cd <the directory of this readme>/tools/cli`
+2. Install the CLI dependencies `npm install`
+3. Run `node .`
+
+This script will prompt you for inputs that are required, including which modules you want to deploy. Follow the prompts in the script.
 
 When you run the script here are the actions it will take on your local machine and in your AWS account:
 
-1. Configure your AWS environment credentials
-2. Bootstrap the CDK
-3. Check for all dependencies
-4. If you do not have docker installed it will open link to install Docker in your default browser
-5. Install all dependencies that still need to be installed
-6. Prompt for selection of optional CarbonLake modules that you would like to deploy
-7. If you choose to use the optional Quicksight module it will open your default browser to setup Quicksight account in your AWS region and guide you through the setup steps
-8. Define inputs for context file include: adminEmail, repoName, quicksightUserName and output the `cdk.context.json` file
+1. Ask you for application setup parameters like Application Name, Admin Email
+2. Ask you which optional modules you want to deploy
+3. Install all dependencies
+4. Configure your AWS environment credentials
+5. Bootstrap the CDK
+6. Open links to setup optional modules such as Quicksight
+7. Output a context file to supply deployment parameters
 9. Deploy all modules in your AWS account
-10. Prompt you to run optional end to end integration tests in your account
+10. Run optional end to end tests to make sure the pipeline is working as expected
 
-### Prepare your environment and launch CarbonLake (Manual Setup)
+### (Manual Setup) Prepare your environment and launch CarbonLake
 
 ### Prerequisites
 
@@ -73,29 +81,35 @@ Deploying the Forecast stack? If you're an internal AWS Isengard user you will n
 
 #### Install Dependencies
 
-* Docker --> Docker is required for local asset bundling and building
-* AWS CLI -->
-* Node -->
-* NPM --> 
+* Docker --> https://docs.docker.com/get-docker/
+* AWS CLI --> https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+* Node --> https://nodejs.org/en/download/
 * CDK --> `npm install -g aws-cdk`
 
 
 #### Set up your environment
 
-* Configure your AWS credentials --> `aws configure` or for internal AWS users `isengardcli assume <yourrole>`
+* Configure your AWS credentials --> `aws configure`
 * Get your AWS Account Number --> `aws sts get-caller-identity`
 * Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION`
 
 ##### Prepare your environment (Manual Setup)
 
-1. Navigate to CDK Directory -->
-2. Set `cdk.context.json` values --> The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app. 
+1. Navigate to CDK Directory
+2. Build the dependencies `npm ci`
+3. Set `cdk.context.json` values --> The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app.
+4. Select optional modules and visit their respective README.md files to review setup before you deploy
+   - [Quicksight Module](carbonlake-quickstart/lib/quicksight/documentation/README.md) --> If you are deploying this you must follow the directions in the [README](carbonlake-quickstart/lib/quicksight/documentation/README.md)
+   - [Amplify Web Application Module](carbonlake-quickstart/front-end/carbonlake-ui/README.md)
+   - Forecast Module
+   
    
 **You will need to define:**
 
 * `adminEmail`            The email address for the administrator of the app
-* `quicksightUserName`    Required if deploying QuickSight stack. Username of user who will have access to the carbon emissions dataset and dashboard. Make sure you review [Quickstart setup instructions](carbonlake-quickstart/lib/quicksight/README.md)
+* `quicksightUserName`    Required if deploying QuickSight stack. Username of user who will have access to the carbon emissions dataset and dashboard. Make sure you review [Quickstart setup instructions](carbonlake-quickstart/lib/quicksight/documentation/README.md)
 * `repoBranch`            The branch name that you want to automatically deploy in your pipeline
+* Then you will need to confirm `true` for the optional modules you are deploying and `false` for the optional modules you are NOT deploying. The default is false for all optional modules.
 
 ### Get Started Deploying the CDK App and Stacks
 
@@ -207,3 +221,15 @@ The model below describes the required schema for input to the CarbonLake calcul
 ### GHG Protocol Emission factors
 
 [GHG Protocol Lookup Table Model](carbonlake-quickstart/sample-data/emissions_factor_model_2022-04-26.json)
+
+
+## End to End Integration Test
+
+### Automated Test and Validation Instructions
+
+TODO
+
+### Manual Test Instructions
+
+TODO
+
