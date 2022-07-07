@@ -134,3 +134,32 @@ OUTPUT:
   "lineage": []
 }
 ```
+
+
+## [OPTIONAL] Querying Results
+
+Deployed as a separate nested stack within the main data lineage stack is the infrastructure required to setup scalable querying of data lineage records. The stack deploys a Glue crawler pointing at the data lineage records bucket, scheduled to run at 0100 every day, which partitions the data by day, checks for any schema changes and updates a dedicated Glue catalogue. That Glue Catalogue can then be queried using Amazon Athena to view data lineage records in S3 - an example Athena query is deployed by the stack to demo functionality:
+
+QUERY:
+```SQL
+SELECT
+  record_id,
+  root_id,
+  unnested_lineage.action_taken,
+  from_unixtime(unnested_lineage.recordedAt) as recordedAt,
+  unnested_lineage.storage_location
+FROM
+  "<glue_catalogue>"."<data_lineage_table>",
+  UNNEST(lineage) as t(unnested_lineage)
+```
+
+RESULTS:
+
+| # | record_id | root_id | action_taken | recordedAt | storage_location |
+| --- | --- | --- | --- | --- | --- |
+| 1 | <unique_record_id> | <root_id> | RAW_DATA_INPUT | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
+| 2 | <unique_record_id> | <root_id> | PROFILE_COMPLETE | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
+| 3 | <unique_record_id> | <root_id> | DQ_CHECK_PASS | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
+| 4 | <unique_record_id> | <root_id> | GLUE_BATCH_SPLIT | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
+| 5 | <unique_record_id> | <root_id> | CALCULATION_COMPLETE | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
+| 6 | <unique_record_id> | <root_id> | DATA_COMPACTION | yyyy-mm-dd 00:00:00.000 | s3://bucket/key |
