@@ -89,7 +89,7 @@ So you picked an issue. Take a quick read and make sure you're really clear abou
 
 **3. Create a Branch**
 
-Use the "create branch" button (hint: same button as "create merge request" just click for the dropdown options). Create a new branch with `qsv1-dev` as the origin. Why? Because that is the active dev environment. You can always rebase with this, but start from here. Leave the issue name as the root and add `/your-amazon-alias` so for example -- if my issue is called `my-carbonlake-issue` then gitlab has added an issue number and you're going to add you alias. The structure will be `issueNumber-issueTitle-yourAmazonAlias` so it will now look like `9-my-carbonlake-issue/peccyamazonian`
+Use the "create branch" button (hint: same button as "create merge request" just click for the dropdown options). Create a new branch with `dev` as the origin. Why? Because that is the active dev environment. You can always rebase with this, but start from here. Leave the issue name as the root and add `/your-amazon-alias` so for example -- if my issue is called `my-carbonlake-issue` then gitlab has added an issue number and you're going to add you alias. The structure will be `issueNumber-issueTitle-yourAmazonAlias` so it will now look like `9-my-carbonlake-issue/peccyamazonian`
 
 _Thanks for doing that! It makes it really easy to know who is working on what and allows multiple people to maintain branches related to the same issue. Create your branch and clone away._
 
@@ -111,7 +111,7 @@ CDK is so nice! It's very similar to Cloudformation but far easier to maintain, 
 
 We are using a CDK with Nested Stacks approach to development. Why? Because that way everyone can work on their own encapsulated stacks and develop separately for shared deployment. How does this work? I will tell you...
 
-1. Every piece of infrastructure is encapsulated in it's own CDK stack. This is basically a single CDK file that deploys everything this stack needs. Want to nest stacks within this stack? Cool. Go for it. But I recommend you just start simple with one file.
+1. Every module is encapsulated in it's own CDK stack. This is basically a single CDK file that deploys everything this stack needs. Want to nest stacks within this stack? Cool. Go for it. But I recommend you just start simple with one file.
 2. Okay you've got your stack. You might have a stack for storage. All your s3 buckets are going to be in this stack. This stack will live in a directory called `storage` Need to pass environmental variables to this? We get it. So you can pass them as props via Typescript. Now you've got the needed environmental variables (these might be passed from some other part of your infrastructure).
 3. Okay now we've got all these stacks like `storage` and `iot` and `dashboard` and `monitoring` or something like that. Now there is a main stack that basically calls all these stacks and deploys them in order, returning any outputs needed for inputs to other stacks. Make sense?
 
@@ -152,10 +152,10 @@ Okay so we're keeping testing relatively easy here. For now. So basically please
 Before you merge you MUST do the following. If you don't, you will be sorry :laughing: 
 
 ```
-git checkout qsv1-dev
+git checkout main
 git pull
 git checkout your-branch-that-you-plan-to push
-git merge qsv1-dev
+git merge main
 git push
 ```
 This process will enforce local resolution of merge conflicts before pushing to the remote upstream repo. Please resolve all conflicts to the best of your ability before pushing. If you are unsure please reach out to one of the maintainers.
@@ -166,8 +166,8 @@ Quick Note: Hey buddy! You can only make changes to this repo by merge request.
 
 1. Select "merge requests" from the left navigation drawer
 2. Select "create new merge request"
-3. Select your source branch (hint, the one you've been working on) and your target branch (hint: qsv1-test)
-4. Select a reviewer and an approver. You can assign any contributor as a reviewer. You may only assign a maintainer as an approver. And don't break stuff please. Or do. That's fine also.
+3. Select your source branch (hint, the one you've been working on) and your target branch (hint: `main`)
+4. Select a reviewer. You can assign any contributor as a reviewer. And don't break stuff please. Or do. That's fine also.
 5. Write your comments, keep them detailed and clear. What did you do, how does it relate to the issue, what are the inputs, what are the outputs, what are the dependencies, how did you test it, what is the expected behavior?
 6. Once your merge request has been approved go ahead and close the issue, your code will now be merged into the test branch for further testing and review. After it goes through there if all goes well it will be merged with dev and then eventually with prod. See approval workflow below.
 
@@ -175,28 +175,19 @@ Quick Note: Hey buddy! You can only make changes to this repo by merge request.
 
 We're going to keep our approval workflow simple in the name of speed and reducing bottlenecks. Don't worry, we can always roll back changes. Thanks, git! Two rules for approvals.
 
-1. The only people who can approve merge requests are maintainers. Consult the project information guide to view a directory of maintainers. Please add yourserl as assignee and then a maintainer as the reviewer. The maintainer will approve and or send back to you for changes.
+1. The only people who can approve merge requests are maintainers. Consult the project information guide to view a directory of maintainers. Please add yourself as assignee and then a maintainer as the reviewer. The maintainer will approve and or send back to you for changes.
 
 ## Deploying Your Code in Sandboxed Test
 
-Ready to deploy your code? Great. You should be developing in an Isengard account just for this issue. In most cases if you're working on a CarbonLake module it will have it's own Isengard account. Do all your test and dev in there, and link the CDK app to that account. We strongly recommend you don't use this account for anything else. It will make your life way easier.
+Ready to deploy your code? Great. You should be developing in an Isengard account used specifically for your own CarbonLake development. Do all your test and dev in there, and link the CDK app to that account. We strongly recommend you don't use this account for anything else. It will make your life way easier.
 
 ## Deploying Your Code to Consolidated Test
 
-Ready to deploy this code further down the pipe? Great news. We use code mirroring between gitlab and the `carbonlake-qsv1-test` isengard account to simplify the process of pushing `qsv1-test` branch. So once a merge request to test is accepted it will automatically deploy. Go take a look in the test isengard and see how things went. Run into an issue? Roll back immediately and then search for the root cause.
-
-## Approval Workflow
-
-We're going to keep our approval workflow simple in the name of speed and reducing bottlenecks. Don't worry, we can always roll back changes. Thanks, git! Two rules for approvals.
-
-1. Always have one approver for merge to `test`. Ask them if they have the time to approve your code before you actually assign them.
-2. If merging from `test` to `dev` make sure you have at least one new approver, and this should be a different person from the one who approved your `test` merge.
-
-## Getting Feedback and Support
+Ready to deploy this code further down the pipe? Great news. We use code mirroring between gitlab and the `carbonlake-qsv1+test@amazon.com` isengard account to simplify the process of pushing `main` branch. So once a merge request is accepted it will automatically deploy. Go take a look in the test isengard and see how things went. Run into an issue? Roll back immediately and then search for the root cause.
 
 ## Deploying Your Code to "Production"
 
-There is no "production" as of now, but once there is it will follow the same automated pipeline process as the deploying to consolidated test above.
+There is no "production" as of now, but once there is it will involve mirroring the `main` branch of the Gitlab repo to our Github repo, which essentially serves as "prod".
 
 ## Additional Resources
 
