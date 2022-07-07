@@ -83,6 +83,51 @@ List the next steps in the process
 
 ```
 
+_Done with creating your issue? If you are creating a new stack it should be initialized with it's own README.md. Please create a directory within your stack directory called `/documentation` and place a file in it called `README.md`. Us the template below and fill in your README fields._
+
+```markdown
+**Summary**
+Insert 2-3 sentence summary of this module.
+
+**What you will build**
+1.
+2.
+3.
+4.
+
+**What it does**
+This module accepts <> as input and outputs <>. You will know it works if <>.
+
+**AWS Services**
+- Service
+- Service
+
+**Inputs**
+Brief 1-2 sentence description of inputs.
+
+**Outputs**
+Brief 1-2 sentence description of outputs.
+
+**Dependencies**
+- Insert
+- Insert
+
+**Tests**
+1.
+2.
+3.
+
+**Limitations**
+1.
+2.
+3.
+
+**Troubleshooting**
+Insert list of common errors and their solutions.
+
+
+```
+
 **2. Make sure you know what to do**
 
 So you picked an issue. Take a quick read and make sure you're really clear about what you have to do. All issues in CarbonLake Quickstart _should_ include an issue template that tell you allll about what you need to do. No issue template? You can either reach out to the person who wrote the issue and help them make one...or just pick a different one.
