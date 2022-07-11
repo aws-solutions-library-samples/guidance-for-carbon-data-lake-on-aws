@@ -32,7 +32,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       console.warn('*** valid admin email address via --context adminEmail=value ***');
       console.warn('****************************************************************');
     } else {
-      console.log(adminEmail)
       new CfnOutput(this, 'adminEmail', {value: adminEmail});
     }
 
@@ -44,7 +43,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       console.warn('*** via --context quicksightUserName=value                       ***');
       console.warn('********************************************************************');
     } else {
-      console.log(quicksightUserName)
       new CfnOutput(this, 'quicksightUserName', {value: quicksightUserName});
     }
 
@@ -102,8 +100,5 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
 
     // TODO --> Creat the carbonlake monitoring and observability stack
-
-    console.log('adminEmail context passed into App 👉', this.node.tryGetContext('adminEmail'));
-    console.log('quicksightUserName context passed into App 👉', this.node.tryGetContext('quicksightUserName'));
   }
 }
