@@ -1,6 +1,5 @@
 {
   "app": "npx ts-node --prefer-ts-exts bin/carbonlake-quickstart.ts",
-  "requireApproval": "never",
   "watch": {
     "include": [
       "**"
