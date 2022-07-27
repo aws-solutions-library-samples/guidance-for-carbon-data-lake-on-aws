@@ -46,7 +46,7 @@ export class CarbonlakeQuickstartCiCdStack extends cdk.Stack {
 
           });
 
-          const gitlabMirroring = new CarbonlakeGitlabMirroringStack(this, "CarbonLakeGitlabMirroringStack", {
+          const gitlabMirroring = new CarbonlakeGitlabMirroringStack(scope, "CarbonLakeGitlabMirroringStack", {
             repoName: "CarbonLakeRepo" // repo name currently hard-coded TODO: take as parameter from pipeline
           });
 

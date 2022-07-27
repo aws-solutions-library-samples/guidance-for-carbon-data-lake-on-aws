@@ -1,4 +1,4 @@
-import { App, CustomResource, Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib';
+import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { aws_dynamodb as ddb } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib';
@@ -14,7 +14,7 @@ import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job';
 import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality';
 
-interface PipelineProps extends NestedStackProps {
+interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function;
   landingBucket: s3.Bucket;
   errorBucket: s3.Bucket;
@@ -24,7 +24,7 @@ interface PipelineProps extends NestedStackProps {
   notificationEmailAddress: string;
 }
 
-export class CarbonlakeQuickstartPipelineStack extends NestedStack {
+export class CarbonlakeQuickstartPipelineStack extends Stack {
   public readonly calculatorOutputTable: ddb.Table;
   public readonly calculatorFunction: lambda.Function;
   public readonly pipelineStateMachine: stepfunctions.StateMachine;
