@@ -2,14 +2,9 @@
 
 CarbonLake Quickstart is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, managed forecasting service, graphQL api, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
-- [What you will build](#what-you-will-build)
-- [Costs and licenses](#costs-and-licenses)
-- [Prepare your environment and launch CarbonLake (Quick Setup)](#prepare-your-environment-and-launch-CarbonLake-quick-setup)
-- [Prepare your environment (Manual Setup)](#prepare-your-environment-manual-setup)
-
 ## 🛠 What you will build
 
-![CarbonLake architectural diagram](resources/architecture/CarbonLake-quickstart-v1-architecture-image.png)
+![CarbonLake architectural diagram](resources/architecture/carbonLake-quickstart-v1-architecture-image.png)
 
 - Shared Resource Stack
 - CI/CD Pipeline
@@ -40,22 +35,15 @@ This Quick Start doesn’t require any software license or AWS Marketplace subsc
 
 ## How to Deploy
 
-You can deploy CarbonLake Quickstart through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and IsengardCLI. We also recommend that you either use a fresh isengard account for deployment, or a burner account.
-
-## 🔖 Features
-
-- Creates a greengrass group
-- Creates a greengrass thing
-- Creates associated policies and roles
-- Creates a greengrass deployment artifact collection
+You can deploy CarbonLake Quickstart through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and Isengard CLI. We also recommend that you either use a fresh isengard account for deployment, or a burner account.
 
 ## 🎒 Pre-requisites
 
 - The [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) must be installed *and* configured with an AWS account on the deployment machine (see https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html for instructions on how to do this on your preferred development platform).
 - This project requires [Node.js](http://nodejs.org/). To make sure you have it available on your machine, try running the following command.
-```sh
-node -v
-```
+  ```sh
+  node -v
+  ```
 - [Docker](https://docs.docker.com/get-docker/)
 - For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
 
@@ -63,9 +51,9 @@ node -v
 
 ### 1/ Manually Enable Amazon Quicksight
 
-Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](CarbonLake-quickstart/lib/quicksight/README.md).
+Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/quicksight/documentation/README.md).
 
-### 1.5/ AWS ONLY REMOVE LATER: Enable Sagemaker Notebook Instance Type
+### 1.5/ AWS INTERNAL ONLY (REMOVE LATER): Enable Sagemaker Notebook Instance Type
 
 Note for AWS users only (will be removed later). To deploy the forecast stack in an Isengard account If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase at this link:
 
@@ -114,27 +102,28 @@ cdk synth
 1. Navigate to CDK Directory
 2. Set `cdk.context.json` values --> The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app.
 
+    **Context Variables**
 
-**Context Variables**
+    - `adminEmail`            The email address for the administrator of the app
+    - `repoBranch`            The branch to deploy in your pipeline (default is `/main`)
+    - `quicksightUserName`    Username for access to the carbon emissions dataset and dashboard.
 
-- `adminEmail`            The email address for the administrator of the app
-- `repoBranch`            The branch to deploy in your pipeline (default is `/main`)
-- `quicksightUserName`    Username for access to the carbon emissions dataset and dashboard. 
 
-Note: Make sure you review [Quickstart setup instructions](carbonlake-quickstart/lib/quicksight/documentation/README.md)
+Note: Make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
 
 ### 6/ Get Started Deploying the CDK App and Stacks
 
-- ✅ Recommended: deploy for local development 
-```sh
-cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"
-``` 
-👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
-- ⛔️ Advanced User: deploy through CI/CD pipeline with linked repository
-```sh
-cdk deploy --all
-```
-👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
+- ✅  Recommended: deploy for local development 
+  ```sh
+  cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"
+  ``` 
+  👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
+
+- ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
+  ```sh
+  cdk deploy --all
+  ```
+  👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 7/ Set up the Amplify Web Application
 
@@ -218,7 +207,7 @@ If you have not yet this is a great time to deploy the sample web application. O
 #### Calculator Input Model
 
 The model below describes the required schema for input to the CarbonLake calculator microservice. This is
-[Calculator Data Input Model](CarbonLake-quickstart/sample-data/calculator_input_single_record_example.json)
+[Calculator Data Input Model](sample-data/calculator_input_single_record_scope1_example.json)
 
 ```json
 {
@@ -242,7 +231,7 @@ The model below describes the required schema for input to the CarbonLake calcul
 
 The model below describes the standard output model from the carbonlake emissions calculator microservice.
 
-[Calculator Output Model](CarbonLake-quickstart/sample-data/calculator_output_single_record_example.json)
+[Calculator Output Model](sample-data/calculator_output_single_record_scope1_example.json)
 
 ```json
 {
@@ -300,9 +289,9 @@ The model below describes the standard output model from the carbonlake emission
 
 ### GHG Protocol Emission factors
 
-The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated June 2022.
+The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated May 2022.
 
-[GHG Protocol Lookup Table Model](CarbonLake-quickstart/sample-data/emissions_factor_model_2022-04-26.json)
+[GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json)
 
 
 ## Troubleshooting WIP
