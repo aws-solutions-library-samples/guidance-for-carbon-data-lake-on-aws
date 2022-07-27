@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib';
+import { Stack, StackProps, Names } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
@@ -6,13 +6,13 @@ import * as cfninc from 'aws-cdk-lib/cloudformation-include';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
-interface CarbonlakeQuicksightStackProps extends NestedStackProps {
+interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
   quicksightUserName?: any;
   enrichedDataDatabase: glue.CfnDatabase;
 }
 
-export class CarbonlakeQuicksightStack extends NestedStack {
+export class CarbonlakeQuicksightStack extends Stack {
   constructor(scope: Construct, id: string, props: CarbonlakeQuicksightStackProps) {
     super(scope, id, props);
 

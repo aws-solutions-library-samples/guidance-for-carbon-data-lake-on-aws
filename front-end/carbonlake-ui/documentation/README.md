@@ -20,7 +20,7 @@ Clone this repo manually or download the .zip file. The react/amplify related it
     * [Node.js installed](http://nodejs.org): if you don't already have it, run `brew install node` to download Node (Homebrew needs to be installed for this to work) - Run `node -v ` to check your version.
     * [NPM installed](https://www.npmjs.com/) - Run `npm -v` to check your version.
     * [CDK deployed](https://google.com)
-    * [IAM User or Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html) with necessary permissions created (role is recommended). If you have deployed the CDK app you can 
+    * [IAM User or Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html) with necessary permissions created (role is recommended)
     * [AWS Amplify CLI installed](https://google.com)
         * Run `npm install -g @aws-amplify/cli`
         * Run  `amplify --version` to verify installed version
@@ -86,7 +86,7 @@ Pro tip:
 Try "amplify add api" to create a backend API and then "amplify push" to deploy everything
 ```
 10. When deploying the CarbonLake QuickStart CDK, a Cognito user pool **(CarbonLakeQuickStartUserPool)**, Identity pool **(CarbonLakeQuickStartIdentityPool)**, and GraphQL API **(CarbonLakeApi)** will be deployed automatically, so <ins> **do not** </ins>  run the command **amplify add api** or **amplify add auth**. Instead, you will need to import these resources into your Amplify app.
-11. Navigate to <ins>**'src/amplify-config.js'**</ins> and replace the values for **aws_appsync_grapqlEndpoint**, **identityPoolId**, **userPoolId**, and **userPoolWebClientId.** You will need to get this information from the console directly. Your configuration should look similar to the following:
+11. Navigate to <ins>**'src/amplify-config.js'**</ins> and replace the values for **aws_appsync_grapqlEndpoint**, **identityPoolId**, **userPoolId**, and **userPoolWebClientId.** Your configuration should look similar to the following:
 ```javascript
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --
 
@@ -132,7 +132,7 @@ amplify add codegen --apiId abcedfghjk1234567
 15. You should receive a success message and be prompted to choose the code generation language target. You may also optionally enter the file name pattern for queries, mutations and subscriptions (default will be <ins>'src/grapql/**/*.js*'</ins>). When prompted choose **'Y'** to generate/update all possible GraphQL operations. For maximum statement depth, choose the number that suits the complexity of your statement. For our testing we used **'2'**.
 
 <!-- TODO - Replace this with out GitHub link once it's live -->
-16. Success! At this point, you should successfully have the Amplify app working. For any questions, please reach out to us on our [GitHub PLACEHOLDER](https://github.com).
+16. Success! At this point, you should successfully have the Amplify app working. For any questions, please reach out to us on our [GitHub](https://github.com).
 
 <!-- TODO - Add Instructions for S3 Upload configuration -->
 <!-- TODO - Add detailed customization instructions (maybe?) -->
