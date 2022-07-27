@@ -1,9 +1,9 @@
-import { App, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'; 
+import { App, Stack, NestedStack, NestedStackProps, StackProps, RemovalPolicy } from 'aws-cdk-lib'; 
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
+export class CarbonlakeQuickstartSharedResourcesStack extends NestedStack {
     public readonly carbonlakeLandingBucket: s3.Bucket;
     public readonly carbonlakeRawBucket: s3.Bucket;
     public readonly carbonlakeErrorBucket: s3.Bucket;
@@ -13,7 +13,7 @@ export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
     public readonly carbonlakeDataLineageBucket: s3.Bucket;
     public readonly glueEnrichedDataDatabase: glue.CfnDatabase;
 
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props?: NestedStackProps) {
         super(scope, id, props);
 
         // Landing bucket where files are dropped by customers
