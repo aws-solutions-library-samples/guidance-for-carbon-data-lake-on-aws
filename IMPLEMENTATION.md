@@ -146,19 +146,60 @@ Time to get started using CarbonLake Quickstart! Follow the steps below to see i
 
 ### 1/ Make sure all the Infrastructure Deployed Properly
 
+In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. Continue!
+
 ### 2/ Drop some sythetic test data into the CarbonLake Landing Zone S3 Bucket
 
+Time to test some data out and see if everything is working...
+- Go to the S3 console and locate your CarbonLake landing zone bucket
+- Upload [CarboLakeQS Synthetic Input Data](sample-data/carbon-lake-synthetic-input-data.csv) to the S3 bucket manually
+- This will kick of the pipeline -- continue!
+
 ### 3/ Take a look at the step functions workflow
+- Navigate to step functions service in the aws console
+- On the left sidebar select "state machines" --> do you see a state machine present? Continue...
+- Also on the left sidebar select "activities" --> do you see the pipeline as an activity? Continue...
+- Have a quick look and familiarize yourself with the workflow
 
-### 4/ Review the lambda logs in Cloudwatch
+### 4/ Query your GraphQL API Endpoint
+- Navigate to AWS AppSync in the console
+- In the AWS AppSync, choose the Queries tab and then enter the following text in the editor:
+- Run the following query and hit "run"
 
-### 5/ Query your GraphQL API Endpoint
+This one will get all of the records (with a default limit of 10)
+```
+query MyQuery {
+  all {
+    items {
+      activity
+      activity_event_id
+      asset_id
+      category
+      emissions_output
+      geo
+      origin_measurement_timestamp
+      raw_data
+      units
+      source
+      scope
+    }
+  }
+}
+```
+Did that all work? Continue...
 
-### 6/ Take a look at the Amplify Sample Web Application
+### 5/ Take a look at the Amplify Sample Web Application
 
-### 7/ Try dropping some other sample data into the landing zone
+If you have not yet this is a great time to deploy the sample web application. Once you've run some data throught the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application.
 
-### 8/ Start connecting your own data to the carbonlake landing zone
+### 6/ Try dropping some other sample data into the landing zone
+
+- Generate or select some additional data (it can be anything really, but carbon emissions data is good)
+- Test out the data quality module by dropping different data into the bucket. Does it run through? Do you get a notification if it does not?
+
+### 7/ Start connecting your own data to the carbonlake landing zone
+
+- Connect other data sources such as IoT, Streaming Data, Database Migration Workloads, or other applications to the S3 landing zone bucket. Try something out and let us know how it goes.
 
 ## 📚 Reference & Resources
 
