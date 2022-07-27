@@ -4,7 +4,7 @@ CarbonLake Quickstart is a decarbonization data accelerator solution built on ex
 
 ## 🛠 What you will build
 
-![CarbonLake architectural diagram](resources/architecture/carbonLake-quickstart-v1-architecture-image.png)
+![CarbonLake architectural diagram](resources/architecture/carbonlake-quickstart-v1-architecture-image.png)
 
 - Shared Resource Stack
 - CI/CD Pipeline
