@@ -140,7 +140,7 @@ const Content = () => {
       setAlertContent('File was uploaded successfully');
       const put_csv = await Storage.put("csv/" + files.name, files, {
         progressCallback(progress) {
-        console.log('Uploading CSV File to S3 Bucket ...');
+        console.log('Uploading file to S3 Bucket ...');
         console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
       },
         level: 'public',
