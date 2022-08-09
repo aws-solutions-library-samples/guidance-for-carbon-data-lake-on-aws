@@ -53,6 +53,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         // Create a Cognito identity pool to be used with the Amplify sample app
         const identityPool = new IdentityPool(this, 'CarbonLakeQuickStartIdentityPool', {
             identityPoolName: 'CarbonLakeQuickStartIdentityPool',
+            allowUnauthenticatedIdentities: true,
             authenticationProviders: {
                 userPools: [new UserPoolAuthenticationProvider({ userPool })],
             },

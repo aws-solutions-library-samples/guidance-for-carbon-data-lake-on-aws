@@ -5,7 +5,7 @@ This is just a playground package. It does not comply with best practices
 of using AWS-UI components.
 
 ************************************************************************/
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import TopNavigationHeader from '../components/TopNavigationHeader';
@@ -19,11 +19,18 @@ import {
   Grid,
   Box,
   TextContent,
-  SpaceBetween
+  SpaceBetween,
+  Form,
+  Button,
+  FormField,
+  Input,
+  Table
 } from '@awsui/components-react';
 
 import '../styles/intro.scss';
 import '../styles/servicehomepage.scss';
+
+import {COLUMN_DEFINITIONS} from '../resources/table_uploader/table-config'
 
 
 
@@ -32,9 +39,11 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { forEachLeadingCommentRange } from 'typescript';
+import {existingS3} from '../amplify-config';
 
 // import awsExports from '../aws-exports';
-// Amplify.configure(awsExports);
+Amplify.configure(existingS3);
 
 // S3 Upload Parameters
 // Amplify.configure({
@@ -85,6 +94,58 @@ export default DataUploader;
 
 
 const Content = () => {
+
+ const [data, setData] = useState([]);
+ const [files, setFiles] = useState(null);
+ const [remove, setRemove] = useState(false);
+ const fileInput = useRef();
+
+
+ const selectFile = () => {
+        fileInput.current.click();
+    }
+
+  const handleFileInput = (e) => {
+    console.log(e.target.files[0])
+    setFiles(e.target.files[0]);
+    setData([
+        {
+          name: e.target.files[0].name,
+          type: e.target.files[0].type,
+          size: e.target.files[0].size
+        }
+      ])
+    setRemove(true)
+    e.target.value = null
+  };
+
+  const removeButton = () => {
+    setData([])
+    setRemove(false)
+
+  };
+
+  const cancelButton = () => {
+    setFiles(null);
+    setData([])
+    setRemove(false)
+
+  };
+
+  const uploadFile = async () => {
+    const put_csv = await Storage.put("csv/" + files.name, files, {
+      bucket: "deploy-carbonlakesharedr-carbonlakelandingbuckete-6cr1pvdcsshv",
+      progressCallback(progress) {
+      console.log('Uploading CSV File to S3 Bucket ...');
+      console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+    },
+      level: 'public',
+      contentType: files.type,
+  
+      
+    });
+  };
+
   return (
 
 <div>
@@ -115,8 +176,64 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>TODO - Add S3 File Uploader</h1>
-            {/* <Container>
+      <form onSubmit={e => e.preventDefault()}>
+      <Form
+      actions={
+          <SpaceBetween direction="horizontal" size="xs">
+            <Button formAction="none" variant="link" onClick={cancelButton}>
+              Cancel
+            </Button>
+            <Button onClick={uploadFile} variant="primary">Upload</Button>
+          </SpaceBetween>
+        }
+        header={
+          <Header
+            variant="h1"
+            description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API"
+          >
+            Upload
+          </Header>
+        }
+      >
+        <Container
+          header={
+            <Header variant="h2"
+              actions={
+        <SpaceBetween direction="horizontal" size="s">
+          <Button onClick={removeButton} disabled={!remove}> Remove </Button>
+          <input type="file" accept=".csv" id="csv-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
+          <Button iconName="file" id="csv-buttom" onClick={selectFile}> Add File </Button>
+        </SpaceBetween>
+      }
+            >
+              File
+            </Header>
+          }
+        > 
+      
+      <Table
+      columnDefinitions={COLUMN_DEFINITIONS}
+      items={data}
+      sortingDisabled
+      empty={
+        <Box textAlign="center" color="inherit">
+          <b>No files or folders</b>
+          <Box
+            padding={{ bottom: "s" }}
+            variant="p"
+            color="inherit"
+          >
+            You have not chosen any files or folders to upload.
+          </Box>
+        </Box>
+      }
+    />
+        </Container>
+      </Form>
+    </form>
+            {
+
+            /* <Container>
               <div>
                 <ol>
                   <li>
@@ -151,6 +268,8 @@ const Content = () => {
                 </ol>
               </div>
             </Container>
+
+          /*
           </div>
           <div>
             <h1>Benefits and features</h1>
