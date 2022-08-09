@@ -22,9 +22,8 @@ import {
   SpaceBetween,
   Form,
   Button,
-  FormField,
-  Input,
-  Table
+  Table,
+  Alert
 } from '@awsui/components-react';
 
 import '../styles/intro.scss';
@@ -100,6 +99,9 @@ const Content = () => {
  const [remove, setRemove] = useState(false);
  const fileInput = useRef();
 
+ const [visibleAlert, setVisibleAlert] = useState(false);
+ const [alertType, setAlertType] = useState("");
+ const [alertContent, setAlertContent] = useState("");
 
  const selectFile = () => {
         fileInput.current.click();
@@ -122,28 +124,37 @@ const Content = () => {
   const removeButton = () => {
     setData([])
     setRemove(false)
-
   };
 
   const cancelButton = () => {
     setFiles(null);
     setData([])
     setRemove(false)
+    setVisibleAlert(false)
 
   };
 
   const uploadFile = async () => {
-    const put_csv = await Storage.put("csv/" + files.name, files, {
-      bucket: "deploy-carbonlakesharedr-carbonlakelandingbuckete-6cr1pvdcsshv",
-      progressCallback(progress) {
-      console.log('Uploading CSV File to S3 Bucket ...');
-      console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-    },
-      level: 'public',
-      contentType: files.type,
-  
-      
-    });
+    try{
+      setAlertType('success');
+      setAlertContent('File was uploaded successfully');
+      const put_csv = await Storage.put("csv/" + files.name, files, {
+        progressCallback(progress) {
+        console.log('Uploading CSV File to S3 Bucket ...');
+        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      },
+        level: 'public',
+        contentType: files.type,
+    
+        
+      });
+      setVisibleAlert(true)
+    } catch (err) {
+    console.log('Error uploading file:', err);
+    setAlertType('error');
+    setAlertContent('Error uploading file')
+    setVisibleAlert(true)
+  }
   };
 
   return (
@@ -177,6 +188,15 @@ const Content = () => {
         <SpaceBetween size="l">
           <div>
       <form onSubmit={e => e.preventDefault()}>
+      <Alert
+          onDismiss={() => setVisibleAlert(false)}
+          visible={visibleAlert}
+          dismissAriaLabel="Close alert"
+          dismissible
+          type={alertType}
+        >
+          {alertContent}
+        </Alert>
       <Form
       actions={
           <SpaceBetween direction="horizontal" size="xs">
