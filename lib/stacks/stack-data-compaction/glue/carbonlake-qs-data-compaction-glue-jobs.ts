@@ -116,7 +116,7 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
 
         // Deploy glue job scripts to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-          sources: [cdk.aws_s3_deployment.Source.asset('./lib/data-compaction-pipeline/glue/assets')],
+          sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/glue/assets')],
           destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });

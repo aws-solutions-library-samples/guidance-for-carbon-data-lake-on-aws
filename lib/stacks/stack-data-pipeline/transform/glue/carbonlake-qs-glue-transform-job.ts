@@ -48,7 +48,7 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
         });
         const gluePolicy = cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSGlueServiceRole");
 
-        // Create IAM Role to be assuemd by Glue
+        // Create IAM Role to be assumed by Glue
         const role = new cdk.aws_iam.Role(this, 'carbonlake-glue-transform-role', {
           assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
           description: 'IAM role to be assumed by Glue transformation job',
@@ -94,7 +94,7 @@ export class CarbonLakeGlueTransformationStack extends NestedStack {
 
         // Deploy glue job to S3 bucket
         new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-          sources: [cdk.aws_s3_deployment.Source.asset('./lib/pipeline/transform/glue/assets')],
+          sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-pipeline/transform/glue/assets')],
           destinationBucket: glueScriptsBucket,
           destinationKeyPrefix: 'Scripts'
         });

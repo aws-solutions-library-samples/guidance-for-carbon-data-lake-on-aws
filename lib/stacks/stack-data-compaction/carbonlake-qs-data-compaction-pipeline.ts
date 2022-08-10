@@ -55,7 +55,7 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     });
 
     new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
-      sources: [s3_deployment.Source.asset('./lib/data-compaction-pipeline/statemachine/json')],
+      sources: [s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/statemachine/json')],
       destinationBucket: stateMachineS3Bucket
     });
 

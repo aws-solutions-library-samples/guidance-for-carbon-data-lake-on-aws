@@ -3,7 +3,7 @@ import { App, Stack } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 
-import { CarbonlakeQuickstartDataLineageStack } from "../../lib/stack-data-lineage/carbonlake-data-lineage-stack";
+import { CarbonlakeQuickstartDataLineageStack } from "../../lib/stacks/stack-data-lineage/carbonlake-data-lineage-stack";
 
 describe("test data lineage stack", () => {
   let template: Template | null;

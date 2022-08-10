@@ -8,7 +8,7 @@ export class CarbonlakeForecastStack extends cdk.Stack {
     super(scope, id, props);
 
     const template = new cfninc.CfnInclude(this, 'Template', { 
-      templateFile: path.join(process.cwd(), 'lib','forecast','cfn', 'carbonlake-qs-forecast-cloudformation.yaml'),
+      templateFile: path.join(process.cwd(), 'lib', 'stacks', 'stack-sagemaker-notebook','cfn', 'carbonlake-qs-forecast-cloudformation.yaml'),
     });
   }
 }

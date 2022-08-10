@@ -4,7 +4,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_sns as sns } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib';
 
-import { CarbonlakeQuickstartStatemachineStack } from "../../../lib/stack-data-pipeline/statemachine/carbonlake-qs-statemachine-stack";
+import { CarbonlakeQuickstartStatemachineStack } from "../../../lib/stacks/stack-data-pipeline/statemachine/carbonlake-qs-statemachine-stack";
 
 describe('test statemachine stack', () => {
     let template: Template | null;
