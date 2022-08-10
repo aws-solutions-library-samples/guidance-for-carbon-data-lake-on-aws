@@ -39,7 +39,7 @@ Clone this repo manually or download the .zip file. The react/amplify related it
     * Place static files in `public/`
 ## Setup Guide
 1. Ensure that the CDK for the quickstart has been deployed (for testing, at a bare minimum, the API, and Cognito stacks must be deployed)
-2. Navigate to <ins>**'/front-end/carbonlake-ui/'**
+2. Navigate to <ins>**'/front-end/carbonlake-ui/'** and run the command **npm install** to install necessary dependencies.
 3. Run the command **‘amplify init’** **(ENSURE YOU ARE IN THE ROOT of the app directory <ins>/'front-end/carbonlake-ui/'</ins> and not in any sub directory**
 4. When asked if you want to use an existing environment, choose **‘n’** for no and enter your own name for your environment. It is recommended to have separate environments for development/testing and production.
 5. Enter the name for the environment when prompted, **‘dev’** in our case
@@ -122,13 +122,14 @@ const existingAuth = {
     mandatorySignIn: false,
 ```
 12. When deploying the CDK, you should have been sent an email with a temporary password to the email address you provided for **adminEmail** in the **cdk.context.json**. This is to be used with the email address for the default cognito user that was created by CDK.
-13. Run the command **npm run** to run the web app on your localhost. You should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email. You should be able to sign-in successfully at this point. ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
-14. Next you will need to add the AppSync helper code to your application. This is used to help connect your frontend with the CarbonLake GraphQL API backend. In the AWS Console, navigate to the AppSync console (search for AppSync in the search bar). Select the API created for you (CarbonLakeApi) then copy the relevant codegen command and run in your terminal.
+13. Next you will need to add the AppSync helper code to your application. This is used to help connect your frontend with the CarbonLake GraphQL API backend. In the AWS Console, navigate to the AppSync console (search for AppSync in the search bar). Select the API created for you (CarbonLakeApi) then copy the relevant codegen command and run in your terminal.
 
 Ex:
 ```javascript
 amplify add codegen --apiId abcedfghjk1234567
 ```
+14. Run the command **npm run** to run the web app on your localhost. You should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email. You should be able to sign-in successfully at this point. ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+
 15. You should receive a success message and be prompted to choose the code generation language target. You may also optionally enter the file name pattern for queries, mutations and subscriptions (default will be <ins>'src/grapql/**/*.js*'</ins>). When prompted choose **'Y'** to generate/update all possible GraphQL operations. For maximum statement depth, choose the number that suits the complexity of your statement. For our testing we used **'2'**.
 
 <!-- TODO - Replace this with out GitHub link once it's live -->

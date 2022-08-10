@@ -8,9 +8,10 @@ package-lock.json
 dist
 sample-pages/*
 sample-pages/
+src/text.txt
+src/amplify-config.js
+
 #amplify-do-not-edit-begin
-/amplify/*
-/amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
@@ -27,11 +28,6 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
-.graphqlconfig.yml
-/graphql/*
-/graphql
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-src/text.txt
-src/amplify-config.js

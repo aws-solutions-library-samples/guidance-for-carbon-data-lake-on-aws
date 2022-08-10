@@ -51,7 +51,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     this.landingBucket = sharedResources.carbonlakeLandingBucket;
     this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket;
     this.transformedBucket = sharedResources.carbonlakeTransformedBucket;
-    
+
     // QS2 --> Create the carbonlake data lineage stack
     const dataLineage = new CarbonlakeQuickstartDataLineageStack(scope, "CarbonlakeDataLineageStack", {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket
@@ -73,7 +73,7 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     this.pipelineStateMachine = pipeline.pipelineStateMachine;
     this.calculatorOutputTable = pipeline.calculatorOutputTable;
 
-  
+
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
 
     // QS4 --> Create the carbonlake data compaction pipeline stack
@@ -90,14 +90,14 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     });
 
     // QS6 --> Create the carbonlake quicksight stack
-    const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack", {
-      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-      quicksightUserName: quicksightUserName,
-      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
-    });
+    // const quicksight = new CarbonlakeQuicksightStack(scope, "CarbonlakeQuicksightStack", {
+    //   enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+    //   quicksightUserName: quicksightUserName,
+    //   enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase
+    // });
 
     // QS7 --> Create the carbonlake forecast stack
-    const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
+    // const forecast = new CarbonlakeForecastStack(scope, "CarbonlakeForecastStack")
 
     // TODO --> Creat the carbonlake monitoring and observability stack
   }
