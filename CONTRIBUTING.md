@@ -284,3 +284,16 @@ So now imagine that all of that is run by volunteers. The good news is that we c
 4. Reset a commit: `git reset HEAD~`
 5. Enter interactive rebase: `git rebase -i HEAD~5` and replace `pick` with `f` for fixup. Squash does the same `s` but allows you to edit the comment message and description
 5. Take a commit from another branch: find the commit with `git log`. Copy the hash. Now "cherry-pick" the commit with `git cherry-pick 1234yourhash`
+
+### Troubleshooting Sagemaker Access
+
+### 1.5/ Enable Sagemaker Notebook Instance Type
+
+Note for AWS users only (will be removed later). To deploy the forecast stack in an Isengard account If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase at this link:
+
+1. Go to [Sagemaker Tools](https://sagemaker-tools.corp.amazon.com/limits)
+2. Select the resource type dropdown
+3. Select `notebook instances`
+4. Select `notebook-instance/ml.t2.large` and select 1 instance as the limit
+5. Under justification required enter: Quickstart development.
+6. Press enter
