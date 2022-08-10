@@ -40,7 +40,9 @@ def lambda_handler(event: Dict, context: Dict):
 
         # root_id is the origin for all data lineage requests for this job batch
         # since this is the first node in the graph, node is its own parent
-        root_id = "".join(random.choices(alphabet, k=12))
+        # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
+        # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
+        root_id = "".join(random.choices(alphabet, k=12)) #nosec
 
         data_input = {
             "root_id": root_id,
