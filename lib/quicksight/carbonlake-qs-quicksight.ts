@@ -1,4 +1,4 @@
-import { Stack, StackProps, Names } from 'aws-cdk-lib';
+import { Stack, StackProps, Names, CfnOutput } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
@@ -49,6 +49,20 @@ export class CarbonlakeQuicksightStack extends Stack {
         EnrichedDataDatabaseName: props.enrichedDataDatabase.ref
       }
     });
-    
+
+    new CfnOutput(this, 'QuickSightDataSource', {
+      value: `${quicksightUniqueIdentifier}-Athena-DataSource`,
+      description: "ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset"
+    });
+
+    new CfnOutput(this, 'QuickSightDataSet', {
+      value: `${quicksightUniqueIdentifier}-Data-Set`,
+      description: "ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards"
+    });
+
+    new CfnOutput(this, 'QuickSightDashboard', {
+      value: `${quicksightUniqueIdentifier}-Dashboard`,
+      description: "ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications"
+    });
   }
 }
