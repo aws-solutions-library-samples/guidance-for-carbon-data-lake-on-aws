@@ -2,7 +2,7 @@
   "name": "carbonlake-quickstart",
   "version": "0.1.0",
   "bin": {
-    "carbonlake-quickstart": "bin/carbonlake-quickstart.js"
+    "carbonlake-quickstart": "bin/carbonlake-quickstart-main.js"
   },
   "scripts": {
     "build": "tsc",
