@@ -2,8 +2,7 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CarbonlakeQuickstartStack } from '../lib/carbonlake-qs-stack';
-import { CarbonlakeQuickstartCiCdStack } from '../lib/stack-ci-cd/carbonlake-qs-ci-cd-pipeline-stack';
-import { CarbonlakeQuickstartTestStack } from '../lib/stack-tests/carbonlake-qs-test';
+import { CarbonlakeQuickstartTestStack } from '../lib/stacks/stack-tests/carbonlake-qs-test';
 
 
 const app = new cdk.App();

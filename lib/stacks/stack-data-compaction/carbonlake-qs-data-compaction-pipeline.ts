@@ -1,4 +1,4 @@
-import { App, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
+import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
