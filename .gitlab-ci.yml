@@ -13,7 +13,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker:dind
   script:
     - npm update
-    - npm install python python-dev python-pip python-setuptools groff
+    - npm install python python-dev python-pip python-setuptools
     - pip install --upgrade awscli
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
