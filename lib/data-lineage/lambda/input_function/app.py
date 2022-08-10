@@ -79,9 +79,11 @@ def handle_single_record(event: Dict, record_template: Dict, dh: DataHandler):
     record_template["storage_location"] = event.record["storage_location"]
 
     # if no predefined node_id, generate one
+    # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
+    # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
     record_template["node_id"] = event.record["node_id"] \
         if "node_id" in event.record \
-        else "".join(random.choices(ALPHABET, k=8))
+        else "".join(random.choices(ALPHABET, k=8)) #nosec
     
     # send to queue
     dh.sqs.send_message(json.dumps(record_template))
@@ -101,9 +103,11 @@ def handle_multiple_records(event: Dict, record_template: Dict, dh: DataHandler)
             else input_record["storage_location"]
         
         # if no predefined node_id, generate one
+        # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
+        # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
         record["node_id"] = input_record["node_id"] \
             if "node_id" in input_record \
-            else "".join(random.choices(ALPHABET, k=8))
+            else "".join(random.choices(ALPHABET, k=8)) #nosec
         
         records.append(record)
     

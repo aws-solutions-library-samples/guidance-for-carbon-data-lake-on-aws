@@ -3,6 +3,7 @@ import json
 import boto3
 import os
 from emission_output import EmissionOutput
+from assertions import assert_equals
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -50,27 +51,27 @@ def __test_calculator(inputKey, inputBody, emissionOutputs):
         # Then
         outputKey = "today/"+inputKey
         responseJson = json.loads(response['Payload'].read().decode("utf-8"))
-        assert len(responseJson['records']) == len(emissionOutputs), 'expected '+str(len(emissionOutputs))+' but got '+str(len(responseJson['records']))+': '+json.dumps(responseJson)
-        assert responseJson['storage_location'] == "s3://"+OUTPUT_BUCKET_NAME+"/"+outputKey
-        assert responseJson['records'][0]['node_id'] == "customer-carbonlake-12345"
+        assert_equals(len(responseJson['records']), len(emissionOutputs), 'expected '+str(len(emissionOutputs))+' but got '+str(len(responseJson['records']))+': '+json.dumps(responseJson))
+        assert_equals(responseJson['storage_location'], "s3://"+OUTPUT_BUCKET_NAME+"/"+outputKey)
+        assert_equals(responseJson['records'][0]['node_id'], "customer-carbonlake-12345")
         outputObject = s3.Object(OUTPUT_BUCKET_NAME, outputKey).get()
         outputBody = outputObject['Body'].read().decode("utf-8")
         outputActivityEvents = [json.loads(jline) for jline in outputBody.splitlines()]
         for index in range(len(emissionOutputs)):
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2']['amount'] == emissionOutputs[index].co2
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2']['unit'] == 'tonnes'
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['ch4']['amount'] == emissionOutputs[index].ch4
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['ch4']['unit'] == 'tonnes'
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['n2o']['amount'] == emissionOutputs[index].n2o
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['n2o']['unit'] == 'tonnes'
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar4']['amount'] == emissionOutputs[index].co2e_ar4
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar4']['unit'] == 'tonnes'
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar5']['amount'] == emissionOutputs[index].co2e_ar5
-            assert outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar5']['unit'] == 'tonnes'
-            assert outputActivityEvents[index]['emissions_output']['emissions_factor']['ar4']['amount'] == emissionOutputs[index].emissions_factor_ar4
-            assert outputActivityEvents[index]['emissions_output']['emissions_factor']['ar4']['unit'] == 'kgCO2e/unit'
-            assert outputActivityEvents[index]['emissions_output']['emissions_factor']['ar5']['amount'] == emissionOutputs[index].emissions_factor_ar5
-            assert outputActivityEvents[index]['emissions_output']['emissions_factor']['ar5']['unit'] == 'kgCO2e/unit'
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2']['amount'], emissionOutputs[index].co2)
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2']['unit'], 'tonnes')
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['ch4']['amount'], emissionOutputs[index].ch4)
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['ch4']['unit'], 'tonnes')
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['n2o']['amount'], emissionOutputs[index].n2o)
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['n2o']['unit'], 'tonnes')
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar4']['amount'], emissionOutputs[index].co2e_ar4)
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar4']['unit'], 'tonnes')
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar5']['amount'], emissionOutputs[index].co2e_ar5)
+            assert_equals(outputActivityEvents[index]['emissions_output']['calculated_emissions']['co2e']['ar5']['unit'], 'tonnes')
+            assert_equals(outputActivityEvents[index]['emissions_output']['emissions_factor']['ar4']['amount'], emissionOutputs[index].emissions_factor_ar4)
+            assert_equals(outputActivityEvents[index]['emissions_output']['emissions_factor']['ar4']['unit'], 'kgCO2e/unit')
+            assert_equals(outputActivityEvents[index]['emissions_output']['emissions_factor']['ar5']['amount'], emissionOutputs[index].emissions_factor_ar5)
+            assert_equals(outputActivityEvents[index]['emissions_output']['emissions_factor']['ar5']['unit'], 'kgCO2e/unit')
     finally:
         # Cleanup
         s3.Object(INPUT_BUCKET_NAME, inputKey).delete()

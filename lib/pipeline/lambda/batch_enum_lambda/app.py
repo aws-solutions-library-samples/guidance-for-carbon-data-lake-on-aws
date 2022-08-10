@@ -43,4 +43,6 @@ def lambda_handler(event: Dict, context: Dict):
     return batches
 
 def generate_uid(length=8):
-    return "".join(random.choices(ALPHABET, k=length))
+    # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
+    # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
+    return "".join(random.choices(ALPHABET, k=length)) #nosec 

@@ -4,6 +4,7 @@ import boto3
 import os
 import time
 from emission_output import EmissionOutput
+from assertions import assert_equals
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -34,7 +35,7 @@ def __test_pipeline(inputKey, inputBody, emissionOutputs):
     executionArn = __get_stepfunctions_executionArn(inputKey)
     execution_detail = __wait_for_execution_finished(executionArn)
     status = execution_detail['status']
-    assert status == 'SUCCEEDED'
+    assert_equals(status, 'SUCCEEDED')
     batches = json.loads(execution_detail['output'])['batches']
     __assert_output_s3(batches, emissionOutputs)
     __assert_output_ddb(emissionOutputs)
@@ -60,20 +61,20 @@ def __assert_output_s3(batches, emissionOutputs):
             __assert_emissionOutput(outputActivityEvents[index], emissionOutputs[index])
 
 def __assert_emissionOutput(activityEvent, emissionOutput):
-    assert float(activityEvent['emissions_output']['calculated_emissions']['co2']['amount']) == emissionOutput.co2
-    assert activityEvent['emissions_output']['calculated_emissions']['co2']['unit'] == 'tonnes'
-    assert float(activityEvent['emissions_output']['calculated_emissions']['ch4']['amount']) == emissionOutput.ch4
-    assert activityEvent['emissions_output']['calculated_emissions']['ch4']['unit'] == 'tonnes'
-    assert float(activityEvent['emissions_output']['calculated_emissions']['n2o']['amount']) == emissionOutput.n2o
-    assert activityEvent['emissions_output']['calculated_emissions']['n2o']['unit'] == 'tonnes'
-    assert float(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar4']['amount']) == emissionOutput.co2e_ar4
-    assert activityEvent['emissions_output']['calculated_emissions']['co2e']['ar4']['unit'] == 'tonnes'
-    assert float(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar5']['amount']) == emissionOutput.co2e_ar5
-    assert activityEvent['emissions_output']['calculated_emissions']['co2e']['ar5']['unit'] == 'tonnes'
-    assert float(activityEvent['emissions_output']['emissions_factor']['ar4']['amount']) == emissionOutput.emissions_factor_ar4
-    assert activityEvent['emissions_output']['emissions_factor']['ar4']['unit'] == 'kgCO2e/unit'
-    assert float(activityEvent['emissions_output']['emissions_factor']['ar5']['amount']) == emissionOutput.emissions_factor_ar5
-    assert activityEvent['emissions_output']['emissions_factor']['ar5']['unit'] == 'kgCO2e/unit'
+    assert_equals(float(activityEvent['emissions_output']['calculated_emissions']['co2']['amount']), emissionOutput.co2)
+    assert_equals(activityEvent['emissions_output']['calculated_emissions']['co2']['unit'], 'tonnes')
+    assert_equals(float(activityEvent['emissions_output']['calculated_emissions']['ch4']['amount']), emissionOutput.ch4)
+    assert_equals(activityEvent['emissions_output']['calculated_emissions']['ch4']['unit'], 'tonnes')
+    assert_equals(float(activityEvent['emissions_output']['calculated_emissions']['n2o']['amount']), emissionOutput.n2o)
+    assert_equals(activityEvent['emissions_output']['calculated_emissions']['n2o']['unit'], 'tonnes')
+    assert_equals(float(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar4']['amount']), emissionOutput.co2e_ar4)
+    assert_equals(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar4']['unit'], 'tonnes')
+    assert_equals(float(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar5']['amount']), emissionOutput.co2e_ar5)
+    assert_equals(activityEvent['emissions_output']['calculated_emissions']['co2e']['ar5']['unit'], 'tonnes')
+    assert_equals(float(activityEvent['emissions_output']['emissions_factor']['ar4']['amount']), emissionOutput.emissions_factor_ar4)
+    assert_equals(activityEvent['emissions_output']['emissions_factor']['ar4']['unit'], 'kgCO2e/unit')
+    assert_equals(float(activityEvent['emissions_output']['emissions_factor']['ar5']['amount']), emissionOutput.emissions_factor_ar5)
+    assert_equals(activityEvent['emissions_output']['emissions_factor']['ar5']['unit'], 'kgCO2e/unit')
 
 def __wait_for_execution_finished(executionArn):
     status = STATUS_RUNNING
