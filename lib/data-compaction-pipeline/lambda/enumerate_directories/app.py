@@ -1,7 +1,4 @@
-import json
 import os
-import string
-import random
 from typing import Dict
 
 from aws_lambda_powertools.logging import Logger
@@ -12,8 +9,6 @@ from handlers import DataHandler
 
 logger = Logger(service="carbonlake", level="debug")
 tracer = Tracer()
-
-ALPHABET = string.ascii_letters + string.digits
 
 """
 INPUT: Payload from Amazon Step Function - {

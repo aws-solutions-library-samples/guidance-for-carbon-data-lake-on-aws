@@ -2,11 +2,12 @@ import json
 import os
 import string
 import random
+from uuid import uuid4
 from typing import Dict
 
 from aws_lambda_powertools.logging import Logger
 from aws_lambda_powertools.tracing import Tracer
-from aws_lambda_powertools.utilities.data_classes import S3Event
+from aws_lambda_powertools.utilities.data_classes import S3Event, event_source
 
 from handlers import DataHandler
 
@@ -23,14 +24,10 @@ OUTPUT: None
 """
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
-def lambda_handler(event: Dict, context: Dict):
-    event = S3Event(event)
-
+@event_source(data_class=S3Event)
+def lambda_handler(event: S3Event, context: Dict):
     # setup data handler tp manage communication with other AWS services
     data_handler = DataHandler(os.environ["STATEMACHINE_ARN"])
-
-    # alphabet used for generating uids randomly
-    alphabet = string.ascii_letters + string.digits
 
     for record in event.records:
 
@@ -40,9 +37,7 @@ def lambda_handler(event: Dict, context: Dict):
 
         # root_id is the origin for all data lineage requests for this job batch
         # since this is the first node in the graph, node is its own parent
-        # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
-        # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
-        root_id = "".join(random.choices(alphabet, k=12)) #nosec
+        root_id = "".join(str(uuid4()).split("-"))[12:]
 
         data_input = {
             "root_id": root_id,

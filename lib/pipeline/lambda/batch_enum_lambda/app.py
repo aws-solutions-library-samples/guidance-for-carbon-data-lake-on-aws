@@ -2,6 +2,7 @@ import json
 import os
 import string
 import random
+from uuid import uuid4
 from typing import Dict
 
 from aws_lambda_powertools.logging import Logger
@@ -12,8 +13,6 @@ from handlers import DataHandler
 
 logger = Logger(service="carbonlake", level="debug")
 tracer = Tracer()
-
-ALPHABET = string.ascii_letters + string.digits
 
 """
 INPUT: Payload from Amazon Step Function - {
@@ -43,6 +42,4 @@ def lambda_handler(event: Dict, context: Dict):
     return batches
 
 def generate_uid(length=8):
-    # suppressing the bandit warning: random is not used for security/cryptographic purposes here. 
-    # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
-    return "".join(random.choices(ALPHABET, k=length)) #nosec 
+    return "".join(str(uuid4()).split("-"))[length:]
