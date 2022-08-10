@@ -13,7 +13,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker:dind
   script:
     - npm update
-    - npm install python python-dev python-pip python-setuptools
+    - npm i python@latest -g
     - pip install --upgrade awscli
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
@@ -22,7 +22,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm install typescript@latest -g
     - echo "succesfully installed typescript"
     - echo "Installing python as dependency"
-    - npm i python@latest -g
     - echo "succesfully installed python"
     - echo "Installing all package dependencies"
     - npm install -g aws-cdk
