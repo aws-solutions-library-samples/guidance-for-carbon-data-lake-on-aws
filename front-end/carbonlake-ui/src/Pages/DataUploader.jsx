@@ -100,6 +100,7 @@ const Content = () => {
  const fileInput = useRef();
 
  const [visibleAlert, setVisibleAlert] = useState(false);
+ const [visibleInfo, setVisibleInfo] = useState(true);
  const [alertType, setAlertType] = useState("");
  const [alertContent, setAlertContent] = useState("");
 
@@ -186,6 +187,15 @@ const Content = () => {
 {/* Start How it works section */}
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
+
+                <Alert
+      onDismiss={() => setVisibleInfo(true)}
+      visible={visibleInfo}
+      dismissAriaLabel="Close alert"
+      header="File Upload Guidance"
+    >
+      We currently support single file upload. Multi-file upload is coming in future releases. Please upload one file at a time. 
+    </Alert>
           <div>
       <form onSubmit={e => e.preventDefault()}>
       <Alert
@@ -237,13 +247,13 @@ const Content = () => {
       sortingDisabled
       empty={
         <Box textAlign="center" color="inherit">
-          <b>No files or folders</b>
+          <b>No files</b>
           <Box
             padding={{ bottom: "s" }}
             variant="p"
             color="inherit"
           >
-            You have not chosen any files or folders to upload.
+            You have not chosen any files to upload.
           </Box>
         </Box>
       }
