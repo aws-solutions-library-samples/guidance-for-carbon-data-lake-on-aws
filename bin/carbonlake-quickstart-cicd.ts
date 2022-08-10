@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
-import { CarbonlakeQuickstartCiCdStack } from '../lib/stacks/stack-ci-cd/carbonlake-qs-ci-cd-pipeline-stack';
+import 'source-map-support/register'
+import * as cdk from 'aws-cdk-lib'
+import { CarbonlakeQuickstartCiCdStack } from '../lib/stacks/stack-ci-cd/carbonlake-qs-ci-cd-pipeline-stack'
 
-
-const app = new cdk.App();
+const app = new cdk.App()
 
 // Creates the optional CarbonLake Quickstart CICD pipeline stack with all stacks
 /*
@@ -15,4 +14,4 @@ const app = new cdk.App();
     Use: To use this you can run the npm run deploy:cicd command
 */
 
-new CarbonlakeQuickstartCiCdStack(app, 'CarbonLakeQuickstartCiCdStack');
+new CarbonlakeQuickstartCiCdStack(app, 'CarbonLakeQuickstartCiCdStack')

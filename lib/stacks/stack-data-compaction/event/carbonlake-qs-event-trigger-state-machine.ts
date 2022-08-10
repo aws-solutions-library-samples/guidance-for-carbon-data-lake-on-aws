@@ -1,30 +1,28 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
-import { aws_events as events} from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import { NestedStack, NestedStackProps } from 'aws-cdk-lib'
+import { aws_iam as iam } from 'aws-cdk-lib'
+import { aws_events as events } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
 
 interface CarbonLakeEventTriggerStateMachineStackProps extends NestedStackProps {
-  stateMachineName: any;
+  stateMachineName: any
 }
 
 export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
-  public readonly eventRule: events.CfnRule;
+  public readonly eventRule: events.CfnRule
 
   constructor(scope: Construct, id: string, props: CarbonLakeEventTriggerStateMachineStackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
     // Create IAM policy for Event Bridge event to trigger State Machine
     const eventRulePolicy = new iam.PolicyDocument({
       statements: [
         new iam.PolicyStatement({
           resources: ['*'], //TODO: limit the scope of permission here
-          actions: [
-            "states:StartExecution"
-          ],
+          actions: ['states:StartExecution'],
           effect: iam.Effect.ALLOW,
-        })
+        }),
       ],
-    });
+    })
 
     // Create IAM role to be assumed by State machine
     const eventRuleRole = new iam.Role(this, 'event-bridge-event-rule-role', {
@@ -32,9 +30,8 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
       description: 'IAM role to be assumed by Event Bridge Event Rule',
       inlinePolicies: {
         EventTriggerStateMachinePolicy: eventRulePolicy,
-      }
-    });
-
+      },
+    })
 
     // Create Event Bridge Event that runs every night at 12 AM UTC
     // Event triggers the NightlyDataCompaction state machine, assumes IAM role with permissions to trigger state machine
@@ -44,12 +41,13 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
       name: `trigger-${props.stateMachineName}`,
       roleArn: eventRuleRole.roleArn,
       scheduleExpression: 'cron(0 0 * * ? *)',
-      targets: [{
-        arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
-        id: props.stateMachineName,
-        roleArn: eventRuleRole.roleArn
-      }]
-     });
-
+      targets: [
+        {
+          arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
+          id: props.stateMachineName,
+          roleArn: eventRuleRole.roleArn,
+        },
+      ],
+    })
   }
 }

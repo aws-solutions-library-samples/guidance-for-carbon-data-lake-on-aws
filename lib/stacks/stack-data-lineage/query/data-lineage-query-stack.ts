@@ -1,13 +1,13 @@
-import { NestedStack, NestedStackProps, Names } from "aws-cdk-lib";
-import { Construct } from "constructs";
+import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
 
-import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
-import { aws_glue as glue } from 'aws-cdk-lib';
-import { aws_athena as athena } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib'
+import { aws_iam as iam } from 'aws-cdk-lib'
+import { aws_glue as glue } from 'aws-cdk-lib'
+import { aws_athena as athena } from 'aws-cdk-lib'
 
 interface DataLineageQueryStackProps extends NestedStackProps {
-  dataLineageBucket: s3.Bucket;
+  dataLineageBucket: s3.Bucket
 }
 
 export class DataLineageQueryStack extends NestedStack {
@@ -18,7 +18,7 @@ export class DataLineageQueryStack extends NestedStack {
       alongside the data lineage stack.
   */
   constructor(scope: Construct, id: string, props: DataLineageQueryStackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
     /* ====== CRAWLER ROLE ====== */
     const crawlerRole = new iam.Role(this, 'DataLineageCrawlerRole', {
@@ -29,28 +29,22 @@ export class DataLineageQueryStack extends NestedStack {
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              actions: [
-                's3:GetObject',
-                's3:PutObject'
-              ],
-              resources: [
-                props.dataLineageBucket.bucketArn,
-                props.dataLineageBucket.arnForObjects('*')
-              ]
-            })
-          ]
-        })
-      }
-    });
+              actions: ['s3:GetObject', 's3:PutObject'],
+              resources: [props.dataLineageBucket.bucketArn, props.dataLineageBucket.arnForObjects('*')],
+            }),
+          ],
+        }),
+      },
+    })
     // add the glue service role
-    crawlerRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole'));
+    crawlerRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole'))
 
     /* ====== GLUE DB ====== */
     // Glue Data Catalogue to store data lineage schema information
     const glueDB = new glue.CfnDatabase(this, 'DataLineageQueryDB', {
       catalogId: this.account,
-      databaseInput: { name: `glue-data-lineage-${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}` }
-    });
+      databaseInput: { name: `glue-data-lineage-${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}` },
+    })
 
     /* ====== GLUE TABLE ====== */
     // Glue table to be updated by the glue crawler
@@ -63,27 +57,27 @@ export class DataLineageQueryStack extends NestedStack {
           columns: [
             {
               name: 'record_id',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'root_id',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'lineage',
-              type: 'array<struct<ttl_expiry:int,root_id:string,action_taken:string,storage_location:string,recordedAt:int,node_id:string,parent_id:string>>'
+              type: 'array<struct<ttl_expiry:int,root_id:string,action_taken:string,storage_location:string,recordedAt:int,node_id:string,parent_id:string>>',
             },
             {
               name: 'partition_0',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'partition_1',
-              type: 'string'
+              type: 'string',
             },
             {
               name: 'partition_2',
-              type: 'string'
+              type: 'string',
             },
           ],
           compressed: false,
@@ -94,15 +88,15 @@ export class DataLineageQueryStack extends NestedStack {
           serdeInfo: {
             name: 'data_lineage',
             parameters: {
-              paths: 'lineage,record_id,root_id'
+              paths: 'lineage,record_id,root_id',
             },
-            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe'
-          }
+            serializationLibrary: 'org.openx.data.jsonserde.JsonSerDe',
+          },
         },
         parameters: {
-          classification: 'json'
-        }
-      }
+          classification: 'json',
+        },
+      },
     })
 
     /* ====== CRAWLER ====== */
@@ -112,18 +106,18 @@ export class DataLineageQueryStack extends NestedStack {
       role: crawlerRole.roleArn,
       databaseName: glueDB.ref,
       targets: {
-        s3Targets: [{ path: props.dataLineageBucket.s3UrlForObject('/') }]
+        s3Targets: [{ path: props.dataLineageBucket.s3UrlForObject('/') }],
       },
-      schedule: { scheduleExpression: 'cron(0 1 * * ? *)' },  // daily schedule at 1AM
-      recrawlPolicy: { recrawlBehavior: 'CRAWL_NEW_FOLDERS_ONLY' }
-    });
+      schedule: { scheduleExpression: 'cron(0 1 * * ? *)' }, // daily schedule at 1AM
+      recrawlPolicy: { recrawlBehavior: 'CRAWL_NEW_FOLDERS_ONLY' },
+    })
 
     /* ====== ATHENA ====== */
     const dlQuery = new athena.CfnNamedQuery(this, 'DataLineageQuery', {
       database: glueDB.ref,
       name: 'UnnestDataLineageRecords',
       description: 'Query the partitioned data lineage bucket and unnest lineage data',
-      queryString:  `
+      queryString: `
         SELECT
           record_id,
           root_id,
@@ -133,7 +127,7 @@ export class DataLineageQueryStack extends NestedStack {
         FROM
           "${glueDB.ref}"."${glueTable.ref}",
           UNNEST(lineage) as t(unnested_lineage)
-      `
-    });
+      `,
+    })
   }
 }

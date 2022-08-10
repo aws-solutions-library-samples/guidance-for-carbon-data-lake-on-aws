@@ -1,55 +1,57 @@
-import { Match, Template } from "aws-cdk-lib/assertions";
-import { App, Stack } from 'aws-cdk-lib';
-import { aws_s3 as s3 } from 'aws-cdk-lib';
-import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { Match, Template } from 'aws-cdk-lib/assertions'
+import { App, Stack } from 'aws-cdk-lib'
+import { aws_s3 as s3 } from 'aws-cdk-lib'
+import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CarbonlakeDataQualityStack } from '../../../lib/stacks/stack-data-pipeline/data-quality/carbonlake-qs-data-quality';
+import { CarbonlakeDataQualityStack } from '../../../lib/stacks/stack-data-pipeline/data-quality/carbonlake-qs-data-quality'
 
-describe("test pipeline stack", () => {
-    let template: Template | null;
-    beforeEach(() => {
-        /* ====== SETUP ====== */
-        const app = new App();
+describe('test pipeline stack', () => {
+  let template: Template | null
+  beforeEach(() => {
+    /* ====== SETUP ====== */
+    const app = new App()
 
-        // DQ stack requires the following props, create a dummy stack
-        // to provide suitable inputs:
-        //   - inputBucket
-        //   - outputBucket
-        //   - errorBucket
-        const dummyInputsStack = new Stack(app, "DummyInputsStack");
-        const dummyBucket = new s3.Bucket(dummyInputsStack, "dummyBucket", {});
+    // DQ stack requires the following props, create a dummy stack
+    // to provide suitable inputs:
+    //   - inputBucket
+    //   - outputBucket
+    //   - errorBucket
+    const dummyInputsStack = new Stack(app, 'DummyInputsStack')
+    const dummyBucket = new s3.Bucket(dummyInputsStack, 'dummyBucket', {})
 
-        // DQ stack is nested, create a parent stack as placeholder
-        const parentStack = new Stack(app, "DQParentStack", {})
-        
-        // create the pipeline stack with the required props
-        const dqStack = new CarbonlakeDataQualityStack(parentStack, "DQStack", {
-            inputBucket: dummyBucket,
-            outputBucket: dummyBucket,
-            errorBucket: dummyBucket
-        });
+    // DQ stack is nested, create a parent stack as placeholder
+    const parentStack = new Stack(app, 'DQParentStack', {})
 
-        // synth a cloudformation template from the stack
-        const template = Template.fromStack(dqStack);
-    });
+    // create the pipeline stack with the required props
+    const dqStack = new CarbonlakeDataQualityStack(parentStack, 'DQStack', {
+      inputBucket: dummyBucket,
+      outputBucket: dummyBucket,
+      errorBucket: dummyBucket,
+    })
 
-    afterEach(() => { template = null });
+    // synth a cloudformation template from the stack
+    const template = Template.fromStack(dqStack)
+  })
 
-    test("synthesises as expected", () => {
-        /* ====== ASSERTIONS ====== */
+  afterEach(() => {
+    template = null
+  })
 
-        // creates the results bucket
-        template?.resourceCountIs("AWS::S3::Bucket", 1);
+  test('synthesises as expected', () => {
+    /* ====== ASSERTIONS ====== */
 
-        // verify lambda creation
-        template?.resourceCountIs("AWS::Lambda::Function", 2);
-        template?.hasResourceProperties("AWS::Lambda::Function", {
-            Handler: "app.lambda_handler",
-            Runtime: lambda.Runtime.PYTHON_3_9.name
-        });
+    // creates the results bucket
+    template?.resourceCountIs('AWS::S3::Bucket', 1)
 
-        // verify iam role & policy creation for all lambdas and dq job
-        template?.resourceCountIs("AWS::IAM::Role", 3);
-        template?.resourceCountIs("AWS::IAM::Policy", 3);
-    });
+    // verify lambda creation
+    template?.resourceCountIs('AWS::Lambda::Function', 2)
+    template?.hasResourceProperties('AWS::Lambda::Function', {
+      Handler: 'app.lambda_handler',
+      Runtime: lambda.Runtime.PYTHON_3_9.name,
+    })
+
+    // verify iam role & policy creation for all lambdas and dq job
+    template?.resourceCountIs('AWS::IAM::Role', 3)
+    template?.resourceCountIs('AWS::IAM::Policy', 3)
+  })
 })
