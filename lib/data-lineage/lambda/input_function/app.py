@@ -1,8 +1,8 @@
 import json
 import os
-import string
 import random
 import time
+from uuid import uuid4
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
@@ -35,9 +35,6 @@ class MultiRecord: # expected JSON payload input for multiple records
     # if global storage location is provided, override any storage locations within the records array
     storage_location: Optional[str] = ""
 
-# alphabet used for generating uids randomly
-ALPHABET = string.ascii_letters + string.digits
-
 """
 INPUT: Event from the central SFN workflow with records to be added to the queue for data lineage ledger
 PROCESS: For each input record, generate a `node_id`, and send the record to the queue
@@ -45,7 +42,7 @@ OUTPUT: Return an array of node_id's for the next
 """
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
-def lambda_handler(event: Dict, context: Dict):
+def lambda_handler(event, context: Dict):
     # setup data handler to manage communications with other AWS services
     data_handler = DataHandler(os.environ["SQS_QUEUE_URL"])
     
@@ -72,7 +69,7 @@ def lambda_handler(event: Dict, context: Dict):
 
     return record
 
-def handle_single_record(event: Dict, record_template: Dict, dh: DataHandler):
+def handle_single_record(event, record_template: Dict, dh: DataHandler):
     event = SingleRecord(**event)
 
     # no global storage location attribute for single records
@@ -83,14 +80,14 @@ def handle_single_record(event: Dict, record_template: Dict, dh: DataHandler):
     # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
     record_template["node_id"] = event.record["node_id"] \
         if "node_id" in event.record \
-        else "".join(random.choices(ALPHABET, k=8)) #nosec
+        else "".join(str(uuid4()).split("-"))[12:]
     
     # send to queue
     dh.sqs.send_message(json.dumps(record_template))
 
     return record_template
 
-def handle_multiple_records(event: Dict, record_template: Dict, dh: DataHandler):
+def handle_multiple_records(event, record_template: Dict, dh: DataHandler):
     event = MultiRecord(**event)
 
     records = []
@@ -107,7 +104,7 @@ def handle_multiple_records(event: Dict, record_template: Dict, dh: DataHandler)
         # https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html?highlight=b311#b311-random
         record["node_id"] = input_record["node_id"] \
             if "node_id" in input_record \
-            else "".join(random.choices(ALPHABET, k=8)) #nosec
+            else "".join(str(uuid4()).split("-"))[12:]
         
         records.append(record)
     

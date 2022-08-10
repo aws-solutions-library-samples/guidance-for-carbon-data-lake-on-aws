@@ -1,6 +1,6 @@
 import boto3
 import json
-from typing import Iterator, List
+from typing import List
 
 from aws_lambda_powertools import Logger
 
@@ -39,7 +39,7 @@ class S3Handler:
         self.s3_client = session.client("s3")
         self.bucket = bucket
     
-    def list_directories(self, prefix="") -> Iterator[str]:
+    def list_directories(self, prefix="") -> List:
         self.logger.info("Fetching list of sub-directories under %s" % (prefix))
         paginator = self.s3_client.get_paginator("list_objects_v2")
         kwargs = { "Bucket": self.bucket, "Prefix": prefix, "Delimiter": "/" }
@@ -47,7 +47,8 @@ class S3Handler:
         for page in paginator.paginate(**kwargs):
             try:
                 full_prefixes = [x.get("Prefix") for x in page.get("CommonPrefixes")]
-                [ files.append(x.split("/")[1]) for x in full_prefixes ]
+                paged_files = [ x.split("/")[1] for x in full_prefixes ]
+                files.extend(paged_files)
             except:
                 break
         return files
