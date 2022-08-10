@@ -9,8 +9,19 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   image: node:latest
+  services: 
+    - docker:dind
   script:
-    - npm i aws-cli
+    - npm update && \
+        npm install \
+        python \
+        python-dev \
+        python-pip \
+        python-setuptools \
+        groff \
+        less \
+        && pip install --upgrade awscli \
+        && apt-get clean
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
     - docker run -d -p 3000:3000
