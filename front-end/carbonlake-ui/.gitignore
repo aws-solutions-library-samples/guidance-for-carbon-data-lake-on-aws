@@ -33,4 +33,5 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+src/text.txt
 src/amplify-config.js
