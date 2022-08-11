@@ -15,7 +15,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "installing node, npm, docker, aws-cli"
     - yum -y install amazon-linux-extras
     - amazon-linux-extras install docker
-    - yum install -y python38
+    - amazon-linux-extras install python3.8
     - yum install -y nodejs npm
     - yum install -y awscli
     - node --version
