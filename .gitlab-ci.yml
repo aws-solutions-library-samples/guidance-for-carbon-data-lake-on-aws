@@ -8,8 +8,8 @@ stages:          # List of stages for jobs, and their order of execution
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  image: node:latest
-  services: 
+  image: public.ecr.aws/amazonlinux/amazonlinux:latest
+  services:
     - docker:dind
   script:
     - npm update
