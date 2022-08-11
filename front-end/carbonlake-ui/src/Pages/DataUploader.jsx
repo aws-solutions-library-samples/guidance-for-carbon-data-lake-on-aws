@@ -115,7 +115,8 @@ const Content = () => {
         {
           name: e.target.files[0].name,
           type: e.target.files[0].type,
-          size: e.target.files[0].size
+          // size: `${Math.ceil(e.target.files[0].size / 1000000)} MB`
+          size: `${(e.target.files[0].size / 1000000).toFixed(2)} MB`
         }
       ])
     setRemove(true)
