@@ -12,10 +12,8 @@ build-job:       # This job runs in the build stage, which runs first.
   services:
     - docker:dind
   script:
-    - npm update
-    - npm i python@latest -g
-    - npm i pip3
-    - pip3 install --upgrade awscli
+    - echo "installing npm"
+    - yum install npm
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
     - docker run -d -p 3000:3000
