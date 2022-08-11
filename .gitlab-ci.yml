@@ -38,7 +38,9 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm run build
     - echo "Build complete."
     - echo "Synthesizing CDK..."
+    - service docker stop
     - service docker status
+    - rc-service docker start
     - cdk synth
     - echo "CDK synth complete."
 
