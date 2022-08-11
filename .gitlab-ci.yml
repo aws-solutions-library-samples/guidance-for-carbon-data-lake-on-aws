@@ -15,9 +15,10 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "installing node and npm"
     - yum -y install curl
     - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-    - sudo yum install -y nodejs
+    - yum install -y nodejs
     - node --version
     - npm --version
+    - python3 --version
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
     - docker run -d -p 3000:3000
