@@ -24,7 +24,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker --version
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
-    - service docker start
     - docker run -d -p 3000:3000
     - echo "Installing typescript as dependency"
     - npm install typescript@latest -g
