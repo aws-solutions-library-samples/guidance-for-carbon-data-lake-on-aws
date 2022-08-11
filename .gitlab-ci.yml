@@ -18,7 +18,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum install -y nodejs
     - yum install -y python3
     - yum install -y awscli
-    - yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    - yum install docker
     - node --version
     - npm --version
     - python3 --version
