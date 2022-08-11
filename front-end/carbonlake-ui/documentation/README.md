@@ -137,3 +137,7 @@ amplify add codegen --apiId abcedfghjk1234567
 
 <!-- TODO - Add Instructions for S3 Upload configuration -->
 <!-- TODO - Add detailed customization instructions (maybe?) -->
+
+Next Steps - Continue Amplify Setup to run beyond localhost
+
+AWS S3 Upload Customization: https://docs.amplify.aws/lib/storage/upload/q/platform/js/

@@ -38,7 +38,8 @@ const TopNavigationHeader = ({signOut, user}) => {
     <TopNavigation
       identity={{
         href: "/",
-        title: `"Powered by AWS CarbonLake"`,
+        // title: `"Powered by AWS CarbonLake"`,
+        title: `CarbonLake Quickstart`,
         logo: {
           src:
           logo,

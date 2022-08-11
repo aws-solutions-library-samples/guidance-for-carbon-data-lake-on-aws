@@ -139,21 +139,29 @@ const Content = () => {
     try{
       setAlertType('success');
       setAlertContent('File was uploaded successfully');
-      const put_csv = await Storage.put("csv/" + files.name, files, {
+      // const put_csv = await Storage.put("csv/" + files.name, files, {
+      //   progressCallback(progress) {
+      //   console.log('Uploading file to S3 Bucket ...');
+      //   console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      // },
+      const put_csv = await Storage.put(files.name, files, {
         progressCallback(progress) {
         console.log('Uploading file to S3 Bucket ...');
         console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
       },
-        level: 'public',
+        // level: 'public',
+        customPrefix: {
+          public: ''
+        },
         contentType: files.type,
-    
-        
+
+
       });
       setVisibleAlert(true)
     } catch (err) {
     console.log('Error uploading file:', err);
     setAlertType('error');
-    setAlertContent('Error uploading file')
+    setAlertContent('Error uploading file: Unauthorized', err)
     setVisibleAlert(true)
   }
   };
@@ -194,7 +202,7 @@ const Content = () => {
       dismissAriaLabel="Close alert"
       header="File Upload Guidance"
     >
-      We currently support single file upload. Multi-file upload is coming in future releases. Please upload one file at a time. 
+      We currently support single file upload. Multi-file upload is coming in future releases. Please upload one file at a time.
     </Alert>
           <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -239,8 +247,8 @@ const Content = () => {
               File
             </Header>
           }
-        > 
-      
+        >
+
       <Table
       columnDefinitions={COLUMN_DEFINITIONS}
       items={data}

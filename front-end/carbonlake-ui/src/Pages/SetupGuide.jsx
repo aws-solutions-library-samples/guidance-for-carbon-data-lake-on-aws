@@ -92,7 +92,7 @@ const Content = () => {
               <div>
                 <ol>
                   <li>
-                      Navigate to the "CarbonLake Uploader" page and browse for your file.
+                      Navigate to the "Data Uploader" page and browse for your file.
                     <br />
                   </li>
                   <li>
