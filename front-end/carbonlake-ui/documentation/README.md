@@ -86,7 +86,7 @@ Pro tip:
 Try "amplify add api" to create a backend API and then "amplify push" to deploy everything
 ```
 10. When deploying the CarbonLake QuickStart CDK, a Cognito user pool **(CarbonLakeQuickStartUserPool)**, Identity pool **(CarbonLakeQuickStartIdentityPool)**, and GraphQL API **(CarbonLakeApi)** will be deployed automatically, so <ins> **do not** </ins>  run the command **amplify add api** or **amplify add auth**. Instead, you will need to import these resources into your Amplify app.
-11. Navigate to <ins>**'src/amplify-config.js'**</ins> and replace the values for **aws_appsync_grapqlEndpoint**, **identityPoolId**, **userPoolId**, and **userPoolWebClientId.** Your configuration should look similar to the following:
+11. Navigate to <ins>**'src/amplify-config.js'**</ins> and replace the values for **aws_appsync_graphqlEndpoint**, **identityPoolId**, **userPoolId**, and **userPoolWebClientId.** Your configuration should look similar to the following:
 ```javascript
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --
 
