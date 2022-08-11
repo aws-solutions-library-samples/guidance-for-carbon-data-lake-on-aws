@@ -18,10 +18,12 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum install -y nodejs
     - yum install -y python3
     - yum install -y awscli
+    - yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     - node --version
     - npm --version
     - python3 --version
     - aws --version
+    - docker --version
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
     - docker run -d -p 3000:3000
