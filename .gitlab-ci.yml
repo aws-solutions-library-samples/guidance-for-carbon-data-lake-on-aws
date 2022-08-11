@@ -13,12 +13,12 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker:dind
   script:
     - echo "installing node, npm, docker, aws-cli"
-    - yum install curl
+    - yum install -y curl
     - curl -fsSL https://get.docker.com -o get-docker.sh
     - sh get-docker.sh
     - yum install -y python38
-    - yum install nodejs npm
-    - yum install awscli
+    - yum install -y nodejs npm
+    - yum install -y awscli
     - node --version
     - npm --version
     - python3 --version
