@@ -14,7 +14,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "installing node, npm, docker, aws-cli"
     - apk add --update docker openrc
-    - apk add --update python3.8 py3-pip
+    - apk add --update python3 py3-pip
     - apk add --no-cache aws-cli
     - apk add --update nodejs npm
     - node --version
