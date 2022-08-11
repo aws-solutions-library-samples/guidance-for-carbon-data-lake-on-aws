@@ -23,7 +23,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - python3 --version
     - aws --version
     - docker --version
-    - apk add rc-update
     - rc-update add docker
     - rc-service docker start
     - rc-service docker status
