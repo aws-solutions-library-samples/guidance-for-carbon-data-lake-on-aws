@@ -14,7 +14,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "installing node and npm"
     - yum -y install curl
-    - curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
+    - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
     - sudo yum install -y nodejs
     - node --version
     - npm --version
