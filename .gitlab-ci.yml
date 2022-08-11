@@ -13,7 +13,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker:dind
   script:
     - echo "installing node, npm, docker, aws-cli"
-    - yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    - yum install docker-ce docker-ce-cli
     - yum install -y python38
     - sudo yum install nodejs npm
     - node --version
