@@ -14,8 +14,6 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "installing node, npm, docker, aws-cli"
     - apk add docker
-    - service docker start
-    - service docker status
     - apk add --update python3 py3-pip
     - apk add --no-cache aws-cli
     - apk add --update nodejs npm
@@ -25,6 +23,8 @@ build-job:       # This job runs in the build stage, which runs first.
     - aws --version
     - docker --version
     - rc-update add docker boot
+    - service docker start
+    - service docker status
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
