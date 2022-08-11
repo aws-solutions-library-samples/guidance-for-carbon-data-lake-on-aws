@@ -13,6 +13,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker:dind
   script:
     - echo "installing node, npm, docker, aws-cli"
+    - apk add openrc
     - apk add docker
     - apk add --update python3 py3-pip
     - apk add --no-cache aws-cli
@@ -22,9 +23,10 @@ build-job:       # This job runs in the build stage, which runs first.
     - python3 --version
     - aws --version
     - docker --version
-    - rc-update add docker boot
-    - service docker start
-    - service docker status
+    - apk add rc-update
+    - rc-update add docker
+    - rc-service docker start
+    - rc-service docker status
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
