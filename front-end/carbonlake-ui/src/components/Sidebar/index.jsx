@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import { SideNavigation } from '@awsui/components-react';
+// import { SideNavigation } from '@awsui/components-react';
+import { SideNavigation } from '@cloudscape-design/components';
 const Sidebar = () => {
   const [activeHref, setActiveHref] = useState('/');
   return (

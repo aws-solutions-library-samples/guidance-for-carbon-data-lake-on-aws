@@ -22,7 +22,8 @@ import {
   Box,
   TextContent,
   SpaceBetween
-} from '@awsui/components-react';
+// } from '@awsui/components-react';
+} from '@cloudscape-design/components';
 
 import '../styles/intro.scss';
 import '../styles/servicehomepage.scss';

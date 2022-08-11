@@ -11,12 +11,12 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.18.0",
-    "@awsui/collection-hooks": "^1.0.25",
-    "@awsui/components-react": "^3.0.490",
-    "@awsui/design-tokens": "^3.0.21",
-    "@awsui/global-styles": "^1.0.14",
-    "@awsui/test-utils-core": "^1.0.17",
+    "@cloudscape-design/collection-hooks": "^1.0.3",
+    "@cloudscape-design/components": "^3.0.19",
+    "@cloudscape-design/design-tokens": "^3.0.1",
+    "@cloudscape-design/global-styles": "^1.0.1",
+    "@cloudscape-design/test-utils-core": "^1.0.1",
+    "@cloudscape-design/theming-runtime": "^1.0.1",
     "aws-amplify": "^4.3.26",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -96,9 +96,9 @@ const Content = () => {
                     <br />
                   </li>
                   <li>
-                    This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
-                    The file will be validated to ensure it conforms to our schema, and if successful will continue down the pipeline.
-                    Once finished, the file will be visible in the "Visualizations" (make this a link later) page.
+                    This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
+                    The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
+                    Once finished, the file contents will be be visible in the "Emissions Records" page.
                     Currently, you are viewing this page on your localhost as <a>localhost:3000/#/</a> because it is
                     routed as the 'default' page. All of the included templates are already routed and included in the
                     side navigation you see in the left panel of this page. The urls are defined in{' '}

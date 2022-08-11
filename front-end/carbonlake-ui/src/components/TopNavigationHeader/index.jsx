@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { TopNavigation } from '@awsui/components-react';
+// import { TopNavigation } from '@awsui/components-react';
+import { TopNavigation } from '@cloudscape-design/components';
 
 // Company logo. Upload your own logo and point to it to change this in the TopNavigation.
 import logo from '../../../public/images/AWS_logo_RGB_REV.png'

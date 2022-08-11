@@ -39,9 +39,9 @@ import {
   RadioGroup,
   HelpPanel,
   Icon
-} from '@awsui/components-react';
+} from '@cloudscape-design/components';
 
-import { useCollection } from '@awsui/collection-hooks';
+import { useCollection } from '@cloudscape-design/collection-hooks';
 
 // Component TableView is a skeleton of a Table using AWS-UI React components.
 export default () => {

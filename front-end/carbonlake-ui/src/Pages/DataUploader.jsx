@@ -24,7 +24,7 @@ import {
   Button,
   Table,
   Alert
-} from '@awsui/components-react';
+} from '@cloudscape-design/components';
 
 import '../styles/intro.scss';
 import '../styles/servicehomepage.scss';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, StatusIndicator } from '@awsui/components-react';
+import { Link, StatusIndicator } from '@cloudscape-design/components';
 
 // ** Labels for the columns in the table **
 // id - used for showing/hiding columns. Should match sortingField
