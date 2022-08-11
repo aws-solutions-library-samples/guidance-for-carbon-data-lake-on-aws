@@ -12,8 +12,10 @@ build-job:       # This job runs in the build stage, which runs first.
   services:
     - docker:dind
   script:
-    - echo "installing npm"
-    - yum install nodejs
+    - echo "installing node and npm"
+    - yum -y install curl
+    - curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
+    - sudo yum install -y nodejs
     - node --version
     - npm --version
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
