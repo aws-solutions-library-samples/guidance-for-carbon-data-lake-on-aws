@@ -23,7 +23,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - aws --version
     - docker --version
     - rc-update add docker boot
-    - touch /run/openrc/softlevel
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
