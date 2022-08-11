@@ -14,7 +14,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "installing node, npm, docker, aws-cli"
     - apt-get -y upgrade
-    - apt install python3
+    - apt-get install python3
     - python3 --version
     - pip3 --version
     - apt install awscli -y
