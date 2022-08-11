@@ -16,9 +16,11 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum -y install curl
     - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
     - yum install -y nodejs
+    - yum install -y python3
+    - yum install -y awscli
     - node --version
     - npm --version
-    - python --version
+    - python3 --version
     - aws --version
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
