@@ -1,0 +1,15 @@
+projects:
+  CarbonLakeQuickStartApi:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-east-1
+        apiId: 57od2r4rincmvj6jmfxfv5iopa
+        maxDepth: 2

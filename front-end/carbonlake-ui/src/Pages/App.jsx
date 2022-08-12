@@ -20,7 +20,7 @@ import AccountSettings from './AccountSettings.jsx';
 import TableView from './EmissionRecords.jsx';
 // import EmptyTableView from './TableWithEmptyState.jsx';
 
-import '@awsui/global-styles/index.css';
+import '@cloudscape-design/global-styles/index.css';
 
 // Amplify
 import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';

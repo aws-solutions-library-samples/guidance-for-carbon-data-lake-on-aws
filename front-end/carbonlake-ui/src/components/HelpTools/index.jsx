@@ -10,13 +10,15 @@ import {
   Box,
   TextContent,
   SpaceBetween
-} from '@awsui/components-react';
+// } from '@awsui/components-react';
+} from '@cloudscape-design/components';
 
 const HelpTools = () => {
   return (
     <>
     <HelpPanel header={<h2>Help panel</h2>}>
-      <p>For issues with the app, please submit a <Link to={{ pathname: "/submit-issue"}}  target="_blank">GitHub issue</Link>. </p>
+      <p>For issues with the app, please submit a <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/issues/new">GitHub issue</a>. </p>
+
     </HelpPanel>
     </>
   )
