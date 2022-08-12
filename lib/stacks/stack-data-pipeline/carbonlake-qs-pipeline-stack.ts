@@ -35,11 +35,26 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
 
     // Landing bucket where files are dropped by customers
     // Once processed, the files are removed by the pipeline
-    this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-    })
+      this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        removalPolicy: RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        cors: [
+                {
+                allowedMethods: [
+                    s3.HttpMethods.GET,
+                    s3.HttpMethods.POST,
+                    s3.HttpMethods.PUT,
+                    s3.HttpMethods.DELETE,
+                    s3.HttpMethods.HEAD
+                ],
+                exposedHeaders: ['x-amz-server-side-encryption', 'x-amz-request-id', 'x-amz-id-2', 'ETag'],
+                maxAge: 3000,
+                allowedOrigins: ['*'],
+                allowedHeaders: ['*'],
+                },
+            ],
+      });
 
     /* ======== DATA QUALITY ======== */
     const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
