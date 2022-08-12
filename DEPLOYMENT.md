@@ -104,11 +104,11 @@ Time to get started using CarbonLake Quickstart! Follow the steps below to see i
 
 ### 1/ Make sure all the Infrastructure Deployed Properly
 
-In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. Continue!
+In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CarbonLakeQuickstart` to see that they deployed successfully.
 
-### 2/ Drop some sythetic test data into the CarbonLake Landing Zone S3 Bucket
+### 2/ Drop some synthetic test data into the CarbonLake Landing Zone S3 Bucket
 
-Time to test some data out and see if everything is working...
+Time to test some data out and see if everything is working. This section assumes basic prerequisite knowledge of how to manually upload an object to S3 with the AWS console. For more on this please review [how to upload an object to S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
 
 - Go to the S3 console and locate your CarbonLake landing zone bucket it will be called `carbonlakepipelinestack-carbonlakelandingbucket` with a unique identifier appended to it
 - Upload [CarboLakeQS Synthetic Input Data](sample-data/carbon-lake-synthetic-input-data.csv) to the S3 bucket manually
