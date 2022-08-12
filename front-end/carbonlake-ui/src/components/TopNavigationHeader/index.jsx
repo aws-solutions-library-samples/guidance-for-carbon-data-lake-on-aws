@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import { TopNavigation } from '@awsui/components-react';
 import { TopNavigation } from '@cloudscape-design/components';
 
 // Company logo. Upload your own logo and point to it to change this in the TopNavigation.
@@ -15,8 +14,6 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-// import awsExports from '../../aws-exports';
-// Amplify.configure(awsExports);
 import {existingAPI, existingAuth} from '../../amplify-config';
 Amplify.configure(existingAuth)
 Amplify.configure(existingAPI)
@@ -39,7 +36,7 @@ const TopNavigationHeader = ({signOut, user}) => {
     <TopNavigation
       identity={{
         href: "/",
-        // title: `"Powered by AWS CarbonLake"`,
+        // Your Company Name
         title: `CarbonLake Quickstart`,
         logo: {
           src:
@@ -96,7 +93,7 @@ const TopNavigationHeader = ({signOut, user}) => {
                   id: "documentation",
                   text: "Documentation",
                   //TODO - Replace this with link to our GitHub docs
-                  href: "https://github.com",
+                  href: "https://github.com/aws-quickstart/quickstart-aws-carbonlake",
                   external: true,
                   externalIconAriaLabel:
                   " (opens in new tab)"
@@ -106,7 +103,7 @@ const TopNavigationHeader = ({signOut, user}) => {
                   id: "feedback",
                   text: "Feedback",
                   //TODO - Replace this with link to our GitHub feedback mechanism
-                  href: "https://github.com",
+                  href: "https://github.com/aws-quickstart/quickstart-aws-carbonlake",
                   external: true,
                   externalIconAriaLabel:
                   " (opens in new tab)"

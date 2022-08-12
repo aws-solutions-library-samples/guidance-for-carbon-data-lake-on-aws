@@ -53,8 +53,8 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
     public readonly adminUser: CfnUserPoolUser;
 
     // IAM
-    public readonly CarbonLakeQuickStartAdminUserRole: Role;
-    public readonly CarbonLakeQuickStartStandardUserRole: Role;
+    public readonly clqsAdminUserRole: Role;
+    public readonly clqsStandardUserRole: Role;
 
     constructor(scope: Construct, id: string, props: CarbonLakeQuickStartApiStackProps) {
         super(scope, id, props);
@@ -62,8 +62,8 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         const defaultAdminEmail =  this.node.tryGetContext('adminEmail')
 
     // -- COGNITO USER POOL --
-        const userPool = new UserPool(this, 'CarbonLakeQuickStartUserPool', {
-            userPoolName: 'CarbonLakeQuickStartUserPool',
+        const userPool = new UserPool(this, 'clqsUserPool', {
+            userPoolName: 'clqsUserPool',
             signInAliases: {
                 email: true,
                 username: false,
@@ -74,7 +74,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             accountRecovery: AccountRecovery.EMAIL_ONLY, // Restricts account recovery only to email method
             // Invite Message
             userInvitation: {
-              emailSubject: `You've been CHOSEN.`,
+              emailSubject: `Welcome to AWS CarbonLake!`,
               emailBody: 'Hello {username}, you have been invited to join the AWS CarbonLake app! Your temporary password is {####}',
               smsMessage: 'Hello {username}, your temporary password for the AWS CarbonLake app is {####}',
             },
@@ -108,15 +108,15 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         });
 
       // -- COGNITO USER POOL (APP) CLIENT
-        const userPoolClient = new UserPoolClient(this, 'CarbonLakeQuickStartUserPoolClient', {
+        const userPoolClient = new UserPoolClient(this, 'clqsUserPoolClient', {
             userPool: userPool,
-            userPoolClientName: 'CarbonLakeQuickStartUserPoolClient',
+            userPoolClientName: 'clqsUserPoolClient',
             generateSecret: false // Don't need to generate secret for web app running on browsers
         });
 
     // // -- COGNITO IDENTITY POOL
-    //     const identityPool = new IdentityPool(this, 'CarbonLakeQuickStartIdentityPool', {
-    //         identityPoolName: 'CarbonLakeQuickStartIdentityPool',
+    //     const identityPool = new IdentityPool(this, 'clqsIdentityPool', {
+    //         identityPoolName: 'clqsIdentityPool',
     //         // allowUnauthenticatedIdentities: true,
     //         allowUnauthenticatedIdentities: false,
     //         cognitoIdentityProviders: [
@@ -127,8 +127,8 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
     //         ],
     //     });
         // -- COGNITO IDENTITY POOL
-        const CarbonLakeQuickStartIdentityPool = new CfnIdentityPool(this, 'CarbonLakeQuickStartIdentityPool', {
-            identityPoolName: 'CarbonLakeQuickStartIdentityPool',
+        const clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
+            identityPoolName: 'clqsIdentityPool',
             allowUnauthenticatedIdentities: false,
             cognitoIdentityProviders: [
               {
@@ -144,13 +144,13 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
 
     // --- IAM ---
     //  -- AuthRole --
-    // Create CarbonLakeQuickStartAuthRole IAM Role using the custom managed policy
-    const CarbonLakeQuickStartAuthRole = new Role(this, 'CarbonLakeQuickStartAuthRole', {
+    // Create clqsAuthRole IAM Role using the custom managed policy
+    const clqsAuthRole = new Role(this, 'clqsAuthRole', {
         assumedBy: new FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
-              'cognito-identity.amazonaws.com:aud': CarbonLakeQuickStartIdentityPool.ref,
+              'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
             },
             'ForAnyValue:StringLike': {
               'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -162,17 +162,17 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         managedPolicies: [
           ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
         ],
-        description: 'CarbonLakeQuickStartAuthRole granting read-only access to S3',
+        description: 'clqsAuthRole granting read-only access to S3',
       });
 
-    //  -- CarbonLakeQuickStartUnAuthRole --
-    // Create CarbonLakeQuickStartUnAuthRole IAM Role using the custom managed policy
-    const CarbonLakeQuickStartUnAuthRole = new Role(this, 'CarbonLakeQuickStartUnAuthRole', {
+    //  -- clqsUnAuthRole --
+    // Create clqsUnAuthRole IAM Role using the custom managed policy
+    const clqsUnAuthRole = new Role(this, 'clqsUnAuthRole', {
         assumedBy: new FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
-              'cognito-identity.amazonaws.com:aud': CarbonLakeQuickStartIdentityPool.ref,
+              'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
             },
             'ForAnyValue:StringLike': {
               'cognito-identity.amazonaws.com:amr': 'unauthenticated',
@@ -184,17 +184,17 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         managedPolicies: [
           ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
         ],
-        description: 'CarbonLakeQuickStartUnAuthRole granting access to S3',
+        description: 'clqsUnAuthRole granting access to S3',
       });
 
-    // -- CarbonLakeQuickStartAdminUserRole --
-    // Create CarbonLakeQuickStartAdminUserRole IAM Role using the custom managed policy
-    const CarbonLakeQuickStartAdminUserRole = new Role(this, 'CarbonLakeQuickStartAdminUserRole', {
+    // -- clqsAdminUserRole --
+    // Create clqsAdminUserRole IAM Role using the custom managed policy
+    const clqsAdminUserRole = new Role(this, 'clqsAdminUserRole', {
         assumedBy: new FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
-              'cognito-identity.amazonaws.com:aud': CarbonLakeQuickStartIdentityPool.ref,
+              'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
             },
             'ForAnyValue:StringLike': {
               'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -205,11 +205,11 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         // managedPolicies: [
         //  iam.ManagedPolicy.fromManagedPolicyName(scAdminS3PolicyDocument)
         // ],
-        description: 'CarbonLakeQuickStartAdminUserRole granting access to S3',
+        description: 'clqsAdminUserRole granting access to S3',
       });
 
-      const CarbonLakeQuickStartAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'CarbonLakeQuickStartAdminUserRoleManagedPolicy', {
-        description: 'All permissions for CarbonLakeQuickStartAdminUserRole',
+      const clqsAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsAdminUserRoleManagedPolicy', {
+        description: 'All permissions for clqsAdminUserRole',
         statements: [
           new PolicyStatement({
             effect: Effect.ALLOW,
@@ -217,17 +217,17 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             resources: ['*'],
           }),
         ],
-        roles: [CarbonLakeQuickStartAdminUserRole],
+        roles: [clqsAdminUserRole],
       });
 
-        //   // -- CarbonLakeQuickStartStandardUserRole --
-  //   // Create CarbonLakeQuickStartStandardUserRole IAM Role using the custom managed policy
-    const CarbonLakeQuickStartStandardUserRole = new Role(this, 'CarbonLakeQuickStartStandardUserRole', {
+        //   // -- clqsStandardUserRole --
+  //   // Create clqsStandardUserRole IAM Role using the custom managed policy
+    const clqsStandardUserRole = new Role(this, 'clqsStandardUserRole', {
         assumedBy: new FederatedPrincipal(
           'cognito-identity.amazonaws.com',
           {
             StringEquals: {
-              'cognito-identity.amazonaws.com:aud': CarbonLakeQuickStartIdentityPool.ref,
+              'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
             },
             'ForAnyValue:StringLike': {
               'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -238,10 +238,10 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         // managedPolicies: [
         //  iam.ManagedPolicy.fromManagedPolicyName(scAdminS3PolicyDocument)
         // ],
-        description: 'CarbonLakeQuickStartStandardUserRole granting access to S3',
+        description: 'clqsStandardUserRole granting access to S3',
       });
-      const clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'CarbonLakeQuickStartStandardUserRoleManagedPolicy', {
-        description: 'All permissions for CarbonLakeQuickStartStandardUserRole',
+      const clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsStandardUserRoleManagedPolicy', {
+        description: 'All permissions for clqsStandardUserRole',
         statements: [
           new PolicyStatement({
             effect: Effect.ALLOW,
@@ -249,22 +249,22 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
             resources: ['*'],
           }),
         ],
-        roles: [CarbonLakeQuickStartStandardUserRole],
+        roles: [clqsStandardUserRole],
       });
 
 
        // -- IDENTITY POOL ROLE ATTACHMENT --
 
-    const CarbonLakeQuickStartRegion = cdk.Stack.of(this).region; // Reference current AWS Region
+    const clqsRegion = cdk.Stack.of(this).region; // Reference current AWS Region
     const identityProviderUrl =
-    `cognito-idp.${CarbonLakeQuickStartRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`;
+    `cognito-idp.${clqsRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`;
 
     new CfnIdentityPoolRoleAttachment(this,'identity-pool-role-attachment',
       {
-        identityPoolId: CarbonLakeQuickStartIdentityPool.ref,
+        identityPoolId: clqsIdentityPool.ref,
         roles: {
-          authenticated: CarbonLakeQuickStartAuthRole.roleArn,
-          unauthenticated: CarbonLakeQuickStartUnAuthRole.roleArn,
+          authenticated: clqsAuthRole.roleArn,
+          unauthenticated: clqsUnAuthRole.roleArn,
         },
         roleMappings: {
           roleMappingsKey: {
@@ -276,13 +276,13 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
                 {
                 claim: 'cognito:groups',
                 matchType: RoleMappingMatchType.CONTAINS,
-                roleArn: CarbonLakeQuickStartAdminUserRole.roleArn,
+                roleArn: clqsAdminUserRole.roleArn,
                 value: 'Admin',
               },
                 {
                 claim: 'cognito:groups',
                 matchType: RoleMappingMatchType.CONTAINS,
-                roleArn: CarbonLakeQuickStartStandardUserRole.roleArn,
+                roleArn: clqsStandardUserRole.roleArn,
                 value: 'Standard-Users',
               },
             ],
@@ -295,26 +295,26 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
 
 
     // -- COGNITO USER POOL GROUPS
-    const CarbonLakeQuickStartAdminUserPoolGroup = new CfnUserPoolGroup(this, "CarbonLakeQuickStartAdmin", {
+    const clqsAdminUserPoolGroup = new CfnUserPoolGroup(this, "clqsAdmin", {
         userPoolId: userPool.userPoolId,
         description:'Admin user group',
         groupName: 'Admin',
         precedence: 1,
-        roleArn: CarbonLakeQuickStartAdminUserRole.roleArn
+        roleArn: clqsAdminUserRole.roleArn
 
         })
-        CarbonLakeQuickStartAdminUserPoolGroup.node.addDependency(CarbonLakeQuickStartAdminUserRole)
-        const CarbonLakeQuickStartStandardUserPoolGroup = new CfnUserPoolGroup(this, "CarbonLakeQuickStartStandard", {
+        clqsAdminUserPoolGroup.node.addDependency(clqsAdminUserRole)
+        const clqsStandardUserPoolGroup = new CfnUserPoolGroup(this, "clqsStandard", {
         userPoolId: userPool.userPoolId,
         groupName: 'Standard-Users',
         description:'Standard user group',
         precedence: 2,
-        roleArn: CarbonLakeQuickStartStandardUserRole.roleArn,
+        roleArn: clqsStandardUserRole.roleArn,
         })
 
 
         // Create an initial admin user with the email address provided in the CDK context
-        const adminUser = new CfnUserPoolUser(this, 'CarbonLakeQuickStartDefaultAdminUser', {
+        const adminUser = new CfnUserPoolUser(this, 'clqsDefaultAdminUser', {
             userPoolId: userPool.userPoolId,
             desiredDeliveryMediums: ['EMAIL'],
             userAttributes: [
@@ -342,13 +342,13 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
 
         // Prevent creation of UserGroupAttachment until User is created
         cfnUserPoolUserToGroupAttachment.node.addDependency(adminUser)
-        cfnUserPoolUserToGroupAttachment.node.addDependency(CarbonLakeQuickStartAdminUserPoolGroup)
+        cfnUserPoolUserToGroupAttachment.node.addDependency(clqsAdminUserPoolGroup)
 
 
 
         // Create the GraphQL api and provide the schema.graphql file
-        const api = new GraphqlApi(this, 'CarbonLakeQuickStartApi', {
-            name: 'CarbonLakeQuickStartApi',
+        const api = new GraphqlApi(this, 'clqsApi', {
+            name: 'clqsApi',
             schema: Schema.fromAsset(path.join(__dirname, 'schema.graphql')),
             authorizationConfig: {
                 defaultAuthorization: {
@@ -414,8 +414,8 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
         // Cognito
         this.userPool = userPool;
         new CfnOutput(this, 'userPoolId', {value: userPool.userPoolId});
-        // this.identityPool = CarbonLakeQuickStartIdentityPool;
-        new CfnOutput(this, 'identityPoolId', {value: CarbonLakeQuickStartIdentityPool.ref});
+        // this.identityPool = clqsIdentityPool;
+        new CfnOutput(this, 'identityPoolId', {value: clqsIdentityPool.ref});
         this.userPoolClient = userPoolClient;
         new CfnOutput(this, 'userPoolClientId', {value: userPoolClient.userPoolClientId});
         this.adminUser = adminUser;
@@ -424,10 +424,10 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
 
 
         // IAM
-        this.CarbonLakeQuickStartAdminUserRole = CarbonLakeQuickStartAdminUserRole;
-        new CfnOutput (this, 'CarbonLakeQuickStartAdminUserRoleOutput', {value: CarbonLakeQuickStartAdminUserRole.roleArn});
+        this.clqsAdminUserRole = clqsAdminUserRole;
+        new CfnOutput (this, 'clqsAdminUserRoleOutput', {value: clqsAdminUserRole.roleArn});
 
-        this.CarbonLakeQuickStartStandardUserRole= CarbonLakeQuickStartStandardUserRole;
-        new CfnOutput (this, 'CarbonLakeQuickStartStandardUserRoleOutput', {value: CarbonLakeQuickStartStandardUserRole.roleArn});
+        this.clqsStandardUserRole= clqsStandardUserRole;
+        new CfnOutput (this, 'clqsStandardUserRoleOutput', {value: clqsStandardUserRole.roleArn});
     }
 }

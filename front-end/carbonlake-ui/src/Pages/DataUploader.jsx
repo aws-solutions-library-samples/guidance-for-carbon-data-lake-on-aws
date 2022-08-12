@@ -116,6 +116,7 @@ const Content = () => {
           name: e.target.files[0].name,
           type: e.target.files[0].type,
           // size: `${Math.ceil(e.target.files[0].size / 1000000)} MB`
+          // Convert bytes to MB and round to nearest hundredth (2 decimal places)
           size: `${(e.target.files[0].size / 1000000).toFixed(2)} MB`
         }
       ])
