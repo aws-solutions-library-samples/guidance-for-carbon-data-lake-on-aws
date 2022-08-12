@@ -3,7 +3,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
+export class CLQSSharedResourcesStack extends Stack {
     public readonly carbonlakeLandingBucket: s3.Bucket;
     public readonly carbonlakeRawBucket: s3.Bucket;
     public readonly carbonlakeErrorBucket: s3.Bucket;

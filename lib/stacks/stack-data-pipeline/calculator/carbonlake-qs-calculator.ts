@@ -9,16 +9,16 @@ import { Construct } from 'constructs'
 
 const DDB_BATCH_WRITE_ITEM_CHUNK_SIZE = 25
 
-export interface CarbonlakeQuickstartCalculatorStackProps extends NestedStackProps {
+export interface CLQSCalculatorStackProps extends NestedStackProps {
   transformedBucket: s3.Bucket
   enrichedBucket: s3.Bucket
 }
 
-export class CarbonlakeQuickstartCalculatorStack extends NestedStack {
+export class CLQSCalculatorStack extends NestedStack {
   public readonly calculatorOutputTable: dynamodb.Table
   public readonly calculatorLambda: lambda.Function
 
-  constructor(scope: Construct, id: string, props: CarbonlakeQuickstartCalculatorStackProps) {
+  constructor(scope: Construct, id: string, props: CLQSCalculatorStackProps) {
     super(scope, id, props)
 
     const emissionsFactorReferenceTable = new dynamodb.Table(this, 'carbonLakeEmissionsFactorReferenceTable', {

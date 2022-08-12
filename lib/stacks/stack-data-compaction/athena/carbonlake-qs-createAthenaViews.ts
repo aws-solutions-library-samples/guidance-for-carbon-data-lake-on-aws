@@ -6,15 +6,15 @@ import { aws_iam as iam } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-export interface CarbonlakeQuickstartCreateAthenaViewsStackProps extends NestedStackProps {
+export interface CLQSCreateAthenaViewsStackProps extends NestedStackProps {
   enrichedDataDatabase: glue.CfnDatabase
 }
 
-export class CarbonlakeQuickstartCreateAthenaViewsStack extends NestedStack {
+export class CLQSCreateAthenaViewsStack extends NestedStack {
   public readonly createIndividualAthenaViewsLambda: lambda.Function
   public readonly createCombinedAthenaViewsLambda: lambda.Function
 
-  constructor(scope: Construct, id: string, props: CarbonlakeQuickstartCreateAthenaViewsStackProps) {
+  constructor(scope: Construct, id: string, props: CLQSCreateAthenaViewsStackProps) {
     super(scope, id, props)
 
     const athenaQueryResultsBucket = new s3.Bucket(this, 'athenaQueryResultsBucket', {

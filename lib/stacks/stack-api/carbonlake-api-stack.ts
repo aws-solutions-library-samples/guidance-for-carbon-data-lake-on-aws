@@ -33,12 +33,12 @@ import {
   } from '@aws-cdk/aws-cognito-identitypool-alpha';
 
 
-export interface CarbonLakeQuickStartApiStackProps extends cdk.StackProps {
+export interface CLQSApiStackProps extends cdk.StackProps {
     calculatorOutputTableRef: cdk.aws_dynamodb.Table;
     adminEmail?: string;
 }
 
-export class CarbonLakeQuickStartApiStack extends cdk.Stack {
+export class CLQSApiStack extends cdk.Stack {
     // API
     public readonly graphqlUrl: string;
     public readonly apiId: string;
@@ -56,7 +56,7 @@ export class CarbonLakeQuickStartApiStack extends cdk.Stack {
     public readonly clqsAdminUserRole: Role;
     public readonly clqsStandardUserRole: Role;
 
-    constructor(scope: Construct, id: string, props: CarbonLakeQuickStartApiStackProps) {
+    constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
         super(scope, id, props);
 
         const defaultAdminEmail =  this.node.tryGetContext('adminEmail')

@@ -104,7 +104,7 @@ Time to get started using CarbonLake Quickstart! Follow the steps below to see i
 
 ### 1/ Make sure all the Infrastructure Deployed Properly
 
-In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CarbonLakeQuickstart` to see that they deployed successfully.
+In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully.
 
 ### 2/ Drop some synthetic test data into the CarbonLake Landing Zone S3 Bucket
 
@@ -175,7 +175,7 @@ If you have not yet this is a great time to deploy the sample web application. O
 * `npm run test`                           perform the jest unit tests\
 * `cdk diff`                               compare deployed stack with current state
 * `cdk synth`                              emits the synthesized CloudFormation template
-* `cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"`     deploy this stack to your default AWS account/region w/o the CDK pipeline
+* `cdk deploy "CLQSCiCdStack/Deploy/*"`     deploy this stack to your default AWS account/region w/o the CDK pipeline
 * `cdk deploy --all`                       deploy this application CI/CD stack and then link your repo for automated pipeline
 
 ### Data Model

@@ -56,7 +56,7 @@ It is important to note that **4 IAM roles** are created by CDK. These roles in 
 - Standard-Users
 
 When users are added to the above groups, they have the respective permissions granted through the IAM roles (**clqsAdminUserRole** or **clqsStandardUserRole**). The standard permissions are all S3 actions for all resources. For the clqsAuthRole and clqsUnAuthRole, the permissions are S3 read-only. To modify these permissions, edit the customer managed policies in **/lib/api/carbonlake-api-stack.ts**"
-***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CarbonLakeQuickstart**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CarbonlakeQuickstart** in the resource name.
+***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CLQS**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CLQS** in the resource name.
 EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 1. Ensure that the CDK for the quickstart has been deployed (for testing, at a bare minimum, the **shared-resources** and **api** stacks must be deployed)
 2. Navigate to <ins>**'/front-end/carbonlake-ui/'** and run the command **npm install** to install necessary dependencies.
@@ -105,7 +105,7 @@ Some next steps:
 Pro tip:
 Try "amplify add api" to create a backend API and then "amplify push" to deploy everything
 ```
-10. When deploying the CarbonLake QuickStart CDK, a Cognito user pool **(CarbonLakeQuickStartUserPool)**, Identity pool **(CarbonLakeQuickStartIdentityPool)**, and GraphQL API **(CarbonLakeApi)** will be deployed automatically, so <ins> **do not** </ins>  run the command **amplify add api** or **amplify add auth**. Instead, you will need to import these resources into your Amplify app.
+10. When deploying the CarbonLake QuickStart CDK, a Cognito user pool **(CLQSUserPool)**, Identity pool **(CLQSIdentityPool)**, and GraphQL API **(CarbonLakeApi)** will be deployed automatically, so <ins> **do not** </ins>  run the command **amplify add api** or **amplify add auth**. Instead, you will need to import these resources into your Amplify app.
 11. Navigate to <ins>**'src/amplify-config.js'**</ins> and replace the values for **aws_appsync_graphqlEndpoint**, **identityPoolId**, **userPoolId**, and **userPoolWebClientId.** Your configuration should look similar to the following:
 ```javascript
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --

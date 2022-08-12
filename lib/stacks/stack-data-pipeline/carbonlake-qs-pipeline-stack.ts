@@ -10,8 +10,8 @@ import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-import { CarbonlakeQuickstartCalculatorStack } from './calculator/carbonlake-qs-calculator'
-import { CarbonlakeQuickstartStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack'
+import { CLQSCalculatorStack } from './calculator/carbonlake-qs-calculator'
+import { CLQSStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack'
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job'
 import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality'
 
@@ -24,7 +24,7 @@ interface PipelineProps extends StackProps {
   notificationEmailAddress: string
 }
 
-export class CarbonlakeQuickstartPipelineStack extends Stack {
+export class CLQSPipelineStack extends Stack {
   public readonly carbonlakeLandingBucket: s3.Bucket 
   public readonly calculatorOutputTable: ddb.Table
   public readonly calculatorFunction: lambda.Function
@@ -71,7 +71,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
     const { glueTransformJobName } = new CarbonLakeGlueTransformationStack(
       this,
-      'carbonlakeQuickstartGlueTransformationStack',
+      'CLQSGlueTransformationStack',
       {
         rawBucket: props?.rawBucket,
         transformedBucket: props?.transformedBucket,
@@ -103,7 +103,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
 
     /* ======== CALCULATION ======== */
 
-    const { calculatorLambda, calculatorOutputTable } = new CarbonlakeQuickstartCalculatorStack(
+    const { calculatorLambda, calculatorOutputTable } = new CLQSCalculatorStack(
       this,
       'CarbonlakeCalculatorStack',
       {
@@ -121,7 +121,7 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
     //  - dq quality workflow
     //  - glue transformation job
     //  - calculation function
-    const { statemachine } = new CarbonlakeQuickstartStatemachineStack(this, 'carbonlakeQuickstartStatemachineStack', {
+    const { statemachine } = new CLQSStatemachineStack(this, 'CLQSStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dqResourcesLambda: resourcesLambda,
       dqResultsLambda: resultsLambda,
