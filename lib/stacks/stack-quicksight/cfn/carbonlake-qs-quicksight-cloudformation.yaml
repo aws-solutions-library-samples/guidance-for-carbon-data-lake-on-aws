@@ -1,0 +1,288 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Deploys a BI stack including Athena connection and dataset and sample dashboard'
+
+Parameters:
+  Region:
+    Type: String
+    Description: Region in which the Athena data source exists (i.e. us-east-1).
+  Username:
+    Type: String
+    Description: Username associated to Admin QuickSight user that will be granted access to BI assets.
+  Unique_Identifier:
+    Type: String
+    Description: Unique string that will be added to all resources each time they are deployed
+  EnrichedDataDatabaseName:
+    Type: String
+    Description: Name of enriched calculator data database created by shared resources stack in Glue Metadata Catalog
+
+Resources:
+  CombinedEmissionsAthenaDataSource:
+    Type: AWS::QuickSight::DataSource
+    Properties:
+      DataSourceId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Athena-DataSource'
+      Name: Combined Emissions Athena Data Source
+      AwsAccountId: !Ref AWS::AccountId
+      Type: ATHENA
+      DataSourceParameters:
+        AthenaParameters:
+          WorkGroup: 'primary'
+      Permissions:
+        - Principal: !Join
+            - ''
+            - - 'arn:aws:quicksight:'
+              - !Ref Region
+              - ':'
+              - !Ref AWS::AccountId
+              - ':user/default/' 
+              - !Ref Username
+          Actions:
+            - quicksight:UpdateDataSourcePermissions
+            - quicksight:DescribeDataSource
+            - quicksight:DescribeDataSourcePermissions
+            - quicksight:PassDataSource
+            - quicksight:UpdateDataSource
+            - quicksight:DeleteDataSource
+
+
+  CombinedEmissionsDataset:
+    Type: AWS::QuickSight::DataSet
+    Properties:
+      DataSetId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Data-Set'
+      Name: Combined Emissions Data Set
+      AwsAccountId: !Ref AWS::AccountId
+      PhysicalTableMap:
+        CombinedEmissions:
+          RelationalTable:
+            Catalog: AwsDataCatalog
+            DataSourceArn: !GetAtt CombinedEmissionsAthenaDataSource.Arn          
+            InputColumns:
+              - Name: activity_event_id
+                Type: STRING
+              - Name: asset_id
+                Type: STRING
+              - Name: geo
+                Type: STRING
+              - Name: origin_measurement_timestamp
+                Type: STRING
+              - Name: scope
+                Type: STRING
+              - Name: category
+                Type: STRING
+              - Name: activity
+                Type: STRING
+              - Name: source
+                Type: STRING
+              - Name: raw_data
+                Type: STRING
+              - Name: units
+                Type: STRING
+              - Name: co2_amount
+                Type: DECIMAL
+              - Name: co2_unit
+                Type: STRING
+              - Name: ch4_amount
+                Type: DECIMAL
+              - Name: ch4_unit
+                Type: STRING
+              - Name: n2o_amount
+                Type: DECIMAL
+              - Name: n2o_unit
+                Type: STRING
+              - Name: co2e_ar4_amount
+                Type: DECIMAL
+              - Name: co2e_ar4_unit
+                Type: STRING
+              - Name: co2e_ar5_amount
+                Type: DECIMAL
+              - Name: co2e_ar5_unit
+                Type: STRING
+              - Name: date
+                Type: DATETIME
+            Name: combined_emissions_data
+            Schema: !Ref EnrichedDataDatabaseName
+      LogicalTableMap:
+        CombinedEmissionsMapped:
+          Alias: combined-emissions
+          DataTransforms:
+            - RenameColumnOperation:
+                ColumnName: activity_event_id
+                NewColumnName: Acitivity Event ID
+            - RenameColumnOperation:
+                ColumnName: asset_id
+                NewColumnName: Asset ID
+            - RenameColumnOperation:
+                ColumnName: geo
+                NewColumnName: Geo
+            - RenameColumnOperation:
+                ColumnName: origin_measurement_timestamp
+                NewColumnName: Origin Measurement Timestamp
+            - CastColumnTypeOperation:
+                ColumnName: Origin Measurement Timestamp
+                NewColumnType: DATETIME
+                Format: yyyy-MM
+            - RenameColumnOperation:
+                ColumnName: scope
+                NewColumnName: Scope
+            - RenameColumnOperation:
+                ColumnName: category
+                NewColumnName: Category
+            - RenameColumnOperation:
+                ColumnName: activity
+                NewColumnName: Activity
+            - RenameColumnOperation:
+                ColumnName: source
+                NewColumnName: Source
+            - RenameColumnOperation:
+                ColumnName: raw_data
+                NewColumnName: Raw Data
+            - RenameColumnOperation:
+                ColumnName: units
+                NewColumnName: Units
+            - RenameColumnOperation:
+                ColumnName: co2_amount
+                NewColumnName: CO2 Amount
+            - RenameColumnOperation:
+                ColumnName: co2_unit
+                NewColumnName: CO2 Unit
+            - RenameColumnOperation:
+                ColumnName: ch4_amount
+                NewColumnName: CH4 Amount
+            - RenameColumnOperation:
+                ColumnName: ch4_unit
+                NewColumnName: CH4 Unit
+            - RenameColumnOperation:
+                ColumnName: n2o_amount
+                NewColumnName: N2O Amount
+            - RenameColumnOperation:
+                ColumnName: n2o_unit
+                NewColumnName: N2O Unit
+            - RenameColumnOperation:
+                ColumnName: co2e_ar4_amount
+                NewColumnName: CO2E AR4 Amount
+            - RenameColumnOperation:
+                ColumnName: co2e_ar4_unit
+                NewColumnName: CO2E AR4 Unit  
+            - RenameColumnOperation:
+                ColumnName: co2e_ar5_amount
+                NewColumnName: CO2E AR5 Amount
+            - RenameColumnOperation:
+                ColumnName: co2e_ar5_unit
+                NewColumnName: CO2E AR5 Unit  
+            - RenameColumnOperation:
+                ColumnName: date
+                NewColumnName: Data Calculation Date
+            - CastColumnTypeOperation:
+                ColumnName: Data Calculation Date
+                NewColumnType: DATETIME
+                Format: yyyy-MM-dd
+            - CreateColumnsOperation:
+                Columns:
+                  - CalculatedColumn:
+                    ColumnId: Latitude
+                    ColumnName: Latitude
+                    Expression: parseDecimal(Right(split(toString({Geo}), ',', 1), strlen(split(toString({Geo}), ',', 1))-1))
+                  - CalculatedColumn:
+                    ColumnId: Longitude
+                    ColumnName: Longitude
+                    Expression: parseDecimal(Left(split(toString({Geo}), ',', 2), strlen(split(toString({Geo}), ',', 2))-1))
+            - TagColumnOperation:
+                  ColumnName: Latitude
+                  Tags:
+                  - ColumnGeographicRole: LATITUDE
+            - TagColumnOperation:
+                  ColumnName: Longitude
+                  Tags:
+                  - ColumnGeographicRole: LONGITUDE
+          Source:
+            PhysicalTableId: CombinedEmissions
+      Permissions:
+        - Principal: !Join
+            - ''
+            - - 'arn:aws:quicksight:'
+              - !Ref Region
+              - ':'
+              - !Ref AWS::AccountId
+              - ':user/default/' 
+              - !Ref Username
+          Actions:
+            - quicksight:UpdateDataSetPermissions
+            - quicksight:DescribeDataSet
+            - quicksight:DescribeDataSetPermissions
+            - quicksight:PassDataSet
+            - quicksight:DescribeIngestion
+            - quicksight:ListIngestions
+            - quicksight:UpdateDataSet
+            - quicksight:DeleteDataSet
+            - quicksight:CreateIngestion
+            - quicksight:CancelIngestion
+      ImportMode: DIRECT_QUERY
+
+
+  CombinedEmissionsDashboardTemplate:
+    Type: AWS::QuickSight::Template
+    Properties:
+      TemplateId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Template'
+      Name: CarbonLake Combined Emissions Template
+      AwsAccountId: !Ref AWS::AccountId
+      SourceEntity:
+        SourceTemplate: #TODO: point to template created in the main CarbonLake dev account
+          Arn: arn:aws:quicksight:us-east-1:148257099368:template/CarbonLake-Combined-Emissions-Template-145CA4B5
+      Permissions:
+        - Principal: !Join
+            - ''
+            - - 'arn:aws:quicksight:'
+              - !Ref Region
+              - ':'
+              - !Ref AWS::AccountId
+              - ':user/default/' 
+              - !Ref Username 
+          Actions:
+            - quicksight:DescribeTemplate
+      VersionDescription: Initial dashboard template version - Created from pre-created analysis.
+
+
+  CombinedEmissionsDashboard:
+    Type: AWS::QuickSight::Dashboard
+    Properties:
+      DashboardId: !Join
+        - ''
+        - - !Ref Unique_Identifier
+          - '-Dashboard'
+      Name: CarbonLake Combined Scopes Dashboard
+      AwsAccountId: !Ref AWS::AccountId
+      SourceEntity:
+        SourceTemplate:
+          Arn: !GetAtt CombinedEmissionsDashboardTemplate.Arn
+          DataSetReferences:
+            - DataSetPlaceholder: CombinedEmissionsDataset
+              DataSetArn: !GetAtt CombinedEmissionsDataset.Arn
+      Permissions:
+        - Principal: !Join
+            - ''
+            - - 'arn:aws:quicksight:'
+              - !Ref Region
+              - ':'
+              - !Ref AWS::AccountId
+              - ':user/default/' 
+              - !Ref Username
+          Actions:
+            - quicksight:DescribeDashboard
+            - quicksight:ListDashboardVersions
+            - quicksight:UpdateDashboardPermissions
+            - quicksight:QueryDashboard
+            - quicksight:UpdateDashboard
+            - quicksight:DeleteDashboard
+            - quicksight:DescribeDashboardPermissions
+            - quicksight:UpdateDashboardPublishedVersion
+      DashboardPublishOptions:
+        AdHocFilteringOption:
+          AvailabilityStatus: DISABLED

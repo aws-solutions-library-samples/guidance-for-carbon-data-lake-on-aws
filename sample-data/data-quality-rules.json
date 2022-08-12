@@ -5,10 +5,7 @@
     {
       "expectation_type": "expect_compound_columns_to_be_unique",
       "kwargs": {
-        "column_list": [
-          "record_id",
-          "asset_id"
-        ]
+        "column_list": ["record_id", "asset_id"]
       },
       "meta": {}
     },
@@ -16,10 +13,7 @@
       "expectation_type": "expect_column_values_to_be_in_set",
       "kwargs": {
         "column": "activity",
-        "value_set": [
-          "Diesel Fuel - Diesel Passenger Cars",
-          "Motor Gasoline - Gasoline Heavy-duty Vehicles"
-        ]
+        "value_set": ["Diesel Fuel - Diesel Passenger Cars", "Motor Gasoline - Gasoline Heavy-duty Vehicles"]
       },
       "meta": {}
     },
