@@ -75,7 +75,7 @@ const Content = () => {
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
                 For issues getting started, please reach out to us on our
-                   <Link to={{ pathname: "/about-carbonlake"}}  target="_blank"> GitHub page</Link>.
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
                 </span>
               </Box>
             </div>
@@ -92,40 +92,22 @@ const Content = () => {
               <div>
                 <ol>
                   <li>
-                      Navigate to the "CarbonLake Uploader" page and browse for your file.
+                      Navigate to the "Data Uploader" page and browse for your file.
                     <br />
                   </li>
                   <li>
-                    This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
-                    The file will be validated to ensure it conforms to our schema, and if successful will continue down the pipeline.
-                    Once finished, the file will be visible in the "Visualizations" (make this a link later) page.
-                    Currently, you are viewing this page on your localhost as <a>localhost:3000/#/</a> because it is
-                    routed as the 'default' page. All of the included templates are already routed and included in the
-                    side navigation you see in the left panel of this page. The urls are defined in{' '}
-                    <code>src/components/App.jsx</code> (below right). You can learn more about
-                    <code>&lt;Routing&gt;</code>{' '}
-                    <a href="https://reacttraining.com/react-router/web/api/HashRouter">here</a>
-                    .
-                    <br />
+                    This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
+                    The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
+                    Once finished, the file contents will be be visible in the "Emissions Records" page. To see the status as the pipeline
+                    runs, view the Step Function in the AWS Console.
                   </li>
-                  <li>
-                    Try viewing the service homepage template page (below) by adding "<strong>service-home</strong>" to
-                    the end of the url in your browser: <Link to="service-home">localhost:3000/#/service-home</Link>.
-                    When you hit enter you should be redirected to a new page showing the service homepage template.
-                    <br />
-                  </li>
-                  <li>
-                    Edit the service homepage template in the <code>ServiceHomepage.jsx</code> file.
-                    <br />
-                    Save your work to see the results on this page.
-                    <br />
-                  </li>
+
                 </ol>
               </div>
             </Container>
           </div>
           <div>
-            <h1>Benefits and features</h1>
+            {/* <h1>Benefits and features</h1>
             <Container header={<Header>Included templates</Header>}>
               <div>
                 <h4>
@@ -144,7 +126,7 @@ const Content = () => {
                     </li>
                     <li>
                       The simplest skeleton with just the{' '}
-                      <a href="https://polaris.corp.amazon.com/system/structures/components/awsui-app-layout/">
+                      <a href="example.com">
                         app layout
                       </a>{' '}
                       and breadcrumb components.
@@ -162,7 +144,7 @@ const Content = () => {
                     </li>
                     <li>
                       A working example of a{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/service_homepage/">service homepage</a>,
+                      <a href="example.com">service homepage</a>,
                       containing components such as: Box, Select, Container, Header, and layout elements like Column
                       layout, Grid, and SpaceBetween.
                     </li>
@@ -179,7 +161,7 @@ const Content = () => {
                     </li>
                     <li>
                       A full{' '}
-                      <a href="https://polaris.corp.amazon.com/system/flows/create/single_page_create/">
+                      <a href="example.com">
                         single page create
                       </a>{' '}
                       form, containing components such as: Attribute editor, Button, Checkbox, Expandable section, Form,
@@ -198,7 +180,7 @@ const Content = () => {
                       Url route: <code>/table</code>
                     </li>
                     <li>
-                      A working <a href="https://polaris.corp.amazon.com/system/flows/view/table_view/">table view</a>{' '}
+                      A working <a href="example.com">table view</a>{' '}
                       example, containing components such as: Table (with features like wrap lines, sorting, and
                       selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
                       more.
@@ -206,7 +188,7 @@ const Content = () => {
                   </ul>
                 </ol>
               </div>
-            </Container>
+            </Container> */}
           </div>
         </SpaceBetween>
       </Box>

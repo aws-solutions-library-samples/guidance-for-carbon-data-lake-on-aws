@@ -6,6 +6,7 @@ of using AWS-UI components.
 
 ************************************************************************/
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import {existingAPI, existingAuth} from '../amplify-config';
 import { API, graphqlOperation } from 'aws-amplify';
 import { all, getOne } from '../graphql/queries';
@@ -38,9 +39,9 @@ import {
   RadioGroup,
   HelpPanel,
   Icon
-} from '@awsui/components-react';
+} from '@cloudscape-design/components';
 
-import { useCollection } from '@awsui/collection-hooks';
+import { useCollection } from '@cloudscape-design/collection-hooks';
 
 // Component TableView is a skeleton of a Table using AWS-UI React components.
 export default () => {
@@ -195,6 +196,7 @@ const fetchEmissions = async () => {
 // Table header content, shows how many distributions are selected and contains the action stripe
 const TableHeader = ({ selectedEmissions, counter }) => {
   const isOnlyOneSelected = selectedEmissions.length === 1;
+  const navigate = useNavigate();
 
   return (
     <Header
@@ -205,7 +207,7 @@ const TableHeader = ({ selectedEmissions, counter }) => {
           <Button disabled={!isOnlyOneSelected}> View details </Button>
           <Button disabled={!isOnlyOneSelected}> Edit</Button>
           <Button disabled={selectedEmissions.length === 0}> Delete</Button>
-          <Button href="#/create" variant="primary">
+          <Button onClick={() => navigate("/data-uploader")} variant="primary">
             Upload Emission Record
           </Button>
         </SpaceBetween>

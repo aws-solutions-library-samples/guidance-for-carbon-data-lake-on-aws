@@ -27,6 +27,6 @@ type Query {
     getOne(activity_event_id: String!): CalculatorOutput
 }
 
-type Mutation {
+type Mutation  @aws_auth(cognito_groups: ["Admin",]) {
     delete(activity_event_id: String!): CalculatorOutput
 }

@@ -12,6 +12,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
+import { pipeline } from 'stream'
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   public readonly calculatorFunction: lambda.Function
