@@ -24,7 +24,8 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker --version
     - docker
     - apk add --update docker openrc
-    - rc-service docker start
+    - service docker status
+    - service docker start
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
@@ -40,7 +41,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm run build
     - echo "Build complete."
     - echo "Synthesizing CDK..."
-    - cdk synth
     - echo "CDK synth complete."
 
 unit-test-job:   # This job runs in the test stage.
