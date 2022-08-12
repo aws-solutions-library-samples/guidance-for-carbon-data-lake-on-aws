@@ -23,6 +23,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - aws --version
     - docker --version
     - docker
+    - apk add --update docker openrc
     - rc-update add docker default
     - service docker start
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
