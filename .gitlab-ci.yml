@@ -22,12 +22,12 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum install -y awscli
     - node --version
     - npm --version
-    - python --version
+    - python38 --version
     - aws --version
     - docker --version
-    - service docker start
-    - service docker status
-    - usermod -a -G docker ec2-user
+    - systemctl docker enable
+    - systemctl docker start
+    - usermod -a -G docker ci-user
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
