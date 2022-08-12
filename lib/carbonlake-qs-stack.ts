@@ -12,6 +12,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
+import { pipeline } from 'stream'
 
 export class CarbonlakeQuickstartStack extends cdk.Stack {
   public readonly calculatorFunction: lambda.Function
@@ -96,13 +97,16 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
-    /* to enable this stack uncomment the next lines
+    /* commenting quicksight stack out for test
     const quicksight = new CarbonlakeQuicksightStack(scope, 'CarbonlakeQuicksightStack', {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
     })
     */
+    // QS7 --> Create the carbonlake forecast stack
+    //commenting out for test
+    //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
 
     // QS7 --> Create the carbonlake forecast stack
     // to enable this stack uncomment the next line
