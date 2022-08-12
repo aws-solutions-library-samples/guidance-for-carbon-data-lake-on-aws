@@ -30,7 +30,7 @@ describe('test pipeline stack', () => {
     // create the pipeline stack with the required props
     const pipelineStack = new CarbonlakeQuickstartPipelineStack(app, 'PipelineStack', {
       dataLineageFunction: dummyFunction,
-      landingBucket: dummyBucket,
+      //landingBucket: dummyBucket, <--remove because bucket is now created in pipeline stack
       errorBucket: dummyBucket,
       rawBucket: dummyBucket,
       transformedBucket: dummyBucket,

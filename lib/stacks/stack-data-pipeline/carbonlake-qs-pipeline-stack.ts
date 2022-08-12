@@ -1,4 +1,4 @@
-import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib'
+import { App, CustomResource, Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
@@ -17,7 +17,6 @@ import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-qu
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  landingBucket: s3.Bucket
   errorBucket: s3.Bucket
   rawBucket: s3.Bucket
   transformedBucket: s3.Bucket
@@ -26,6 +25,7 @@ interface PipelineProps extends StackProps {
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
+  public readonly carbonlakeLandingBucket: s3.Bucket 
   public readonly calculatorOutputTable: ddb.Table
   public readonly calculatorFunction: lambda.Function
   public readonly pipelineStateMachine: stepfunctions.StateMachine
@@ -33,9 +33,17 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id, props)
 
+    // Landing bucket where files are dropped by customers
+    // Once processed, the files are removed by the pipeline
+    this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    })
+
     /* ======== DATA QUALITY ======== */
     const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
-      inputBucket: props.landingBucket,
+      inputBucket: this.carbonlakeLandingBucket,
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket,
     })
@@ -118,15 +126,14 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
       environment: {
-        LANDING_BUCKET_NAME: props.landingBucket.bucketName,
+        LANDING_BUCKET_NAME: this.carbonlakeLandingBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn,
       },
     })
     statemachine.grantStartExecution(kickoffFunction)
-
     
     // Invoke kickoff lambda function every time an object is created in the bucket
-    props.landingBucket.addEventNotification(
+    this.carbonlakeLandingBucket.addEventNotification(
       s3.EventType.OBJECT_CREATED,
       new s3n.LambdaDestination(kickoffFunction),
       // optional: only invoke lambda if object matches the filter

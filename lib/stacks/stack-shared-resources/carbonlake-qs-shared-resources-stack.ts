@@ -16,14 +16,6 @@ export class CarbonlakeQuickstartSharedResourcesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
 
-    // Landing bucket where files are dropped by customers
-    // Once processed, the files are removed by the pipeline
-    this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-    })
-
     // Raw bucket where files are moved, once they pass the data quality check
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)

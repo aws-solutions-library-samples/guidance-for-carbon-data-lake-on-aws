@@ -48,7 +48,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, 'CarbonlakeSharedResourceStack')
-    this.landingBucket = sharedResources.carbonlakeLandingBucket
     this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket
     this.transformedBucket = sharedResources.carbonlakeTransformedBucket
 
@@ -57,21 +56,25 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
     })
 
+
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, 'CarbonlakePipelineStack', {
+      
       dataLineageFunction: dataLineage.inputFunction,
-      landingBucket: sharedResources.carbonlakeLandingBucket,
       errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail,
     })
+    this.landingBucket = pipeline.carbonlakeLandingBucket
     this.calculatorFunction = pipeline.calculatorFunction
     this.pipelineStateMachine = pipeline.pipelineStateMachine
     this.calculatorOutputTable = pipeline.calculatorOutputTable
+
+    //pipeline.node.addDependency(sharedResources);
 
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
 
