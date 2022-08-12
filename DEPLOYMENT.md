@@ -44,7 +44,6 @@ You can deploy CarbonLake Quickstart through the manual setup process using AWS 
   ```sh
   node -v
   ```
-- [Docker](https://docs.docker.com/get-docker/)
 - For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
 
 ## 🚀 Setup
@@ -53,40 +52,13 @@ You can deploy CarbonLake Quickstart through the manual setup process using AWS 
 
 Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/quicksight/documentation/README.md).
 
-### 2/ Ensure you are logged in to the Amazon ECR
-
-This is needed to build lambda function assets locally in a docker container. You can do this from the command line:
-
-```sh
-aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-```
-
-### 3/ Make sure docker is running and build locally
-
-Check that docker is running: [more from the docker site here](https://docs.docker.com/config/daemon/#check-whether-docker-is-running)
-
-The operating-system independent way to check whether Docker is running is to ask Docker, using the `docker info` command.
-
-You can also use operating system utilities, such as `sudo systemctl is-active docker` or `sudo status docker` or `sudo service docker status`, or checking the service status using Windows utilities.
-
-Build the dependencies from `package.lock.json`: 
-
-```sh
-npm ci
-```
-Synthesize the CDK app locally:
-
-```sh
-cdk synth
-```
-
-### 4/ Set up your AWS environment
+### 2/ Set up your AWS environment
 
 * Configure your AWS credentials --> `aws configure`
 * Get your AWS Account Number --> `aws sts get-caller-identity`
 * Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
 
-### 5/ Prepare your CDK environment (Manual Setup)
+### 3/ Prepare your CDK environment (Manual Setup)
 
 1. Navigate to CDK Directory
 2. Set `cdk.context.json` values --> The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app.
@@ -100,21 +72,21 @@ cdk synth
 
 Note: Make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
 
-### 6/ Get Started Deploying the CDK App and Stacks
+### 4/ Get Started Deploying the CDK App and Stacks
 
 - ✅  Recommended: deploy for local development 
   ```sh
-  cdk deploy "CarbonLakeQuickstartCiCdStack/Deploy/*"
+  cdk deploy --all
   ``` 
   👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
 
 - ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
   ```sh
-  cdk deploy --all
+  npm run deploy:cicd
   ```
   👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
-### 7/ Set up the Amplify Web Application
+### 5/ Set up the Amplify Web Application
 
 To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application.
 

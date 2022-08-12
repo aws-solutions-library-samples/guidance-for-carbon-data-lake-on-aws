@@ -1,9 +1,10 @@
-import { App, CustomResource, Duration, Stack, StackProps } from 'aws-cdk-lib'
+import { App, CustomResource, Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
-import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
@@ -16,7 +17,6 @@ import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-qu
 
 interface PipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
-  landingBucket: s3.Bucket
   errorBucket: s3.Bucket
   rawBucket: s3.Bucket
   transformedBucket: s3.Bucket
@@ -25,6 +25,7 @@ interface PipelineProps extends StackProps {
 }
 
 export class CarbonlakeQuickstartPipelineStack extends Stack {
+  public readonly carbonlakeLandingBucket: s3.Bucket 
   public readonly calculatorOutputTable: ddb.Table
   public readonly calculatorFunction: lambda.Function
   public readonly pipelineStateMachine: stepfunctions.StateMachine
@@ -32,9 +33,32 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id, props)
 
+    // Landing bucket where files are dropped by customers
+    // Once processed, the files are removed by the pipeline
+      this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        removalPolicy: RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        cors: [
+                {
+                allowedMethods: [
+                    s3.HttpMethods.GET,
+                    s3.HttpMethods.POST,
+                    s3.HttpMethods.PUT,
+                    s3.HttpMethods.DELETE,
+                    s3.HttpMethods.HEAD
+                ],
+                exposedHeaders: ['x-amz-server-side-encryption', 'x-amz-request-id', 'x-amz-id-2', 'ETag'],
+                maxAge: 3000,
+                allowedOrigins: ['*'],
+                allowedHeaders: ['*'],
+                },
+            ],
+      });
+
     /* ======== DATA QUALITY ======== */
     const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
-      inputBucket: props.landingBucket,
+      inputBucket: this.carbonlakeLandingBucket,
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket,
     })
@@ -117,51 +141,19 @@ export class CarbonlakeQuickstartPipelineStack extends Stack {
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
       environment: {
-        LANDING_BUCKET_NAME: props.landingBucket.bucketName,
+        LANDING_BUCKET_NAME: this.carbonlakeLandingBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn,
       },
     })
     statemachine.grantStartExecution(kickoffFunction)
+    
+    // Invoke kickoff lambda function every time an object is created in the bucket
+    this.carbonlakeLandingBucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED,
+      new s3n.LambdaDestination(kickoffFunction),
+      // optional: only invoke lambda if object matches the filter
+      // {prefix: 'test/', suffix: '.yaml'},
+    );
 
-    // Triggering lambda from S3 notification doesn't work with CDK: "Adding this dependency would create a cyclic reference."
-    // props.landingBucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(kickoffFunction));
-    // Solution: A Lambda Custom Resource creates the Lambda Event Notification once the pipeline is created
-    // see https://aws.amazon.com/blogs/mt/resolving-circular-dependency-in-provisioning-of-amazon-s3-buckets-with-aws-lambda-event-notifications/
-    const applyS3NotificationFunction = new lambda.Function(this, 'carbonlakePipelineApplyS3NotificationLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/apply_s3_notification'), {
-        bundling: {
-          image: lambda.Runtime.PYTHON_3_9.bundlingImage,
-          command: ['bash', '-c', 'pip install -r requirements.txt -t /asset-output && cp -au . /asset-output'],
-        },
-      }),
-      handler: 'applyBucketNotification.handler',
-    })
-    new CustomResource(this, 'carbonlakePipelineApplyS3NotificationCustomResource', {
-      serviceToken: applyS3NotificationFunction.functionArn,
-      properties: {
-        S3Bucket: props.landingBucket.bucketName,
-        FunctionARN: kickoffFunction.functionArn,
-        NotificationId: 'S3ObjectCreatedEvent',
-      },
-    })
-    kickoffFunction.addPermission('carbonlakePipelineApplyS3NotificationPermission', {
-      principal: new iam.ServicePrincipal('s3.amazonaws.com'),
-      action: 'lambda:invokeFunction',
-      sourceArn: props.landingBucket.bucketArn,
-      // sourceAccount is mandatory here
-      // S3 bucket ARNs do not contain account IDs, leaving the consumer open to a potential confused deputy attack if
-      // the S3 bucket is deleted or part of a predictable pattern.
-      // Adding an additional condition to explicitly specify the bucket owner's account ID may remediate the issue.
-      sourceAccount: this.account,
-    })
-    //Allow the applyS3NotificationFunction to put PutBucketNotification on the bucket
-    applyS3NotificationFunction.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        resources: [props.landingBucket.bucketArn],
-        actions: ['s3:PutBucketNotification'],
-      })
-    )
   }
 }
