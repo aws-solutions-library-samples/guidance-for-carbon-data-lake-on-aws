@@ -25,9 +25,10 @@ build-job:       # This job runs in the build stage, which runs first.
     - python3.8 --version
     - aws --version
     - docker --version
-    - systemctl enable docker
-    - systemctl start docker
+    - docker
     - usermod -a -G docker ci-user
+    - systemctl enable docker.service
+    - systemctl start docker.service
     - echo "Logging into AWS Docker Public ECR to build lambda environment"
     - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
