@@ -207,8 +207,8 @@ If you have not yet this is a great time to deploy the sample web application. O
 * `npm run test`                           perform the jest unit tests\
 * `cdk diff`                               compare deployed stack with current state
 * `cdk synth`                              emits the synthesized CloudFormation template
-* `cdk deploy "CLQSCiCdStack/Deploy/*"`     deploy this stack to your default AWS account/region w/o the CDK pipeline
-* `cdk deploy --all`                       deploy this application CI/CD stack and then link your repo for automated pipeline
+* `cdk deploy --all`                       deploy this stack to your default AWS account/region w/o the CICD pipeline
+* `npm run deploy:cicd`                       deploy this application CI/CD stack and then link your repo for automated pipeline
 
 ### Data Model
 
@@ -301,18 +301,6 @@ The json document below describes the emissions factor model extracted via pytho
 
 [GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json)
 
-
-## Troubleshooting WIP
-
-1. Docker daemon not running
-
-```
-Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
-```
-
-Make sure docker is running either by starting docker desktop or with the command line.
-
-
 ## 👀 See also
 
 - GHG Protocol Guidance
@@ -332,24 +320,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 * `npm run test`                           perform the jest unit tests\
 * `cdk diff`                               compare deployed stack with current state
 * `cdk synth`                              emits the synthesized CloudFormation template
-
-
-## CI Test
-
-TODO
-
-## Infra Validation Test
-
-TODO
-
-## End to End Integration Test
-
-TODO
-
-### Automated Test and Validation Instructions
-
-TODO
-
-### Manual Test Instructions
-
-TODO
