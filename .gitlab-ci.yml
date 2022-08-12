@@ -16,7 +16,9 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum -y install amazon-linux-extras
     - amazon-linux-extras install docker
     - amazon-linux-extras install python3.8
-    - yum install -y nodejs npm
+    - yum -y install curl
+    - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+    - yum install -y nodejs
     - yum install -y awscli
     - node --version
     - npm --version
