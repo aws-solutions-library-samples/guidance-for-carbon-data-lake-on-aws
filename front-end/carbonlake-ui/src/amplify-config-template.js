@@ -1,4 +1,5 @@
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --
+// To set up your own amplify app you will need to rename this file as amplify-config.js and follow the instructions in the README to fill in your values
 
 // Existing API
 const existingAPI = {
