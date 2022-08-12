@@ -5,8 +5,8 @@ import { CarbonlakeQuickstartDataLineageStack } from './stacks/stack-data-lineag
 import { CarbonlakeQuickstartSharedResourcesStack } from './stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CarbonLakeDataCompactionPipelineStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
 import { CfnOutput } from 'aws-cdk-lib'
-import { CarbonlakeQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
-import { CarbonlakeForecastStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-forecast'
+//import { CarbonlakeQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
+//import { CarbonlakeForecastStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-forecast'
 import { Construct } from 'constructs'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
@@ -49,7 +49,6 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
 
     // QS1 --> Create the carbonlake shared resource stack
     const sharedResources = new CarbonlakeQuickstartSharedResourcesStack(scope, 'CarbonlakeSharedResourceStack')
-    this.landingBucket = sharedResources.carbonlakeLandingBucket
     this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket
     this.transformedBucket = sharedResources.carbonlakeTransformedBucket
 
@@ -58,10 +57,12 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
     })
 
+
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CarbonlakeQuickstartPipelineStack(scope, 'CarbonlakePipelineStack', {
+      
       dataLineageFunction: dataLineage.inputFunction,
       errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
@@ -69,9 +70,12 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail,
     })
+    this.landingBucket = pipeline.carbonlakeLandingBucket
     this.calculatorFunction = pipeline.calculatorFunction
     this.pipelineStateMachine = pipeline.pipelineStateMachine
     this.calculatorOutputTable = pipeline.calculatorOutputTable
+
+    //pipeline.node.addDependency(sharedResources);
 
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
 
@@ -93,14 +97,16 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
+    /* commenting quicksight stack out for test
     const quicksight = new CarbonlakeQuicksightStack(scope, 'CarbonlakeQuicksightStack', {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
     })
-
+    */
     // QS7 --> Create the carbonlake forecast stack
-    const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
+    //commenting out for test
+    //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
 
     // TODO --> Creat the carbonlake monitoring and observability stack
   }
