@@ -1,6 +1,6 @@
 # Welcome to CarbonLake Quickstart CDK Application
 
-CarbonLake Quickstart is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, managed forecasting service, graphQL api, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, managed forecasting service, graphQL api, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
 ## 🛠 What you will build
 
@@ -96,23 +96,27 @@ cdk synth
 
 ### 4/ Deploy the application
 
-- ✅  Recommended: deploy for local development 
-  ```sh
-  cdk deploy --all
-  ``` 
+- ✅  Recommended: deploy for local development
+
+```sh
+cdk deploy --all
+```
+
   👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
 
 - ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
-  ```sh
-  npm run deploy:cicd
-  ```
-  👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
+
+```sh
+npm run deploy:cicd
+```
+
+👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Set up the Amplify Web Application
 
 To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application.
 
-### Optional A/ Manually Enable & Set Up Amazon Quicksight Stack
+### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
 If you choose to deploy the Amazon Quicksight business intelligence stack it will include prebuilt data visualizations that leverage Amazon Athena to query your processed data. If you elect to deploy this stack you will need to remove the comments 
 
@@ -120,7 +124,7 @@ Before you proceed you need to set up your quicksight account and user. This nee
 
 To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 98` and redeploy the application by running `cdk deploy --all`
 
-### Optional B/ Manually Enable & Set Up Forecast Stack
+### Optional B/ Manually enable & set up Forecast stack
 
 The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts. To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 107` and redeploy the application by running `cdk deploy --all`
 
@@ -128,7 +132,7 @@ The forecast stack includes a pre-built sagemaker notebook instance running an `
 
 Time to get started using CarbonLake Quickstart! Follow the steps below to see if everything is working and get familiar with this solution.
 
-### 1/ Make sure all the Infrastructure Deployed Properly
+### 1/ Make sure all the infrastructure deployed properly
 
 In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully.
 
@@ -141,6 +145,7 @@ Time to test some data out and see if everything is working. This section assume
 - This will kick trigger the pipeline kickoff lambda function and start the data pipeline step functions workflow -- continue!
 
 ### 3/ Take a look at the step functions workflow
+
 - Navigate to step functions service in the aws console
 - Select the step function named `carbonlakePipeline` with an appended uuid
 - Select the recent active workflow
@@ -152,7 +157,8 @@ Time to test some data out and see if everything is working. This section assume
 
 ![Successful Step Functions Workflow](resources/carbonlake-quickstart-step-func-graph-inspector-completed.png)
 
-### 4/ Query your GraphQL API Endpoint
+### 4/ Query your GraphQL API endpoint
+
 - Navigate to AWS AppSync in the console
 - In the AWS AppSync, choose the Queries tab and then enter the following text in the editor:
 - Run the following query and hit "run"
