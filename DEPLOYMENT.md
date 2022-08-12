@@ -74,7 +74,13 @@ git clone #insert-http-or-ssh-for-this-repository
 
 Note: Make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
 
-### 3/ Build and synthesize the CDK app
+### 3/ Install dependencies, build, and synthesize the CDK app
+
+- Install dependencies
+
+```sh
+npm ci
+```
 
 - Build your node application and environment
 
