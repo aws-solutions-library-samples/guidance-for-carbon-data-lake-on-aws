@@ -5,8 +5,8 @@ import { CarbonlakeQuickstartDataLineageStack } from './stacks/stack-data-lineag
 import { CarbonlakeQuickstartSharedResourcesStack } from './stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CarbonLakeDataCompactionPipelineStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
 import { CfnOutput } from 'aws-cdk-lib'
-import { CarbonlakeQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
-import { CarbonlakeForecastStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-forecast'
+//import { CarbonlakeQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
+//import { CarbonlakeForecastStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-forecast'
 import { Construct } from 'constructs'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
@@ -96,14 +96,16 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
+    /* commenting quicksight stack out for test
     const quicksight = new CarbonlakeQuicksightStack(scope, 'CarbonlakeQuicksightStack', {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
     })
-
+    */
     // QS7 --> Create the carbonlake forecast stack
-    const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
+    //commenting out for test
+    //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
 
     // TODO --> Creat the carbonlake monitoring and observability stack
   }
