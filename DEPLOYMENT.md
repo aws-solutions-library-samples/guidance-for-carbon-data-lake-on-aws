@@ -48,6 +48,12 @@ You can deploy CarbonLake Quickstart through the manual setup process using AWS 
 
 ## 🚀 Setup
 
+### 0/ Use git to clone this repository to your local environment
+
+```sh
+git clone #insert-http-or-ssh-for-this-repository
+```
+
 ### 1/ Set up your AWS environment
 
 * Configure your AWS credentials --> `aws configure`
