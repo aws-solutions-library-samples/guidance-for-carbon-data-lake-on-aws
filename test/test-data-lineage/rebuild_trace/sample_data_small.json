@@ -1,0 +1,37 @@
+[
+  {
+    "action_taken": "RAW_DATA_INPUT",
+    "root_id": "ROOT_ID",
+    "parent_id": "ROOT_ID",
+    "node_id": "TGpS4Y0C",
+    "storage_location": "s3://bucket/key"
+  },
+  {
+    "action_taken": "DQ_CHECK_PASS",
+    "root_id": "ROOT_ID",
+    "parent_id": "TGpS4Y0C",
+    "node_id": "4jEpPo",
+    "storage_location": "s3://bucket/key"
+  },
+  {
+    "action_taken": "GLUE_BATCH_SPLIT",
+    "root_id": "ROOT_ID",
+    "parent_id": "4jEpPo",
+    "node_id": "a9gUWW",
+    "storage_location": "s3://bucket/key"
+  },
+  {
+    "action_taken": "CALCULATION_COMPLETE",
+    "root_id": "ROOT_ID",
+    "parent_id": "a9gUWW",
+    "node_id": "FMRc",
+    "storage_location": "s3://bucket/today/key"
+  },
+  {
+    "action_taken": "CALCULATION_COMPLETE",
+    "root_id": "ROOT_ID",
+    "parent_id": "a9gUWW",
+    "node_id": "pa9t",
+    "storage_location": "s3://bucket/today/key"
+  }
+]

@@ -376,6 +376,8 @@ $RECYCLE.BIN/
 # Typescript .js files
 lib/*.js
 lib/**/*.js
+bin/*.js
+bin/**/*.js
 !jest.config.js
 *.d.ts
 
