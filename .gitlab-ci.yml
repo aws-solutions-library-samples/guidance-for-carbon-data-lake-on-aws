@@ -22,7 +22,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - yum install -y awscli
     - node --version
     - npm --version
-    - python38 --version
+    - python3.8 --version
     - aws --version
     - docker --version
     - systemctl docker enable
