@@ -96,17 +96,17 @@ export class CarbonlakeQuickstartStack extends cdk.Stack {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
-    /* commenting quicksight stack out for test
+    /* to enable this stack uncomment the next lines
     const quicksight = new CarbonlakeQuicksightStack(scope, 'CarbonlakeQuicksightStack', {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
       enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
     })
     */
+
     // QS7 --> Create the carbonlake forecast stack
-    //commenting out for test
+    // to enable this stack uncomment the next line
     //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
 
-    // TODO --> Creat the carbonlake monitoring and observability stack
   }
 }

@@ -88,11 +88,15 @@ To really test out the CarbonLake Quickstart please follow the [Web Application 
 
 ### Optional A/ Manually Enable & Set Up Amazon Quicksight Stack
 
-Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/quicksight/documentation/README.md).
+If you choose to deploy the Amazon Quicksight business intelligence stack it will include prebuilt data visualizations that leverage Amazon Athena to query your processed data. If you elect to deploy this stack you will need to remove the comments 
+
+Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/stacks/stack-quicksight/documentation/README.md).
+
+To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 98` and redeploy the application by running `cdk deploy --all`
 
 ### Optional B/ Manually Enable & Set Up Forecast Stack
 
-Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/quicksight/documentation/README.md).
+The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts. To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 107` and redeploy the application by running `cdk deploy --all`
 
 ## 🛠 Usage
 
@@ -105,22 +109,22 @@ In your command line shell you should see confirmation of all resources deployin
 ### 2/ Drop some sythetic test data into the CarbonLake Landing Zone S3 Bucket
 
 Time to test some data out and see if everything is working...
-- Go to the S3 console and locate your CarbonLake landing zone bucket it will be called ``
-- Upload [CarboLakeQS Synthetic Input Data](sample-data/carbon-lake-synthetic-input-data.csv) to the S3 bucket manually
-- This will kick of the pipeline -- continue!
 
-![Manual Sample Dataset Upload]()
+- Go to the S3 console and locate your CarbonLake landing zone bucket it will be called `carbonlakepipelinestack-carbonlakelandingbucket` with a unique identifier appended to it
+- Upload [CarboLakeQS Synthetic Input Data](sample-data/carbon-lake-synthetic-input-data.csv) to the S3 bucket manually
+- This will kick trigger the pipeline kickoff lambda function and start the data pipeline step functions workflow -- continue!
 
 ### 3/ Take a look at the step functions workflow
 - Navigate to step functions service in the aws console
-- On the left sidebar select "state machines" --> do you see a state machine present? Continue...
-- Also on the left sidebar select "activities" --> do you see the pipeline as an activity? Continue...
-- Have a quick look and familiarize yourself with the workflow
+- Select the step function named `carbonlakePipeline` with an appended uuid
+- Select the recent active workflow
+- Select from the "executions" list
+- Have a quick look and familiarize yourself with the workflow graph inspector
 - The workflow will highlight green for each passed step. See two image examples below.
 
-![In-Progress Step Functions Workflow]()
+![In-Progress Step Functions Workflow](resources/carbonlake-quickstart-step-func-in-progress.png)
 
-![Successful Step Functions Workflow]()
+![Successful Step Functions Workflow](resources/carbonlake-quickstart-step-func-graph-inspector-completed.png)
 
 ### 4/ Query your GraphQL API Endpoint
 - Navigate to AWS AppSync in the console
