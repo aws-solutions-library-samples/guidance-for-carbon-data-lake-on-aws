@@ -17,7 +17,8 @@ ATHENA_QUERY_OUTPUT_LOCATION = 's3://' + os.environ.get('ATHENA_QUERY_OUTPUT_LOC
 
 # create the following Athena views:
 # combined_emissions_data unions historical and latest emissions data
-create_combined_view_query = 'CREATE OR REPLACE VIEW "' + COMBINED_DATA_VIEW_NAME + '" AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, current_date date FROM "' + GLUE_DATABASE_NAME + '"."' + FORMATTED_TODAY_VIEW_NAME + '" UNION ALL SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, date FROM "' + GLUE_DATABASE_NAME + '"."' + FORMATTED_HISTORICAL_VIEW_NAME + '" WHERE (date <> current_date)'
+create_combined_view_query = 'CREATE OR REPLACE VIEW COMBINED_DATA_VIEW_NAME=? AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, current_date date FROM GLUE_DATABASE_NAME=?.FORMATTED_TODAY_VIEW_NAME=? UNION ALL SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, date FROM GLUE_DATABASE_NAME=?.FORMATTED_HISTORICAL_VIEW_NAME=? WHERE (date <> current_date)'
+
 
 client = boto3.client('athena')
 
@@ -49,8 +50,12 @@ def create_athena_view(query, database_name, athena_query_output_location):
             'Database': database_name
         },
         ExecutionParameters=[
-        'string',
-        ]
+          COMBINED_DATA_VIEW_NAME,
+          GLUE_DATABASE_NAME,
+          FORMATTED_TODAY_VIEW_NAME,
+          GLUE_DATABASE_NAME,
+          FORMATTED_HISTORICAL_VIEW_NAME
+        ],
         ResultConfiguration={
             'OutputLocation': athena_query_output_location,
         }
@@ -59,6 +64,7 @@ def create_athena_view(query, database_name, athena_query_output_location):
 
 
 '''
+
 Input: Step Functions Lambda output: {
   "statusCode": 200,
   "headers": {
@@ -120,6 +126,7 @@ Output: {
     }
   }
 }
+
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)

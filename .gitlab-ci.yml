@@ -6,7 +6,7 @@ stages:          # List of stages for jobs, and their order of execution
   - validate
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+build-job:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
   image: docker
   services:
@@ -39,8 +39,8 @@ build-job:       # This job runs in the build stage, which runs first.
     - cdk synth
     - echo "CDK synth complete."
 
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
+  stage: test
   image: node:latest
   script:
     - echo "Installing typescript as dependency"
@@ -60,8 +60,8 @@ lint-test-job:   # This job also runs in the test stage.
     - npm run lint
     - echo "No lint issues found."
 
-python-bandit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
+python-bandit-test-job:   # Runs python bandit test job for security checks on python code in repo
+  stage: test    # Only starts when job in build stage completes successfully
   image:
     name: python:latest
     entrypoint:
@@ -81,14 +81,14 @@ python-bandit-test-job:   # This job runs in the test stage.
       fi
     - echo ${TF_ROOT}
 
-cfn-guard-job:   # google about cfn-guard , its running security policies as code against CFN 
-  stage: validate    # It can run at the same time as validation
+cdk-nag-job:   # runs cdk-nag script in test stage
+  stage: test
   script:
     - echo " Running security validation checks on code... This will take about 10 seconds."
     - sleep 10
-    - echo "No lint issues found."
+    - echo "No issues found!"
 
-deploy-job:      # This job runs in the deploy stage.
+taskcat-deploy-job:      # Runs taskcat deployment job in test AWS account
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Simulating application deployment..."
