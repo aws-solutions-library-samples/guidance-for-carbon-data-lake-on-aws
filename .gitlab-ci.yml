@@ -79,7 +79,7 @@ bandit:   # Runs python bandit test job for security checks on python code in re
     - pip3 install --upgrade pip
     - pip3 install --upgrade setuptools
     - pip3 install bandit
-    - bandit ./ -r | tee ./output_test.log --format xml $PYTHON_SCRIPTS > bandit.xml
+    - bandit --format xml $PYTHON_SCRIPTS > bandit.xml
   artifacts:
     when: always
     reports:
