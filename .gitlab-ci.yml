@@ -74,13 +74,13 @@ python-bandit-test-job:   # Runs python bandit test job for security checks on p
     - pip3 install --upgrade setuptools
     - pip3 install bandit
     - bandit ./ -r | tee ./output_test.log
-    - severity_count=$(egrep "Severity:\sHigh" output_test.log | wc -l)
-    - echo $severity_count
-    - |
-      if [ $severity_count -neq 0 ]; then
-        exit 1
-      fi
-    - echo ${TF_ROOT}
+  artifacts:
+    when: always
+    paths:
+      - bandit.xml
+    reports:
+      junit: bandit.xml
+
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: test
