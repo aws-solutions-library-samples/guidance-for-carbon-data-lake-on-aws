@@ -13,7 +13,7 @@ interface DataLineageStackProps extends StackProps {
   archiveBucket: s3.Bucket
 }
 
-export class CarbonlakeQuickstartDataLineageStack extends Stack {
+export class CLQSDataLineageStack extends Stack {
   public readonly inputFunction: lambda.Function
   public readonly traceQueue: sqs.Queue
 

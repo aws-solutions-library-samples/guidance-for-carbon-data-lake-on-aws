@@ -6,7 +6,7 @@ import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-export interface CarbonlakeQuickstartTestStackProps extends StackProps {
+export interface CLQSTestStackProps extends StackProps {
   landingBucket: s3.Bucket
   transformedBucket: s3.Bucket
   enrichedBucket: s3.Bucket
@@ -15,8 +15,8 @@ export interface CarbonlakeQuickstartTestStackProps extends StackProps {
   calculatorOutputTable: dynamodb.Table
 }
 
-export class CarbonlakeQuickstartTestStack extends Stack {
-  constructor(scope: Construct, id: string, props: CarbonlakeQuickstartTestStackProps) {
+export class CLQSTestStack extends Stack {
+  constructor(scope: Construct, id: string, props: CLQSTestStackProps) {
     super(scope, id, props)
 
     // Calculator tests

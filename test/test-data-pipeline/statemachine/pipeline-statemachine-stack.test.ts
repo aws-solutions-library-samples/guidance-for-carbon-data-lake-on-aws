@@ -4,7 +4,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CarbonlakeQuickstartStatemachineStack } from '../../../lib/stacks/stack-data-pipeline/statemachine/carbonlake-qs-statemachine-stack'
+import { CLQSStatemachineStack } from '../../../lib/stacks/stack-data-pipeline/statemachine/carbonlake-qs-statemachine-stack'
 
 describe('test statemachine stack', () => {
   let template: Template | null
@@ -33,7 +33,7 @@ describe('test statemachine stack', () => {
     const parentStack = new Stack(app, 'ParentPipelineStack', {})
 
     // create the pipeline stack with the required props
-    const statemachineStack = new CarbonlakeQuickstartStatemachineStack(parentStack, 'PipelineStack', {
+    const statemachineStack = new CLQSStatemachineStack(parentStack, 'PipelineStack', {
       dataLineageFunction: dummyLambda,
       dqResourcesLambda: dummyLambda,
       dqResultsLambda: dummyLambda,

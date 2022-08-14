@@ -53,14 +53,12 @@ const existingAuth = {
 
 const existingS3 = {
   Storage: {
-        AWSS3: {
-            bucket: 'YOUR-S3-LANDING-BUCKET', //REQUIRED -  Amazon S3 bucket name
-            region: 'YOUR-AWS-REGION', //Required -  Amazon service region
-        }
-    }
-}
-
+    AWSS3: {
+      bucket: "YOUR-S3-LANDING-BUCKET", //REQUIRED -  Amazon S3 bucket name
+      region: "YOUR-AWS-REGION", //Required -  Amazon service region
+    },
+  },
+};
 
 // Amplify.configure(existingAuth);
-export {existingAPI, existingAuth, existingS3}
-
+export { existingAPI, existingAuth, existingS3 };

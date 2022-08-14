@@ -16,7 +16,7 @@ interface StateMachineProps extends NestedStackProps {
   calculationJob: lambda.Function
 }
 
-export class CarbonlakeQuickstartStatemachineStack extends NestedStack {
+export class CLQSStatemachineStack extends NestedStack {
   public readonly statemachine: sfn.StateMachine
 
   constructor(scope: Construct, id: string, props: StateMachineProps) {

@@ -9,7 +9,7 @@ import * as path from 'path'
 import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data-compaction-glue-jobs'
 import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler'
 import { CarbonLakeGlueEnrichedDataTodayTableStack } from './glue/carbonlake-qs-create-enriched-data-glue-today-table'
-import { CarbonlakeQuickstartCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews'
+import { CLQSCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews'
 import { CarbonlakeDataCompactionStateMachineStack } from './statemachine/carbonlake-qs-data-compaction-state-machine'
 import { CarbonLakeEventTriggerStateMachineStack } from './event/carbonlake-qs-event-trigger-state-machine'
 import { Construct } from 'constructs'
@@ -55,10 +55,13 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     )
 
     /** LAMBDAS TO CREATE ATHENA VIEWS */
-    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } =
-      new CarbonlakeQuickstartCreateAthenaViewsStack(this, 'carbonlakeQuickstartCreateAthenaViewsStack', {
+    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CLQSCreateAthenaViewsStack(
+      this,
+      'CLQSCreateAthenaViewsStack',
+      {
         enrichedDataDatabase: props?.enrichedDataDatabase,
-      })
+      }
+    )
 
     /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
     const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
