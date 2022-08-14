@@ -2,7 +2,7 @@
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - test
+  - static
   - validate
   - deploy
 
@@ -40,7 +40,7 @@ build-job:       # Validates that cdk will build, install dependencies, and that
     - echo "CDK synth complete."
 
 tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
-  stage: test
+  stage: static
   image: node:latest
   script:
     - echo "Installing typescript as dependency"
@@ -60,8 +60,8 @@ tslint-test-job:   # Runs eslint for typescript to validate linting of typescrip
     - npm run lint
     - echo "No lint issues found."
 
-python-bandit-test-job:   # Runs python bandit test job for security checks on python code in repo
-  stage: test    # Only starts when job in build stage completes successfully
+bandit:   # Runs python bandit test job for security checks on python code in repo
+  stage: static    # Only starts when job in build stage completes successfully
   image:
     name: python:latest
     entrypoint:
@@ -79,6 +79,49 @@ python-bandit-test-job:   # Runs python bandit test job for security checks on p
     reports:
       junit: bandit.xml
 
+flake8:
+  stage: static
+  image: python
+  script:
+  - apt-get -qy install flake8 python3-pip
+  - pip3 install flake8_formatter_junit_xml
+  - flake8 --version
+  - flake8 --format junit-xml $PYTHON_SCRIPTS > flake8.xml
+  artifacts:
+    when: always
+    reports:
+      junit: flake8.xml
+
+mypy:
+  stage: static
+  image: python
+  script:
+  - apt-get -qy install mypy
+  - mypy --version
+  - mypy --scripts-are-modules --junit-xml mypy.xml $PYTHON_SCRIPTS
+  artifacts:
+    when: always
+    reports:
+      junit: mypy.xml
+
+pylint:
+  stage: static
+  image: debian:bullseye
+  script:
+  - 'apt-get -qy install
+       pylint
+       python3-dns
+       python3-geoip
+       python3-pip
+       python3-junit.xml'
+  - pip3 install pylint_junit
+  - pylint --version
+  - 'pylint --output-format=pylint_junit.JUnitReporter $PYTHON_SCRIPTS
+       > pylint.xml'
+  artifacts:
+    when: always
+    reports:
+      junit: pylint.xml
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: test
