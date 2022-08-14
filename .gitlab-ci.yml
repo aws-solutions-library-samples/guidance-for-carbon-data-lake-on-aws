@@ -6,6 +6,12 @@ stages:          # List of stages for jobs, and their order of execution
   - validate
   - deploy
 
+variables:
+  PYTHON_SCRIPTS: bin/stats
+  TS_SCRIPTS: bin/stats
+  SHELL_SCRIPTS: bin/validate-config
+
+
 build-job:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
   image: docker
@@ -124,7 +130,7 @@ pylint:
       junit: pylint.xml
 
 cdk-nag-job:   # runs cdk-nag script in test stage
-  stage: test
+  stage: static
   script:
     - echo " Running security validation checks on code... This will take about 10 seconds."
     - sleep 10
