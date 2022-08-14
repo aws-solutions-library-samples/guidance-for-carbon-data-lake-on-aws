@@ -55,10 +55,13 @@ export class CarbonLakeDataCompactionPipelineStack extends Stack {
     )
 
     /** LAMBDAS TO CREATE ATHENA VIEWS */
-    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } =
-      new CLQSCreateAthenaViewsStack(this, 'CLQSCreateAthenaViewsStack', {
+    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CLQSCreateAthenaViewsStack(
+      this,
+      'CLQSCreateAthenaViewsStack',
+      {
         enrichedDataDatabase: props?.enrichedDataDatabase,
-      })
+      }
+    )
 
     /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
     const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {

@@ -57,12 +57,10 @@ export class CLQSStack extends cdk.Stack {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
     })
 
-
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
     const pipeline = new CLQSPipelineStack(scope, 'CarbonlakePipelineStack', {
-      
       dataLineageFunction: dataLineage.inputFunction,
       errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
@@ -111,6 +109,5 @@ export class CLQSStack extends cdk.Stack {
     // QS7 --> Create the carbonlake forecast stack
     // to enable this stack uncomment the next line
     //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
-
   }
 }

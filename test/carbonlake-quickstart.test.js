@@ -1,17 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const aws_cdk_lib_1 = require("aws-cdk-lib");
-const assertions_1 = require("aws-cdk-lib/assertions");
-const carbonlake_quickstart_stack_1 = require("../lib/carbonlake-quickstart-stack");
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+const aws_cdk_lib_1 = require('aws-cdk-lib')
+const assertions_1 = require('aws-cdk-lib/assertions')
+const carbonlake_quickstart_stack_1 = require('../lib/carbonlake-quickstart-stack')
 test('Snapshot', () => {
-    const app = new aws_cdk_lib_1.App();
-    const stack = new carbonlake_quickstart_stack_1.CLQSStack(app, 'test');
-    //Add your own required test outputs here
-    const template = assertions_1.Template.fromStack(stack);
-    template.hasOutput('APIURL', assertions_1.Match.objectLike({})); // Check to make sure the APIURL is output
-    template.hasOutput('password', assertions_1.Match.objectLike({})); // Check to make sure there is password ouput
-    template.hasOutput('WebAppUrl', assertions_1.Match.objectLike({})); // Check to make sure the web app outputs a url
-    template.hasOutput('S3LandingZoneInputBucketARN', assertions_1.Match.objectLike({})); // Check to make sure the S3 landing zone bucket input ARN is output
-    template.resourceCountIs('AWS::CloudFormation::Stack', 5);
-});
+  const app = new aws_cdk_lib_1.App()
+  const stack = new carbonlake_quickstart_stack_1.CLQSStack(app, 'test')
+  //Add your own required test outputs here
+  const template = assertions_1.Template.fromStack(stack)
+  template.hasOutput('APIURL', assertions_1.Match.objectLike({})) // Check to make sure the APIURL is output
+  template.hasOutput('password', assertions_1.Match.objectLike({})) // Check to make sure there is password ouput
+  template.hasOutput('WebAppUrl', assertions_1.Match.objectLike({})) // Check to make sure the web app outputs a url
+  template.hasOutput('S3LandingZoneInputBucketARN', assertions_1.Match.objectLike({})) // Check to make sure the S3 landing zone bucket input ARN is output
+  template.resourceCountIs('AWS::CloudFormation::Stack', 5)
+})
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FyYm9ubGFrZS1xdWlja3N0YXJ0LnRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJjYXJib25sYWtlLXF1aWNrc3RhcnQudGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUFpQztBQUNqQyx1REFBd0Q7QUFDeEQsb0ZBQThEO0FBRTlELElBQUksQ0FBQyxVQUFVLEVBQUUsR0FBRyxFQUFFO0lBQ3BCLE1BQU0sR0FBRyxHQUFHLElBQUksaUJBQUcsRUFBRSxDQUFBO0lBQ3JCLE1BQU0sS0FBSyxHQUFHLElBQUksdUNBQVMsQ0FBQyxHQUFHLEVBQUUsTUFBTSxDQUFDLENBQUE7SUFDeEMseUNBQXlDO0lBQ3pDLE1BQU0sUUFBUSxHQUFHLHFCQUFRLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFBO0lBQzFDLFFBQVEsQ0FBQyxTQUFTLENBQUMsUUFBUSxFQUFFLGtCQUFLLENBQUMsVUFBVSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUEsQ0FBQywwQ0FBMEM7SUFDN0YsUUFBUSxDQUFDLFNBQVMsQ0FBQyxVQUFVLEVBQUUsa0JBQUssQ0FBQyxVQUFVLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQSxDQUFDLDZDQUE2QztJQUNsRyxRQUFRLENBQUMsU0FBUyxDQUFDLFdBQVcsRUFBRSxrQkFBSyxDQUFDLFVBQVUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFBLENBQUMsK0NBQStDO0lBQ3JHLFFBQVEsQ0FBQyxTQUFTLENBQUMsNkJBQTZCLEVBQUUsa0JBQUssQ0FBQyxVQUFVLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQSxDQUFDLG9FQUFvRTtJQUM1SSxRQUFRLENBQUMsZUFBZSxDQUFDLDRCQUE0QixFQUFFLENBQUMsQ0FBQyxDQUFBO0FBQzNELENBQUMsQ0FBQyxDQUFBIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQXBwIH0gZnJvbSAnYXdzLWNkay1saWInXG5pbXBvcnQgeyBUZW1wbGF0ZSwgTWF0Y2ggfSBmcm9tICdhd3MtY2RrLWxpYi9hc3NlcnRpb25zJ1xuaW1wb3J0IHsgQ0xRU1N0YWNrIH0gZnJvbSAnLi4vbGliL2NhcmJvbmxha2UtcXVpY2tzdGFydC1zdGFjaydcblxudGVzdCgnU25hcHNob3QnLCAoKSA9PiB7XG4gIGNvbnN0IGFwcCA9IG5ldyBBcHAoKVxuICBjb25zdCBzdGFjayA9IG5ldyBDTFFTU3RhY2soYXBwLCAndGVzdCcpXG4gIC8vQWRkIHlvdXIgb3duIHJlcXVpcmVkIHRlc3Qgb3V0cHV0cyBoZXJlXG4gIGNvbnN0IHRlbXBsYXRlID0gVGVtcGxhdGUuZnJvbVN0YWNrKHN0YWNrKVxuICB0ZW1wbGF0ZS5oYXNPdXRwdXQoJ0FQSVVSTCcsIE1hdGNoLm9iamVjdExpa2Uoe30pKSAvLyBDaGVjayB0byBtYWtlIHN1cmUgdGhlIEFQSVVSTCBpcyBvdXRwdXRcbiAgdGVtcGxhdGUuaGFzT3V0cHV0KCdwYXNzd29yZCcsIE1hdGNoLm9iamVjdExpa2Uoe30pKSAvLyBDaGVjayB0byBtYWtlIHN1cmUgdGhlcmUgaXMgcGFzc3dvcmQgb3VwdXRcbiAgdGVtcGxhdGUuaGFzT3V0cHV0KCdXZWJBcHBVcmwnLCBNYXRjaC5vYmplY3RMaWtlKHt9KSkgLy8gQ2hlY2sgdG8gbWFrZSBzdXJlIHRoZSB3ZWIgYXBwIG91dHB1dHMgYSB1cmxcbiAgdGVtcGxhdGUuaGFzT3V0cHV0KCdTM0xhbmRpbmdab25lSW5wdXRCdWNrZXRBUk4nLCBNYXRjaC5vYmplY3RMaWtlKHt9KSkgLy8gQ2hlY2sgdG8gbWFrZSBzdXJlIHRoZSBTMyBsYW5kaW5nIHpvbmUgYnVja2V0IGlucHV0IEFSTiBpcyBvdXRwdXRcbiAgdGVtcGxhdGUucmVzb3VyY2VDb3VudElzKCdBV1M6OkNsb3VkRm9ybWF0aW9uOjpTdGFjaycsIDUpXG59KVxuIl19
