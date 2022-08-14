@@ -48,6 +48,9 @@ def create_athena_view(query, database_name, athena_query_output_location):
         QueryExecutionContext={
             'Database': database_name
         },
+        ExecutionParameters=[
+        'string',
+        ]
         ResultConfiguration={
             'OutputLocation': athena_query_output_location,
         }

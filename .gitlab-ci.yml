@@ -39,13 +39,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - cdk synth
     - echo "CDK synth complete."
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 10
-    - echo "Code coverage is 90%"
-
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   image: node:latest
@@ -66,6 +59,27 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "Linting code... This will take about 10 seconds."
     - npm run lint
     - echo "No lint issues found."
+
+python-bandit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  image:
+    name: python:latest
+    entrypoint:
+      - "/usr/bin/env"
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  script:
+    - ls -la
+    - python --version
+    - pip3 install --upgrade pip
+    - pip3 install --upgrade setuptools
+    - pip3 install bandit
+    - bandit ./ -r | tee ./output_test.log
+    - severity_count=$(egrep "Severity:\sHigh" output_test.log | wc -l)
+    - |
+      if [ $severity_count -neq 0 ]; then
+        exit 1
+      fi
+    - echo ${TF_ROOT}
 
 cfn-guard-job:   # google about cfn-guard , its running security policies as code against CFN 
   stage: validate    # It can run at the same time as validation
