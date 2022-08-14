@@ -73,11 +73,9 @@ python-bandit-test-job:   # Runs python bandit test job for security checks on p
     - pip3 install --upgrade pip
     - pip3 install --upgrade setuptools
     - pip3 install bandit
-    - bandit ./ -r | tee ./output_test.log
+    - bandit ./ -r | tee ./output_test.log --format xml $PYTHON_SCRIPTS > bandit.xml
   artifacts:
     when: always
-    paths:
-      - bandit.xml
     reports:
       junit: bandit.xml
 
