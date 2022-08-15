@@ -17,7 +17,7 @@ ATHENA_QUERY_OUTPUT_LOCATION = 's3://' + os.environ.get('ATHENA_QUERY_OUTPUT_LOC
 
 # create the following Athena views:
 # combined_emissions_data unions historical and latest emissions data
-create_combined_view_query = 'CREATE OR REPLACE VIEW "combined_emissions_data" AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, current_date date FROM glue_database_name.formatted_today_view_name UNION ALL SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, date FROM enriched-calculator-data.formatted_historical_data WHERE (date <> current_date)'
+create_combined_view_query = 'CREATE OR REPLACE VIEW ? AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, current_date date FROM glue_database_name.formatted_today_view_name UNION ALL SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, co2_amount, co2_unit, ch4_amount, ch4_unit, n2o_amount, n2o_unit, co2e_ar4_amount, co2e_ar4_unit, co2e_ar5_amount, co2e_ar5_unit, date FROM ?.? WHERE (date <> current_date)'
 
 
 client = boto3.client('athena')
@@ -49,6 +49,13 @@ def create_athena_view(query, database_name, athena_query_output_location):
         QueryExecutionContext={
             'Database': database_name
         },
+        ExecutionParameters=[
+          COMBINED_DATA_VIEW_NAME,
+          GLUE_DATABASE_NAME,
+          FORMATTED_TODAY_VIEW_NAME,
+          GLUE_DATABASE_NAME,
+          FORMATTED_HISTORICAL_VIEW_NAME
+        ],
         ResultConfiguration={
             'OutputLocation': athena_query_output_location,
         }
