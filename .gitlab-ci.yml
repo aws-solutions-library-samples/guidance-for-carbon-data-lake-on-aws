@@ -87,12 +87,15 @@ bandit:   # Runs python bandit test job for security checks on python code in re
 
 flake8:
   stage: static
-  image: python
+  image: python:latest
   script:
-  - apt-get -qy install flake8 python3-pip
-  - pip3 install flake8_formatter_junit_xml
-  - flake8 --version
-  - flake8 --format junit-xml $PYTHON_SCRIPTS > flake8.xml
+    - ls -la
+    - python --version
+    - pip3 install --upgrade pip
+    - pip3 install --upgrade setuptools
+    - pip3 install flake8 flake8_formatter_junit_xml
+    - flake8 --version
+    - flake8 --format junit-xml $PYTHON_SCRIPTS > flake8.xml
   artifacts:
     when: always
     reports:
@@ -100,11 +103,15 @@ flake8:
 
 mypy:
   stage: static
-  image: python
+  image: python:latest
   script:
-  - apt-get -qy install mypy
-  - mypy --version
-  - mypy --scripts-are-modules --junit-xml mypy.xml $PYTHON_SCRIPTS
+    - ls -la
+    - python --version
+    - pip3 install --upgrade pip
+    - pip3 install --upgrade setuptools
+    - pip3 install mypy
+    - mypy --version
+    - mypy --scripts-are-modules --junit-xml mypy.xml $PYTHON_SCRIPTS
   artifacts:
     when: always
     reports:
@@ -114,7 +121,7 @@ pylint:
   stage: static
   image: debian:bullseye
   script:
-  - 'apt-get -qy install
+  - 'pip3 install
        pylint
        python3-dns
        python3-geoip
