@@ -8,7 +8,7 @@ import * as path from 'path'
 
 interface CLQSQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket
-  quicksightUserName?: any
+  quicksightUserName?: string
   enrichedDataDatabase: glue.CfnDatabase
 }
 

@@ -5,7 +5,7 @@ import { CLQSDataLineageStack } from './stacks/stack-data-lineage/carbonlake-dat
 import { CLQSSharedResourcesStack } from './stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CarbonLakeDataCompactionPipelineStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
 import { CfnOutput } from 'aws-cdk-lib'
-import { CarbonlakeQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
+import { CLQSQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
 import { CLQSSageMakerNotebookStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
 import { Construct } from 'constructs'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -105,9 +105,5 @@ export class CLQSStack extends cdk.Stack {
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
     //const forecast = new CLQSSageMakerNotebookStack(scope, 'CarbonlakeForecastStack')
-
-    // QS7 --> Create the carbonlake forecast stack
-    // to enable this stack uncomment the next line
-    //const forecast = new CarbonlakeForecastStack(scope, 'CarbonlakeForecastStack')
   }
 }
