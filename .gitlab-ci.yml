@@ -85,57 +85,6 @@ bandit:   # Runs python bandit test job for security checks on python code in re
     reports:
       junit: bandit.xml
 
-flake8:
-  stage: static
-  image: python:latest
-  script:
-    - ls -la
-    - python --version
-    - pip3 install --upgrade pip
-    - pip3 install --upgrade setuptools
-    - pip3 install flake8 flake8_formatter_junit_xml
-    - flake8 --version
-    - flake8 --format junit-xml $PYTHON_SCRIPTS > flake8.xml
-  artifacts:
-    when: always
-    reports:
-      junit: flake8.xml
-
-mypy:
-  stage: static
-  image: python:latest
-  script:
-    - ls -la
-    - python --version
-    - pip3 install --upgrade pip
-    - pip3 install --upgrade setuptools
-    - pip3 install mypy
-    - mypy --version
-    - mypy --scripts-are-modules --junit-xml mypy.xml $PYTHON_SCRIPTS
-  artifacts:
-    when: always
-    reports:
-      junit: mypy.xml
-
-pylint:
-  stage: static
-  image: debian:bullseye
-  script:
-  - 'pip3 install
-       pylint
-       python3-dns
-       python3-geoip
-       python3-pip
-       python3-junit.xml'
-  - pip3 install pylint_junit
-  - pylint --version
-  - 'pylint --output-format=pylint_junit.JUnitReporter $PYTHON_SCRIPTS
-       > pylint.xml'
-  artifacts:
-    when: always
-    reports:
-      junit: pylint.xml
-
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
   script:
