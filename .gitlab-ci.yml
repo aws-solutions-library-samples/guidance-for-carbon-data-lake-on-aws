@@ -79,11 +79,11 @@ bandit:   # Runs python bandit test job for security checks on python code in re
     - pip3 install --upgrade pip
     - pip3 install --upgrade setuptools
     - pip3 install bandit
-    - bandit --format xml $PYTHON_SCRIPTS > bandit.xml
-  artifacts:
-    when: always
-    reports:
-      junit: bandit.xml
+    - bandit ./ #--format xml $PYTHON_SCRIPTS > bandit.xml
+  #artifacts:
+    #when: always
+    #reports:
+      #junit: bandit.xml
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static

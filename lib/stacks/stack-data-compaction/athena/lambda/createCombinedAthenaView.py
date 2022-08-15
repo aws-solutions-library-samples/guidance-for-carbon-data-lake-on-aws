@@ -47,6 +47,7 @@ Output: {
       }
     }
 '''
+
 def create_athena_view(query, database_name, athena_query_output_location):
     response = client.start_query_execution(
         QueryString=query,
