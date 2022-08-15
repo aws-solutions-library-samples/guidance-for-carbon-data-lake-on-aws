@@ -6,14 +6,14 @@ import * as cfninc from 'aws-cdk-lib/cloudformation-include'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-interface CarbonlakeQuicksightStackProps extends StackProps {
+interface CLQSQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket
   quicksightUserName?: any
   enrichedDataDatabase: glue.CfnDatabase
 }
 
-export class CarbonlakeQuicksightStack extends Stack {
-  constructor(scope: Construct, id: string, props: CarbonlakeQuicksightStackProps) {
+export class CLQSQuicksightStack extends Stack {
+  constructor(scope: Construct, id: string, props: CLQSQuicksightStackProps) {
     super(scope, id, props)
 
     // Update Quicksight IAM role to allow access to enriched data S3 bucket
