@@ -70,10 +70,6 @@ def create_historical_athena_view(query, database_name, athena_query_output_loca
         QueryExecutionContext={
             'Database': database_name
         },
-        ExecutionParameters=[
-          GLUE_DATABASE_NAME,
-          GLUE_HISTORICAL_TABLE_NAME
-        ],
         ResultConfiguration={
             'OutputLocation': athena_query_output_location,
         }
