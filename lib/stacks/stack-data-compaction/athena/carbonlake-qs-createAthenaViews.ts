@@ -109,7 +109,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
     role.addManagedPolicy(lambdaPolicy)
 
     // Lambda function that creates today & historical Athena views
-    this.createIndividualAthenaViewsLambda = new lambda.Function(this, 'carbonLakeCreateIndividualAthenaViewsHandler', {
+    this.createIndividualAthenaViewsLambda = new lambda.Function(this, 'CLQSIndividualAthenaViewsHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
@@ -123,7 +123,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
     })
 
     // Lambda function that creates combined emissions Athena view
-    this.createCombinedAthenaViewsLambda = new lambda.Function(this, 'carbonLakeCreateCombinedAthenaViewHandler', {
+    this.createCombinedAthenaViewsLambda = new lambda.Function(this, 'CLQSCombinedAthenaViewHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,

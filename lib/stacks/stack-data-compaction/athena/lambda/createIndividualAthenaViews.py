@@ -19,10 +19,13 @@ ATHENA_QUERY_OUTPUT_LOCATION = 's3://' + os.environ.get('ATHENA_QUERY_OUTPUT_LOC
 # create the following Athena views:
 # today_formatted flattens JSON structure and applies friendly names to columns
 # historical_formatted applies friendly names to already flattened columns
-create_today_formatted_view_query = 'CREATE OR REPLACE VIEW ? AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, emissions_output.calculated_emissions.co2.amount co2_amount, emissions_output.calculated_emissions.co2.unit co2_unit, emissions_output.calculated_emissions.ch4.amount ch4_amount, emissions_output.calculated_emissions.ch4.unit ch4_unit, emissions_output.calculated_emissions.n2o.amount n2o_amount, emissions_output.calculated_emissions.n2o.unit n2o_unit, emissions_output.calculated_emissions.co2e.ar4.amount co2e_ar4_amount, emissions_output.calculated_emissions.co2e.ar4.unit co2e_ar4_unit, emissions_output.calculated_emissions.co2e.ar5.amount co2e_ar5_amount, emissions_output.calculated_emissions.co2e.ar5.unit co2e_ar5_unit FROM ?.?'
-create_historial_formatted_view_query = 'CREATE OR REPLACE VIEW ? AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, "emissions_output.calculated_emissions.co2.amount" co2_amount, "emissions_output.calculated_emissions.co2.unit" co2_unit, "emissions_output.calculated_emissions.ch4.amount" ch4_amount, "emissions_output.calculated_emissions.ch4.unit" ch4_unit, "emissions_output.calculated_emissions.n2o.amount" n2o_amount, "emissions_output.calculated_emissions.n2o.unit" n2o_unit, "emissions_output.calculated_emissions.co2e.ar4.amount" co2e_ar4_amount, "emissions_output.calculated_emissions.co2e.ar4.unit" co2e_ar4_unit, "emissions_output.calculated_emissions.co2e.ar5.amount" co2e_ar5_amount, "emissions_output.calculated_emissions.co2e.ar5.unit" co2e_ar5_unit, date(partition_0) date FROM ?.?'
+create_today_formatted_view_query = f'CREATE OR REPLACE VIEW "formatted_today_data" AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, emissions_output.calculated_emissions.co2.amount co2_amount, emissions_output.calculated_emissions.co2.unit co2_unit, emissions_output.calculated_emissions.ch4.amount ch4_amount, emissions_output.calculated_emissions.ch4.unit ch4_unit, emissions_output.calculated_emissions.n2o.amount n2o_amount, emissions_output.calculated_emissions.n2o.unit n2o_unit, emissions_output.calculated_emissions.co2e.ar4.amount co2e_ar4_amount, emissions_output.calculated_emissions.co2e.ar4.unit co2e_ar4_unit, emissions_output.calculated_emissions.co2e.ar5.amount co2e_ar5_amount, emissions_output.calculated_emissions.co2e.ar5.unit co2e_ar5_unit FROM {GLUE_DATABASE_NAME}.today'
+create_historial_formatted_view_query = f'CREATE OR REPLACE VIEW "formatted_historical_data" AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, "emissions_output.calculated_emissions.co2.amount" co2_amount, "emissions_output.calculated_emissions.co2.unit" co2_unit, "emissions_output.calculated_emissions.ch4.amount" ch4_amount, "emissions_output.calculated_emissions.ch4.unit" ch4_unit, "emissions_output.calculated_emissions.n2o.amount" n2o_amount, "emissions_output.calculated_emissions.n2o.unit" n2o_unit, "emissions_output.calculated_emissions.co2e.ar4.amount" co2e_ar4_amount, "emissions_output.calculated_emissions.co2e.ar4.unit" co2e_ar4_unit, "emissions_output.calculated_emissions.co2e.ar5.amount" co2e_ar5_amount, "emissions_output.calculated_emissions.co2e.ar5.unit" co2e_ar5_unit, date(partition_0) date FROM {GLUE_DATABASE_NAME}.historical'
 
 client = boto3.client('athena')
+print("##########################BOTO3 VERSION##########################")
+print(boto3.__version__)
+print("##########################BOTO3 VERSION##########################")
 
 '''
 Input:
@@ -52,7 +55,6 @@ def create_today_athena_view(query, database_name, athena_query_output_location)
             'Database': database_name
         },
         ExecutionParameters=[
-          FORMATTED_TODAY_VIEW_NAME,
           GLUE_DATABASE_NAME,
           GLUE_TODAY_TABLE_NAME
         ],
@@ -69,7 +71,6 @@ def create_historical_athena_view(query, database_name, athena_query_output_loca
             'Database': database_name
         },
         ExecutionParameters=[
-          FORMATTED_HISTORICAL_VIEW_NAME,
           GLUE_DATABASE_NAME,
           GLUE_HISTORICAL_TABLE_NAME
         ],
