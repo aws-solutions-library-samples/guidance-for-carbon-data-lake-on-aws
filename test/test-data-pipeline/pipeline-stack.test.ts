@@ -3,7 +3,7 @@ import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CLQSPipelineStack } from '../../lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack'
+import { CLQSDataPipelineStack } from '../../lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack'
 
 describe('test pipeline stack', () => {
   let template: Template | null
@@ -28,7 +28,7 @@ describe('test pipeline stack', () => {
     const dummyBucket = new s3.Bucket(dummyInputsStack, 'dummyBucket', {})
 
     // create the pipeline stack with the required props
-    const pipelineStack = new CLQSPipelineStack(app, 'PipelineStack', {
+    const pipelineStack = new CLQSDataPipelineStack(app, 'PipelineStack', {
       dataLineageFunction: dummyFunction,
       //landingBucket: dummyBucket, <--remove because bucket is now created in pipeline stack
       errorBucket: dummyBucket,

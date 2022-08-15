@@ -24,7 +24,7 @@ interface PipelineProps extends StackProps {
   notificationEmailAddress: string
 }
 
-export class CLQSPipelineStack extends Stack {
+export class CLQSDataPipelineStack extends Stack {
   public readonly carbonlakeLandingBucket: s3.Bucket
   public readonly calculatorOutputTable: ddb.Table
   public readonly calculatorFunction: lambda.Function
@@ -35,7 +35,7 @@ export class CLQSPipelineStack extends Stack {
 
     // Landing bucket where files are dropped by customers
     // Once processed, the files are removed by the pipeline
-    this.carbonlakeLandingBucket = new s3.Bucket(this, 'carbonlakeLandingBucket', {
+    this.carbonlakeLandingBucket = new s3.Bucket(this, 'CLQSLandingBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
@@ -57,13 +57,13 @@ export class CLQSPipelineStack extends Stack {
     })
 
     /* ======== DATA QUALITY ======== */
-    const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'carbonlakeDataQualityStack', {
+    const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'CLQSDataQualityStack', {
       inputBucket: this.carbonlakeLandingBucket,
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket,
     })
 
-    const dqErrorNotificationSNS = new sns.Topic(this, 'carbonlakeDataQualityNotification', {})
+    const dqErrorNotificationSNS = new sns.Topic(this, 'CLQSDataQualityNotification', {})
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
@@ -84,7 +84,7 @@ export class CLQSPipelineStack extends Stack {
     )
 
     // Lambda function to list total objects in the directory created by AWS Glue
-    const batchEnumLambda = new lambda.Function(this, 'carbonlakePipelineBatchLambda', {
+    const batchEnumLambda = new lambda.Function(this, 'CLQSDataPipelineBatchLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: 'app.lambda_handler',
@@ -99,7 +99,7 @@ export class CLQSPipelineStack extends Stack {
 
     /* ======== CALCULATION ======== */
 
-    const { calculatorLambda, calculatorOutputTable } = new CLQSCalculatorStack(this, 'CarbonlakeCalculatorStack', {
+    const { calculatorLambda, calculatorOutputTable } = new CLQSCalculatorStack(this, 'CLQSCalculatorStack', {
       transformedBucket: props.transformedBucket,
       enrichedBucket: props.enrichedBucket,
     })
@@ -127,7 +127,7 @@ export class CLQSPipelineStack extends Stack {
     /* ======== KICKOFF LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
-    const kickoffFunction = new lambda.Function(this, 'carbonlakePipelineKickoffLambda', {
+    const kickoffFunction = new lambda.Function(this, 'CLQSKickoffLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
