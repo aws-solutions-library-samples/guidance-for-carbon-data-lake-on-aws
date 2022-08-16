@@ -8,7 +8,7 @@ import { Aspects } from 'aws-cdk-lib';
 
 const app = new cdk.App()
 
-const carbonlakeStack = new CLQSStack(app, 'CLQSMain')
+const carbonlakeStack = new CLQSStack(app, 'CLQS');
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
 const nag = app.node.tryGetContext('nag')
@@ -24,6 +24,7 @@ const nag = app.node.tryGetContext('nag')
 if (nag == "true"){
     Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 }
+
 
 new CLQSTestStack(app, 'CLQSTest', {
   calculatorFunction: carbonlakeStack.calculatorFunction,

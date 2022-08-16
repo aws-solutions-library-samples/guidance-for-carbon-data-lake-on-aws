@@ -21,6 +21,14 @@ export class CLQSStack extends cdk.Stack {
   public readonly enrichedBucket: s3.Bucket
   public readonly pipelineStateMachine: stepfunctions.StateMachine
   public readonly calculatorOutputTable: dynamodb.Table
+  public readonly sharedResources: CLQSSharedResourcesStack
+  public readonly dataLineage: CLQSDataLineageStack
+  public readonly dataPipeline: CLQSDataPipelineStack
+  public readonly dataCompactionPipeline: CLQSCompactionStack
+  public readonly api: CLQSApiStack
+  public readonly quicksight: CLQSQuicksightStack
+  public readonly forecast: CLQSSageMakerNotebookStack
+  public contextOutput: object
 
   constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
     super(scope, id, props)
@@ -48,62 +56,127 @@ export class CLQSStack extends cdk.Stack {
     }
 
     // QS1 --> Create the carbonlake shared resource stack
-    const sharedResources = new CLQSSharedResourcesStack(scope, 'CLQSSharedResourcesStack')
-    this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket
-    this.transformedBucket = sharedResources.carbonlakeTransformedBucket
+    this.sharedResources = new CLQSSharedResourcesStack(this, 'SharedResources')
+    this.enrichedBucket = this.sharedResources.carbonlakeEnrichedBucket
+    this.transformedBucket = this.sharedResources.carbonlakeTransformedBucket
 
     // QS2 --> Create the carbonlake data lineage stack
-    const dataLineage = new CLQSDataLineageStack(scope, 'CLQSLineageStack', {
-      archiveBucket: sharedResources.carbonlakeDataLineageBucket,
+    this.dataLineage = new CLQSDataLineageStack(this, 'LineageStack', {
+      archiveBucket: this.sharedResources.carbonlakeDataLineageBucket,
     })
 
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
-    const pipeline = new CLQSDataPipelineStack(scope, 'CLQSDataPipelineStack', {
-      dataLineageFunction: dataLineage.inputFunction,
-      errorBucket: sharedResources.carbonlakeErrorBucket,
-      rawBucket: sharedResources.carbonlakeRawBucket,
-      transformedBucket: sharedResources.carbonlakeTransformedBucket,
-      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+    this.dataPipeline = new CLQSDataPipelineStack(this, 'DataPipelineStack', {
+      dataLineageFunction: this.dataLineage.inputFunction,
+      errorBucket: this.sharedResources.carbonlakeErrorBucket,
+      rawBucket: this.sharedResources.carbonlakeRawBucket,
+      transformedBucket: this.sharedResources.carbonlakeTransformedBucket,
+      enrichedBucket: this.sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail,
     })
-    this.landingBucket = pipeline.carbonlakeLandingBucket
-    this.calculatorFunction = pipeline.calculatorFunction
-    this.pipelineStateMachine = pipeline.pipelineStateMachine
-    this.calculatorOutputTable = pipeline.calculatorOutputTable
-
-    //pipeline.node.addDependency(sharedResources);
-
-    //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
+    this.landingBucket = this.dataPipeline.carbonlakeLandingBucket
+    this.calculatorFunction = this.dataPipeline.calculatorFunction
+    this.pipelineStateMachine = this.dataPipeline.pipelineStateMachine
+    this.calculatorOutputTable = this.dataPipeline.calculatorOutputTable
 
     // QS4 --> Create the carbonlake data compaction pipeline stack
-    const dataCompactionPipeline = new CLQSCompactionStack(
-      scope,
-      'CLQSCompactionStack',
+    this.dataCompactionPipeline = new CLQSCompactionStack(
+      this,
+      'CompactionStack',
       {
-        enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-        enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
-        dataLineageTraceQueue: dataLineage.traceQueue,
+        enrichedBucket: this.sharedResources.carbonlakeEnrichedBucket,
+        enrichedDataDatabase: this.sharedResources.glueEnrichedDataDatabase,
+        dataLineageTraceQueue: this.dataLineage.traceQueue,
       }
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
     // QS5 --> Create the carbonlake api stack
-    const api = new CLQSApiStack(scope, 'CLQSApiStack', {
+    this.api = new CLQSApiStack(this, 'ApiStack', {
       adminEmail: adminEmail,
-      calculatorOutputTableRef: pipeline.calculatorOutputTable,
+      calculatorOutputTableRef: this.dataPipeline.calculatorOutputTable,
     })
 
     // QS6 --> Create the carbonlake quicksight stack
     /* commenting quicksight stack out for test
-    const quicksight = new CarbonlakeQuicksightStack(scope, 'CarbonlakeQuicksightStack', {
-      enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+    this.quicksight = new CLQSQuicksightStack(this, 'QuicksightStack', {
+      enrichedBucket: this.sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
-      enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
+      enrichedDataDatabase: this.sharedResources.glueEnrichedDataDatabase,
     })
     */
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
-    const forecast = new CLQSSageMakerNotebookStack(scope, 'CLQSSageMakerNotebookStack');
+    this.forecast = new CLQSSageMakerNotebookStack(this, 'SageMakerNotebookStack');
+    
+    /* commenting quicksight stack out for test
+
+    // Output Landing Bucket
+    const contextLandingBucket = new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+
+
+    // Output glue data brew link
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    }); 
+
+    // Output link to state machine
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+
+    }); 
+
+    // Output API Endpoint
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+
+    // Output API Username
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+
+    // Output API Password
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+
+    // Output Appsync Query Link
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+    
+    // Output link to quicksight
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+
+    // Output link to forecast stack
+    new cdk.CfnOutput(this, 'insert', {
+      value: "insert",
+      description: 'insert',
+      exportName: 'insert',
+    });
+  
+    */
   }
 }

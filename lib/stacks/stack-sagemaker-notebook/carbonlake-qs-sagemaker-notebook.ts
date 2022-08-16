@@ -65,12 +65,18 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
       instanceType: 'ml.t2.large',
       roleArn: sagemakerExecutionRole.roleArn,
       notebookInstanceName: "CarbonLakeSagemakerNotebook",
-      defaultCodeRepository: `https://git-codecommit.${cdk.Stack.of(this).region}.amazonaws.com/v1/repos/${this.sagemakerCodecommitRepo.repositoryName}`,
+      defaultCodeRepository: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
       volumeSizeInGb: 20,
     });
 
     // adds codecommit repo as dependency so that it is created before the sagemaker notebook instance
-    this.sagemakerNotebookInstance.node.addDependency(this.sagemakerCodecommitRepo);
+    //this.sagemakerNotebookInstance.node.addDependency(this.sagemakerCodecommitRepo);
+
+    new cdk.CfnOutput(this, 'CLQSSagemakerRepository', {
+      value: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
+      description: 'CLQSSagemakerRepository',
+      exportName: 'CLQSSagemakerRepository',
+    });
 
     cdk.Tags.of(this).add("component", "sagemaker");
   }
