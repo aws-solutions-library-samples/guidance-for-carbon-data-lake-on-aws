@@ -3,7 +3,7 @@ import { CLQSApiStack } from './stacks/stack-api/carbonlake-api-stack'
 import { CLQSPipelineStack } from './stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack'
 import { CLQSDataLineageStack } from './stacks/stack-data-lineage/carbonlake-data-lineage-stack'
 import { CLQSSharedResourcesStack } from './stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
-import { CarbonLakeDataCompactionPipelineStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
+import { CLQSCompactionStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
 import { CfnOutput } from 'aws-cdk-lib'
 import { CLQSQuicksightStack } from './stacks/stack-quicksight/carbonlake-qs-quicksight'
 import { CLQSSageMakerNotebookStack } from './stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
@@ -48,19 +48,19 @@ export class CLQSStack extends cdk.Stack {
     }
 
     // QS1 --> Create the carbonlake shared resource stack
-    const sharedResources = new CLQSSharedResourcesStack(scope, 'CarbonlakeSharedResourceStack')
+    const sharedResources = new CLQSSharedResourcesStack(scope, 'CLQSSharedResourcesStack')
     this.enrichedBucket = sharedResources.carbonlakeEnrichedBucket
     this.transformedBucket = sharedResources.carbonlakeTransformedBucket
 
     // QS2 --> Create the carbonlake data lineage stack
-    const dataLineage = new CLQSDataLineageStack(scope, 'CarbonlakeDataLineageStack', {
+    const dataLineage = new CLQSDataLineageStack(scope, 'CLQSDataLineageStack', {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
     })
 
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
-    const pipeline = new CLQSPipelineStack(scope, 'CarbonlakePipelineStack', {
+    const pipeline = new CLQSPipelineStack(scope, 'CLQSPipelineStack', {
       dataLineageFunction: dataLineage.inputFunction,
       errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,
@@ -78,9 +78,9 @@ export class CLQSStack extends cdk.Stack {
     //const dataPipeline = new CarbonDataPipelineStack(app, "CarbonlakeDataPipelineStack");
 
     // QS4 --> Create the carbonlake data compaction pipeline stack
-    const dataCompactionPipeline = new CarbonLakeDataCompactionPipelineStack(
+    const dataCompactionPipeline = new CLQSCompactionStack(
       scope,
-      'CarbonlakeDataCompactionPipelineStack',
+      'CLQSCompactionStack',
       {
         enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
         enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
@@ -89,7 +89,7 @@ export class CLQSStack extends cdk.Stack {
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
     // QS5 --> Create the carbonlake api stack
-    const api = new CLQSApiStack(scope, 'CarbonLakeApiStack', {
+    const api = new CLQSApiStack(scope, 'CLQSApiStack', {
       adminEmail: adminEmail,
       calculatorOutputTableRef: pipeline.calculatorOutputTable,
     })
@@ -104,6 +104,6 @@ export class CLQSStack extends cdk.Stack {
     */
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
-    //const forecast = new CLQSSageMakerNotebookStack(scope, 'CarbonlakeForecastStack')
+    const forecast = new CLQSSageMakerNotebookStack(scope, 'CLQSSageMakerNotebookStack');
   }
 }

@@ -14,14 +14,14 @@ import { CarbonlakeDataCompactionStateMachineStack } from './statemachine/carbon
 import { CarbonLakeEventTriggerStateMachineStack } from './event/carbonlake-qs-event-trigger-state-machine'
 import { Construct } from 'constructs'
 
-interface CarbonLakeDataCompactionPipelineStackProps extends StackProps {
+interface CLQSCompactionStackProps extends StackProps {
   enrichedBucket: s3.Bucket
   enrichedDataDatabase: glue.CfnDatabase
   dataLineageTraceQueue: sqs.Queue
 }
 
-export class CarbonLakeDataCompactionPipelineStack extends Stack {
-  constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionPipelineStackProps) {
+export class CLQSCompactionStack extends Stack {
+  constructor(scope: Construct, id: string, props: CLQSCompactionStackProps) {
     super(scope, id, props)
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */
