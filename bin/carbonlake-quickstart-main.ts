@@ -8,7 +8,12 @@ import { Aspects } from 'aws-cdk-lib';
 
 const app = new cdk.App()
 
-const carbonlakeStack = new CLQSStack(app, 'CLQS');
+const carbonlakeStack = new CLQSStack(app, 'CLQS', {
+  env: {
+    region: app.node.tryGetContext('awsRegion')? app.node.tryGetContext('awsRegion') : process.env.CDK_DEFAULT_REGION,
+    account: process.env.CDK_DEFAULT_ACCOUNT
+  }
+});
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
 const nag = app.node.tryGetContext('nag')
