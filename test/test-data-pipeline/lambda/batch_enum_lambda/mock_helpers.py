@@ -1,5 +1,6 @@
 from collections import namedtuple
 import random
+import os
 
 def lambda_context():
     lambda_context = {
@@ -17,4 +18,4 @@ class MockDataHandler:
 
 class MockS3Handler:
     def list_directory_files(self, prefix=""):
-        return [ "s3://<bucket>/<key>" for _ in range(random.randrange(2, 5)) ]
+        return [ "s3://<bucket>/<key>" for _ in range(random.SystemRandom.randrange(2, 5)) ]
