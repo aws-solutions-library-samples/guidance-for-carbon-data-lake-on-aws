@@ -7,7 +7,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - static
   - validate
-  - test-deploy
+  - deploy
 
 variables:
   PYTHON_SCRIPTS: bin/stats
@@ -86,13 +86,27 @@ bandit:   # Runs python bandit test job for security checks on python code in re
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
+  image: node:latest
   script:
-    - echo " Running security validation checks on code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No issues found!"
+    - echo "Installing typescript as dependency"
+    - npm install typescript@latest -g
+    - echo "succesfully installed typescript"
+    - echo "Installing python as dependency"
+    - npm i python@latest -g
+    - echo "succesfully installed python"
+    - echo "Installing all package dependencies"
+    - npm install -g aws-cdk
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Running cdk nag to check for security vulnerabilities"
+    - cdk synth --context nag=true
+    - echo "Completed CDK nag check"
 
 taskcat-deploy-job:      # Runs taskcat deployment job in test AWS account
-  stage: test-deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Simulating application deployment..."
     - echo "Application deployment placeholder passed"
