@@ -3,17 +3,18 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import * as cfninc from 'aws-cdk-lib/cloudformation-include'
+//import { aws_quicksight as quicksight } from 'aws-cdk-lib';
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-interface CarbonlakeQuicksightStackProps extends StackProps {
+interface CLQSQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket
-  quicksightUserName?: any
+  quicksightUsername?: 'string'
   enrichedDataDatabase: glue.CfnDatabase
 }
 
-export class CarbonlakeQuicksightStack extends Stack {
-  constructor(scope: Construct, id: string, props: CarbonlakeQuicksightStackProps) {
+export class CLQSQuicksightStack extends Stack {
+  constructor(scope: Construct, id: 'string', props: CLQSQuicksightStackProps) {
     super(scope, id, props)
 
     // Update Quicksight IAM role to allow access to enriched data S3 bucket
@@ -33,6 +34,7 @@ export class CarbonlakeQuicksightStack extends Stack {
     // Create unique identifier to be appended to QuickSight resources
     const quicksightUniqueIdentifier = `CarbonLake-Combined-Emissions-${Names.uniqueId(role).slice(-8)}`
 
+
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
     const template = new cfninc.CfnInclude(this, 'Template', {
       templateFile: path.join(
@@ -46,11 +48,13 @@ export class CarbonlakeQuicksightStack extends Stack {
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
-        Username: props.quicksightUserName ?? '',
+        Username: props.quicksightUsername ?? '',
         Unique_Identifier: quicksightUniqueIdentifier,
-        EnrichedDataDatabaseName: props.enrichedDataDatabase.ref,
+        EnrichedDataDatabasename: props.enrichedDataDatabase.ref,
       },
     })
+
+
 
     new CfnOutput(this, 'QuickSightDataSource', {
       value: `${quicksightUniqueIdentifier}-Athena-DataSource`,

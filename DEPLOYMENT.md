@@ -154,8 +154,10 @@ Time to test some data out and see if everything is working. This section assume
 - The workflow will highlight green for each passed step. See two image examples below.
 
 ![In-Progress Step Functions Workflow](resources/carbonlake-quickstart-step-func-in-progress.png)
+Figure. In progress step function workflow
 
 ![Successful Step Functions Workflow](resources/carbonlake-quickstart-step-func-graph-inspector-completed.png)
+Figure. Completed step function workflow
 
 ### 4/ Query your GraphQL API endpoint
 

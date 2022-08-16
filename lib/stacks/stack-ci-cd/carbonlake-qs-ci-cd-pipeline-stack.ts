@@ -3,7 +3,7 @@ import * as codecommit from 'aws-cdk-lib/aws-codecommit'
 import { Construct } from 'constructs'
 import { CodeBuildStep, CodePipeline, CodePipelineSource, ManualApprovalStep } from 'aws-cdk-lib/pipelines'
 import { CLQSPipelineStage } from './stages/carbonlake-qs-ci-cd-stage'
-import { CarbonlakeGitlabMirroringStack } from './gitlab-mirroring-aws-remove-later/carbonlake-qs-gitlab-mirroring'
+import { CLQSGitlabMirror } from '../../constructs/construct-gitlab-mirroring/carbonlake-qs-gitlab-mirroring'
 
 export class CLQSCiCdStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -13,6 +13,7 @@ export class CLQSCiCdStack extends cdk.Stack {
     // If you are repurposing this repository use your own name here
     const repo = new codecommit.Repository(this, 'CarbonLakeRepo', {
       repositoryName: 'CarbonLakeRepo',
+      
     })
 
     const repoBranch = this.node.tryGetContext('repoBranch')
@@ -40,8 +41,11 @@ export class CLQSCiCdStack extends cdk.Stack {
       dockerEnabledForSynth: true,
     })
 
-    const gitlabMirroring = new CarbonlakeGitlabMirroringStack(scope, 'CarbonLakeGitlabMirroringStack', {
+    const gitlabMirroring = new CLQSGitlabMirror(this, 'CLQSGitlabMirror', {
       repoName: 'CarbonLakeRepo', // repo name currently hard-coded TODO: take as parameter from pipeline
+      iamUserName: 'GitlabMirroringUser',
+      awsRegion: cdk.Stack.of(this).region,
+      awsAccountId: cdk.Stack.of(this).account
     })
 
     const deploy = new CLQSPipelineStage(this, 'Deploy')
