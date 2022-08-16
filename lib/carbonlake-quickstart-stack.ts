@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib'
 import { CLQSApiStack } from './stacks/stack-api/carbonlake-api-stack'
-import { CLQSPipelineStack } from './stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack'
+import { CLQSDataPipelineStack } from './stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack'
 import { CLQSDataLineageStack } from './stacks/stack-data-lineage/carbonlake-data-lineage-stack'
 import { CLQSSharedResourcesStack } from './stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CLQSCompactionStack } from './stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline'
@@ -53,14 +53,14 @@ export class CLQSStack extends cdk.Stack {
     this.transformedBucket = sharedResources.carbonlakeTransformedBucket
 
     // QS2 --> Create the carbonlake data lineage stack
-    const dataLineage = new CLQSDataLineageStack(scope, 'CLQSDataLineageStack', {
+    const dataLineage = new CLQSDataLineageStack(scope, 'CLQSLineageStack', {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
     })
 
     // QS3 --> Create the carbonlake data pipeline stack
     // carbonlake orchestration pipeline stack - Amazon Step Functions
     // TODO: As there are created, need to add the sfn components to the pipeline stack
-    const pipeline = new CLQSPipelineStack(scope, 'CLQSPipelineStack', {
+    const pipeline = new CLQSDataPipelineStack(scope, 'CLQSDataPipelineStack', {
       dataLineageFunction: dataLineage.inputFunction,
       errorBucket: sharedResources.carbonlakeErrorBucket,
       rawBucket: sharedResources.carbonlakeRawBucket,

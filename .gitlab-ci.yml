@@ -1,10 +1,13 @@
-# This 3 stage ci pipeline is purpose-built for cdk
+# This 3 stage ci pipeline is purpose-built for cdk in typescript
+# it also includes support for python lambdas
+# it implements a basic build, static check, and deploy process
+# this pipeline can be removed if and when this repo moves to github
 
 stages:          # List of stages for jobs, and their order of execution
   - build
   - static
   - validate
-  - deploy
+  - test-deploy
 
 variables:
   PYTHON_SCRIPTS: bin/stats
@@ -79,11 +82,7 @@ bandit:   # Runs python bandit test job for security checks on python code in re
     - pip3 install --upgrade pip
     - pip3 install --upgrade setuptools
     - pip3 install bandit
-    - bandit --format xml $PYTHON_SCRIPTS > bandit.xml
-  artifacts:
-    when: always
-    reports:
-      junit: bandit.xml
+    - bandit ./ -r | tee ./output_test.log
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
@@ -93,7 +92,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     - echo "No issues found!"
 
 taskcat-deploy-job:      # Runs taskcat deployment job in test AWS account
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  stage: test-deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Simulating application deployment..."
     - echo "Application deployment placeholder passed"
