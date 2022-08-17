@@ -7,6 +7,10 @@ const deploy = spawn('cdk', ['deploy', '--all']);
 const destroy = spawn('cdk', ['deploy', '--all']);
 
 async function deploymentTest(region) {
+    export AWS_DEFAULT_REGION=$region
+    await spawn('export', ['AWS_DEFAULT_REGION=${region}');
+    await spawn('cdk', ['bootstrap']);
+    
     await spawn('cdk', ['deploy', '--all', '--profile', `region=${region}`]);
 
     deploy.stdout.on("data", data => {
@@ -25,7 +29,7 @@ async function deploymentTest(region) {
         console.log(`child process exited with code ${code}`);
     });
 
-    await destroy;
+    await spawn('cdk', ['destroy', '--all', '--force']);
 
     destroy.stdout.on("data", data => {
         console.log(`stdout: ${data}`);
