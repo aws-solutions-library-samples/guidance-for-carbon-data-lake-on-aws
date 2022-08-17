@@ -102,11 +102,12 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     - npm run build
     - echo "Build complete."
     - echo "Running cdk nag to check for security vulnerabilities"
-    - cdk synth --context nag=true
+    # - cdk synth --context nag=true <-- nag is removed for now while nag-pack is in development
     - echo "Completed CDK nag check"
 
-taskcat-deploy-job:      # Runs taskcat deployment job in test AWS account
+cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
     - echo "Simulating application deployment..."
+    # - sh test-deployment.sh <-- uncomment this when you want to use the cdkitten script
     - echo "Application deployment placeholder passed"
