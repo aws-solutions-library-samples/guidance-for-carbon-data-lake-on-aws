@@ -1,26 +1,32 @@
 #!/bin/bash
 
-regions=("us-east-1" "us-east-2" "us-west-2")
+# this script is a test deployment script for cdk infrastructure
+# it accepts a list of regions for test deployment and loops through each region and deploys all cdk infrastructure
+# the publish step uses `cdk deploy --all` but this command can be edited to reflect a different stack by editing line 
 
-declare –a success=()
+regions=("us-east-1" "us-east-2" "us-west-2") #list of defined regions to loop through for deployment
 
-for region in us-east-1 us-east-2 us-west-2
+declare –a success=() #sets an empty list to record successful deployments
+
+for region in "${regions[@]}"
 do
    echo "Setting aws default region to $region"
-   export AWS_DEFAULT_REGION=$region
-   echo "Deploying cdk app in test to $region"
-   echo "🥾 strapping cdk in $region"
-   cdk bootstrap
-   echo "🚀 deploying all in $region"
-   cdk deploy --all --context region=$region
-   echo "👋 destroying all in $region"
-   cdk destroy --all --force
-   success+=($region)
+   export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
+   echo "🚀 deploying cdk app in test to $region 📍"
+   echo "🥾 bootstrapping cdk in $region 📍"
+   cdk bootstrap #bootstraps cdk in the region
+   echo "🚀 deploying all in $region 📍"
+   cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   echo "👋 destroying all in $region 📍"
+   cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
+   success+=($region) #if the deployment is successful adds the region to the list of successful deployments
 done
 
 echo "🥳 Successfully deployed and destroyed all CDK stacks! 😎"
 
-for item in "${success[@]}"
+#loops through list of successful deployments in each region
+#prints the list of each region that was successfully deployed
+for region in "${success[@]}"
 do
-     echo "✅ successfully deployed and destroyed cdk app in $item"
+     echo "✅ successfully deployed and destroyed cdk app in $region 📍"
 done

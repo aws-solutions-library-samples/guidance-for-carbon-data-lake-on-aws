@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// This script runs async deployment test for cross-platform scripting
 /*
 const { spawn } = require('child_process');
 
