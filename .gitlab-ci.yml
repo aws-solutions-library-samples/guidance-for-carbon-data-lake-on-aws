@@ -17,25 +17,13 @@ variables:
 
 build-job:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
-  image: docker
-  services:
-    - docker:dind
+  image: node:latest
   script:
-    - echo "installing node, npm, docker, aws-cli"
-    - apk add --update nodejs npm
-    - apk add --no-cache python3 py3-pip
-    - apk add --update aws-cli
-    - node --version
-    - npm --version
-    - python3 --version
-    - pip3 --version
-    - aws --version
-    - echo "Logging into AWS Docker Public ECR to build lambda environment"
-    - docker logout public.ecr.aws
     - echo "Installing typescript as dependency"
     - npm install typescript@latest -g
     - echo "succesfully installed typescript"
     - echo "Installing python as dependency"
+    - npm i python@latest -g
     - echo "succesfully installed python"
     - echo "Installing all package dependencies"
     - npm install -g aws-cdk
@@ -44,9 +32,9 @@ build-job:       # Validates that cdk will build, install dependencies, and that
     - echo "Building with npm..."
     - npm run build
     - echo "Build complete."
-    - echo "Synthesizing CDK..."
+    - echo "Synthesizing CDK"
     - cdk synth
-    - echo "CDK synth complete."
+    - echo "Completed build check"
 
 tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
   stage: static
