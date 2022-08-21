@@ -1,15 +1,13 @@
-import { App, CustomResource, Duration, Stack, StackProps, RemovalPolicy, CfnOutput } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps, RemovalPolicy, CfnOutput } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
-import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
-
 import { CLQSCalculatorStack } from './calculator/carbonlake-qs-calculator'
 import { CLQSStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack'
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job'
@@ -144,7 +142,7 @@ export class CLQSDataPipelineStack extends Stack {
       s3.EventType.OBJECT_CREATED,
       new s3n.LambdaDestination(kickoffFunction)
       // optional: only invoke lambda if object matches the filter
-      // {prefix: 'test/', suffix: '.yaml'},
+      // {prefix: 'bucket-prefix/', suffix: '.some-extension'},
     )
 
     // Landing Bucket Name output
@@ -175,9 +173,5 @@ export class CLQSDataPipelineStack extends Stack {
       exportName: 'CLQSDataPipelineStateMachineUrl',
 
     }); 
-
-    
-
-
   }
 }
