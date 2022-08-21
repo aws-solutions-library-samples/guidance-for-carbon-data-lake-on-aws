@@ -64,6 +64,7 @@ if (!adminEmail) {
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail,
     })
+    
     const landingBucket = dataPipeline.carbonlakeLandingBucket
     const calculatorFunction = dataPipeline.calculatorFunction
     const pipelineStateMachine = dataPipeline.pipelineStateMachine
@@ -96,69 +97,7 @@ if (!adminEmail) {
     //commenting out for test
     const sagemaker = new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack');
 
-    // Landing Bucket Name output
-    new cdk.CfnOutput(app, 'CLQSLandingBucketName', {
-      value: landingBucket.bucketName,
-      description: 'S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline',
-      exportName: 'CLQSLandingBucketName',
-    });
-
-    // Landing bucket Url Output
-    new cdk.CfnOutput(app, 'CLQSLandingBucketUrl', {
-      value: landingBucket.bucketWebsiteUrl,
-      description: 'S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline',
-      exportName: 'CLQSLandingBucketUrl',
-    });
-
-    // Output glue data brew link
-    new cdk.CfnOutput(app, 'CLQSGlueDataBrewURL', {
-      value: "insert glue data brew url here",
-      description: 'URL for Glue Data Brew in AWS Console',
-      exportName: 'CLQSGlueDataBrewURL',
-    });
-
-    // Output link to state machine
-    new cdk.CfnOutput(app, 'CLQSDataPipelineStateMachineUrl', {
-      value: `https://${dataPipeline.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${dataPipeline.pipelineStateMachine.env.region}#/statemachines/view/${dataPipeline.pipelineStateMachine.stateMachineArn}`,
-      description: 'URL to open CLQS State machine to view step functions workflow status',
-      exportName: 'CLQSDataPipelineStateMachineUrl',
-
-    }); 
-
-    // Output API Endpoint
-    new cdk.CfnOutput(app, 'CLQSApiEndpoint', {
-      value: api.graphqlUrl,
-      description: 'Base http endpoint for CarbonLake Quickstart GraphQL API',
-      exportName: 'CLQSApiEndpoint',
-    });
-
-    // Output API Username (password will be email to admin user on create)
-    new cdk.CfnOutput(app, 'CLQSApiUsername', {
-      value: adminEmail,
-      description: 'Admin username created on build for GraphQL API',
-      exportName: 'CLQSApiUsername',
-    });
-
-    // Output Appsync Query Link
-    new cdk.CfnOutput(app, 'CLQSGraphQLTestQueryURL', {
-      value: `https://${api.region}.console.aws.amazon.com/appsync/home?region=${api.region}#/${api.apiId}`,
-      description: 'URL for testing AppSync GraphQL API queries in the AWS console.',
-      exportName: 'CLQSGraphQLTestQueryURL',
-    });
-
-    // Output link to quicksight
-    new cdk.CfnOutput(app, 'CLQSQuicksightUrl', {
-      value: "insert",
-      description: 'insert',
-      exportName: 'CLQSQuicksightUrl',
-    });
-
-    // Output link to forecast stack
-    new cdk.CfnOutput(app, 'CLQSSagemakerNotebookUrl', {
-      value: "insert",
-      description: 'AWS console URL for Sagemaker Notebook ML Instance',
-      exportName: 'CLQSSagemakerNotebookUrl',
-    });
+    cdk.Tags.of(app).add("application", "carbonlake");
 
     
 

@@ -441,5 +441,7 @@ export class CLQSApiStack extends cdk.Stack {
       exportName: 'CLQSGraphQLTestQueryURL',
     });
 
+    cdk.Tags.of(this).add("component", "graphQLApi");
+
   }
 }

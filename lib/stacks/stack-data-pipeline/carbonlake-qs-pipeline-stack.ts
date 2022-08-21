@@ -13,7 +13,7 @@ import { CLQSStatemachineStack } from './statemachine/carbonlake-qs-statemachine
 import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job'
 import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality'
 
-interface PipelineProps extends StackProps {
+interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
   errorBucket: s3.Bucket
   rawBucket: s3.Bucket
@@ -28,7 +28,7 @@ export class CLQSDataPipelineStack extends Stack {
   public readonly calculatorFunction: lambda.Function
   public readonly pipelineStateMachine: stepfunctions.StateMachine
 
-  constructor(scope: Construct, id: string, props: PipelineProps) {
+  constructor(scope: Construct, id: string, props: DataPipelineProps) {
     super(scope, id, props)
 
     // Landing bucket where files are dropped by customers
@@ -161,7 +161,7 @@ export class CLQSDataPipelineStack extends Stack {
 
     // Output glue data brew link
     new CfnOutput(this, 'CLQSGlueDataBrewURL', {
-      value: "insert glue data brew url here",
+      value: `https://${this.region}.console.aws.amazon.com/states/home?region=${this.region}`,
       description: 'URL for Glue Data Brew in AWS Console',
       exportName: 'CLQSGlueDataBrewURL',
     });
