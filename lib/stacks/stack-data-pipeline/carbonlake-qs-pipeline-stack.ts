@@ -168,7 +168,7 @@ export class CLQSDataPipelineStack extends Stack {
 
     // Output link to state machine
     new CfnOutput(this, 'CLQSDataPipelineStateMachineUrl', {
-      value: `https://${dataPipeline.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${dataPipeline.pipelineStateMachine.env.region}#/statemachines/view/${dataPipeline.pipelineStateMachine.stateMachineArn}`,
+      value: `https://${this.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${this.pipelineStateMachine.env.region}#/statemachines/view/${this.pipelineStateMachine.stateMachineArn}`,
       description: 'URL to open CLQS State machine to view step functions workflow status',
       exportName: 'CLQSDataPipelineStateMachineUrl',
 

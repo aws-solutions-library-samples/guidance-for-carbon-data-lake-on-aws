@@ -296,7 +296,7 @@ export class CLQSApiStack extends Stack {
       groupName: 'Standard-Users',
       description: 'Standard user group',
       precedence: 2,
-      roleArn: clqsStandardUserRole.roleArn,
+      roleArn: this.clqsStandardUserRole.roleArn,
     })
 
     // Create an initial admin user with the email address provided in the CDK context

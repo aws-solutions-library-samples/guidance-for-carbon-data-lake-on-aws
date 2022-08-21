@@ -75,6 +75,8 @@ bandit:   # Runs python bandit test job for security checks on python code in re
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
   image: node:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - echo "Installing typescript as dependency"
     - npm install typescript@latest -g
@@ -95,7 +97,31 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  image: node:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - echo "Simulating application deployment..."
-    # - sh test-deployment.sh <-- uncomment this when you want to use the cdkitten script
+    - echo "Installing typescript as dependency"
+    - npm install typescript@latest -g
+    - echo "succesfully installed typescript"
+    - echo "Installing python as dependency"
+    - npm i python@latest -g
+    - echo "succesfully installed python"
+    - echo "Installing aws cli"
+    - npm install -g aws-cli
+    - echo "Installing all package dependencies"
+    - npm install -g aws-cdk
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Running cdk synth"
+    - aws configure
+    - echo "Synthesized!"
+    - echo "Running cdk synth"
+    - cdk synth
+    - echo "Synthesized!"
+    - echo "Running CDKitten🐱"
+    - sh test-deployment.sh <-- uncomment this when you want to use the cdkitten script
     - echo "Application deployment placeholder passed"

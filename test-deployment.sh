@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# WELCOME TO CDKitten
+# WELCOME TO CDKitten 
 # CDKitten is a close cousin of taskcat
 # CDKitten is a simple script to automate test deployment of CDK resources
 
