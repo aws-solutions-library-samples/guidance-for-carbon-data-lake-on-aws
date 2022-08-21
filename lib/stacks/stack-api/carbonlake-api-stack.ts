@@ -5,14 +5,11 @@ import { AuthorizationType, FieldLogLevel, GraphqlApi, MappingTemplate, Schema }
 import {
   Role,
   PolicyStatement,
-  PolicyDocument,
-  ServicePrincipal,
   ManagedPolicy,
-  AccountRootPrincipal,
   FederatedPrincipal,
   Effect,
 } from 'aws-cdk-lib/aws-iam'
-import { Stack, StackProps, CfnOutput, RemovalPolicy, CfnJson } from 'aws-cdk-lib'
+import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib'
 import {
   AccountRecovery,
   BooleanAttribute,
@@ -20,8 +17,6 @@ import {
   CfnUserPoolUser,
   CfnUserPoolUserToGroupAttachment,
   DateTimeAttribute,
-  IUserPool,
-  IUserPoolClient,
   StringAttribute,
   UserPool,
   UserPoolClient,
@@ -31,21 +26,15 @@ import {
 } from 'aws-cdk-lib/aws-cognito'
 import {
   IdentityPool,
-  IIdentityPool,
-  UserPoolAuthenticationProvider,
-  IUserPoolAuthenticationProvider,
-  IdentityPoolProviderUrl,
-  IdentityPoolRoleMapping,
-  IdentityPoolRoleAttachment,
   RoleMappingMatchType,
 } from '@aws-cdk/aws-cognito-identitypool-alpha'
 
-export interface CLQSApiStackProps extends cdk.StackProps {
+export interface CLQSApiStackProps extends StackProps {
   calculatorOutputTableRef: cdk.aws_dynamodb.Table
   adminEmail?: string
 }
 
-export class CLQSApiStack extends cdk.Stack {
+export class CLQSApiStack extends Stack {
   // API
   public readonly graphqlUrl: string
   public readonly apiId: string
@@ -62,6 +51,11 @@ export class CLQSApiStack extends cdk.Stack {
   // IAM
   public readonly clqsAdminUserRole: Role
   public readonly clqsStandardUserRole: Role
+  public readonly clqsAuthRole: Role
+  public readonly clqsUnAuthRole: Role
+  public readonly clqsAdminUserRoleManagedPolicy: ManagedPolicy
+  public readonly clStandardUserRoleManagedPolicy: ManagedPolicy
+  
 
   constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
     super(scope, id, props)
@@ -149,7 +143,7 @@ export class CLQSApiStack extends cdk.Stack {
     // --- IAM ---
     //  -- AuthRole --
     // Create clqsAuthRole IAM Role using the custom managed policy
-    const clqsAuthRole = new Role(this, 'clqsAuthRole', {
+    this.clqsAuthRole = new Role(this, 'clqsAuthRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
@@ -169,7 +163,7 @@ export class CLQSApiStack extends cdk.Stack {
 
     //  -- clqsUnAuthRole --
     // Create clqsUnAuthRole IAM Role using the custom managed policy
-    const clqsUnAuthRole = new Role(this, 'clqsUnAuthRole', {
+    this.clqsUnAuthRole = new Role(this, 'clqsUnAuthRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
@@ -208,7 +202,7 @@ export class CLQSApiStack extends cdk.Stack {
       description: 'clqsAdminUserRole granting access to S3',
     })
 
-    const clqsAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsAdminUserRoleManagedPolicy', {
+    this.clqsAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsAdminUserRoleManagedPolicy', {
       description: 'All permissions for clqsAdminUserRole',
       statements: [
         new PolicyStatement({
@@ -222,7 +216,7 @@ export class CLQSApiStack extends cdk.Stack {
 
     //   // -- clqsStandardUserRole --
     //   // Create clqsStandardUserRole IAM Role using the custom managed policy
-    const clqsStandardUserRole = new Role(this, 'clqsStandardUserRole', {
+    this.clqsStandardUserRole = new Role(this, 'clqsStandardUserRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
@@ -240,7 +234,7 @@ export class CLQSApiStack extends cdk.Stack {
       // ],
       description: 'clqsStandardUserRole granting access to S3',
     })
-    const clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsStandardUserRoleManagedPolicy', {
+    this.clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsStandardUserRoleManagedPolicy', {
       description: 'All permissions for clqsStandardUserRole',
       statements: [
         new PolicyStatement({
@@ -249,7 +243,7 @@ export class CLQSApiStack extends cdk.Stack {
           resources: ['*'],
         }),
       ],
-      roles: [clqsStandardUserRole],
+      roles: [this.clqsStandardUserRole],
     })
 
     // -- IDENTITY POOL ROLE ATTACHMENT --
@@ -260,8 +254,8 @@ export class CLQSApiStack extends cdk.Stack {
     new CfnIdentityPoolRoleAttachment(this, 'identity-pool-role-attachment', {
       identityPoolId: clqsIdentityPool.ref,
       roles: {
-        authenticated: clqsAuthRole.roleArn,
-        unauthenticated: clqsUnAuthRole.roleArn,
+        authenticated: this.clqsAuthRole.roleArn,
+        unauthenticated: this.clqsUnAuthRole.roleArn,
       },
       roleMappings: {
         roleMappingsKey: {
@@ -279,7 +273,7 @@ export class CLQSApiStack extends cdk.Stack {
               {
                 claim: 'cognito:groups',
                 matchType: RoleMappingMatchType.CONTAINS,
-                roleArn: clqsStandardUserRole.roleArn,
+                roleArn: this.clqsStandardUserRole.roleArn,
                 value: 'Standard-Users',
               },
             ],
@@ -417,8 +411,7 @@ export class CLQSApiStack extends cdk.Stack {
     this.clqsAdminUserRole = clqsAdminUserRole
     new CfnOutput(this, 'clqsAdminUserRoleOutput', { value: clqsAdminUserRole.roleArn })
 
-    this.clqsStandardUserRole = clqsStandardUserRole
-    new CfnOutput(this, 'clqsStandardUserRoleOutput', { value: clqsStandardUserRole.roleArn })
+    new CfnOutput(this, 'clqsStandardUserRoleOutput', { value: this.clqsStandardUserRole.roleArn })
 
     // Output API Endpoint
     new cdk.CfnOutput(this, 'apiEndpoint', {

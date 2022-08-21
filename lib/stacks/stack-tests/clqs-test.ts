@@ -1,4 +1,4 @@
-import { Stack, StackProps, Duration } from 'aws-cdk-lib'
+import { Stack, StackProps, Duration, Tags } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
@@ -52,5 +52,7 @@ export class CLQSTestStack extends Stack {
     props.enrichedBucket.grantReadWrite(carbonlakePipelineTestFunction)
     props.pipelineStateMachine.grantRead(carbonlakePipelineTestFunction)
     props.calculatorOutputTable.grantReadWriteData(carbonlakePipelineTestFunction)
+
+    Tags.of(this).add("component", "test");
   }
 }

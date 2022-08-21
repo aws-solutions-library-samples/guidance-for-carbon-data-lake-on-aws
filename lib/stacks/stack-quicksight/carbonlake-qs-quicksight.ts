@@ -1,4 +1,4 @@
-import { Stack, StackProps, Names, CfnOutput } from 'aws-cdk-lib'
+import { Stack, StackProps, Names, CfnOutput, Tags } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
@@ -80,6 +80,8 @@ export class CLQSQuicksightStack extends Stack {
       description: 'insert',
       exportName: 'CLQSQuicksightUrl',
     });
+
+    Tags.of(this).add("component", "quicksight");
 
   }
 }

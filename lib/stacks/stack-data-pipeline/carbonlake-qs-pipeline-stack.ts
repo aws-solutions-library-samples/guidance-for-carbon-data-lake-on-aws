@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps, RemovalPolicy, CfnOutput } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps, RemovalPolicy, CfnOutput, Tags } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
@@ -173,5 +173,7 @@ export class CLQSDataPipelineStack extends Stack {
       exportName: 'CLQSDataPipelineStateMachineUrl',
 
     }); 
+
+    Tags.of(this).add("component", "dataPipeline");
   }
 }
