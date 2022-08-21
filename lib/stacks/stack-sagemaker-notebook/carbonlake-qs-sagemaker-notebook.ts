@@ -13,8 +13,8 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
   public sagemakerAnalysisBucket: s3.Bucket;
   readonly sagemakerCodecommitRepo: codecommit.Repository;
 
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+  constructor(scope: Construct, id: string, props: cdk.StackProps) {
+    super(scope, id, props);
 
     this.sagemakerAnalysisBucket = new s3.Bucket(this, "data-analysis", {
       encryption: s3.BucketEncryption.S3_MANAGED,

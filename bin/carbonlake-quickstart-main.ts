@@ -27,9 +27,6 @@ if (!adminEmail) {
       console.warn('*** or CarbonlakeQuicksightStack, you must provide a         ***')
       console.warn('*** valid admin email address via --context adminEmail=value ***')
       console.warn('****************************************************************')
-    } else {
-      console.log("Nope!")
-      //new CfnOutput(app, 'adminEmail', { value: adminEmail })
     }
 
     const quicksightUserName = app.node.tryGetContext('quicksightUserName')
@@ -39,8 +36,6 @@ if (!adminEmail) {
       console.warn('*** you must provide a valid admin email address                 ***')
       console.warn('*** via --context quicksightUserName=value                       ***')
       console.warn('********************************************************************')
-    } else {
-      new CfnOutput(app, 'quicksightUserName', { value: quicksightUserName })
     }
 
     // QS1 --> Create the carbonlake shared resource stack
@@ -51,6 +46,7 @@ if (!adminEmail) {
     // QS2 --> Create the carbonlake data lineage stack
     const dataLineage = new CLQSDataLineageStack(app, 'LineageStack', {
       archiveBucket: sharedResources.carbonlakeDataLineageBucket,
+      env: appEnv
     })
 
     // QS3 --> Create the carbonlake data pipeline stack
@@ -63,8 +59,9 @@ if (!adminEmail) {
       transformedBucket: sharedResources.carbonlakeTransformedBucket,
       enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
       notificationEmailAddress: adminEmail,
+      env: appEnv
     })
-    
+
     const landingBucket = dataPipeline.carbonlakeLandingBucket
     const calculatorFunction = dataPipeline.calculatorFunction
     const pipelineStateMachine = dataPipeline.pipelineStateMachine
@@ -76,6 +73,7 @@ if (!adminEmail) {
         enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
         enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
         dataLineageTraceQueue: dataLineage.traceQueue,
+        env: appEnv
       }
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
@@ -83,6 +81,7 @@ if (!adminEmail) {
     const api = new CLQSApiStack (app, 'ApiStack', {
       adminEmail: adminEmail,
       calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
+      env: appEnv
     })
 
     // QS6 --> Create the carbonlake quicksight stack
@@ -95,7 +94,9 @@ if (!adminEmail) {
     */
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
-    const sagemaker = new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack');
+    const sagemaker = new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
+      env: appEnv
+    });
 
     cdk.Tags.of(app).add("application", "carbonlake");
 
