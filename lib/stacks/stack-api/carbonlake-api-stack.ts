@@ -412,8 +412,6 @@ export class CLQSApiStack extends cdk.Stack {
     new CfnOutput(this, 'identityPoolId', { value: clqsIdentityPool.ref })
     this.userPoolClient = userPoolClient
     new CfnOutput(this, 'userPoolClientId', { value: userPoolClient.userPoolClientId })
-    this.adminUser = adminUser
-    new CfnOutput(this, 'adminUser', { value: adminUser.username ?? '' })
 
     // IAM
     this.clqsAdminUserRole = clqsAdminUserRole
@@ -421,5 +419,27 @@ export class CLQSApiStack extends cdk.Stack {
 
     this.clqsStandardUserRole = clqsStandardUserRole
     new CfnOutput(this, 'clqsStandardUserRoleOutput', { value: clqsStandardUserRole.roleArn })
+
+    // Output API Endpoint
+    new cdk.CfnOutput(this, 'apiEndpoint', {
+      value: this.graphqlUrl,
+      description: 'Base http endpoint for CarbonLake Quickstart GraphQL API',
+      exportName: 'CLQSApiEndpoint',
+    });
+
+    // Output API Username (password will be email to admin user on create)
+    new cdk.CfnOutput(this, 'adminUsername', {
+      value: adminUser.username ?? '' ,
+      description: 'Admin username created on build for GraphQL API',
+      exportName: 'CLQSApiUsername',
+    });
+
+    // Output Appsync Query Link
+    new cdk.CfnOutput(this, 'graphqueryTestUrl', {
+      value: `https://${this.region}.console.aws.amazon.com/appsync/home?region=${this.region}#/${this.apiId}/v1/queries`,
+      description: 'URL for testing AppSync GraphQL API queries in the AWS console.',
+      exportName: 'CLQSGraphQLTestQueryURL',
+    });
+
   }
 }

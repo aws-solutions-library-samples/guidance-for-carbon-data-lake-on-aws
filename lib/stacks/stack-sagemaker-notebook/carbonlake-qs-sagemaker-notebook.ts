@@ -80,4 +80,39 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
 
     cdk.Tags.of(this).add("component", "sagemaker");
   }
+
+  // Output API Endpoint
+  new cdk.CfnOutput(app, 'CLQSApiEndpoint', {
+    value: api.graphqlUrl,
+    description: 'Base http endpoint for CarbonLake Quickstart GraphQL API',
+    exportName: 'CLQSApiEndpoint',
+  });
+
+  // Output API Username (password will be email to admin user on create)
+  new cdk.CfnOutput(app, 'CLQSApiUsername', {
+    value: adminEmail,
+    description: 'Admin username created on build for GraphQL API',
+    exportName: 'CLQSApiUsername',
+  });
+
+  // Output Appsync Query Link
+  new cdk.CfnOutput(app, 'CLQSGraphQLTestQueryURL', {
+    value: `https://${api.region}.console.aws.amazon.com/appsync/home?region=${api.region}#/${api.apiId}`,
+    description: 'URL for testing AppSync GraphQL API queries in the AWS console.',
+    exportName: 'CLQSGraphQLTestQueryURL',
+  });
+
+  // Output link to quicksight
+  new cdk.CfnOutput(app, 'CLQSQuicksightUrl', {
+    value: "insert",
+    description: 'insert',
+    exportName: 'CLQSQuicksightUrl',
+  });
+
+  // Output link to forecast stack
+  new cdk.CfnOutput(app, 'CLQSSagemakerNotebookUrl', {
+    value: "insert",
+    description: 'AWS console URL for Sagemaker Notebook ML Instance',
+    exportName: 'CLQSSagemakerNotebookUrl',
+  });
 }

@@ -1,4 +1,4 @@
-import { App, CustomResource, Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { App, CustomResource, Duration, Stack, StackProps, RemovalPolicy, CfnOutput } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
@@ -146,5 +146,38 @@ export class CLQSDataPipelineStack extends Stack {
       // optional: only invoke lambda if object matches the filter
       // {prefix: 'test/', suffix: '.yaml'},
     )
+
+    // Landing Bucket Name output
+    new CfnOutput(this, 'LandingBucketName', {
+      value: this.carbonlakeLandingBucket.bucketName,
+      description: 'S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline',
+      exportName: 'LandingBucketName',
+    });
+
+    // Landing bucket Url Output
+    new CfnOutput(this, 'CLQSLandingBucketUrl', {
+      value: this.carbonlakeLandingBucket.bucketWebsiteUrl,
+      description: 'S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline',
+      exportName: 'CLQSLandingBucketUrl',
+    });
+
+    // Output glue data brew link
+    new CfnOutput(this, 'CLQSGlueDataBrewURL', {
+      value: "insert glue data brew url here",
+      description: 'URL for Glue Data Brew in AWS Console',
+      exportName: 'CLQSGlueDataBrewURL',
+    });
+
+    // Output link to state machine
+    new CfnOutput(this, 'CLQSDataPipelineStateMachineUrl', {
+      value: `https://${dataPipeline.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${dataPipeline.pipelineStateMachine.env.region}#/statemachines/view/${dataPipeline.pipelineStateMachine.stateMachineArn}`,
+      description: 'URL to open CLQS State machine to view step functions workflow status',
+      exportName: 'CLQSDataPipelineStateMachineUrl',
+
+    }); 
+
+    
+
+
   }
 }

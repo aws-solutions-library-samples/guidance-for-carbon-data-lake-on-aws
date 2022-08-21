@@ -20,14 +20,16 @@ const appEnv = {
 };
 
 const adminEmail = app.node.tryGetContext('adminEmail')
-    if (!adminEmail) {
+    
+if (!adminEmail) {
       console.warn('****************************************************************')
       console.warn('*** WARNING: If you will be deploying CarbonLakeApiStack     ***')
       console.warn('*** or CarbonlakeQuicksightStack, you must provide a         ***')
       console.warn('*** valid admin email address via --context adminEmail=value ***')
       console.warn('****************************************************************')
     } else {
-      new CfnOutput(app, 'adminEmail', { value: adminEmail })
+      console.log("Nope!")
+      //new CfnOutput(app, 'adminEmail', { value: adminEmail })
     }
 
     const quicksightUserName = app.node.tryGetContext('quicksightUserName')
@@ -139,7 +141,7 @@ const adminEmail = app.node.tryGetContext('adminEmail')
 
     // Output Appsync Query Link
     new cdk.CfnOutput(app, 'CLQSGraphQLTestQueryURL', {
-      value: `https://${api.env.region}.console.aws.amazon.com/appsync/home?region=${api.env.region}#/${api.apiId}`,
+      value: `https://${api.region}.console.aws.amazon.com/appsync/home?region=${api.region}#/${api.apiId}`,
       description: 'URL for testing AppSync GraphQL API queries in the AWS console.',
       exportName: 'CLQSGraphQLTestQueryURL',
     });
