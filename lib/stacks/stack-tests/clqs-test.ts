@@ -1,4 +1,4 @@
-import { Stack, StackProps, Duration, Tags } from 'aws-cdk-lib'
+import { Stack, StackProps, Duration, Tags, CfnOutput } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
@@ -52,6 +52,21 @@ export class CLQSTestStack extends Stack {
     props.enrichedBucket.grantReadWrite(carbonlakePipelineTestFunction)
     props.pipelineStateMachine.grantRead(carbonlakePipelineTestFunction)
     props.calculatorOutputTable.grantReadWriteData(carbonlakePipelineTestFunction)
+
+    // Output name of test function
+    new CfnOutput(this, 'CLQSe2eTestLambdaFunctionName', {
+      value: carbonlakePipelineTestFunction.functionName,
+      description: 'Name of CarbonLake lambda test function',
+      exportName: 'CLQSe2eTestLambdaFunctionName',
+    });
+
+    // Output aws console link to test function
+    new CfnOutput(this, 'CLQSe2eTestLambdaConsoleLink', {
+      value: `https://${carbonlakePipelineTestFunction.env.region}.console.aws.amazon.com/lambda/home?${carbonlakePipelineTestFunction.env.region}#/functions/${carbonlakePipelineTestFunction.functionName}?tab=code`,
+      description: 'URL to open and invoke calculator test function in the AWS Console',
+      exportName: 'CLQSe2eTestLambdaConsoleLink',
+
+    });
 
     Tags.of(this).add("component", "test");
   }
