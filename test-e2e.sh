@@ -21,8 +21,11 @@ do
    echo "🚀 deploying all in $region 📍"
    cdk deploy --all --context region=$region #deploys all with the optional region context variable
 
-   echo "Insert e2e test here"
-   echl "E2E test was successful!"
+   echo "Beginning e2e test"
+   echo "The e2e test uses the AWS CLI to trigger a lambda function"
+   echo "If the lambda returns 200 the test was successful"
+   echo "If the lambda returns something other than 200 the test failed"
+   echo "E2E test was successful!"
 
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation

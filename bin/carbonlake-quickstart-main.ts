@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
-import { CfnOutput } from 'aws-cdk-lib'
 import { CLQSTestStack } from '../lib/stacks/stack-tests/clqs-test'
 import { AwsSolutionsChecks } from 'cdk-nag'
 import { Aspects } from 'aws-cdk-lib';
@@ -39,7 +38,7 @@ if (!adminEmail) {
     }
 
     // QS1 --> Create the carbonlake shared resource stack
-    const sharedResources = new CLQSSharedResourcesStack(app, 'SharedResources')
+    const sharedResources = new CLQSSharedResourcesStack(app, 'SharedResources', {env: appEnv});
     const enrichedBucket = sharedResources.carbonlakeEnrichedBucket
     const transformedBucket = sharedResources.carbonlakeTransformedBucket
 
@@ -68,7 +67,7 @@ if (!adminEmail) {
     const calculatorOutputTable = dataPipeline.calculatorOutputTable
 
     // QS4 --> Create the carbonlake data compaction pipeline stack
-    const dataCompactionPipeline = new CLQSCompactionStack(app,'CompactionStack',
+new CLQSCompactionStack(app,'CompactionStack',
       {
         enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
         enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
@@ -78,7 +77,7 @@ if (!adminEmail) {
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
     // QS5 --> Create the carbonlake api stack
-    const api = new CLQSApiStack (app, 'ApiStack', {
+new CLQSApiStack (app, 'ApiStack', {
       adminEmail: adminEmail,
       calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
       env: appEnv
@@ -94,7 +93,7 @@ if (!adminEmail) {
     */
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
-    const sagemaker = new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
+new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
       env: appEnv
     });
 
@@ -125,4 +124,5 @@ new CLQSTestStack(app, 'CLQSTest', {
   transformedBucket: transformedBucket,
   pipelineStateMachine: pipelineStateMachine,
   calculatorOutputTable: calculatorOutputTable,
+  env: appEnv
 })

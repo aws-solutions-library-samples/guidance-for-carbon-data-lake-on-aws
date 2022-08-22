@@ -23,6 +23,29 @@ CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution buil
 - Functional Tests
 - Emissions Factor Reference Databases
 
+## What it does
+
+This Quickstart provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities and limitations of the CarbonLake Quickstart. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
+
+### Capabilities
+
+The following list of capabilities covers current capabilities as recorded and updated August 2022:
+
+1. Accepts CSV formatted data inputs as S3 upload to CarbonLake Landing Bucket
+2. Accepts mult-part and standard upload via S3 CLI, Console, and other programmatic means
+3. Accepts single file upload via AWS Amplify console with optional web application
+4. Provides daily data compaction at midnight in local time
+5. Performs calculation using pre-built GHG calculator lookup table
+6. Can accept new calculator lookup table and data model with required updates to JSON files for data quality AND calculator.
+
+### Limitations
+
+The following list of limitations covers current known functional limitations as recorded and updated August 2022:
+
+1. Does not accept file type JSON, Parquet, XML, and all image file types.
+2. Does not accept multi-file upload via sample web application
+3. Does not allow for data model update from a single data model file source (currently requires manual editing of multiple files).
+
 ## 💲 Cost and Licenses
 
 You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start.  
@@ -35,7 +58,7 @@ This Quick Start doesn’t require any software license or AWS Marketplace subsc
 
 ## How to Deploy
 
-You can deploy CarbonLake Quickstart through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and Isengard CLI. We also recommend that you either use a fresh isengard account for deployment, or a burner account.
+You can deploy CarbonLake Quickstart through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrating with your existing infrastructure using AWS Organizations.
 
 ## 🎒 Pre-requisites
 
@@ -69,10 +92,10 @@ git clone #insert-http-or-ssh-for-this-repository
 
     - `adminEmail`            The email address for the administrator of the app
     - `repoBranch`            The branch to deploy in your pipeline (default is `/main`)
-    - `quicksightUserName`    Username for access to the carbon emissions dataset and dashboard.
+    - `quicksightUserName`    Optional: Username for access to the carbon emissions dataset and dashboard.
 
 
-Note: Make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
+Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
@@ -102,7 +125,7 @@ cdk synth
 cdk deploy --all
 ```
 
-  👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
+👆 If you are deploying only for local development this will deploy all of the CarbonLake stacks without the CI/CD pipeline. This is recommended.
 
 - ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
 
@@ -134,7 +157,13 @@ Time to get started using CarbonLake Quickstart! Follow the steps below to see i
 
 ### 1/ Make sure all the infrastructure deployed properly
 
-In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully.
+In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully. You can also search for the tag: 
+
+```json 
+
+"application": "carbonlake" 
+
+```
 
 ### 2/ Drop some synthetic test data into the CarbonLake Landing Zone S3 Bucket
 
@@ -196,7 +225,7 @@ If you have not yet this is a great time to deploy the sample web application. O
 - Generate or select some additional data (it can be anything really, but carbon emissions data is good)
 - Test out the data quality module by dropping different data into the bucket. Does it run through? Do you get a notification if it does not?
 
-### 7/ Start connecting your own data to the Carbonlake landing zone
+### 7/ Start connecting your own data to the CarbonLake landing zone
 
 - Connect other data sources such as IoT, Streaming Data, Database Migration Workloads, or other applications to the S3 landing zone bucket. Try something out and let us know how it goes.
 
@@ -299,19 +328,20 @@ The model below describes the standard output model from the carbonlake emission
 
 ### GHG Protocol Emission factors
 
-The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated May 2022.
+The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated July 2022.
 
 [GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json)
 
+Calculation methodologies are direct representations of the [World Resource Institute GHG Protocol scope 1, 2, and 3 guidance](https://ghgprotocol.org/guidance-0). To review calculation methodology and lookup tables please review the [CarbonLake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/calculator/README.md).
+
 ## 👀 See also
 
-- GHG Protocol Guidance
-- CarbonLake Wiki
+- [GHG Protocol Guidance](https://ghgprotocol.org/)
+- [AWS Energy & Utilities](https://aws.amazon.com/energy/)
 
 ## 🔐 Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information. (TODO Implement this)
-
 
 ## Reference & Resources
 
