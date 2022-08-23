@@ -24,8 +24,8 @@ ATHENA_QUERY_OUTPUT_LOCATION = 's3://' + os.environ.get('ATHENA_QUERY_OUTPUT_LOC
 BANDIT SECURITY SCAN NOTATION
 the following query is constructing using string parameters
 but it has been marked as nosec, meaning standard bandit security scans
-will not be triggered because this lambda function has not external exposure
-to u user inputs of any kind and as a result is not considered
+will not be triggered because this lambda function has no external exposure
+to user inputs of any kind and as a result is not considered
 a SQL injection security vulnerability
 '''
 create_today_formatted_view_query = f'CREATE OR REPLACE VIEW "{FORMATTED_TODAY_VIEW_NAME}" AS SELECT activity_event_id, asset_id, geo, origin_measurement_timestamp, scope, category, activity, source, raw_data, units, emissions_output.calculated_emissions.co2.amount co2_amount, emissions_output.calculated_emissions.co2.unit co2_unit, emissions_output.calculated_emissions.ch4.amount ch4_amount, emissions_output.calculated_emissions.ch4.unit ch4_unit, emissions_output.calculated_emissions.n2o.amount n2o_amount, emissions_output.calculated_emissions.n2o.unit n2o_unit, emissions_output.calculated_emissions.co2e.ar4.amount co2e_ar4_amount, emissions_output.calculated_emissions.co2e.ar4.unit co2e_ar4_unit, emissions_output.calculated_emissions.co2e.ar5.amount co2e_ar5_amount, emissions_output.calculated_emissions.co2e.ar5.unit co2e_ar5_unit FROM {GLUE_DATABASE_NAME}.today' #nosec

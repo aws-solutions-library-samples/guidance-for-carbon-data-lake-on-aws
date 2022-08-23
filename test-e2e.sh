@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# WELCOME TO CarbonLake e2e 
+
+# to run this script manually navigate to top level directory of the package and sh test-e2e.sh
+
+echo "Welcome to CarbonLake e2e test. This test deploys the full infrastructure and then performs an e2e test with sample data."
+echo "If the test is successful we will destroy the infrastructure and all of it's contents and clean up the account."
+
+regions=("us-east-1") #list of defined regions to loop through for deployment
+
+for region in "${regions[@]}"
+do
+   #echo "Setting aws default region to $region"
+   #export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
+   #echo "🚀 deploying cdk app in test to $region 📍"
+   #echo "🥾 bootstrapping cdk in $region 📍"
+   #cdk bootstrap #bootstraps cdk in the region
+   #echo "🚀 deploying all in $region 📍"
+   #cdk deploy --all --context region=$region #deploys all with the optional region context variable
+
+   echo "Beginning e2e test"
+   echo "The e2e test uses the AWS CLI to trigger a lambda function"
+   echo "If the lambda returns 'Success' the test was successful"
+   echo "If the lambda returns something other than 'Success' the test failed"
+   echo jq  '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json
+   testlambda=$(jq -r '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json)
+   echo "Running tests on $testlambda please sit tight for a few minutes"
+   testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
+   echo $testoutcome
+   testoutcomecode=$(jq -r '.' response.json)
+   echo $testoutcomecode
+   if [ $testoutcomecode = "Success" ]
+   then 
+      echo "Test passed! It works." 
+   else
+      echo "Test lambda failed. Want to find out why?"
+      echo $testlambda
+      echo "E2E test completed"
+
+      echo "👋 destroying all in $region 📍"
+      cdk destroy --all --force
+      echo "Test failed. Please read the logs."
+      exit 1 
+   fi
+   echo "E2E test completed"
+
+   echo "👋 destroying all in $region 📍"
+   cdk destroy --all --force
+done
+#destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
+   
+
+echo "🥳 Successfully deployed and destroyed all CDK stacks with TEST! 😎"
+echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"

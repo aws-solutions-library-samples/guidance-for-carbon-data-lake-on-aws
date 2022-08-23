@@ -8,7 +8,7 @@ Parameters:
   Username:
     Type: String
     Description: Username associated to Admin QuickSight user that will be granted access to BI assets.
-  Unique_Identifier:
+  UniqueIdentifier:
     Type: String
     Description: Unique string that will be added to all resources each time they are deployed
   EnrichedDataDatabaseName:
@@ -21,7 +21,7 @@ Resources:
     Properties:
       DataSourceId: !Join
         - ''
-        - - !Ref Unique_Identifier
+        - - !Ref UniqueIdentifier
           - '-Athena-DataSource'
       Name: Combined Emissions Athena Data Source
       AwsAccountId: !Ref AWS::AccountId
@@ -52,7 +52,7 @@ Resources:
     Properties:
       DataSetId: !Join
         - ''
-        - - !Ref Unique_Identifier
+        - - !Ref UniqueIdentifier
           - '-Data-Set'
       Name: Combined Emissions Data Set
       AwsAccountId: !Ref AWS::AccountId
@@ -229,7 +229,7 @@ Resources:
     Properties:
       TemplateId: !Join
         - ''
-        - - !Ref Unique_Identifier
+        - - !Ref UniqueIdentifier
           - '-Template'
       Name: CarbonLake Combined Emissions Template
       AwsAccountId: !Ref AWS::AccountId

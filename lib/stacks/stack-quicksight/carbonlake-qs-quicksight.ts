@@ -1,8 +1,8 @@
-import { Stack, StackProps, Names, CfnOutput } from 'aws-cdk-lib'
+import { Stack, StackProps, Names, CfnOutput, Tags } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
-import * as cfninc from 'aws-cdk-lib/cloudformation-include'
+import { CfnInclude } from 'aws-cdk-lib/cloudformation-include'
 //import { aws_quicksight as quicksight } from 'aws-cdk-lib';
 import { Construct } from 'constructs'
 import * as path from 'path'
@@ -14,6 +14,8 @@ interface CLQSQuicksightStackProps extends StackProps {
 }
 
 export class CLQSQuicksightStack extends Stack {
+  public readonly quicksightTemplate: CfnInclude
+
   constructor(scope: Construct, id: 'string', props: CLQSQuicksightStackProps) {
     super(scope, id, props)
 
@@ -36,7 +38,7 @@ export class CLQSQuicksightStack extends Stack {
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
-    const template = new cfninc.CfnInclude(this, 'Template', {
+    this.quicksightTemplate = new CfnInclude(this, 'Template', {
       templateFile: path.join(
         process.cwd(),
         'lib',
@@ -53,8 +55,6 @@ export class CLQSQuicksightStack extends Stack {
         EnrichedDataDatabasename: props.enrichedDataDatabase.ref,
       },
     })
-
-
 
     new CfnOutput(this, 'QuickSightDataSource', {
       value: `${quicksightUniqueIdentifier}-Athena-DataSource`,
@@ -73,5 +73,15 @@ export class CLQSQuicksightStack extends Stack {
       description:
         'ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications',
     })
+
+    // Output link to quicksight
+    new CfnOutput(this, 'CLQSQuicksightUrl', {
+      value: "Quicksight URL",
+      description: 'insert',
+      exportName: 'CLQSQuicksightUrl',
+    });
+
+    Tags.of(this).add("component", "quicksight");
+
   }
 }

@@ -1,4 +1,4 @@
-import { Duration, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Duration, NestedStack, NestedStackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import path from 'path'
 
@@ -101,5 +101,7 @@ export class CarbonlakeDataQualityStack extends NestedStack {
     props.errorBucket.grantReadWrite(this.resultsLambda)
     props.inputBucket.grantReadWrite(this.resultsLambda)
     props.outputBucket.grantReadWrite(this.resultsLambda)
+
+    Tags.of(this).add("component", "dataQuality");
   }
 }

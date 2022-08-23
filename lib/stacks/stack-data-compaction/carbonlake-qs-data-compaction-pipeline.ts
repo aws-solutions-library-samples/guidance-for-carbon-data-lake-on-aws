@@ -1,4 +1,4 @@
-import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Stack, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
@@ -121,5 +121,7 @@ export class CLQSCompactionStack extends Stack {
     const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName,
     })
+
+    Tags.of(this).add("component", "dataCompactionPipeline");
   }
 }

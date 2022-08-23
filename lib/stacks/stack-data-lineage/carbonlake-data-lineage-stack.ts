@@ -1,4 +1,4 @@
-import { App, Stack, StackProps, RemovalPolicy, Duration } from 'aws-cdk-lib'
+import { Stack, StackProps, RemovalPolicy, Duration, Tags } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sqs as sqs } from 'aws-cdk-lib'
@@ -127,5 +127,7 @@ export class CLQSDataLineageStack extends Stack {
     const queryStack = new DataLineageQueryStack(this, 'carbonlakeDataLineageQueryStack', {
       dataLineageBucket: props.archiveBucket,
     })
+
+    Tags.of(this).add("component", "dataLineage");
   }
 }
