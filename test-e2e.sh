@@ -9,34 +9,47 @@ echo "If the test is successful we will destroy the infrastructure and all of it
 
 regions=("us-east-1") #list of defined regions to loop through for deployment
 
-declare –a success=() #sets an empty list to record successful deployments
-
 for region in "${regions[@]}"
 do
-   echo "Setting aws default region to $region"
-   export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
-   echo "🚀 deploying cdk app in test to $region 📍"
-   echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap #bootstraps cdk in the region
-   echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   #echo "Setting aws default region to $region"
+   #export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
+   #echo "🚀 deploying cdk app in test to $region 📍"
+   #echo "🥾 bootstrapping cdk in $region 📍"
+   #cdk bootstrap #bootstraps cdk in the region
+   #echo "🚀 deploying all in $region 📍"
+   #cdk deploy --all --context region=$region #deploys all with the optional region context variable
 
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
-   echo "If the lambda returns 200 the test was successful"
-   echo "If the lambda returns something other than 200 the test failed"
-   echo "E2E test was successful!"
+   echo "If the lambda returns 'Success' the test was successful"
+   echo "If the lambda returns something other than 'Success' the test failed"
+   echo jq  '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json
+   testlambda=$(jq -r '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json)
+   echo "Running tests on $testlambda please sit tight for a few minutes"
+   testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
+   echo $testoutcome
+   testoutcomecode=$(jq -r '.' response.json)
+   echo $testoutcomecode
+   if [ $testoutcomecode = "Success" ]
+   then 
+      echo "Test passed! It works." 
+   else
+      echo "Test lambda failed. Want to find out why?"
+      echo $testlambda
+      echo "E2E test completed"
+
+      echo "👋 destroying all in $region 📍"
+      cdk destroy --all --force
+      echo "Test failed. Please read the logs."
+      exit 1 
+   fi
+   echo "E2E test completed"
 
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
-   success+=($region) #if the deployment is successful adds the region to the list of successful deployments
+   cdk destroy --all --force
 done
+#destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
+   
 
-echo "🥳 Successfully deployed and destroyed all CDK stacks! 😎"
-
-#loops through list of successful deployments in each region
-#prints the list of each region that was successfully deployed
-for region in "${success[@]}"
-do
-     echo "✅ successfully deployed and destroyed cdk app in $region 📍"
-done
+echo "🥳 Successfully deployed and destroyed all CDK stacks with TEST! 😎"
+echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"

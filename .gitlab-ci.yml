@@ -97,7 +97,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 
 end-to-end-test:   # runs e2e test
   stage: static
-  image: node:latest
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
@@ -116,7 +116,9 @@ end-to-end-test:   # runs e2e test
     - echo "Build complete."
     - echo "Running cdk nag to check for security vulnerabilities"
     - cdk synth
-    - echo "This is where the e2e test will happen"
+    - echo "Starting e2e test"
+    - npm i node-jq
+    - sh test-e2e.sh
     - echo "e2e test successful"
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
@@ -147,5 +149,5 @@ cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
     - cdk synth
     - echo "Synthesized!"
     - echo "Running CDKitten🐱"
-    - sh test-deployment.sh <-- uncomment this when you want to use the cdkitten script
+    - sh test-deployment.sh
     - echo "Application deployment placeholder passed"
