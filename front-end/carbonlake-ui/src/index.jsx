@@ -4,7 +4,7 @@ import { HashRouter } from "react-router-dom";
 import App from "./pages/App";
 
 import Amplify from 'aws-amplify';
-import {existingAPI, existingAuth} from './amplify-config';
+import {existingAPI, existingAuth} from './amplify-config-template';
 
 Amplify.configure(existingAuth)
 Amplify.configure(existingAPI)

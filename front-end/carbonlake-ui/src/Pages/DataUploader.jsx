@@ -39,7 +39,7 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { forEachLeadingCommentRange } from 'typescript';
-import {existingS3} from '../amplify-config';
+import {existingS3} from '../amplify-config-template';
 
 // import awsExports from '../aws-exports';
 Amplify.configure(existingS3);
