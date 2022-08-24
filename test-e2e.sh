@@ -11,13 +11,13 @@ regions=("us-east-1") #list of defined regions to loop through for deployment
 
 for region in "${regions[@]}"
 do
-   #echo "Setting aws default region to $region"
-   #export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
-   #echo "🚀 deploying cdk app in test to $region 📍"
-   #echo "🥾 bootstrapping cdk in $region 📍"
-   #cdk bootstrap #bootstraps cdk in the region
-   #echo "🚀 deploying all in $region 📍"
-   #cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   echo "Setting aws default region to $region"
+   export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
+   echo "🚀 deploying cdk app in test to $region 📍"
+   echo "🥾 bootstrapping cdk in $region 📍"
+   cdk bootstrap #bootstraps cdk in the region
+   echo "🚀 deploying all in $region 📍"
+   cdk deploy --all --context region=$region #deploys all with the optional region context variable
 
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
