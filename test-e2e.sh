@@ -23,6 +23,8 @@ do
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
    echo "If the lambda returns 'Success' the test was successful"
    echo "If the lambda returns something other than 'Success' the test failed"
+   echo "First let's print the cdk-output file to make sure it's there"
+   jq . cdk-outputs.json
    echo jq  '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json
    testlambda=$(jq -r '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json)
    echo "Running tests on $testlambda please sit tight for a few minutes"

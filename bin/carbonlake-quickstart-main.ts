@@ -84,7 +84,7 @@ new CLQSApiStack (app, 'ApiStack', {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
-    /* commenting quicksight stack out for test
+    /* By default this stack is commented out. Uncomment if you want to deploy
     this.quicksight = new CLQSQuicksightStack(this, 'QuicksightStack', {
       enrichedBucket: this.sharedResources.carbonlakeEnrichedBucket,
       quicksightUserName: quicksightUserName,
@@ -92,13 +92,14 @@ new CLQSApiStack (app, 'ApiStack', {
     })
     */
     // QS7 --> Create the carbonlake forecast stack
-    //commenting out for test
+    /* By default this stack is commented out. Uncomment if you want to deploy
+
 new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
       env: appEnv
     });
 
     cdk.Tags.of(app).add("application", "carbonlake");
-
+    */
     
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
