@@ -412,7 +412,7 @@ amplifytools.xcconfig
 #cdk context test
 cdk.contexttest.json
 
-respons.json
+response.json
 
 # vs code
 .vscode/
