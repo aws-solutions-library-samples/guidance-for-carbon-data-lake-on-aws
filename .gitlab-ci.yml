@@ -101,6 +101,7 @@ end-to-end-test:   # runs e2e test
   #rules:
     #- if: $CI_COMMIT_BRANCH == 'main'
   script:
+    - echo "Commented out"
     #- amazon-linux-extras
     #- yum install -y unzip
     #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -136,6 +137,7 @@ cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
+    - echo "Commented out"
     #- amazon-linux-extras
     #- yum -y install curl
     #- yum install -y nodejs
