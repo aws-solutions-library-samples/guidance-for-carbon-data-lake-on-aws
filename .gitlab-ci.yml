@@ -97,61 +97,67 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 
 end-to-end-test:   # runs e2e test
   stage: static
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
+  image: amazonlinux:latest
+  #rules:
+    #- if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - python --version
-    - aws --version
-    - apt-get update
-    - apt -y install nodejs npm
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
-    - npm ci
-    - echo "succesfully installed package dependencies!"
-    - echo "Building with npm..."
-    - npm run build
-    - echo "Build complete."
-    - echo "Running cdk nag to check for security vulnerabilities"
-    - cdk synth
-    - echo "Starting e2e test"
-    - npm i node-jq
-    - sh test-e2e.sh
-    - echo "e2e test successful"
+    - echo "Commented out"
+    #- amazon-linux-extras
+    #- yum install -y unzip
+    #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    #- unzip awscliv2.zip
+    #- ./aws/install
+    #- aws --version
+    #- curl -sL https://rpm.nodesource.com/setup_16.x | bash 
+    #- yum install -y nodejs
+    #- node --version
+    #- echo "Installing typescript as dependency"
+    #- npm install typescript@latest -g
+    #- echo "succesfully installed typescript"
+    #- echo "Installing python as dependency"
+    #- npm i python@latest -g
+    #- echo "succesfully installed python"
+    #- echo "Installing all package dependencies"
+    #- npm install -g aws-cdk
+    #- npm ci
+    #- echo "succesfully installed package dependencies!"
+    #- echo "Building with npm..."
+    #- npm run build
+    #- echo "Build complete."
+    #- echo "Running cdk nag to check for security vulnerabilities"
+    #- cdk synth
+    #- echo "Starting e2e test"
+    #- yum install jq -y
+    #- sh test-e2e.sh
+    #- echo "e2e test successful"
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  image: node:latest
+  image: amazonlinux:latest
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing aws cli"
-    - npm install -g aws-cli
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
-    - npm ci
-    - echo "succesfully installed package dependencies!"
-    - echo "Building with npm..."
-    - npm run build
-    - echo "Build complete."
-    - echo "Running cdk synth"
-    - aws configure
-    - echo "Synthesized!"
-    - echo "Running cdk synth"
-    - cdk synth
-    - echo "Synthesized!"
-    - echo "Running CDKitten🐱"
-    - sh test-deployment.sh
-    - echo "Application deployment placeholder passed"
+    - echo "Commented out"
+    #- amazon-linux-extras
+    #- yum -y install curl
+    #- yum install -y nodejs
+    #- node --version
+    #- echo "Installing typescript as dependency"
+    #- npm install typescript@latest -g
+    #- echo "succesfully installed typescript"
+    #- echo "Installing python as dependency"
+    #- npm i python@latest -g
+    #- echo "succesfully installed python"
+    #- echo "Installing all package dependencies"
+    #- npm install -g aws-cdk
+    #- npm ci
+    #- echo "succesfully installed package dependencies!"
+    #- echo "Building with npm..."
+    #- npm run build
+    #- echo "Build complete."
+    #- echo "Running cdk nag to check for security vulnerabilities"
+    #- cdk synth
+    #- echo "Synthesized!"
+    #- echo "Running CDKitten🐱"
+    #- sh test-deployment.sh
+    #- echo "Application deployment placeholder passed"

@@ -11,13 +11,13 @@ regions=("us-east-1") #list of defined regions to loop through for deployment
 
 for region in "${regions[@]}"
 do
-   #echo "Setting aws default region to $region"
-   #export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
-   #echo "🚀 deploying cdk app in test to $region 📍"
-   #echo "🥾 bootstrapping cdk in $region 📍"
-   #cdk bootstrap #bootstraps cdk in the region
-   #echo "🚀 deploying all in $region 📍"
-   #cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   echo "Setting aws default region to $region"
+   export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
+   echo "🚀 deploying cdk app in test to $region 📍"
+   echo "🥾 bootstrapping cdk in $region 📍"
+   cdk bootstrap #bootstraps cdk in the region
+   echo "🚀 deploying all in $region 📍"
+   cdk deploy --all --context region=$region #deploys all with the optional region context variable
 
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
@@ -29,9 +29,9 @@ do
    testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
    echo $testoutcome
    testoutcomecode=$(jq -r '.' response.json)
-   echo $testoutcomecode
    if [ $testoutcomecode = "Success" ]
-   then 
+   then
+      echo $testoutcomecode 
       echo "Test passed! It works." 
    else
       echo "Test lambda failed. Want to find out why?"
@@ -43,7 +43,7 @@ do
       echo "Test failed. Please read the logs."
       exit 1 
    fi
-   echo "E2E test completed"
+   echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force
