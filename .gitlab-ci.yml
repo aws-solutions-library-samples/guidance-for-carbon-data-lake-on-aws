@@ -123,7 +123,7 @@ end-to-end-test:   # runs e2e test
     - echo "Running cdk nag to check for security vulnerabilities"
     - cdk synth
     - echo "Starting e2e test"
-    - npm i node-jq
+    - yum install jq -y
     - sh test-e2e.sh
     - echo "e2e test successful"
 
