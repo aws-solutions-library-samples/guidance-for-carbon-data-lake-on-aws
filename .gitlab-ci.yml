@@ -102,7 +102,9 @@ end-to-end-test:   # runs e2e test
     #- if: $CI_COMMIT_BRANCH == 'main'
   script:
     - amazon-linux-extras
-    - yum install -y awscli
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    - unzip awscliv2.zip
+    - sudo ./aws/install
     - aws --version
     - yum -y install curl
     - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
