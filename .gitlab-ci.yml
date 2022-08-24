@@ -104,7 +104,7 @@ end-to-end-test:   # runs e2e test
     - amazon-linux-extras
     - yum install -y awscli
     - yum -y install curl
-    - curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
+    - curl -sL https://rpm.nodesource.com/setup_16.x | bash -
     - yum install -y nodejs
     - node --version
     - echo "Installing typescript as dependency"
