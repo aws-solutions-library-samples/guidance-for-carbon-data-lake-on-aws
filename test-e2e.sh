@@ -43,7 +43,7 @@ do
       echo "Test failed. Please read the logs."
       exit 1 
    fi
-   echo "E2E test completed"
+   echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force
