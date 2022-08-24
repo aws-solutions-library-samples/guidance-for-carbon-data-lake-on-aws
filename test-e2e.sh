@@ -29,9 +29,9 @@ do
    testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
    echo $testoutcome
    testoutcomecode=$(jq -r '.' response.json)
-   echo $testoutcomecode
    if [ $testoutcomecode = "Success" ]
-   then 
+   then
+      echo $testoutcomecode 
       echo "Test passed! It works." 
    else
       echo "Test lambda failed. Want to find out why?"
