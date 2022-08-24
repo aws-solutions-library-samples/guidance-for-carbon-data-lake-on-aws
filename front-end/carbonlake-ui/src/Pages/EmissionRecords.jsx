@@ -7,7 +7,7 @@ of using AWS-UI components.
 ************************************************************************/
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import {existingAPI, existingAuth} from '../amplify-config';
+import {existingAPI, existingAuth} from '../amplify-config-template';
 import { API, graphqlOperation } from 'aws-amplify';
 import { all, getOne } from '../graphql/queries';
 

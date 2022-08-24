@@ -14,7 +14,7 @@ import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import {existingAPI, existingAuth} from '../../amplify-config';
+import {existingAPI, existingAuth} from '../../amplify-config-template';
 Amplify.configure(existingAuth)
 Amplify.configure(existingAPI)
 

@@ -1,13 +1,14 @@
 // -- AWS AMPLIFY CONFIGURATION PARAMETERS --
 // To set up your own amplify app you will need to rename this file as amplify-config.js and follow the instructions in the README to fill in your values
-
+import cdkOutputsJSON from '../../../cdk-outputs.json'
 // Existing API
 const existingAPI = {
   // ...
   API: {
     aws_appsync_graphqlEndpoint:
-      "https://abcedfg123456.appsync-api.YOUR-AWS-REGION.amazonaws.com/graphql", // Replace with your GraphQL Endpoint
-    aws_appsync_region: "YOUR-AWS-REGION", // Replace with the region you deployed CDK with
+      cdkOutputsJSON.ApiStack.graphqlUrl, // Replace with your GraphQL Endpoint
+    aws_appsync_region: "us-east-1", // Replace with the region you deployed CDK with
+    // aws_appsync_region: cdkOutputsJSON.SharedResources.currentRegion, // Todo - create output for currentRegion
     aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS", // No touchy
   },
 };
@@ -16,20 +17,22 @@ const existingAPI = {
 const existingAuth = {
   Auth: {
     // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-    identityPoolId: "YOUR-AWS-REGION:abcdefg-123456",
+    identityPoolId: cdkOutputsJSON.ApiStack.identityPoolId,
 
     // REQUIRED - Amazon Cognito Region
-    region: "YOUR-AWS-REGION", // Replace with the region you deployed CDK with
+    region: "us-east-1", // Replace with the region you deployed CDK with
+    // region: cdkOutputsJSON.SharedResources.currentRegion, // Replace with the region you deployed CDK with
 
     // OPTIONAL - Amazon Cognito Federated Identity Pool Region
     // Required only if it's different from Amazon Cognito Region
-    identityPoolRegion: "YOUR-AWS-REGION",
+    identityPoolRegion: "us-east-1",
+    // identityPoolRegion: cdkOutputsJSON.SharedResources.currentRegion,
 
     // REQUIRED - Amazon Cognito User Pool ID
-    userPoolId: "YOUR-AWS-REGOIN_abc123", // Replace with your User Pool ID
+    userPoolId: cdkOutputsJSON.ApiStack.userPoolId, // Replace with your User Pool ID
 
     // REQUIRED - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: "abcdefg123456", // Replace with your User Pool Web Client ID
+    userPoolWebClientId: cdkOutputsJSON.ApiStack.userPoolClientId, // Replace with your User Pool Web Client ID
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,
@@ -54,8 +57,9 @@ const existingAuth = {
 const existingS3 = {
   Storage: {
     AWSS3: {
-      bucket: "YOUR-S3-LANDING-BUCKET", //REQUIRED -  Amazon S3 bucket name
-      region: "YOUR-AWS-REGION", //Required -  Amazon service region
+      bucket: cdkOutputsJSON.DataPipelineStack.LandingBucketName, //REQUIRED -  Amazon S3 bucket name
+      region: "us-east-1", //Required -  Amazon service region
+      // region: cdkOutputsJSON.SharedResources.currentRegion, //Required -  Amazon service region
     },
   },
 };
