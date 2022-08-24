@@ -96,7 +96,10 @@ const Content = () => {
   const [showErrorFlashbar, setShowErrorFlashbar] = useState(false)
   const [flashbarItems, setFlashbarItems] = useState([])
 
-  const [disableCancelButton, setDisableCancelButton] = useState(false)
+  const [disableCancelButton, setDisableCancelButton] = useState(true)
+  const [disableUploadButton, setDisableUploadButton] = useState(true)
+  const [disableRemoveButton, setDisableRemoveButton] = useState(true)
+  const [disableAddFileButton, setDisableAddFileButton] = useState(false)
 
  const selectFile = () => {
         fileInput.current.click();
@@ -121,11 +124,18 @@ const Content = () => {
     // setShowUploadingFlashbar(false)
     setShowSuccessFlashbar(false)
     setShowErrorFlashbar(false)
+    setDisableCancelButton(false)
+    setDisableUploadButton(false)
+    setDisableRemoveButton(false)
   };
 
   const removeButton = () => {
     setData([])
     setRemove(false)
+    setShowErrorFlashbar(false)
+    setDisableRemoveButton(true)
+    setDisableCancelButton(true)
+    setDisableUploadButton(true)
   };
 
   const cancelFileUpload = () => {
@@ -137,6 +147,11 @@ const Content = () => {
     setShowUploadingFlashbar(false)
     setShowSuccessFlashbar(false)
     setShowErrorFlashbar(false)
+    setDisableRemoveButton(true)
+    setDisableCancelButton(true)
+    setDisableAddFileButton(false)
+    // setDisableUploadButton(false) HERE
+
 
   };
 
@@ -145,6 +160,9 @@ const Content = () => {
     setShowSuccessFlashbar (false)
     setShowErrorFlashbar(false)
     setDisableCancelButton(true)
+    setDisableUploadButton(true)
+    setDisableRemoveButton(true)
+    setDisableAddFileButton(true)
     try{
       setAlertType('success');
       setAlertContent('File was uploaded successfully');
@@ -166,7 +184,7 @@ const Content = () => {
               // action: <Button>View Emission Records</Button>, // TODO - make this nav to emission records page
               dismissible: true,
               dismissLabel: "Dismiss message",
-              onDismiss: () => setItems([]),
+              onDismiss: () => setShowSuccessFlashbar(false),
               id: "success_message_1"
           }
           ])
@@ -185,6 +203,9 @@ const Content = () => {
       setShowSuccessFlashbar(true) // show success flashbar when Storage.put() is successfully completed
       setShowUploadingFlashbar(false) // hide uploading flashbar when Storage.put() is successfully completed
       setDisableCancelButton(false) // allow cancel button to work again when Storage.put() is successfully completed
+      setData([])
+      setDisableCancelButton(true)
+      setDisableAddFileButton(false)
       // setFileUploadStatus('Successful')
 
     } catch (err) {
@@ -202,7 +223,7 @@ const Content = () => {
         action: <Button onClick={uploadFile}>Try again</Button>,
         dismissible: true,
         dismissLabel: "Dismiss message",
-        onDismiss: () => setItems([]),
+        onDismiss: () => setShowErrorFlashbar(false),
         id: "error_message_1"
 
     }
@@ -210,6 +231,9 @@ const Content = () => {
     setShowUploadingFlashbar(false) //hide uploading flashbar if error occurs
     setShowErrorFlashbar(true) // show error message if file cannot be uploaded successfully
     setDisableCancelButton(false) // allow cancel button to work again if file cannot be uploaded successfully
+    setDisableAddFileButton(false)
+    setDisableRemoveButton(false)
+
     // setFileUploadStatus('Failed')
     // setFileUploadErrorMessage('403: Unauthorized')
 
@@ -334,7 +358,7 @@ const Content = () => {
               <Button disabled = {disableCancelButton} formAction="none" variant="link" onClick={cancelFileUpload}>
                 Cancel
               </Button>
-              <Button onClick={uploadFile} variant="primary">Upload</Button>
+              <Button disabled = {disableUploadButton} onClick={uploadFile} variant="primary">Upload</Button>
             </SpaceBetween>
           }
         header={
@@ -352,9 +376,9 @@ const Content = () => {
             <Header variant="h2"
               actions={
         <SpaceBetween direction="horizontal" size="s">
-          <Button onClick={removeButton} disabled={!remove}> Remove </Button>
+          <Button onClick={removeButton} disabled={disableRemoveButton}> Remove </Button>
           <input type="file" accept=".csv" id="carbonlake-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
-          <Button iconName="file" id="carbonlake-button" onClick={selectFile}> Add File </Button>
+          <Button disabled = {disableAddFileButton} iconName="file" id="carbonlake-button" onClick={selectFile}> Add File </Button>
         </SpaceBetween>
       }
             >
