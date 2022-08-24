@@ -97,14 +97,12 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 
 end-to-end-test:   # runs e2e test
   stage: static
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  image: amazonlinux:latest
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - python --version
-    - aws --version
-    - apt-get update
-    - apt -y install nodejs npm
+    - amazon-linux-extras
+    - yum install nodejs14
     - echo "Installing typescript as dependency"
     - npm install typescript@latest -g
     - echo "succesfully installed typescript"
