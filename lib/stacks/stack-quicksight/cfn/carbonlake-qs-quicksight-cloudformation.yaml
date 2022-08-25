@@ -19,10 +19,7 @@ Resources:
   CombinedEmissionsAthenaDataSource:
     Type: AWS::QuickSight::DataSource
     Properties:
-      DataSourceId: !Join
-        - ''
-        - - !Ref UniqueIdentifier
-          - '-Athena-DataSource'
+      DataSourceId: !Sub '${UniqueIdentifier}-Athena-DataSource'
       Name: Combined Emissions Athena Data Source
       AwsAccountId: !Ref AWS::AccountId
       Type: ATHENA
@@ -30,14 +27,7 @@ Resources:
         AthenaParameters:
           WorkGroup: 'primary'
       Permissions:
-        - Principal: !Join
-            - ''
-            - - 'arn:aws:quicksight:'
-              - !Ref Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':user/default/' 
-              - !Ref Username
+        - Principal: !Sub '$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}'
           Actions:
             - quicksight:UpdateDataSourcePermissions
             - quicksight:DescribeDataSource
@@ -50,10 +40,7 @@ Resources:
   CombinedEmissionsDataset:
     Type: AWS::QuickSight::DataSet
     Properties:
-      DataSetId: !Join
-        - ''
-        - - !Ref UniqueIdentifier
-          - '-Data-Set'
+      DataSetId: !Sub '${UniqueIdentifier}-Data-Set'
       Name: Combined Emissions Data Set
       AwsAccountId: !Ref AWS::AccountId
       PhysicalTableMap:
@@ -202,14 +189,7 @@ Resources:
           Source:
             PhysicalTableId: CombinedEmissions
       Permissions:
-        - Principal: !Join
-            - ''
-            - - 'arn:aws:quicksight:'
-              - !Ref Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':user/default/' 
-              - !Ref Username
+        - Principal: !Sub '$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}'
           Actions:
             - quicksight:UpdateDataSetPermissions
             - quicksight:DescribeDataSet
@@ -227,24 +207,14 @@ Resources:
   CombinedEmissionsDashboardTemplate:
     Type: AWS::QuickSight::Template
     Properties:
-      TemplateId: !Join
-        - ''
-        - - !Ref UniqueIdentifier
-          - '-Template'
+      TemplateId: !Sub '${UniqueIdentifier}-Template-Data-Set'
       Name: CarbonLake Combined Emissions Template
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
         SourceTemplate: #TODO: point to template created in the main CarbonLake dev account
           Arn: arn:aws:quicksight:us-east-1:148257099368:template/CarbonLake-Combined-Emissions-Template-145CA4B5
       Permissions:
-        - Principal: !Join
-            - ''
-            - - 'arn:aws:quicksight:'
-              - !Ref Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':user/default/' 
-              - !Ref Username 
+        - Principal: !Sub '$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}'
           Actions:
             - quicksight:DescribeTemplate
       VersionDescription: Initial dashboard template version - Created from pre-created analysis.
@@ -253,10 +223,7 @@ Resources:
   CombinedEmissionsDashboard:
     Type: AWS::QuickSight::Dashboard
     Properties:
-      DashboardId: !Join
-        - ''
-        - - !Ref Unique_Identifier
-          - '-Dashboard'
+      DashboardId: !Sub '${UniqueIdentifier}-Dashboard'
       Name: CarbonLake Combined Scopes Dashboard
       AwsAccountId: !Ref AWS::AccountId
       SourceEntity:
@@ -266,14 +233,7 @@ Resources:
             - DataSetPlaceholder: CombinedEmissionsDataset
               DataSetArn: !GetAtt CombinedEmissionsDataset.Arn
       Permissions:
-        - Principal: !Join
-            - ''
-            - - 'arn:aws:quicksight:'
-              - !Ref Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':user/default/' 
-              - !Ref Username
+        - Principal: !Sub '$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}'
           Actions:
             - quicksight:DescribeDashboard
             - quicksight:ListDashboardVersions
