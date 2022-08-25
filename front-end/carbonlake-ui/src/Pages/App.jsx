@@ -7,7 +7,6 @@ of using AWS-UI components.
 ************************************************************************/
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import BobRossIntro from './BobRossIntro.jsx';
 import Dashboard from './Dashboard.jsx';
 import CarbonLake101 from './CarbonLake101.jsx';
 import SetupGuide from './SetupGuide.jsx';

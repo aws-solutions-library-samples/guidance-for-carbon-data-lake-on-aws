@@ -2,7 +2,7 @@
                             DISCLAIMER
 
 This is just a playground package. It does not comply with best practices
-of using AWS-UI components.
+of using Cloudscape Design components.
 
 ************************************************************************/
 import React, { useState, useEffect, useRef } from 'react';
@@ -23,7 +23,9 @@ import {
   Form,
   Button,
   Table,
-  Alert
+  Alert,
+  Flashbar,
+  ProgressBar
 } from '@cloudscape-design/components';
 
 import '../styles/intro.scss';
@@ -32,36 +34,16 @@ import '../styles/servicehomepage.scss';
 import {COLUMN_DEFINITIONS} from '../resources/table_uploader/table-config'
 
 
-
 // Amplify
 import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { forEachLeadingCommentRange } from 'typescript';
-import {existingS3} from '../amplify-config';
+import {existingS3} from '../amplify-config-template';
 
-// import awsExports from '../aws-exports';
+
 Amplify.configure(existingS3);
-
-// S3 Upload Parameters
-// Amplify.configure({
-//   Auth: {
-//       identityPoolId: 'us-east-1:941eee7c-6ef3-4915-a5a8-8b2eacc7e898', //REQUIRED - Amazon Cognito Identity Pool ID
-//       region: 'us-east-1', // REQUIRED - Amazon Cognito Region
-//       userPoolId: 'us-east-1_6FkoMPs6j', //OPTIONAL - Amazon Cognito User Pool ID
-//       userPoolWebClientId: '6i9pe0ntcql0npt54eemv4bi1p', //OPTIONAL - Amazon Cognito Web Client ID
-//   },
-//   Storage: {
-//       AWSS3: {
-//           bucket: 'carbonlake-quickstart-test-input-bucket', //REQUIRED -  Amazon S3 bucket name
-//           region: 'us-east-1', //OPTIONAL -  Amazon service region
-//       }
-//   }
-// });
-
-
-
 
 
 // This is not meant to be a template, rather it is the
@@ -71,11 +53,6 @@ const DataUploader = () => {
   return (
     <>
     <TopNavigationHeader/>
-
-
-
-
-  {/* <Sidebar /> */}
     <AppLayout
     navigation={<Sidebar activeHref="#/" />}
     // navigation={<Sidebar activeHref="#/" items={navItems}/>}
@@ -94,15 +71,35 @@ export default DataUploader;
 
 const Content = () => {
 
- const [data, setData] = useState([]);
- const [files, setFiles] = useState(null);
- const [remove, setRemove] = useState(false);
- const fileInput = useRef();
+  const [data, setData] = useState([]);
+  const [files, setFiles] = useState(null);
+  const [remove, setRemove] = useState(false);
+  const fileInput = useRef();
 
- const [visibleAlert, setVisibleAlert] = useState(false);
- const [visibleInfo, setVisibleInfo] = useState(true);
- const [alertType, setAlertType] = useState("");
- const [alertContent, setAlertContent] = useState("");
+  const [visibleAlert, setVisibleAlert] = useState(false);
+  const [visibleInfo, setVisibleInfo] = useState(true);
+
+  const [alertType, setAlertType] = useState("");
+  const [alertContent, setAlertContent] = useState("");
+
+  const [filePercentUploaded, setFilePercentUploaded] = useState(null)
+  const [fileName, setFileName] = useState(null)
+  const [fileDescription, setFileDescription] = useState(null)
+  const [fileType, setFileType] = useState(null)
+  const [fileInfo, setFileInfo] = useState(null)
+
+  const [fileUploadStatus, setFileUploadStatus] = useState("-")
+  const [fileUploadErrorMessage, setFileUploadErrorMessage] = useState("-")
+
+  const [showUploadingFlashbar, setShowUploadingFlashbar] = useState(false);
+  const [showSuccessFlashbar, setShowSuccessFlashbar] = useState(false)
+  const [showErrorFlashbar, setShowErrorFlashbar] = useState(false)
+  const [flashbarItems, setFlashbarItems] = useState([])
+
+  const [disableCancelButton, setDisableCancelButton] = useState(true)
+  const [disableUploadButton, setDisableUploadButton] = useState(true)
+  const [disableRemoveButton, setDisableRemoveButton] = useState(true)
+  const [disableAddFileButton, setDisableAddFileButton] = useState(false)
 
  const selectFile = () => {
         fileInput.current.click();
@@ -117,54 +114,129 @@ const Content = () => {
           type: e.target.files[0].type,
           // size: `${Math.ceil(e.target.files[0].size / 1000000)} MB`
           // Convert bytes to MB and round to nearest hundredth (2 decimal places)
-          size: `${(e.target.files[0].size / 1000000).toFixed(2)} MB`
+          size: `${(e.target.files[0].size / 1000000).toFixed(2)} MB`,
+          status: fileUploadStatus,
+          error: fileUploadErrorMessage
         }
       ])
     setRemove(true)
     e.target.value = null
+    // setShowUploadingFlashbar(false)
+    setShowSuccessFlashbar(false)
+    setShowErrorFlashbar(false)
+    setDisableCancelButton(false)
+    setDisableUploadButton(false)
+    setDisableRemoveButton(false)
   };
 
   const removeButton = () => {
     setData([])
     setRemove(false)
+    setShowErrorFlashbar(false)
+    setDisableRemoveButton(true)
+    setDisableCancelButton(true)
+    setDisableUploadButton(true)
   };
 
-  const cancelButton = () => {
+  const cancelFileUpload = () => {
     setFiles(null);
     setData([])
     setRemove(false)
     setVisibleAlert(false)
 
+    setShowUploadingFlashbar(false)
+    setShowSuccessFlashbar(false)
+    setShowErrorFlashbar(false)
+    setDisableRemoveButton(true)
+    setDisableCancelButton(true)
+    setDisableAddFileButton(false)
+    // setDisableUploadButton(false) HERE
+
+
   };
 
   const uploadFile = async () => {
+    setShowUploadingFlashbar(true)
+    setShowSuccessFlashbar (false)
+    setShowErrorFlashbar(false)
+    setDisableCancelButton(true)
+    setDisableUploadButton(true)
+    setDisableRemoveButton(true)
+    setDisableAddFileButton(true)
     try{
       setAlertType('success');
       setAlertContent('File was uploaded successfully');
-      // const put_csv = await Storage.put("csv/" + files.name, files, {
-      //   progressCallback(progress) {
-      //   console.log('Uploading file to S3 Bucket ...');
-      //   console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-      // },
-      const put_csv = await Storage.put(files.name, files, {
+
+      const put_tca_file = await Storage.put(files.name, files, {
+        // bucket: "your-bucket-name", - use this parameter to add to bucket beyond amplify-config
+        // bucket: outputsJSON.outputs.tca_app_storage_bucket.value,
         progressCallback(progress) {
-        console.log('Uploading file to S3 Bucket ...');
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-      },
+          const percent_uploaded = Math.floor((progress.loaded/progress.total)*100)
+          console.log('Uploading file to S3 Bucket ...');
+          console.log(`Uploaded: ${progress.loaded}/${progress.total} | ${percent_uploaded}%`);
+          setFilePercentUploaded (percent_uploaded)
+          setFileName (files.name)
+
+          setFlashbarItems([
+            {
+              type: "success",
+              content: `File: ${files.name} has been successfully uploaded.`,
+              // action: <Button>View Emission Records</Button>, // TODO - make this nav to emission records page
+              dismissible: true,
+              dismissLabel: "Dismiss message",
+              onDismiss: () => setShowSuccessFlashbar(false),
+              id: "success_message_1"
+          }
+          ])
+
+        },
         // level: 'public',
         customPrefix: {
           public: ''
         },
         contentType: files.type,
 
-
       });
-      setVisibleAlert(true)
+
+
+      // setVisibleAlert(true) // old success method
+      setShowSuccessFlashbar(true) // show success flashbar when Storage.put() is successfully completed
+      setShowUploadingFlashbar(false) // hide uploading flashbar when Storage.put() is successfully completed
+      setDisableCancelButton(false) // allow cancel button to work again when Storage.put() is successfully completed
+      setData([])
+      setDisableCancelButton(true)
+      setDisableAddFileButton(false)
+      // setFileUploadStatus('Successful')
+
     } catch (err) {
     console.log('Error uploading file:', err);
-    setAlertType('error');
-    setAlertContent('Error uploading file: Unauthorized', err)
-    setVisibleAlert(true)
+    // old error alerting
+    // setAlertType('error');
+    // setAlertContent('Error uploading file: Unauthorized', err)
+    // setVisibleAlert(true)
+
+    setFlashbarItems([
+      {
+        type: "error",
+        content: `Error 403: File could not be uploaded. Ensure you have the necessary permissions and try again.`,
+        // content: `Error 403: File could not be uploaded. Ensure you have the necessary permissions and try again.,${err}`,
+        action: <Button onClick={uploadFile}>Try again</Button>,
+        dismissible: true,
+        dismissLabel: "Dismiss message",
+        onDismiss: () => setShowErrorFlashbar(false),
+        id: "error_message_1"
+
+    }
+    ])
+    setShowUploadingFlashbar(false) //hide uploading flashbar if error occurs
+    setShowErrorFlashbar(true) // show error message if file cannot be uploaded successfully
+    setDisableCancelButton(false) // allow cancel button to work again if file cannot be uploaded successfully
+    setDisableAddFileButton(false)
+    setDisableRemoveButton(false)
+
+    // setFileUploadStatus('Failed')
+    // setFileUploadErrorMessage('403: Unauthorized')
+
   }
   };
 
@@ -197,16 +269,78 @@ const Content = () => {
 {/* Start How it works section */}
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
+          { visibleInfo &&
+            <Flashbar
+              items={[
+                {
+                  type: 'info',
+                  dismissible: true,
+                  onDismiss: () => setVisibleInfo(false),
+                  content: (
+                    <>
+                    We currently support single file upload. Multi-file upload is coming in
+                    future releases. Please upload one file at a time.
+                    {/* <br />
+                    <br />
+                    For more information, see the
+                    {" "}
+                    link
+                    <Link color="inverted">
+                      a link to another page
+                    </Link>
+                    . */}
+                  </>
+                  ),
+                  id: "info_message_1"
+                }
+              ]}
+            />
+          }
 
-                <Alert
-      onDismiss={() => setVisibleInfo(true)}
-      visible={visibleInfo}
-      dismissAriaLabel="Close alert"
-      header="File Upload Guidance"
-    >
-      We currently support single file upload. Multi-file upload is coming in future releases. Please upload one file at a time.
-    </Alert>
+          {/* <Alert
+            onDismiss={() => setVisibleInfo(false)}
+            dismissible = "true"
+            visible={visibleInfo}
+            dismissAriaLabel="Close alert"
+            header="File Upload Guidance"
+          >
+             We currently support single file upload. Multi-file upload is coming in future releases. Please upload one file at a time.
+          </Alert> */}
           <div>
+
+      {/* Show uploading flashbar if showUploadingFlashbar is true (if upload is in progress) */}
+      {showUploadingFlashbar &&
+      <Flashbar
+      items={[
+        {
+          loading : true,
+          type: 'info',
+          content: (
+            <ProgressBar
+              value={filePercentUploaded}
+              variant="flash"
+              // additionalInfo="Transfer Rate:" // TODO - add calculation for transfer rate
+              description={fileName}
+              label="Uploading..."
+            />
+          ),
+          id: "progressbar_1"
+        }
+      ]}
+      />
+      }
+
+      {/* Show success flashbar if showSuccessFlashbar is true (if upload is successful) */}
+      {
+        showSuccessFlashbar && <Flashbar items={flashbarItems} />
+      }
+
+      {/* Show error flashbar if showErrorFlashbar is true (if upload is unsuccessful) */}
+      {
+        showErrorFlashbar && <Flashbar items={flashbarItems} />
+      }
+
+
       <form onSubmit={e => e.preventDefault()}>
       <Alert
           onDismiss={() => setVisibleAlert(false)}
@@ -217,32 +351,34 @@ const Content = () => {
         >
           {alertContent}
         </Alert>
+
       <Form
-      actions={
-          <SpaceBetween direction="horizontal" size="xs">
-            <Button formAction="none" variant="link" onClick={cancelButton}>
-              Cancel
-            </Button>
-            <Button onClick={uploadFile} variant="primary">Upload</Button>
-          </SpaceBetween>
-        }
+        actions={
+            <SpaceBetween direction="horizontal" size="xs">
+              <Button disabled = {disableCancelButton} formAction="none" variant="link" onClick={cancelFileUpload}>
+                Cancel
+              </Button>
+              <Button disabled = {disableUploadButton} onClick={uploadFile} variant="primary">Upload</Button>
+            </SpaceBetween>
+          }
         header={
           <Header
             variant="h1"
-            description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API"
+            description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API."
           >
             Upload
           </Header>
         }
-      >
+
+        >
         <Container
           header={
             <Header variant="h2"
               actions={
         <SpaceBetween direction="horizontal" size="s">
-          <Button onClick={removeButton} disabled={!remove}> Remove </Button>
-          <input type="file" accept=".csv" id="csv-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
-          <Button iconName="file" id="csv-buttom" onClick={selectFile}> Add File </Button>
+          <Button onClick={removeButton} disabled={disableRemoveButton}> Remove </Button>
+          <input type="file" accept=".csv" id="carbonlake-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
+          <Button disabled = {disableAddFileButton} iconName="file" id="carbonlake-button" onClick={selectFile}> Add File </Button>
         </SpaceBetween>
       }
             >
@@ -271,129 +407,6 @@ const Content = () => {
         </Container>
       </Form>
     </form>
-            {
-
-            /* <Container>
-              <div>
-                <ol>
-                  <li>
-                      Navigate to the "CarbonLake Uploader" page and browse for your file.
-                    <br />
-                  </li>
-                  <li>
-                    This will upload your file to the "INGEST" S3 bucket which will trigger a the pipeline to run automatically.
-                    The file will be validated to ensure it conforms to our schema, and if successful will continue down the pipeline.
-                    Once finished, the file will be visible in the "Visualizations" (make this a link later) page.
-                    Currently, you are viewing this page on your localhost as <a>localhost:3000/#/</a> because it is
-                    routed as the 'default' page. All of the included templates are already routed and included in the
-                    side navigation you see in the left panel of this page. The urls are defined in{' '}
-                    <code>src/components/App.jsx</code> (below right). You can learn more about
-                    <code>&lt;Routing&gt;</code>{' '}
-                    <a href="https://reacttraining.com/react-router/web/api/HashRouter">here</a>
-                    .
-                    <br />
-                  </li>
-                  <li>
-                    Try viewing the service homepage template page (below) by adding "<strong>service-home</strong>" to
-                    the end of the url in your browser: <Link to="service-home">localhost:3000/#/service-home</Link>.
-                    When you hit enter you should be redirected to a new page showing the service homepage template.
-                    <br />
-                  </li>
-                  <li>
-                    Edit the service homepage template in the <code>ServiceHomepage.jsx</code> file.
-                    <br />
-                    Save your work to see the results on this page.
-                    <br />
-                  </li>
-                </ol>
-              </div>
-            </Container>
-
-          /*
-          </div>
-          <div>
-            <h1>Benefits and features</h1>
-            <Container header={<Header>Included templates</Header>}>
-              <div>
-                <h4>
-                  There are 4 templates already provided for you in the <code>src/components</code> folder:
-                </h4>
-                <ol>
-                  <li>
-                    <Link to="/basic">Basic app layout</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/BasicLayout.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/basic</code>
-                    </li>
-                    <li>
-                      The simplest skeleton with just the{' '}
-                      <a href="#">
-                        app layout
-                      </a>{' '}
-                      and breadcrumb components.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/service-home">Service homepage</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/ServiceHomepage.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/service-home</code>
-                    </li>
-                    <li>
-                      A working example of a{' '}
-                      <a href="#">service homepage</a>,
-                      containing components such as: Box, Select, Container, Header, and layout elements like Column
-                      layout, Grid, and SpaceBetween.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/create">Single page create</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/CreateForm.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/create</code>
-                    </li>
-                    <li>
-                      A full{' '}
-                      <a href="#">
-                        single page create
-                      </a>{' '}
-                      form, containing components such as: Attribute editor, Button, Checkbox, Expandable section, Form,
-                      Form field, Input, Multi-select, Radio group, Select, Textarea, Tiles, Header, SpaceBetween,
-                      Container, Box and more.
-                    </li>
-                  </ul>
-                  <li>
-                    <Link to="/table">Table view</Link>
-                  </li>
-                  <ul>
-                    <li>
-                      File name: <code>components/Table.jsx</code>
-                    </li>
-                    <li>
-                      Url route: <code>/table</code>
-                    </li>
-                    <li>
-                      A working <a href="#">table view</a>{' '}
-                      example, containing components such as: Table (with features like wrap lines, sorting, and
-                      selection), Flashbar, Header, Button, Collection preferences, Pagination, Text filter, Icon, and
-                      more.
-                    </li>
-                  </ul>
-                </ol>
-              </div>
-            </Container> */}
           </div>
         </SpaceBetween>
       </Box>

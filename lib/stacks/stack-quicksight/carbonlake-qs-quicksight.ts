@@ -1,60 +1,54 @@
-import { Stack, StackProps, Names, CfnOutput, Tags } from 'aws-cdk-lib'
-import { aws_s3 as s3 } from 'aws-cdk-lib'
-import { aws_iam as iam } from 'aws-cdk-lib'
-import { aws_glue as glue } from 'aws-cdk-lib'
-import { CfnInclude } from 'aws-cdk-lib/cloudformation-include'
-//import { aws_quicksight as quicksight } from 'aws-cdk-lib';
-import { Construct } from 'constructs'
-import * as path from 'path'
+import { Stack, StackProps, Names, CfnOutput, Tags } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_glue as glue } from 'aws-cdk-lib';
+import * as cfninc from 'aws-cdk-lib/cloudformation-include';
+import { Construct } from 'constructs';
+import * as path from 'path';
 
-interface CLQSQuicksightStackProps extends StackProps {
-  enrichedBucket: s3.Bucket
-  quicksightUsername?: 'string'
-  enrichedDataDatabase: glue.CfnDatabase
+interface CarbonlakeQuicksightStackProps extends StackProps {
+  enrichedBucket: s3.Bucket;
+  quicksightUsername?: string;
+  enrichedDataDatabase: glue.CfnDatabase;
 }
 
 export class CLQSQuicksightStack extends Stack {
-  public readonly quicksightTemplate: CfnInclude
-
-  constructor(scope: Construct, id: 'string', props: CLQSQuicksightStackProps) {
-    super(scope, id, props)
+  constructor(scope: Construct, id: string, props: CarbonlakeQuicksightStackProps) {
+    super(scope, id, props);
 
     // Update Quicksight IAM role to allow access to enriched data S3 bucket
     const quicksightS3AccessPolicy = new iam.PolicyStatement({
       resources: [
         `arn:aws:s3:::${props.enrichedBucket.bucketName}`,
-        `arn:aws:s3:::${props.enrichedBucket.bucketName}/*`,
+        `arn:aws:s3:::${props.enrichedBucket.bucketName}/*`
+      ], 
+      actions: [ 
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
       ],
-      actions: ['s3:GetObject*', 's3:GetBucket*', 's3:List*'],
       effect: iam.Effect.ALLOW,
-    })
+    });
 
     // Attach S3 access policy to Quicksight managed role
-    const role = iam.Role.fromRoleArn(this, 'Role', `arn:aws:iam::${this.account}:role/aws-quicksight-service-role-v0`)
-    role.addToPrincipalPolicy(quicksightS3AccessPolicy)
+    const role = iam.Role.fromRoleArn(this, 'Role', `arn:aws:iam::${this.account}:role/aws-quicksight-service-role-v0`);
+    role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
     // Create unique identifier to be appended to QuickSight resources
-    const quicksightUniqueIdentifier = `CarbonLake-Combined-Emissions-${Names.uniqueId(role).slice(-8)}`
+    const quicksightUniqueIdentifier = `CarbonLake-Combined-Emissions-${Names.uniqueId(role).slice(-8)}`;
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
-    this.quicksightTemplate = new CfnInclude(this, 'Template', {
-      templateFile: path.join(
-        process.cwd(),
-        'lib',
-        'stacks',
-        'stack-quicksight',
-        'cfn',
-        'carbonlake-qs-quicksight-cloudformation.yaml'
-      ),
+    new cfninc.CfnInclude(this, 'Template', { 
+      templateFile: path.join(process.cwd(), 'lib','stacks','stack-quicksight','cfn', 'carbonlake-qs-quicksight-cloudformation.yaml'),
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
         Username: props.quicksightUsername ?? '',
-        Unique_Identifier: quicksightUniqueIdentifier,
-        EnrichedDataDatabasename: props.enrichedDataDatabase.ref,
-      },
-    })
+        UniqueIdentifier: quicksightUniqueIdentifier,
+        EnrichedDataDatabaseName: props.enrichedDataDatabase.ref
+      }
+    });
 
     new CfnOutput(this, 'QuickSightDataSource', {
       value: `${quicksightUniqueIdentifier}-Athena-DataSource`,
@@ -82,6 +76,6 @@ export class CLQSQuicksightStack extends Stack {
     });
 
     Tags.of(this).add("component", "quicksight");
-
+    
   }
 }
