@@ -31,10 +31,12 @@ do
    testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
    echo $testoutcome
    testoutcomecode=$(jq -r '.' response.json)
-   if [ $testoutcomecode = "Success" ]
+   echo $testoutcomecode
+   if [$testoutcomecode="Success"]
    then
       echo $testoutcomecode 
-      echo "Test passed! It works." 
+      echo "Test passed! It works."
+      rm response.json
    else
       echo "Test lambda failed. Want to find out why?"
       echo $testlambda
@@ -43,12 +45,14 @@ do
       echo "👋 destroying all in $region 📍"
       cdk destroy --all --force
       echo "Test failed. Please read the logs."
+      rm response.json
       exit 1 
    fi
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force
+   wait
 done
 #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
    
