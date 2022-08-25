@@ -18,7 +18,7 @@ do
    cdk bootstrap #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
    cdk deploy --all --context region=$region #deploys all with the optional region context variable
-
+   wait
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
    echo "If the lambda returns 'Success' the test was successful"
