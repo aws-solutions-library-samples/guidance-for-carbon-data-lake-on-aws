@@ -3,13 +3,14 @@ import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
 import { CLQSTestStack } from '../lib/stacks/stack-tests/clqs-test'
 import { AwsSolutionsChecks } from 'cdk-nag'
+//import { CLQSQuicksightStack } from '../lib/stacks/stack-quicksight/carbonlake-qs-quicksight'
 import { Aspects } from 'aws-cdk-lib';
 import { CLQSSharedResourcesStack } from '../lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CLQSDataLineageStack } from '../lib/stacks/stack-data-lineage/carbonlake-data-lineage-stack'
 import { CLQSCompactionStack } from "../lib/stacks/stack-data-compaction/carbonlake-qs-data-compaction-pipeline"
 import { CLQSDataPipelineStack } from '../lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack';
 import { CLQSApiStack } from '../lib/stacks/stack-api/carbonlake-api-stack'
-import { CLQSSageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
+//import { CLQSSageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
 
 const app = new cdk.App();
 
@@ -28,8 +29,8 @@ if (!adminEmail) {
       console.warn('****************************************************************')
     }
 
-    const quicksightUserName = app.node.tryGetContext('quicksightUserName')
-    if (!quicksightUserName) {
+const quicksightUsername = app.node.tryGetContext('quicksightUserName')
+    if (!quicksightUsername) {
       console.warn('********************************************************************')
       console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack, ***')
       console.warn('*** you must provide a valid admin email address                 ***')
@@ -84,18 +85,19 @@ new CLQSApiStack (app, 'ApiStack', {
     })
 
     // QS6 --> Create the carbonlake quicksight stack
-    /* commenting quicksight stack out for test
-    this.quicksight = new CLQSQuicksightStack(this, 'QuicksightStack', {
-      enrichedBucket: this.sharedResources.carbonlakeEnrichedBucket,
-      quicksightUserName: quicksightUserName,
-      enrichedDataDatabase: this.sharedResources.glueEnrichedDataDatabase,
-    })
-    */
+    // commenting quicksight stack out for test
+//new CLQSQuicksightStack(app, 'QuicksightStack', {
+    //enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+    //quicksightUsername: quicksightUsername,
+    //enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
+    //env: appEnv
+  //})
+    //*/
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
-new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
-      env: appEnv
-    });
+//new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
+      //env: appEnv
+    //});
 
     cdk.Tags.of(app).add("application", "carbonlake");
 
