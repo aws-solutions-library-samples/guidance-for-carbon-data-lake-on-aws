@@ -77,7 +77,7 @@ new CLQSCompactionStack(app,'CompactionStack',
       }
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
-    // QS5 --> Create the carbonlake api stack
+     // QS5 --> Create the carbonlake api stack
 new CLQSApiStack (app, 'ApiStack', {
       adminEmail: adminEmail,
       calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
