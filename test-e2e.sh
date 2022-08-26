@@ -35,7 +35,7 @@ do
    echo $testoutcome
    testoutcomecode=$(jq -r '.' response.json)
    echo $testoutcomecode
-   if [$testoutcomecode="Success"]
+   if [[$testoutcomecode == "Success"]]
    then
       echo $testoutcomecode 
       echo "Test passed! It works."
