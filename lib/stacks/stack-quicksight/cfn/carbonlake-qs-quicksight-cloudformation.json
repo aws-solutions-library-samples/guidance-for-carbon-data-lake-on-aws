@@ -39,7 +39,7 @@
                 "Permissions": [
                     {
                         "Principal": {
-                            "Fn::Sub": "$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}"
+                            "Fn::Sub": "arn:aws:quicksight:${Region}:${AWS::AccountId}:user/default/${Username}"
                         },
                         "Actions": [
                             "quicksight:UpdateDataSourcePermissions",
@@ -357,7 +357,7 @@
                 "Permissions": [
                     {
                         "Principal": {
-                            "Fn::Sub": "$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}"
+                            "Fn::Sub": "arn:aws:quicksight:${Region}:${AWS::AccountId}:user/default/${Username}"
                         },
                         "Actions": [
                             "quicksight:UpdateDataSetPermissions",
@@ -394,7 +394,7 @@
                 "Permissions": [
                     {
                         "Principal": {
-                            "Fn::Sub": "$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}"
+                            "Fn::Sub": "arn:aws:quicksight:${Region}:${AWS::AccountId}:user/default/${Username}"
                         },
                         "Actions": [
                             "quicksight:DescribeTemplate"
@@ -438,7 +438,7 @@
                 "Permissions": [
                     {
                         "Principal": {
-                            "Fn::Sub": "$arn:aws:quicksight:{Region}:{AWS::AccountId}:user/default/{Username}"
+                            "Fn::Sub": "arn:aws:quicksight:${Region}:${AWS::AccountId}:user/default/${Username}"
                         },
                         "Actions": [
                             "quicksight:DescribeDashboard",

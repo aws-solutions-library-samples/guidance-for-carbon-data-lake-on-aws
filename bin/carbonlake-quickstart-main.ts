@@ -3,7 +3,7 @@ import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
 import { CLQSTestStack } from '../lib/stacks/stack-tests/clqs-test'
 import { AwsSolutionsChecks } from 'cdk-nag'
-//import { CLQSQuicksightStack } from '../lib/stacks/stack-quicksight/carbonlake-qs-quicksight'
+import { CLQSQuicksightStack } from '../lib/stacks/stack-quicksight/carbonlake-qs-quicksight'
 import { Aspects } from 'aws-cdk-lib';
 import { CLQSSharedResourcesStack } from '../lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
 import { CLQSDataLineageStack } from '../lib/stacks/stack-data-lineage/carbonlake-data-lineage-stack'
@@ -86,12 +86,12 @@ new CLQSApiStack (app, 'ApiStack', {
 
     // QS6 --> Create the carbonlake quicksight stack
     // commenting quicksight stack out for test
-//new CLQSQuicksightStack(app, 'QuicksightStack', {
-    //enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
-    //quicksightUsername: quicksightUsername,
-    //enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
-    //env: appEnv
-  //})
+new CLQSQuicksightStack(app, 'QuicksightStack', {
+    enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
+    quicksightUsername: quicksightUsername,
+    enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
+    env: appEnv
+  })
     //*/
     // QS7 --> Create the carbonlake forecast stack
     //commenting out for test
