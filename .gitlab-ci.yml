@@ -1,7 +1,10 @@
 # This 3 stage ci pipeline is purpose-built for cdk in typescript
 # it also includes support for python lambdas
 # it implements a basic build, static check, and deploy process
+# it also implements e2e and ckditten regional deployment tests
+# these tests only run with merge to main
 # this pipeline can be removed if and when this repo moves to github
+
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -98,38 +101,41 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 end-to-end-test:   # runs e2e test
   stage: static
   image: amazonlinux:latest
-  #rules:
-    #- if: $CI_COMMIT_BRANCH == 'main'
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - echo "Commented out"
-    #- amazon-linux-extras
-    #- yum install -y unzip
-    #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    #- unzip awscliv2.zip
-    #- ./aws/install
-    #- aws --version
-    #- curl -sL https://rpm.nodesource.com/setup_16.x | bash 
-    #- yum install -y nodejs
-    #- node --version
-    #- echo "Installing typescript as dependency"
-    #- npm install typescript@latest -g
-    #- echo "succesfully installed typescript"
-    #- echo "Installing python as dependency"
-    #- npm i python@latest -g
-    #- echo "succesfully installed python"
-    #- echo "Installing all package dependencies"
-    #- npm install -g aws-cdk
-    #- npm ci
-    #- echo "succesfully installed package dependencies!"
-    #- echo "Building with npm..."
-    #- npm run build
-    #- echo "Build complete."
-    #- echo "Running cdk nag to check for security vulnerabilities"
-    #- cdk synth
-    #- echo "Starting e2e test"
-    #- yum install jq -y
-    #- sh test-e2e.sh
-    #- echo "e2e test successful"
+    - amazon-linux-extras
+    - yum install -y unzip
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    - unzip awscliv2.zip
+    - ./aws/install
+    - aws --version
+    - echo "$AWS_ACCESS_KEY_ID"
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
+    - curl -sL https://rpm.nodesource.com/setup_16.x | bash 
+    - yum install -y nodejs
+    - node --version
+    - echo "Installing typescript as dependency"
+    - npm install typescript@latest -g
+    - echo "succesfully installed typescript"
+    - echo "Installing python as dependency"
+    - npm i python@latest -g
+    - echo "succesfully installed python"
+    - echo "Installing all package dependencies"
+    - npm install -g aws-cdk
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - echo "Running cdk nag to check for security vulnerabilities"
+    - cdk synth
+    - echo "Starting e2e test"
+    - yum install jq -y
+    - sh test-e2e.sh
+    - echo "e2e test successful"
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
@@ -137,27 +143,34 @@ cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - echo "Commented out"
-    #- amazon-linux-extras
-    #- yum -y install curl
-    #- yum install -y nodejs
-    #- node --version
-    #- echo "Installing typescript as dependency"
-    #- npm install typescript@latest -g
-    #- echo "succesfully installed typescript"
-    #- echo "Installing python as dependency"
-    #- npm i python@latest -g
-    #- echo "succesfully installed python"
-    #- echo "Installing all package dependencies"
-    #- npm install -g aws-cdk
-    #- npm ci
-    #- echo "succesfully installed package dependencies!"
-    #- echo "Building with npm..."
-    #- npm run build
-    #- echo "Build complete."
-    #- echo "Running cdk nag to check for security vulnerabilities"
-    #- cdk synth
-    #- echo "Synthesized!"
-    #- echo "Running CDKitten🐱"
-    #- sh test-deployment.sh
-    #- echo "Application deployment placeholder passed"
+    - amazon-linux-extras
+    - yum install -y unzip
+    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    - unzip awscliv2.zip
+    - ./aws/install
+    - aws --version
+    - echo "$AWS_ACCESS_KEY_ID"
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
+    - curl -sL https://rpm.nodesource.com/setup_16.x | bash 
+    - yum install -y nodejs
+    - node --version
+    - echo "Installing typescript as dependency"
+    - npm install typescript@latest -g
+    - echo "succesfully installed typescript"
+    - echo "Installing python as dependency"
+    - npm i python@latest -g
+    - echo "succesfully installed python"
+    - echo "Installing all package dependencies"
+    - npm install -g aws-cdk
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - cdk synth
+    - echo "Synthesized!"
+    - echo "Running CDKitten🐱"
+    - sh test-deployment.sh
+    - echo "Application deployment placeholder passed"

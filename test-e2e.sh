@@ -17,36 +17,44 @@ do
    echo "🥾 bootstrapping cdk in $region 📍"
    cdk bootstrap #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region=$region #deploys all with the optional region context variable
-
+   cdk deploy --all --context region="$region" #deploys all with the optional region context variable
+   wait
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
    echo "If the lambda returns 'Success' the test was successful"
    echo "If the lambda returns something other than 'Success' the test failed"
+   echo "First let's print the cdk-output file to make sure it's there"
+   jq . cdk-outputs.json
    echo jq  '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json
    testlambda=$(jq -r '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json)
    echo "Running tests on $testlambda please sit tight for a few minutes"
-   testoutcome=`aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --payload '{"test": "test1"}' --cli-read-timeout 0 response.json`
-   echo $testoutcome
+   testoutcome=$(aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --log-type Tail --cli-read-timeout 0 response.json)
+   wait
+   jq . response.json
+   wait
+   echo "$testoutcome"
    testoutcomecode=$(jq -r '.' response.json)
-   if [ $testoutcomecode = "Success" ]
-   then
-      echo $testoutcomecode 
-      echo "Test passed! It works." 
+   echo "$testoutcomecode"
+   if [ "$testoutcomecode" = "Success" ]; then
+      echo "$testoutcomecode" 
+      echo "Test passed! It works."
+      rm response.json
    else
       echo "Test lambda failed. Want to find out why?"
-      echo $testlambda
+      echo "$testlambda"
       echo "E2E test completed"
 
       echo "👋 destroying all in $region 📍"
       cdk destroy --all --force
       echo "Test failed. Please read the logs."
+      rm response.json
       exit 1 
    fi
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force
+   wait
 done
 #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
    

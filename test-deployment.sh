@@ -20,14 +20,18 @@ do
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
    cdk bootstrap #bootstraps cdk in the region
+   wait
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   cdk deploy --all --context region="$region" #deploys all with the optional region context variable
+   wait
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
-   success+=($region) #if the deployment is successful adds the region to the list of successful deployments
+   wait
+   success+=("$region") #if the deployment is successful adds the region to the list of successful deployments
 done
+wait
 
-echo "🥳 Successfully deployed and destroyed all CDK stacks! 😎"
+echo "🥳 Successfully deployed and destroyed all CDK stacks in this testing cycle! 😎"
 
 #loops through list of successful deployments in each region
 #prints the list of each region that was successfully deployed
