@@ -17,7 +17,7 @@ do
    echo "🥾 bootstrapping cdk in $region 📍"
    cdk bootstrap #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   cdk deploy --all --context region="$region" #deploys all with the optional region context variable
    wait
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
@@ -28,21 +28,20 @@ do
    echo jq  '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json
    testlambda=$(jq -r '.CLQSTest.CLQSe2eTestLambdaFunctionName' cdk-outputs.json)
    echo "Running tests on $testlambda please sit tight for a few minutes"
-   testoutcome=`aws lambda invoke --function-name "$testlambda" --log-type Tail --cli-read-timeout 0 response.json`
+   testoutcome=$(aws lambda invoke --function-name "$testlambda" --cli-binary-format raw-in-base64-out --log-type Tail --cli-read-timeout 0 response.json)
    wait
    jq . response.json
    wait
-   echo $testoutcome
+   echo "$testoutcome"
    testoutcomecode=$(jq -r '.' response.json)
-   echo $testoutcomecode
-   if [[$testoutcomecode == "Success"]]
-   then
-      echo $testoutcomecode 
+   echo "$testoutcomecode"
+   if [ "$testoutcomecode" = "Success" ]; then
+      echo "$testoutcomecode" 
       echo "Test passed! It works."
       rm response.json
    else
       echo "Test lambda failed. Want to find out why?"
-      echo $testlambda
+      echo "$testlambda"
       echo "E2E test completed"
 
       echo "👋 destroying all in $region 📍"

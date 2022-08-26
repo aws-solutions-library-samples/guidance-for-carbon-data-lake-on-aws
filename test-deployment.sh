@@ -31,7 +31,7 @@ do
 done
 wait
 
-echo "🥳 Successfully deployed and destroyed all CDK stacks! 😎"
+echo "🥳 Successfully deployed and destroyed all CDK stacks in this testing cycle! 😎"
 
 #loops through list of successful deployments in each region
 #prints the list of each region that was successfully deployed
