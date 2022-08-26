@@ -40,7 +40,7 @@ export class CLQSQuicksightStack extends Stack {
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
     new cfninc.CfnInclude(this, 'Template', { 
-      templateFile: path.join(process.cwd(), 'lib','stacks','stack-quicksight','cfn', 'carbonlake-qs-quicksight-cloudformation.yaml'),
+      templateFile: path.join(process.cwd(), 'lib','stacks','stack-quicksight','cfn', 'carbonlake-qs-quicksight-cloudformation.json'),
       preserveLogicalIds: false,
       parameters: {
         Region: this.region,
