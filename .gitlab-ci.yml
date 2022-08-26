@@ -1,7 +1,10 @@
 # This 3 stage ci pipeline is purpose-built for cdk in typescript
 # it also includes support for python lambdas
 # it implements a basic build, static check, and deploy process
+# it also implements e2e and ckditten regional deployment tests
+# these tests only run with merge to main
 # this pipeline can be removed if and when this repo moves to github
+
 
 stages:          # List of stages for jobs, and their order of execution
   - build
