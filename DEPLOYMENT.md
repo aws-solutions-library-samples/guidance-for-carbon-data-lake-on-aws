@@ -1,27 +1,52 @@
 # Welcome to CarbonLake Quickstart CDK Application
 
-CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, managed forecasting service, graphQL api, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
 ## 🛠 What you will build
 
 ![CarbonLake architectural diagram](resources/architecture/carbonlake-quickstart-v1-architecture-image.png)
 
-- Shared Resource Stack
-- CI/CD Pipeline
-- Step Functions Workflow Data Pipeline
-  - Data Quality
-  - Data Transform
-  - Emissions Calculator Microservice
-- Data Lineage
-- GraphQL API
-- Sagemaker Notebook Instance
-- Quicksight Module
-- Web Application
-- Sample Data Collection
-- Unit Tests
-- Integration Tests
-- Functional Tests
-- Emissions Factor Reference Databases
+### Shared Resource Stack
+
+The shared resource stack deploys all cross-stack referenced resources such as S3 buckets and lambda functions that are built as dependencies.
+
+### Optional CI/CD Pipeline
+
+The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
+
+### Data Pipeline
+
+The CarbonLake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the CarbonLake Landing Zone S3 bucket. The data pipeline performs the following functions:
+
+1. AWS Glue Data Brew Data Quality Check: If the data quality check passes the data is passed to the next step. If the data quality check fails the admin user receives a Simple Notification Services alert via email.
+2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the CarbonLake calculator microservice.
+3. Data Compaction: night data compaction jobs prepare data for analytics and machine learning workloads.
+4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a DynamoDB table and to an S3 bucket for analytics and AI/ML application.
+5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon Dynamo DB.
+
+### Emissions Factor Reference Databases preseeded in a DynamoDB table
+
+The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the World Resource Institute GHG Protocol model.
+
+### AWS AppSync GraphQL API
+
+A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the CarbonLake AWS Amplify Sample Web Application.
+
+### Optional: AWS Amplify Sample Web Application
+
+An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront. The AWS Amplify application references the outputs of a full successful CarbonLake Quickstart deployment and requires additional manual deployment steps outlines in the associated module README file.
+
+### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
+
+An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
+
+### Optional: Sagemaker Notebook Instance with pre-built Machine Learning notebook
+
+A pre-built machine learning notebook is deployed on an Amazon Sagemaker Notebook EC2 instance with `.ipynb` and pre-built prompts and functions.
+
+### Sample Data Collection for Testing
+
+The CarbonLake Quickstart application comes with sample data for testing successful deployment of the application and can be found in teh `resource/sample-data` directory.
 
 ## What it does
 
@@ -88,13 +113,15 @@ git clone #insert-http-or-ssh-for-this-repository
 1. Navigate to CDK Directory
 2. Set `cdk.context.json` values --> The `cdk.context.json` file tells the CDK Toolkit the context and parameters for your app.
 
-    **Context Variables**
+#### **Context Parameters**
 
-    - `adminEmail`            The email address for the administrator of the app
-    - `repoBranch`            The branch to deploy in your pipeline (default is `/main`)
-    - `quicksightUserName`    Optional: Username for access to the carbon emissions dataset and dashboard.
+Before deployment navigate to `cdk.context.json` and update the required context parameters which include: `adminEmail`, and `repoBranch`. Review the optional and required context variables below.
 
-
+- Required:`adminEmail` The email address for the administrator of the app
+- Required:`repoBranch` The branch to deploy in your pipeline (default is `/main`)
+- Optional:`quicksightUserName` Username for access to the carbon emissions dataset and dashboard.
+- Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
+- Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
@@ -145,11 +172,13 @@ If you choose to deploy the Amazon Quicksight business intelligence stack it wil
 
 Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/stacks/stack-quicksight/documentation/README.md).
 
-To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 98` and redeploy the application by running `cdk deploy --all`
+To deploy this stack navigate to `cdk.context.json` and change `deployQuicksightStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
 ### Optional B/ Manually enable & set up Forecast stack
 
-The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts. To deploy this stack uncomment the code at [CLQS Top Level Stack](lib/carbonlake-qs-stack.ts) `line 107` and redeploy the application by running `cdk deploy --all`
+The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts. 
+
+To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
 ## 🛠 Usage
 
@@ -342,13 +371,3 @@ Calculation methodologies are direct representations of the [World Resource Inst
 ## 🔐 Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information. (TODO Implement this)
-
-## Reference & Resources
-
-### Helpful Commands for CDK
-
-* `npm run build`                          compile typescript to js
-* `npm run watch`                          watch for changes and compile
-* `npm run test`                           perform the jest unit tests\
-* `cdk diff`                               compare deployed stack with current state
-* `cdk synth`                              emits the synthesized CloudFormation template
