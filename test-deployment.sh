@@ -22,12 +22,12 @@ do
    cdk bootstrap #bootstraps cdk in the region
    wait
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region=$region #deploys all with the optional region context variable
+   cdk deploy --all --context region="$region" #deploys all with the optional region context variable
    wait
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
    wait
-   success+=($region) #if the deployment is successful adds the region to the list of successful deployments
+   success+=("$region") #if the deployment is successful adds the region to the list of successful deployments
 done
 wait
 
