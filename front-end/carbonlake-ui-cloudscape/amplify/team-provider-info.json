@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-carbonlakecloudscape-dev-152042-authRole",
+      "UnauthRoleArn": "arn:aws:iam::569721796503:role/amplify-carbonlakecloudscape-dev-152042-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::569721796503:role/amplify-carbonlakecloudscape-dev-152042-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-carbonlakecloudscape-dev-152042-deployment",
+      "UnauthRoleName": "amplify-carbonlakecloudscape-dev-152042-unauthRole",
+      "StackName": "amplify-carbonlakecloudscape-dev-152042",
+      "StackId": "arn:aws:cloudformation:us-east-1:569721796503:stack/amplify-carbonlakecloudscape-dev-152042/d8cee090-2898-11ed-9029-0e80c1fcffed",
+      "AmplifyAppId": "d2g0995b0k19a2"
+    }
+  }
+}
