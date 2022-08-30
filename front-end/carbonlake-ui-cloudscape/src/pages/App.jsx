@@ -25,17 +25,14 @@ import FetchUserDetails from '../common/components/FetchUserDetails/index.jsx';
 import '@cloudscape-design/global-styles/index.css';
 
 // Amplify
-// import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import  {Amplify, Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { Authenticator } from '@aws-amplify/ui-react';
-// import  AmplifyConfig  from '../config/amplify-config'
 import '@aws-amplify/ui-react/styles.css';
 
 
 // No touchy
 import { AmplifyConfig } from '../config/amplify-config';
-// import CarbonLake101 from '../../../carbonlake-ui/src/pages/CarbonLake101';
 Amplify.configure(AmplifyConfig)
 
 
@@ -55,11 +52,6 @@ const App = ({signOut, user}) => {
               <Route  path="/data-uploader" element={<DataUploader />} />
               <Route  path="/account-settings" element={<AccountSettings />} />
               <Route path="/emission-records" element={<TCAJobs />} />
-              <Route path='/submit-issue' element={() => {
-                // TODO - Replace with GitHub issue link
-                window.location.href = 'https://github.com';
-                return null;
-              }}/>
               <Route path = "*" element = {<ErrorPage />} />
           </Routes>
       {/* </Router> */}

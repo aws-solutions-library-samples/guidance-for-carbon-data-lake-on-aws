@@ -62,7 +62,7 @@ const Content = () => {
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <Box margin={{ bottom: 's' }}>
-              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="bob ross picture" />
+              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws logo" />
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
@@ -209,6 +209,18 @@ export const ToolsContent = () => (
           </span>
         </h3>
         <ul>
+        <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
           <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3&ef_id=CjwKCAjw6raYBhB7EiwABge5KqUG9sIsNhuxzW3Hg6cdcjqUTNBBQjemhU_QbEXjAvORKvXj8NulOhoCmfYQAvD_BwE:G:s&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3"

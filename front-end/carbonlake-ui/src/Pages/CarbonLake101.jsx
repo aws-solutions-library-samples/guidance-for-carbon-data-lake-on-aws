@@ -56,7 +56,7 @@ const Content = () => {
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <Box margin={{ bottom: 's' }}>
-              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="bob ross picture" />
+              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws logo" />
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">

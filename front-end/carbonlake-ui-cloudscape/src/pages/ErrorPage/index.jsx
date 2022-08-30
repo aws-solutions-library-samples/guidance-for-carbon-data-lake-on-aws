@@ -113,6 +113,18 @@ export const ToolsContent = () => (
               text="HTTP Error Codes"
             />
           </li>
+          <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
           {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"

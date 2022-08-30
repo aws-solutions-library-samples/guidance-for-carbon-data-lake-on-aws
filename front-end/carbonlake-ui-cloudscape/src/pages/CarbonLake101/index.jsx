@@ -63,7 +63,7 @@ const Content = () => {
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <Box margin={{ bottom: 's' }}>
-              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="bob ross picture" />
+              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws logo" />
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
@@ -165,38 +165,6 @@ const Content = () => {
 }
 
 
-
-// const Tools = [
-//   <HelpPanel
-//     header={<h2>CarbonLake 101</h2>}
-//     footer={
-//       <div>
-//         <h3>
-//           Learn more <Icon name="external" />
-//         </h3>
-//         <ul>
-//           <li>
-//             <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-working-with.html">
-//               Working with distributions
-//             </a>
-//           </li>
-//           <li>
-//             <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-returned.html">
-//               Values that CloudFront displays on the console
-//             </a>
-//           </li>
-//         </ul>
-//       </div>
-//     }
-//   >
-//     <p>
-//       View your current distributions and related information such as the associated domain names, delivery methods, SSL
-//       certificates, and more. To drill down even further into the details, choose the name of an individual
-//       distribution.
-//     </p>
-//   </HelpPanel>, key = {key}
-// ];
-
 export const ToolsContent = () => (
   <HelpPanel
     header={<h2>Amazon TCA 101</h2>}
@@ -209,6 +177,18 @@ export const ToolsContent = () => (
           </span>
         </h3>
         <ul>
+        <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
         <li>
             <ExternalLinkItem
               href="https://ghgprotocol.org/Third-Party-Databases/IPCC-Emissions-Factor-Database"

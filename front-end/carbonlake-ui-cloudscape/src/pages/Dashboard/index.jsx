@@ -76,7 +76,19 @@ export const ToolsContent = () => (
           </span>
         </h3>
         <ul>
+        <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
           <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/call-analytics/"
               text="Amazon Transcribe Call Analytics Service Page"
@@ -99,7 +111,7 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }
