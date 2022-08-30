@@ -13,7 +13,7 @@
         "name" : "Query",
         "description" : null,
         "fields" : [ {
-          "name" : "getAllJobs",
+          "name" : "all",
           "description" : null,
           "args" : [ {
             "name" : "limit",
@@ -36,45 +36,16 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "JobPaginated",
+            "name" : "PaginatedCalculatorOutput",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "getAllJobsPaginated",
+          "name" : "getOne",
           "description" : null,
           "args" : [ {
-            "name" : "limit",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "Int",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "nextToken",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "JobPaginated",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "getOneJob",
-          "description" : null,
-          "args" : [ {
-            "name" : "JobName",
+            "name" : "activity_event_id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -89,7 +60,7 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Job",
+            "name" : "CalculatorOutput",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -101,7 +72,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "JobPaginated",
+        "name" : "PaginatedCalculatorOutput",
         "description" : null,
         "fields" : [ {
           "name" : "items",
@@ -112,7 +83,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "Job",
+              "name" : "CalculatorOutput",
               "ofType" : null
             }
           },
@@ -136,10 +107,10 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "Job",
+        "name" : "CalculatorOutput",
         "description" : null,
         "fields" : [ {
-          "name" : "JobName",
+          "name" : "activity_event_id",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -154,7 +125,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "AccountId",
+          "name" : "asset_id",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -165,18 +136,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Categories",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSJSON",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "Channel",
+          "name" : "activity",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -187,29 +147,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "ContentMetadata",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSJSON",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "ConversationCharacteristics",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSJSON",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "JobStatus",
+          "name" : "category",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -220,7 +158,40 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "LanguageCode",
+          "name" : "scope",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Int",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "emissions_output",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSJSON",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "geo",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "AWSJSON",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "origin_measurement_timestamp",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -231,29 +202,29 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Participants",
+          "name" : "raw_data",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSJSON",
+            "name" : "Float",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Transcript",
+          "name" : "source",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSJSON",
+            "name" : "String",
             "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "filePath",
+          "name" : "units",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -279,6 +250,15 @@
         "possibleTypes" : null
       }, {
         "kind" : "SCALAR",
+        "name" : "Int",
+        "description" : "Built-in Int",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "SCALAR",
         "name" : "AWSJSON",
         "description" : "The `AWSJSON` scalar type provided by AWS AppSync, represents a JSON string that complies with [RFC 8259](https://tools.ietf.org/html/rfc8259).  Maps like \"**{\\\\\"upvotes\\\\\": 10}**\", lists like \"**[1,2,3]**\", and scalar values like \"**\\\\\"AWSJSON example string\\\\\"**\", \"**1**\", and \"**true**\" are accepted as valid JSON and will automatically be parsed and loaded in the resolver mapping templates as Maps, Lists, or Scalar values rather than as the literal input strings.  Invalid JSON strings like \"**{a: 1}**\", \"**{'a': 1}**\" and \"**Unquoted string**\" will throw GraphQL validation errors.",
         "fields" : null,
@@ -288,8 +268,8 @@
         "possibleTypes" : null
       }, {
         "kind" : "SCALAR",
-        "name" : "Int",
-        "description" : "Built-in Int",
+        "name" : "Float",
+        "description" : "Built-in Float",
         "fields" : null,
         "inputFields" : null,
         "interfaces" : null,
@@ -300,10 +280,10 @@
         "name" : "Mutation",
         "description" : null,
         "fields" : [ {
-          "name" : "deleteOneJob",
+          "name" : "delete",
           "description" : null,
           "args" : [ {
-            "name" : "JobName",
+            "name" : "activity_event_id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -318,7 +298,7 @@
           } ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "Job",
+            "name" : "CalculatorOutput",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1150,23 +1130,6 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "deprecated",
-        "description" : null,
-        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
-        "args" : [ {
-          "name" : "reason",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : "\"No longer supported\""
-        } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
         "name" : "aws_auth",
         "description" : "Directs the schema to enforce authorization on a field",
         "locations" : [ "FIELD_DEFINITION" ],
@@ -1213,6 +1176,23 @@
         "description" : "Tells the service this field/object has access authorized by an OIDC token.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "deprecated",
+        "description" : null,
+        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
+        "args" : [ {
+          "name" : "reason",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : "\"No longer supported\""
+        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false

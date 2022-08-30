@@ -23,7 +23,7 @@ const Sidebar = () => {
         text: 'Getting Started',
         expanded: true,
         items: [
-          { type: 'link', text: 'TCA 101', href: '/tca-101' },
+          { type: 'link', text: 'CarbonLake 101', href: '/carbonlake-101' },
           { type: 'link', text: 'Setup Guide', href: '/setup-guide' },
           { type: 'link', text: 'Case Studies', href: '/case-studies' },
         ]
@@ -51,10 +51,8 @@ const Sidebar = () => {
         text: 'Data Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'TCA Jobs', href: '/tca-jobs' },
           { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
-          { type: 'link', text: 'CLM Uploader', href: '/custom-language-model-uploader' },
-          { type: 'link', text: 'CV Uploader', href: '/custom-vocabulary-uploader' },
+          { type: 'link', text: 'Emission Records', href: '/emission-records' },
           // { type: 'link', text: 'Decarb Intelligence', href: '/decarb-intelligence' },
           // { type: 'link', text: 'Visualizations', href: '/visualizations' },
         ]

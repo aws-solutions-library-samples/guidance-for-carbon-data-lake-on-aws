@@ -1,20 +1,20 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const deleteOneJob = /* GraphQL */ `
-  mutation DeleteOneJob($JobName: String!) {
-    deleteOneJob(JobName: $JobName) {
-      JobName
-      AccountId
-      Categories
-      Channel
-      ContentMetadata
-      ConversationCharacteristics
-      JobStatus
-      LanguageCode
-      Participants
-      Transcript
-      filePath
+export const delete = /* GraphQL */ `
+  mutation Delete($activity_event_id: String!) {
+    delete(activity_event_id: $activity_event_id) {
+      activity_event_id
+      asset_id
+      activity
+      category
+      scope
+      emissions_output
+      geo
+      origin_measurement_timestamp
+      raw_data
+      source
+      units
     }
   }
 `;

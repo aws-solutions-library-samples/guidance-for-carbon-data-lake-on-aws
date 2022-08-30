@@ -1,60 +1,40 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getAllJobs = /* GraphQL */ `
-  query GetAllJobs($limit: Int, $nextToken: String) {
-    getAllJobs(limit: $limit, nextToken: $nextToken) {
+export const all = /* GraphQL */ `
+  query All($limit: Int, $nextToken: String) {
+    all(limit: $limit, nextToken: $nextToken) {
       items {
-        JobName
-        AccountId
-        Categories
-        Channel
-        ContentMetadata
-        ConversationCharacteristics
-        JobStatus
-        LanguageCode
-        Participants
-        Transcript
-        filePath
+        activity_event_id
+        asset_id
+        activity
+        category
+        scope
+        emissions_output
+        geo
+        origin_measurement_timestamp
+        raw_data
+        source
+        units
       }
       nextToken
     }
   }
 `;
-export const getAllJobsPaginated = /* GraphQL */ `
-  query GetAllJobsPaginated($limit: Int, $nextToken: String) {
-    getAllJobsPaginated(limit: $limit, nextToken: $nextToken) {
-      items {
-        JobName
-        AccountId
-        Categories
-        Channel
-        ContentMetadata
-        ConversationCharacteristics
-        JobStatus
-        LanguageCode
-        Participants
-        Transcript
-        filePath
-      }
-      nextToken
-    }
-  }
-`;
-export const getOneJob = /* GraphQL */ `
-  query GetOneJob($JobName: String!) {
-    getOneJob(JobName: $JobName) {
-      JobName
-      AccountId
-      Categories
-      Channel
-      ContentMetadata
-      ConversationCharacteristics
-      JobStatus
-      LanguageCode
-      Participants
-      Transcript
-      filePath
+export const getOne = /* GraphQL */ `
+  query GetOne($activity_event_id: String!) {
+    getOne(activity_event_id: $activity_event_id) {
+      activity_event_id
+      asset_id
+      activity
+      category
+      scope
+      emissions_output
+      geo
+      origin_measurement_timestamp
+      raw_data
+      source
+      units
     }
   }
 `;
