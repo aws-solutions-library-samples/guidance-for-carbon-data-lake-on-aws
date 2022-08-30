@@ -180,6 +180,79 @@ The forecast stack includes a pre-built sagemaker notebook instance running an `
 
 To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
+## Work with outputs
+
+The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs for this application:
+
+```json
+  {"outputName": "outputValue"}
+```
+
+### Guide to working with stack outputs
+
+You can access these outputs in other stacks by adding them as props to your stack inputs. For example, you can access the `pinVpc` output by adding `networkStack.pinVpc` as props your your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via props.pinVpc (or whatever you call it) within your stack. Below is an example.
+
+```javascript
+
+// Start by importing it when you instatiate your stack 👇
+new IndustrialDataConnectorStack(app, 'IndustrialDataConnectorStack', {
+    vpc: networkStack.vpc.value, //this is a bit unique that you have to use .value because its a CfnOutput
+    subnet: networkStack.subnet.value //this is a bit unique that you have to use .value because its a CfnOutput
+});
+
+// Now export this as an interface within that stack 👇
+export interface IndustrialDataConnectorStackProps extends StackProps {
+    vpc: string; //generally we recommend the type here matches the type of output
+    subnet: string; //generally we recommend the type here matches the type of output
+}
+
+// Now access it as a prop where you need it within the stack 👇
+const opcuaSG = new ec2.SecurityGroup(this, 'opcuaSim-sg', {
+            props.vpc, allowAllOutbound: true,
+        });
+
+```
+
+### Stack Outputs
+
+Read on to see the names, output values, and descriptions of each networking stack output. You can utilize these in a similar fashion.
+
+```javascript
+
+    // Outputs pinVpc to the cdk context for reference across stacks
+    this.pinVpc = new CfnOutput(this, "pinVpc", {
+      value: template.getOutput("PinVpc").value,
+      description: 'vpc_id for Pin Vpc',
+      exportName: 'pinVpc',
+    });
+
+    // Outputs pcnVpc to the cdk context for reference across stacks
+    this.vpc = new CfnOutput(this, "pcnVpc", {
+      value: template.getOutput("PcnVpc").value,
+      description: 'vpc_id for Pcn Vpc',
+      exportName: 'pcnVpc',
+    });
+
+    // Outputs subnetsPin to the cdk context for reference across stacks
+    this.subnetsPin = new CfnOutput(this, "subnetsPin", {
+      value: template.getOutput("SubnetsPin").value,
+      description: 'A list of the subnets for Pin',
+      exportName: 'subnetsPin',
+    });
+
+    // Outputs subnetsPcn to the cdk context for reference across stacks
+    this.subnet = new CfnOutput(this, "subnetsPcn", {
+      value: template.getOutput("SubnetsPcn").value,
+      description: 'A list of the subnets for Pcn',
+      exportName: 'subnetsPcn',
+    });
+
+```
+
+#### Shared Resources Stack Outputs
+
+Insert info about your stack outputs here
+
 ## 🛠 Usage
 
 Time to get started using CarbonLake Quickstart! Follow the steps below to see if everything is working and get familiar with this solution.
@@ -217,6 +290,15 @@ Figure. In progress step function workflow
 ![Successful Step Functions Workflow](resources/carbonlake-quickstart-step-func-graph-inspector-completed.png)
 Figure. Completed step function workflow
 
+### 3/ Review your calculated outputs
+
+The calculator outputs emissions calculator outputs referenced in the data model section below. Outputs are written to Amazon DynamoDB and Amazon S3. You can review the outputs using the AWS console or AWS CLI:
+
+- DynamoDB: Navigate to DynamoDB in the AWS console. Look for a Database called `DataBase` and a table called `Table`
+- Amazon S3: Navigate to S3 in the console and look for a bucket called `BucketName`. This bucket contains all calculator outputs.
+
+You can also query this data using the GraphQL API detailed below.
+
 ### 4/ Query your GraphQL API endpoint
 
 - Navigate to AWS AppSync in the console
@@ -224,6 +306,7 @@ Figure. Completed step function workflow
 - Run the following query and hit "run"
 
 This one will get all of the records (with a default limit of 10)
+
 ```
 query MyQuery {
   all {
@@ -257,6 +340,31 @@ If you have not yet this is a great time to deploy the sample web application. O
 ### 7/ Start connecting your own data to the CarbonLake landing zone
 
 - Connect other data sources such as IoT, Streaming Data, Database Migration Workloads, or other applications to the S3 landing zone bucket. Try something out and let us know how it goes.
+
+## 🧪 Tests
+
+This application currently includes unit tests, infrastructure tests, deployment tests. We are working on an end to end testing solution as well. Read on for the test details:
+
+### Pipeline Tests
+
+For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/or merge to main. This runs automatically and does the following:
+
+- `npm ci` installs all dependencies from `package.lock.json`
+- `npm run build` builds the javascript from typescript and makes sure everything works!
+- `cdk synth` synthesizes all CDK stacks in the application
+- Runs bandit security tests for common vulnerabilities in Python
+- Runs ESLint for common formatting issues in Javascript and Typescript
+- Runs CDK-Nag to check for common compliance, configuration, and vulnerability issues in CDK code
+- Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
+- Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
+
+### Manual Tests
+
+You can run several of these tests manually on your local machine to check that everything is working as expected.
+
+- `sh test-deployment.sh` Runs CDKitten locally using your assumed AWS role
+- `sh test-e2e.sh`runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
+- `npm run lint` tests your code locally with the prebuilt linter configuration
 
 ## 📚 Reference & Resources
 
@@ -359,7 +467,7 @@ The model below describes the standard output model from the carbonlake emission
 
 The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated July 2022.
 
-[GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json)
+[GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
 
 Calculation methodologies are direct representations of the [World Resource Institute GHG Protocol scope 1, 2, and 3 guidance](https://ghgprotocol.org/guidance-0). To review calculation methodology and lookup tables please review the [CarbonLake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/calculator/README.md).
 
