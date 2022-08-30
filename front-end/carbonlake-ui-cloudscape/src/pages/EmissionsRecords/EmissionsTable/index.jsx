@@ -19,8 +19,8 @@ import {
 
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { getAllJobs, getAllJobsPaginated, getOneJob } from '../../../graphql/queries';
-import { deleteOneJob } from '../../../graphql/mutations';
+import { getOne, all } from '../../../graphql/queries';
+// import { delete } from '../../../graphql/mutations';
 
 import { getFilterCounterText } from '../../../common/resources/tableCounterStrings';
 import { FullPageHeader } from '..';
@@ -31,8 +31,8 @@ import {
 
   Notifications,
 } from '../../../common/common-components-config';
-import {  TCAJobsTableEmptyState } from '..'
-import { paginationLabels, transcriptSelectionLabels } from '../labels';
+import {  EmissionsTableEmptyState } from '../../EmissionsRecords'
+import { paginationLabels, emissionSelectionLabels } from '../labels';
 import {
   FILTERING_PROPERTIES,
   PROPERTY_FILTERING_I18N_CONSTANTS,
@@ -42,32 +42,30 @@ import { DEFAULT_PREFERENCES, Preferences } from './table-property-filter-config
 import '../../../common/styles/base.scss'
 import { useLocalStorage } from '../../../common/resources/localStorage';
 
-import { useTCAJobs, useTCAJobsPropertyFiltering } from './hooks';
+import { useEmissionsRecords, useEmissionsRecordsPropertyFiltering } from './hooks';
 
 
 
-const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
+const EmissionsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
   // Below are variables declared to maintain the table's state.
   // Each declaration returns two values: the first value is the current state, and the second value is the function that updates it.
   // They use the general format: [x, setX] = useState(defaultX), where x is the attribute you want to keep track of.
   // For more info about state variables and hooks, see https://reactjs.org/docs/hooks-state.html.
 
-  const [transcripts, setTranscripts] = useState([])
-  const [selectedTranscripts, setSelectedTranscripts] = useState([]);
+  const [emissions, setEmissions] = useState([])
+  const [selectedEmissions, setSelectedEmissions] = useState([]);
 
 
-  const [distributions, setDistributions] = useState([]);
-  const [preferences, setPreferences] = useLocalStorage('React-TCAJobsTable-Preferences', DEFAULT_PREFERENCES);
-  // const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
+  const [preferences, setPreferences] = useLocalStorage('React-EmissionsTable-Preferences', DEFAULT_PREFERENCES);
   const [loading, setLoading] = useState(true);
 
     // a utility to handle operations on the data set (such as filtering, sorting and pagination)
   const { items, actions, filteredItemsCount, collectionProps, paginationProps, propertyFilterProps } = useCollection(
-    transcripts,
+    emissions,
     {
       propertyFiltering: {
         filteringProperties: FILTERING_PROPERTIES,
-        empty: <TCAJobsTableEmptyState resourceName="TCA Job" />,
+        empty: <EmissionsTableEmptyState resourceName="Emissions Records" />,
         noMatch: (
           <TableNoMatchState
             onClearFilter={() => {
@@ -83,18 +81,18 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
   );
 
   useEffect(()=> {
-    fetchTranscripts()
+    fetchEmissions()
   }, [] )
 
-  const fetchTranscripts = async () => {
+  const fetchEmissions = async () => {
     try{
-        const transcriptData = await API.graphql(graphqlOperation(getAllJobs, {limit:10000}));
-        const transcriptsDataList = transcriptData.data.getAllJobs.items
-        console.log('Transcript List', transcriptsDataList)
-        setTranscripts(transcriptsDataList)
+        const emissionData = await API.graphql(graphqlOperation(all, {limit:10000}));
+        const emissionsDataList = emissionData.data.all.items
+        console.log('Emissions List', emissionsDataList)
+        setEmissions(emissionsDataList)
         setLoading(false)
     } catch (error) {
-      console.log('error on fetching transcripts', error)
+      console.log('error on fetching emissions', error)
     }
   };
 
@@ -104,7 +102,7 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
       items={items}
       columnDefinitions={columnDefinitions}
       visibleColumns={preferences.visibleContent}
-      ariaLabels={transcriptSelectionLabels}
+      ariaLabels={emissionSelectionLabels}
       selectionType="multi"
       variant="full-page"
       stickyHeader={true}
@@ -114,12 +112,13 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
       header={
         <FullPageHeader
           selectedItems={collectionProps.selectedItems}
-          totalItems={transcripts}
+          totalItems={emissions}
           updateTools={updateTools}
           serverSide={false}
         />
       }
-      loadingText="Loading distributions"
+      loading={loading}
+      loadingText="Loading Emissions Data..."
       filter={
         <PropertyFilter
           i18nStrings={PROPERTY_FILTERING_I18N_CONSTANTS}
@@ -134,5 +133,5 @@ const TCAJobsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
   );
 }
 
-export default TCAJobsTable;
+export default EmissionsTable;
 

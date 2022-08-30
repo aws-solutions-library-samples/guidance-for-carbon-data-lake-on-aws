@@ -54,7 +54,7 @@ const DataUploader = () => {
     <>
     {/* <TopNavigationHeader/> */}
     <AppLayout
-    navigation={<Sidebar activeHref="#/" />}
+    navigation={<Sidebar activeHref="/data-uploader" />}
     // navigation={<Sidebar activeHref="#/" items={navItems}/>}
     content={<Content />}
     tools={<ToolsContent />}
@@ -170,7 +170,7 @@ const Content = () => {
       setAlertContent('File was uploaded successfully');
 
 
-      const put_tca_file = await Storage.put(files.name, files, {
+      const put_emission_file = await Storage.put(files.name, files, {
         // bucket: "your-bucket-name", - use this parameter to add to bucket beyond amplify-config
         // bucket: outputsJSON.outputs.tca_app_storage_bucket.value,
         progressCallback(progress) {
@@ -184,7 +184,7 @@ const Content = () => {
             {
               type: "success",
               content: `File: ${files.name} has been successfully uploaded.`,
-              action: <Button onClick={() => navigate("/tca-jobs")}>View TCA Jobs</Button>, // TODO - make this nav to TCA jobs page
+              action: <Button onClick={() => navigate("/emission-records")}>View Emission Records</Button>, // TODO - make this nav to TCA jobs page
               dismissible: true,
               dismissLabel: "Dismiss message",
               // onDismiss: () => {setItems([]); setShowSuccessFlashbar(false)},
@@ -257,7 +257,7 @@ const Content = () => {
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                Amazon TCA
+                AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
                 Data Uploader
@@ -370,7 +370,7 @@ const Content = () => {
           <Header
             variant="h1"
             description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API.
-            Supported file formats are AMR, FLAC, MP3, WAV, OGG, and WEBM."
+            Current supported file type is CSV."
           >
             Upload
           </Header>
@@ -383,8 +383,8 @@ const Content = () => {
               actions={
         <SpaceBetween direction="horizontal" size="s">
           <Button onClick={removeButton} disabled={disableRemoveButton}> Remove </Button>
-          <input type="file" accept=".amr,.flac,.mp3,.ogg, .webm,.wav" id="tca-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
-          <Button disabled = {disableAddFileButton} iconName="file" id="tca-button" onClick={selectFile}> Add File </Button>
+          <input type="file" accept=".csv" id="tca-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
+          <Button disabled = {disableAddFileButton} iconName="file" id="carbonlake-button" onClick={selectFile}> Add File </Button>
         </SpaceBetween>
       }
             >
@@ -434,11 +434,11 @@ export const ToolsContent = () => (
         <ul>
           <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
+              href="https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3&ef_id=CjwKCAjw6raYBhB7EiwABge5KqUG9sIsNhuxzW3Hg6cdcjqUTNBBQjemhU_QbEXjAvORKvXj8NulOhoCmfYQAvD_BwE:G:s&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3"
+              text="Amazon S3"
             />
           </li>
-          <li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
               text="Amazon Transcribe FAQs"
@@ -455,14 +455,14 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }
   >
     <p>
       Select 'Add file' to upload your data. To upload a file larger than 160GB,
-      use the AWS CLI, AWS SDK or Amazon S3 REST API. Supported file formats are AMR, FLAC, MP3, WAV, OGG, and WEBM.
+      use the AWS CLI, AWS SDK or Amazon S3 REST API. Current supported file type is CSV.
     </p>
   </HelpPanel>
 );

@@ -12,12 +12,12 @@ import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-r
 
 // Components
 import Dashboard from './Dashboard';
-import TCA101 from './TCA101';
+import CarbonLake101 from './CarbonLake101';
 import SetupGuide from './SetupGuide';
 import DataUploader from './DataUploader/index.jsx';
 import AccountSettings from './AccountSettings';
 import ErrorPage from './ErrorPage'
-import TCAJobs from './TCAJobs';
+import TCAJobs from './EmissionsRecords';
 import FetchUserDetails from '../common/components/FetchUserDetails/index.jsx';
 ;
 
@@ -35,6 +35,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 // No touchy
 import { AmplifyConfig } from '../config/amplify-config';
+// import CarbonLake101 from '../../../carbonlake-ui/src/pages/CarbonLake101';
 Amplify.configure(AmplifyConfig)
 
 
@@ -47,17 +48,13 @@ const App = ({signOut, user}) => {
       {/* <Router> */}
               <FetchUserDetails user = {user} signOut = {signOut}  />
           <Routes>
-              <Route  path="/" element={<TCA101 />} />
+              <Route  path="/" element={<CarbonLake101 />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route  path="/tca-101" element={<TCA101 />} />
+              <Route  path="/carbonlake-101" element={<CarbonLake101 />} />
               <Route  path="/setup-guide" element={<SetupGuide />} />
               <Route  path="/data-uploader" element={<DataUploader />} />
               <Route  path="/account-settings" element={<AccountSettings />} />
-              <Route path="/tca-jobs" element={<TCAJobs />} />
-              <Route path='/about-carbonlake' element={() => {
-                window.location.href = 'https://aws.amazon.com';
-                return null;
-              }}/>
+              <Route path="/emission-records" element={<TCAJobs />} />
               <Route path='/submit-issue' element={() => {
                 // TODO - Replace with GitHub issue link
                 window.location.href = 'https://github.com';

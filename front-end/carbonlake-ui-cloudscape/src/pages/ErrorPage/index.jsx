@@ -46,7 +46,7 @@ const ErrorPage = () => {
       content={<Content />}
       tools={<ToolsContent />}
       headerSelector='#h'
-      disableContentPaddings={false}
+      disableContentPaddings={true}
     />
 </>
   )
@@ -80,7 +80,7 @@ const Content = () => {
                   {/* Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more. */}
                    <br/>
                    <br/>
-                   Click <a href="/tca-101">here</a> to find your way back home.
+                   Click <a href="/carbonlake-101">here</a> to find your way back home.
                 </span>
               </Box>
             </div>
@@ -97,7 +97,7 @@ const Content = () => {
 
 export const ToolsContent = () => (
   <HelpPanel
-    header={<h2>ErrorPage</h2>}
+    header={<h2>Error Page</h2>}
     footer={
       <>
         <h3>
@@ -109,11 +109,11 @@ export const ToolsContent = () => (
         <ul>
           <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
+              href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+              text="HTTP Error Codes"
             />
           </li>
-          <li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
               text="Amazon Transcribe FAQs"
@@ -130,14 +130,14 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }
   >
     {/* TODO - Change href to /dashboard page once it is created */}
     <p>
-    You've reached this page by mistake. <a href="/tca-101">Click here</a> to go home.
+    You've reached this page by mistake. <a href="/carbonlake-101">Click here</a> to go home.
     </p>
   </HelpPanel>
 );

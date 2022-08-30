@@ -19,10 +19,10 @@ export const externalLinkProps = {
   externalIconAriaLabel: 'Opens in a new tab',
 };
 
-export const transcriptSelectionLabels = {
+export const emissionSelectionLabels = {
   itemSelectionLabel: (data, row) => `select ${row.id}`,
   allItemsSelectionLabel: () => 'select all',
-  selectionGroupLabel: 'Distribution selection',
+  selectionGroupLabel: 'Emission selection',
 };
 
 export const originsSelectionLabels = {

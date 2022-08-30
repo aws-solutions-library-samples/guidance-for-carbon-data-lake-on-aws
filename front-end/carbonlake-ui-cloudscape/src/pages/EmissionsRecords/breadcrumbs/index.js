@@ -1,10 +1,10 @@
 export const resourcesBreadcrumbs = [
   {
-    text: 'Amazon TCA',
+    text: ' AWS CarbonLake',
     href: '#',
   },
   {
-    text: 'TCA Jobs',
+    text: 'Emissions Records',
     href: '#',
   },
 ];
@@ -36,7 +36,7 @@ export const resourceEditBreadcrumbs = [
 export const resourceCreateBreadcrumbs = [
   ...resourcesBreadcrumbs,
   {
-    text: 'Create TCA Job',
+    text: 'Upload Emissions',
     href: '#',
   },
 ];

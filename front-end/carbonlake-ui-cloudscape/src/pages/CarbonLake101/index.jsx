@@ -35,7 +35,7 @@ import { ExternalLinkItem } from '../../common/common-components-config';
 
 import '../../common/styles/intro.scss';
 import '../../common/styles/servicehomepage.scss';
-const TCA101 = () => {
+const  CarbonLake101 = () => {
   return (
     <>
     <AppLayout
@@ -51,39 +51,33 @@ const TCA101 = () => {
   )
 }
 
-export default TCA101;
+export default  CarbonLake101;
 
 
 const Content = () => {
 
   return (
-
 <div>
     <TextContent>
       <div>
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <Box margin={{ bottom: 's' }}>
-              {/* <img src="./images/AWS_logo_RGB_REV.pg" className="intro-logo" alt="aws-logo" /> */}
-              <img src="../../public/images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws-logo" />
+              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="bob ross picture" />
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                Amazon Transcribe Call Analytics
+                AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Detailed call metrics powered by cutting-edge ML.
+              Decarbonization measurement in the cloud.
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                Amazon Transcribe Call Analytics is an ML-powered API for generating highly accurate
-                call transcripts and extracting conversation insights to improve customer experience and agent productivity.
-                This project was created to demonstrate how you can easily integrate Amazon Transcribe Call Analytics
-                into a web application.
-                  {/* Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more. */}
-                   <br/>
-                   <br/>
-                   Click <a target="_blank" rel="noopener noreferrer" href="https://aws.amazon.com/transcribe/call-analytics/">here</a> to learn more.
+                AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
+                 {/* TODO - replace this link with external CarbonLake link/blog post when published */}
+                  Click <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">here</a> to learn more.
+
                 </span>
               </Box>
             </div>
@@ -95,45 +89,42 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>Amazon TCA 101</h1>
+            <h1>CarbonLake 101</h1>
             <Container>
               <div>
                   <p>
-                  Amazon TCA Quickstart is a contact center analytics tool built on AWS Services.
-                  Amazon TCA Quickstart reduces the undifferentiated heavy lifting of creating ML Models,
-                  API, Data Storage, Authentication, and many other items that come with leveraging
-                  detailed call analytics, and integrating those in a web application.
-                  <br />
-                  <br />
-                  This project is built with the React framework and AWS Amplify, leveraging public  <a target="_blank" rel="noopener noreferrer" href="https://cloudscape.design/">Cloudscape Design Components</a>.
-
+                  CarbonLake Quickstart is a decarbonization measurement data solution built on AWS Services. CarbonLake Quickstart
+                  reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and
+                  ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and
+                  products to drive innovation. CarbonLake includes the following purpose-built solutions:
                     <br />
-                    <br />
-                    Amazon TCA Quickstart provides the following out of the box solutions:
                   </p>
                   <li>
-                    Detailed Call Analytics
+                    Data Pipeline
                   </li>
                   <li>
-                    Secure Data Storage
+                    Data Quality Stack
                   </li>
                   <li>
-                    Authentication, Authorization, and Auditing
+                    Data Lineage Stack
                   </li>
                   <li>
-                    Amplify Application
+                    Calculator Engine
+                  </li>
+                  <li>
+                    Business Intelligence Tools
+                  </li>
+                  <li>
+                    Managed Forecasting Service
                   </li>
                   <li>
                     GraphQL API
                   </li>
                   <li>
-                    Custom Language Model Editor
-                  </li>
-                  <li>
-                    Custom Vocabulary Editor
+                    Sample Web Application
                   </li>
                   <p>
-                  Amazon TCA data is ingested through the Amazon TCA landing zone, and can be ingested from any service within or connected to the AWS cloud.
+                  CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
                     <br />
                   </p>
 
@@ -141,27 +132,26 @@ const Content = () => {
             </Container>
           </div>
           <div>
-            <h1>Amazon TCA Architecture</h1>
+            <h1>CarbonLake Architecture</h1>
             <Container header={<Header>Basic Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                {/* Images used in Amplify apps must be in the public/images directory */}
-                <img src="../../public/images/tca_qs_basic_arch_40border.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
+                <img src="../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
-                  This is the basic architecture for Amazon TCA.
+                  This is the basic architecture for CarbonLake.
                 </p>
               </div>
             </Container>
             <Container header={<Header>Detailed Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <img src="../../public/images/TCA_QuickStart-TCA_Advanced_Arch_SSM.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
+                <img src="../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
-                  This is the detailed architecture for Amazon TCA.
+                  This is the detailed architecture for CarbonLake.
                 </p>
               </div>
             </Container>

@@ -66,14 +66,15 @@ const Content = () => {
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                Amazon TCA
+                AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
               Setup Guide
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                For issues getting started, please reach out to us on our <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
+                For issues getting started, please reach out to us on our
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
                 </span>
               </Box>
             </div>
@@ -91,14 +92,14 @@ const Content = () => {
                 <ol>
                   <li>
                       Navigate to the "Data Uploader" page and browse for your file.
-                      Alternatively you can use an S3 endpoint and ingest your data that way.
                     <br />
                   </li>
                   <li>
                     This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
                     The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
-                    Once finished, the file contents will be be visible in the "TCA Jobs" page. To see the status as the pipeline
-                    runs, view the Step Function in the AWS Console.
+                    Once finished, the file contents will be be visible in the <a href="/emission-records" > Emission Records</a> page.
+                    runs, view the <a target="_blank" rel="noopener noreferrer" href="https://console.aws.amazon.com/states/home?region=us-east-1" > Step Function in the AWS Console</a>.
+
                   </li>
 
                 </ol>
@@ -237,7 +238,7 @@ export const ToolsContent = () => (
     }
   >
     <p>
-    For issues getting started, please reach out to us on our <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
+    For issues getting started, please reach out to us on our  <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/" > GitHub Page</a>.
     </p>
   </HelpPanel>
 );

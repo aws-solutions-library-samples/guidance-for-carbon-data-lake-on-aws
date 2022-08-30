@@ -9,7 +9,7 @@ const Sidebar = () => {
   <SideNavigation
   // TODO - Make active link work for navigation
     activeHref={activeHref}
-    header={{ text: 'Amazon TCA', href: '/' }}
+    header={{ text: 'AWS CarbonLake', href: '/' }}
     // onFollow={event => {
     //   if (!event.detail.external) {
     //     event.preventDefault();
@@ -51,8 +51,8 @@ const Sidebar = () => {
         text: 'Data Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
           { type: 'link', text: 'Emission Records', href: '/emission-records' },
+          { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
           // { type: 'link', text: 'Decarb Intelligence', href: '/decarb-intelligence' },
           // { type: 'link', text: 'Visualizations', href: '/visualizations' },
         ]

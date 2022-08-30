@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-export function useTCAJobs(params = {}) {
+export function useEmissionsRecords(params = {}) {
   const { pageSize, currentPageIndex: clientPageIndex } = params.pagination || {};
   const { sortingDescending, sortingColumn } = params.sorting || {};
   const { filteringText, filteringTokens, filteringOperation } = params.filtering || {};
@@ -38,7 +38,7 @@ export function useTCAJobs(params = {}) {
         setTotalCount(pagesCount > 1 ? pageSize * (pagesCount - 1) : items.length);
       }
     };
-    window.AwsUiFakeServer.fetchTCAJobs(params, callback);
+    window.AwsUiFakeServer.fetchEmissionsRecords(params, callback);
   }, [
     pageSize,
     sortingDescending,
@@ -61,7 +61,7 @@ export function useTCAJobs(params = {}) {
 const asyncFetchFilteringOptions = params => {
   return new Promise((resolve, reject) => {
     try {
-      window.AwsUiFakeServer.fetchTCAJobFilteringOptions(params, ({ filteringOptions, filteringProperties }) => {
+      window.AwsUiFakeServer.fetchEmissionsRecordsFilteringOptions(params, ({ filteringOptions, filteringProperties }) => {
         resolve({ filteringOptions, filteringProperties });
       });
     } catch (e) {
@@ -70,7 +70,7 @@ const asyncFetchFilteringOptions = params => {
   });
 };
 
-export function useTCAJobsPropertyFiltering(defaultFilteringProperties) {
+export function useEmissionsRecordsPropertyFiltering(defaultFilteringProperties) {
   const request = useRef({ filteringText: '' });
   const [filteringOptions, setFilteringOptions] = useState([]);
   const [filteringProperties, setFilteringProperties] = useState(defaultFilteringProperties);

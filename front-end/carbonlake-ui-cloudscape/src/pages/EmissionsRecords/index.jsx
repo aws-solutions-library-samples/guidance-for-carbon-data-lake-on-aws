@@ -39,10 +39,10 @@ import Sidebar from '../../common/components/Sidebar'
 
 import {
   COLUMN_DEFINITIONS,
-} from './TCAJobsTable/table-property-filter-config';
+} from './EmissionsTable/table-property-filter-config';
 
 
-import TCAJobsTable from './TCAJobsTable';
+import EmissionsTable from './EmissionsTable';
 import { resourcesBreadcrumbs } from './breadcrumbs';
 
 // Styles
@@ -50,7 +50,7 @@ import '../../common/styles/base.scss'
 
 
 
-const TCAJobs = () => {
+const EmissionsRecords = () => {
   const [columnDefinitions, saveWidths] = useColumnWidths('React-TableServerSide-Widths', COLUMN_DEFINITIONS);
   const [toolsOpen, setToolsOpen] = useState(false);
   return (
@@ -61,8 +61,8 @@ const TCAJobs = () => {
             breadcrumbs={<Breadcrumbs />} // define these values in /breadcrumbs/index.js
             content={
               <>
-                <TCAJobsTable
-                columnDefinitions={columnDefinitions} // define these values in /TCAJobsTable/table-property-filter-config.jsx
+                <EmissionsTable
+                columnDefinitions={columnDefinitions} // define these values in /EmissionsTable/table-property-filter-config.jsx
                 saveWidths={saveWidths}
                 updateTools={() => setToolsOpen(true)}
                 />
@@ -79,15 +79,15 @@ const TCAJobs = () => {
 
 }
 
-export default TCAJobs
+export default EmissionsRecords
 
 const Content = () => {
   const [columnDefinitions, saveWidths] = useColumnWidths('React-TableServerSide-Widths', COLUMN_DEFINITIONS);
   let { userId } = useParams()
   return (
     <>
-     <TCAJobsTable
-        columnDefinitions={columnDefinitions} // define these values in /TCAJobsTable/table-property-filter-config.jsx
+     <EmissionsTable
+        columnDefinitions={columnDefinitions} // define these values in /EmissionsTable/table-property-filter-config.jsx
         saveWidths={saveWidths}
         updateTools={() => setToolsOpen(true)}
         />
@@ -138,8 +138,8 @@ export const Breadcrumbs = () => (
 
 export const FullPageHeader = ({
 
-  resourceName = 'TCA Jobs',
-  createButtonText = 'Create TCA Job',
+  resourceName = 'Emissions Records',
+  createButtonText = 'Upload Emission Data',
   // createButtonText = 'Upload File',
   ...props
 }) => {
@@ -166,7 +166,7 @@ export const FullPageHeader = ({
 
 export const ToolsContent = () => (
   <HelpPanel
-    header={<h2>TCA Jobs - Help Panel</h2>}
+    header={<h2>Emissions Records</h2>}
     footer={
       <>
         <h3>
@@ -178,11 +178,11 @@ export const ToolsContent = () => (
         <ul>
           <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
+              href="https://ghgprotocol.org/Third-Party-Databases/IPCC-Emissions-Factor-Database"
+              text="IPCC Emissions Factor Database"
             />
           </li>
-          <li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
               text="Amazon Transcribe FAQs"
@@ -199,15 +199,15 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }
   >
     <p>
-      View your current TCA jobs and related information such as the transcript, time file was,
-      created at,conversation characteristics, and more. To drill down even further into the details,
-      choose the name of an individual TCA Job.
+      View your Emissions Records and related information such as the activity id, asset id, geo, timestamp,
+      and more. To drill down even further into the details, choose the name of an individual Emission Record.
+      By default, CarbonLake is referencing the public IPCC Emissions Factor Database.
     </p>
   </HelpPanel>
 );
@@ -240,7 +240,7 @@ export const InstanceHeader = ({ ...props }) => {
   );
 };
 
-export const TCAJobsTableEmptyState = ({ resourceName }) => {
+export const EmissionsTableEmptyState = ({ resourceName }) => {
   const navigate = useNavigate();
 
 
