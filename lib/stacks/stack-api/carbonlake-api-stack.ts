@@ -400,8 +400,12 @@ export class CLQSApiStack extends Stack {
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables
 
     // Cognito
+    this.userPool = userPool
+    new CfnOutput(this, 'userPoolId', { value: userPool.userPoolId })
+    
+    this.userPoolClient = userPoolClient
     new CfnOutput(this, 'CLQSuserPoolId', { 
-      value: this.userPool.userPoolId,
+      value: userPool.userPoolId,
       exportName: 'CLQSuserPoolId'
     })
     
@@ -411,11 +415,12 @@ export class CLQSApiStack extends Stack {
     })
 
     new CfnOutput(this, 'userPoolClientId', {
-       value: this.userPoolClient.userPoolClientId,
+       value: userPoolClient.userPoolClientId,
        exportName: 'CLQSuserPoolClientId' 
       })
 
     // IAM
+    this.clqsAdminUserRole = clqsAdminUserRole
     new CfnOutput(this, 'clqsAdminUserRoleOutput', { 
       value: this.clqsAdminUserRole.roleArn,
       exportName: 'CLQSclqsAdminUserRoleOutput'
