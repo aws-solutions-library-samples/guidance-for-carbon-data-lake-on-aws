@@ -366,6 +366,77 @@ You can run several of these tests manually on your local machine to check that 
 - `sh test-e2e.sh`runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 - `npm run lint` tests your code locally with the prebuilt linter configuration
 
+## Extending CarbonLake
+
+If you are looking to utilize existing features of CarbonLake while integrating your own features, modules, or applications this section provides details for how to ingest your data to the CarbonLake data pipeline, how to connect data outputs, how to integrate other applications, and how to integrate other existing AWS services. As we engage with customers this list of recommendations will grow with customer use-cases. Please feel free to submit issues that describe use-cases you would like to be documented.
+
+### Ingesting data into CarbonLake
+
+To ingest data into CarbonLake you can use various inputs to get data into the CarbonLake Landing Zone S3 bucket. This bucket can be found via AWS Console or AWS CLI under the name `bucketName`. It can also be accessed as a public readonly stack output via props `stackOutputName`. There are several methods for bringing data into an S3 bucket to start an event-driven pipeline. This article is a helpful resource as you explore options. Once your data is in S3 it will kick off the pipeline and the data quality check will begin.
+
+### Integrating CarbonLake data outputs
+
+### General Guide to adding features
+
+To add additional features to CarbonLake we recommend developing your own stack that integrates with the existing CarbonLake stack inputs and outputs. We recommend starting by reviewing the concepts of application, stack, and construct in AWS CDK. Adding a stack is the best way to add functionality to CarbonLake. 
+
+1. Start by adding your own stack directory to `lib/stacks`
+
+    ```sh
+    mkdir lib/stacks/stack-title
+    ```
+
+2. Add a stack file to this directory
+
+    ```sh
+    touch lib/stacks/stack-title/title-stack.ts
+    ```
+
+3. Use basic CDK stack starter code to formulate your own stack. See example below:
+
+    ```javascript
+
+    ```
+
+4. We recommend using a single stack, and integrating additional submodular components as constructs. Constructs are logical groupings of AWS resources with "sane" defaults. In many cases the CDK team has already created a reusable construct and you can simply work with that. But in specific cases you may way to create your own. You can create a construct using the commands and example below:
+
+    ```sh
+    mkdir lib/constructs/construct-title
+    touch lib/constructs/construct-title/title-construct.ts
+    ```
+
+    ```javascript
+
+    ```
+
+5. If you have integrated your stack successfully you should see it build when you run `cdk synth`. For development purposes we recommend deploying your stack in isolation before you deploy with the full application. You can run `cdk deploy YourStackName` to deploy in isolation.
+
+6. Integrate your stack with the full application by importing it to `bin/carbonlake-quickstart-main.ts` and `carbonlake-quickstart-cicd.ts` if you have chosen to deploy it.
+
+    ```sh
+    #open the file carbonlake-quickstart-main.ts
+    open carbonlake-quickstart-main.ts
+    ```
+
+    ```javascript
+    // Import your stack at the top of the file
+    import {YourStackName} from './stacks/stack-title/your-stack'
+
+    // Now create a new stack to deploy within the application
+    const stackName = new YourStackName(app, "YourStackTitle", {
+        // these are props that serve as an input to your stack
+        // these are optional, but could include things like S3 bucket names or other outputs of other stacks. 
+        // For more on this see the stack output section above.
+        yourStackProp1: prop1,
+        yourStackProp2: prop2, 
+        env: appEnv // be sure to include this environment prop
+    })
+    ```
+
+### Integrating with existing AWS Services
+
+CarbonLake was designed for simple integration with existing AWS services.
+
 ## 📚 Reference & Resources
 
 ### Helpful Commands for CDK
