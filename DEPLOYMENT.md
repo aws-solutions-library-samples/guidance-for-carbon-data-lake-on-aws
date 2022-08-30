@@ -6,6 +6,18 @@ CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution buil
 
 ![CarbonLake architectural diagram](resources/architecture/carbonlake-quickstart-v1-architecture-image.png)
 
+1. Scope 1-3 customer data is supported in formats including including JSON, CSV, Image, and PDF. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data.
+2. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
+3. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
+4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
+5. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
+6. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB GHG Protocol Emissions factor lookup database.
+7. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
+Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting toolsets including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
+9. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
+
+## Application Stacks
+
 ### Shared Resource Stack
 
 The shared resource stack deploys all cross-stack referenced resources such as S3 buckets and lambda functions that are built as dependencies.
@@ -16,15 +28,15 @@ The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipelin
 
 ### Data Pipeline
 
-The CarbonLake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the CarbonLake Landing Zone S3 bucket. The data pipeline performs the following functions:
+The CarbonLake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the CarbonLake landing zone S3 bucket. The data pipeline performs the following functions:
 
 1. AWS Glue Data Brew Data Quality Check: If the data quality check passes the data is passed to the next step. If the data quality check fails the admin user receives a Simple Notification Services alert via email.
 2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the CarbonLake calculator microservice.
 3. Data Compaction: night data compaction jobs prepare data for analytics and machine learning workloads.
-4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a DynamoDB table and to an S3 bucket for analytics and AI/ML application.
-5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon Dynamo DB.
+4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
+5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
 
-### Emissions Factor Reference Databases preseeded in a DynamoDB table
+### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
 
 The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the World Resource Institute GHG Protocol model.
 
@@ -79,7 +91,7 @@ The AWS CloudFormation templates for this Quick Start include configuration para
 
 Tip: After you deploy the Quick Start,  create AWS Cost and Usage Reports to track costs associated with the Quick Start. These reports deliver billing metrics to an S3 bucket in your account. They provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see  What are AWS Cost and Usage Reports?
 
-This Quick Start doesn’t require any software license or AWS Marketplace subscription.
+This Quickstart doesn’t require any software license or AWS Marketplace subscription.
 
 ## How to Deploy
 
@@ -162,13 +174,13 @@ npm run deploy:cicd
 
 👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
-### 4/ Set up the Amplify Web Application
+### 4/ Optional: Set up the Amplify Web Application
 
-To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application.
+To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first. 
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
-If you choose to deploy the Amazon Quicksight business intelligence stack it will include prebuilt data visualizations that leverage Amazon Athena to query your processed data. If you elect to deploy this stack you will need to remove the comments 
+If you choose to deploy the Amazon Quicksight business intelligence stack it will include prebuilt data visualizations that leverage Amazon Athena to query your processed data. If you elect to deploy this stack you will need to remove the comments.
 
 Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/stacks/stack-quicksight/documentation/README.md).
 
@@ -193,7 +205,6 @@ The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the 
 You can access these outputs in other stacks by adding them as props to your stack inputs. For example, you can access the `pinVpc` output by adding `networkStack.pinVpc` as props your your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via props.pinVpc (or whatever you call it) within your stack. Below is an example.
 
 ```javascript
-
 // Start by importing it when you instatiate your stack 👇
 new IndustrialDataConnectorStack(app, 'IndustrialDataConnectorStack', {
     vpc: networkStack.vpc.value, //this is a bit unique that you have to use .value because its a CfnOutput
@@ -210,48 +221,64 @@ export interface IndustrialDataConnectorStackProps extends StackProps {
 const opcuaSG = new ec2.SecurityGroup(this, 'opcuaSim-sg', {
             props.vpc, allowAllOutbound: true,
         });
-
 ```
 
-### Stack Outputs
+## How to Destroy
 
-Read on to see the names, output values, and descriptions of each networking stack output. You can utilize these in a similar fashion.
+You can destroy all stacks included in CarbonLake Quickstart with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
 
-```javascript
+- DynamoDB Tables
+- S3 Buckets
+- Cognito User Pools
 
-    // Outputs pinVpc to the cdk context for reference across stacks
-    this.pinVpc = new CfnOutput(this, "pinVpc", {
-      value: template.getOutput("PinVpc").value,
-      description: 'vpc_id for Pin Vpc',
-      exportName: 'pinVpc',
-    });
+### 5/ Work with outputs
 
-    // Outputs pcnVpc to the cdk context for reference across stacks
-    this.vpc = new CfnOutput(this, "pcnVpc", {
-      value: template.getOutput("PcnVpc").value,
-      description: 'vpc_id for Pcn Vpc',
-      exportName: 'pcnVpc',
-    });
-
-    // Outputs subnetsPin to the cdk context for reference across stacks
-    this.subnetsPin = new CfnOutput(this, "subnetsPin", {
-      value: template.getOutput("SubnetsPin").value,
-      description: 'A list of the subnets for Pin',
-      exportName: 'subnetsPin',
-    });
-
-    // Outputs subnetsPcn to the cdk context for reference across stacks
-    this.subnet = new CfnOutput(this, "subnetsPcn", {
-      value: template.getOutput("SubnetsPcn").value,
-      description: 'A list of the subnets for Pcn',
-      exportName: 'subnetsPcn',
-    });
-
-```
+The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs.
 
 #### Shared Resources Stack Outputs
 
-Insert info about your stack outputs here
+Shared resource stack outputs include:
+
+- `CLQSAwsRegion`: Region of CDK Application AWS Deployment.
+- `CLQSEnrichedDataBucket`: Enriched data bucket with outputs from calculator service.
+- `CLQSEnrichedDataBucketUrl`: Url for enriched data bucket with outputs from calculator service
+- `CLQSDataLineageBucket`: Data lineage S3 bucket
+- `CLQSDataLineageBucketUrl`: Data lineage S3 bucket URL
+
+#### API Stack Outputs
+
+-`CLQSuserPoolId`: Cognito user pool ID for authentication
+-`CLQidentityPoolId`: Cognito Identity pool ID for authentication
+-`CLQSuserPoolClientId`: Cognito user pool client ID for authentication
+-`CLQSclqsAdminUserRoleOutput`: Admin user role output
+-`CLQSclqsStandardUserRoleOutput`: Standard user role output
+-`CLQSApiEndpoint`: GraphQL API endpoint
+-`CLQSApiUsername`: GraphQL API admin username
+-`CLQSGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
+
+#### Data Pipeline Stack Outputs
+
+-`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline.
+-`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline.
+-`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
+-`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
+
+#### Quicksight Stack Outputs
+
+-`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
+-`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards.
+-`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications.
+-`CLQSQuicksightUrl`: URL of Quicksight Dashboard.
+
+#### Sagemaker Notebook Stack Outputs
+
+-`CLQSSagemakerRepository`: Codecommit repository of sagemaker notebook.
+-`CLQSSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
+
+#### Test Stack Outputs
+
+-`CLQSe2eTestLambdaFunctionName`: Name of CarbonLake lambda test function.
+-`CLQSe2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
 
 ## 🛠 Usage
 
@@ -267,7 +294,7 @@ In your command line shell you should see confirmation of all resources deployin
 
 ```
 
-### 2/ Drop some synthetic test data into the CarbonLake Landing Zone S3 Bucket
+### 2/ Drop some synthetic test data into the CarbonLake landing zone S3 Bucket
 
 Time to test some data out and see if everything is working. This section assumes basic prerequisite knowledge of how to manually upload an object to S3 with the AWS console. For more on this please review [how to upload an object to S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
 
@@ -294,7 +321,7 @@ Figure. Completed step function workflow
 
 The calculator outputs emissions calculator outputs referenced in the data model section below. Outputs are written to Amazon DynamoDB and Amazon S3. You can review the outputs using the AWS console or AWS CLI:
 
-- DynamoDB: Navigate to DynamoDB in the AWS console. Look for a Database called `DataBase` and a table called `Table`
+- Amazon DynamoDB: Navigate to Amazon DynamoDB in the AWS console. Look for a Database called `DataBase` and a table called `Table`
 - Amazon S3: Navigate to S3 in the console and look for a bucket called `BucketName`. This bucket contains all calculator outputs.
 
 You can also query this data using the GraphQL API detailed below.
@@ -372,7 +399,7 @@ If you are looking to utilize existing features of CarbonLake while integrating 
 
 ### Ingesting data into CarbonLake
 
-To ingest data into CarbonLake you can use various inputs to get data into the CarbonLake Landing Zone S3 bucket. This bucket can be found via AWS Console or AWS CLI under the name `bucketName`. It can also be accessed as a public readonly stack output via props `stackOutputName`. There are several methods for bringing data into an S3 bucket to start an event-driven pipeline. This article is a helpful resource as you explore options. Once your data is in S3 it will kick off the pipeline and the data quality check will begin.
+To ingest data into CarbonLake you can use various inputs to get data into the CarbonLake landing zone S3 bucket. This bucket can be found via AWS Console or AWS CLI under the name `bucketName`. It can also be accessed as a public readonly stack output via props `stackOutputName`. There are several methods for bringing data into an S3 bucket to start an event-driven pipeline. This article is a helpful resource as you explore options. Once your data is in S3 it will kick off the pipeline and the data quality check will begin.
 
 ### Integrating CarbonLake data outputs
 
@@ -433,9 +460,34 @@ To add additional features to CarbonLake we recommend developing your own stack 
     })
     ```
 
+#### Working with Stack Outputs
+
+You can access the outputs of application stacks by adding them as props to your stack inputs. For example, you can access the `myVpc` output by adding `networkStack.myVpc` as props your your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via `props.myVpc` (or whatever you call it) within your stack. Below is an example.
+
+```javascript
+
+// Start by importing it when you instatiate your stack 👇
+new MyFirstStack(app, 'MyFirstStack', {
+    vpc: networkStack.myVpc
+});
+
+// Now export this as an interface within that stack 👇
+export interface MySecondStackProps extends StackProps {
+    vpc: Ec2.vpc
+}
+
+// Now access it as a prop where you need it within the stack 👇
+this.myStackObject = new ec2.SecurityGroup(this, 'ec2SecurityGroup', {
+            props.vpc, 
+            allowAllOutbound: true,
+        });
+
+```
+The above is a theoretical example. We recommend reviewing the CDK documentation and the existing stacks to see more examples.
+
 ### Integrating with existing AWS Services
 
-CarbonLake was designed for simple integration with existing AWS services.
+CarbonLake was designed for simple integration with existing AWS services. This section will detail integration with existing AWS services.
 
 ## 📚 Reference & Resources
 
