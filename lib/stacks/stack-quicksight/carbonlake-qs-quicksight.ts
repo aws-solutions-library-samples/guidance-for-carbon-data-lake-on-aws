@@ -54,24 +54,27 @@ export class CLQSQuicksightStack extends Stack {
       value: `${quicksightUniqueIdentifier}-Athena-DataSource`,
       description:
         'ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset',
+        exportName: 'QuickSightDataSource'
     })
 
     new CfnOutput(this, 'QuickSightDataSet', {
       value: `${quicksightUniqueIdentifier}-Data-Set`,
       description:
         'ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards',
+      exportName: 'QuickSightDataSet'
     })
 
     new CfnOutput(this, 'QuickSightDashboard', {
       value: `${quicksightUniqueIdentifier}-Dashboard`,
       description:
         'ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications',
+        exportName: 'QuickSightDashboard'
     })
 
     // Output link to quicksight
     new CfnOutput(this, 'CLQSQuicksightUrl', {
-      value: "Quicksight URL",
-      description: 'insert',
+      value: "Quicksight URL to be added",
+      description: 'URL of QuickSight Dashboard',
       exportName: 'CLQSQuicksightUrl',
     });
 

@@ -402,16 +402,34 @@ export class CLQSApiStack extends Stack {
     // Cognito
     this.userPool = userPool
     new CfnOutput(this, 'userPoolId', { value: userPool.userPoolId })
-    // this.identityPool = clqsIdentityPool;
-    new CfnOutput(this, 'identityPoolId', { value: clqsIdentityPool.ref })
+    
     this.userPoolClient = userPoolClient
-    new CfnOutput(this, 'userPoolClientId', { value: userPoolClient.userPoolClientId })
+    new CfnOutput(this, 'CLQSuserPoolId', { 
+      value: userPool.userPoolId,
+      exportName: 'CLQSuserPoolId'
+    })
+    
+    new CfnOutput(this, 'identityPoolId', { 
+      value: clqsIdentityPool.ref,
+      exportName: 'CLQidentityPoolId'
+    })
+
+    new CfnOutput(this, 'userPoolClientId', {
+       value: userPoolClient.userPoolClientId,
+       exportName: 'CLQSuserPoolClientId' 
+      })
 
     // IAM
     this.clqsAdminUserRole = clqsAdminUserRole
-    new CfnOutput(this, 'clqsAdminUserRoleOutput', { value: clqsAdminUserRole.roleArn })
+    new CfnOutput(this, 'clqsAdminUserRoleOutput', { 
+      value: this.clqsAdminUserRole.roleArn,
+      exportName: 'CLQSclqsAdminUserRoleOutput'
+    })
 
-    new CfnOutput(this, 'clqsStandardUserRoleOutput', { value: this.clqsStandardUserRole.roleArn })
+    new CfnOutput(this, 'clqsStandardUserRoleOutput', {
+      value: this.clqsStandardUserRole.roleArn,
+      exportName: 'CLQSclqsStandardUserRoleOutput' 
+    })
 
     // Output API Endpoint
     new cdk.CfnOutput(this, 'apiEndpoint', {

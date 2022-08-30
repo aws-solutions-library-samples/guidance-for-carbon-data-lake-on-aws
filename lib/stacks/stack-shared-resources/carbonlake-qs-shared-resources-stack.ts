@@ -1,4 +1,4 @@
-import { App, Stack, StackProps, RemovalPolicy, PhysicalName } from 'aws-cdk-lib'
+import { App, Stack, StackProps, RemovalPolicy, PhysicalName, CfnOutput, Tags } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
@@ -78,5 +78,38 @@ export class CLQSSharedResourcesStack extends Stack {
         description: 'Glue Metadata Catalog  database for enriched calculator data',
       },
     })
+
+    new CfnOutput(this, 'CLQSEnrichedDataBucket', {
+      value: this.carbonlakeEnrichedBucket.bucketName,
+      description: 'Enriched data bucket with outputs from calculator service',
+      exportName: 'CLQSEnrichedDataBucket',
+    });
+
+    new CfnOutput(this, 'CLQSEnrichedDataBucketUrl', {
+      value: this.carbonlakeEnrichedBucket.bucketWebsiteUrl,
+      description: 'Url for enriched data bucket with outputs from calculator service',
+      exportName: 'CLQSEnrichedDataBucketUrl',
+    });
+
+    new CfnOutput(this, 'CLQSDataLineageBucket', {
+      value: this.carbonlakeDataLineageBucket.bucketName,
+      description: 'Data lineage S3 bucket',
+      exportName: 'CLQSDataLineageBucket',
+    });
+
+    new CfnOutput(this, 'CLQSDataLineageBucketUrl', {
+      value: this.carbonlakeDataLineageBucket.bucketWebsiteUrl,
+      description: 'Data lineage S3 bucket URL',
+      exportName: 'CLQSDataLineageBucketUrl',
+    });
+
+    // Outputs the region of the CDK app -- this assumes that there is a single region and should be modified if deploying across multiple regions
+    new CfnOutput(this, 'CLQSAwsRegion', {
+      value: this.region,
+      description: 'Region of CDK Application AWS Deployment',
+      exportName: 'CLQSAwsRegion',
+    });
+  
+    Tags.of(this).add("component", "sharedResources");
   }
 }
