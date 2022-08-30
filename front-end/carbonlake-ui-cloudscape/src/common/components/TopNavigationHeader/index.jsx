@@ -24,8 +24,8 @@ const TopNavigationHeader = ({user}) => {
     <TopNavigation
       identity={{
         href: "/",
-        // Your Company Name
-        title: `TCA Quickstart`,
+        // Your Web App Name
+        title: `CarbonLake Quickstart`,
         logo: {
           src:
           logo,
