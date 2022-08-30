@@ -211,11 +211,11 @@ export const ToolsContent = () => (
         <ul>
           <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
+              href="https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3&ef_id=CjwKCAjw6raYBhB7EiwABge5KqUG9sIsNhuxzW3Hg6cdcjqUTNBBQjemhU_QbEXjAvORKvXj8NulOhoCmfYQAvD_BwE:G:s&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3"
+              text="Amazon S3"
             />
           </li>
-          <li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
               text="Amazon Transcribe FAQs"
@@ -232,7 +232,7 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }

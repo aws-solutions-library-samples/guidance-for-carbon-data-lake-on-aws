@@ -209,13 +209,13 @@ export const ToolsContent = () => (
           </span>
         </h3>
         <ul>
-          <li>
+        <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
+              href="https://ghgprotocol.org/Third-Party-Databases/IPCC-Emissions-Factor-Database"
+              text="IPCC Emissions Factor Database"
             />
           </li>
-          <li>
+          {/* <li>
             <ExternalLinkItem
               href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
               text="Amazon Transcribe FAQs"
@@ -232,16 +232,14 @@ export const ToolsContent = () => (
               href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
               text="Amazon Transcribe Custom Vocabularies"
             />
-          </li>
+          </li> */}
         </ul>
       </>
     }
   >
     <p>
-      This app is uses to create and manage your contact center call metrics using
-      <a target="_blank" rel="noopener noreferrer" href="https://aws.amazon.com/transcribe/call-analytics/"> Amazon Transcribe Call Analytics</a>.
-      Visit the <a href="/setup-guide"> setup guide</a> for information
-      on how to get started.
+
+      CarbonLake is referencing the public IPCC Emissions Factor Database.
     </p>
   </HelpPanel>
 );
