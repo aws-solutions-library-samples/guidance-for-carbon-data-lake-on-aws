@@ -99,7 +99,7 @@ end-to-end-test:   # runs e2e test
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  image: amazonlinux:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
