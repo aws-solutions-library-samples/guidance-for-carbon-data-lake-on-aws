@@ -35,7 +35,7 @@
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.11.1",
     "prettier": "1.15.3",
-    "vite": "^2.9.15"
+    "vite": "^2.7.13"
   },
   "browserslist": {
     "production": [
