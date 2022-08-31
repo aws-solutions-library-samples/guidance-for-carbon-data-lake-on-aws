@@ -1,7 +1,9 @@
 <!-- *Copyright Amazon.com, Inc.  This package is confidential and proprietary Amazon.com, Inc. software.* -->
 
 # CarbonLake Amplify App Documentation
+
 ## Introduction
+
 This sample app is used to serve as a demonstration for what you can do with the CarbonLake Quickstart core features. This code is meant to be used purely for development/demo purpose. For production workloads it is ***highly*** recommended that you do your own extensive internal testing before using.
 
 This package sets up a React development environment that has access to all [Cloudscape](https://cloudscape.design/) React components. It comes with a sample application using the AWS-UI to give a demo of what your own Amplify Application using CarbonLake could look like. See [Getting started with Cloudscape](https://cloudscape.design/get-started/guides/introduction/).
@@ -16,28 +18,32 @@ Clone this repo manually or download the .zip file. The react/amplify related it
 
 ## Getting started
 
-* **Prereqs:**
-    * The CarbonLake CDK Application must be deployed and running in an active AWS account
-    * This application requires that you have accurate outputs from `cdk-outputs.json` -- check that this file has been successfully created upon deployment of your application.
-    * [Node.js installed](http://nodejs.org): if you don't already have it, run `brew install node` to download Node (Homebrew needs to be installed for this to work) - Run `node -v ` to check your version.
-    * [NPM installed](https://www.npmjs.com/) - Run `npm -v` to check your version.
-    * [IAM User or Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html) with necessary permissions created (role is recommended)
-    * [AWS Amplify CLI installed](https://docs.amplify.aws/cli/)
-        * Run `npm install -g @aws-amplify/cli`
-        * Run  `amplify --version` to verify installed version
+### Prerequisites
+
+* The CarbonLake CDK Application must be deployed and running in an active AWS account
+* This application requires that you have accurate outputs from `cdk-outputs.json` -- check that this file has been successfully created upon deployment of your application.
+* [Node.js installed](http://nodejs.org): if you don't already have it, run `brew install node` to download Node (Homebrew needs to be installed for this to work) - Run `node -v ` to check your version.
+* [NPM installed](https://www.npmjs.com/) - Run `npm -v` to check your version.
+* [IAM User or Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html) with necessary permissions created (role is recommended)
+* [AWS Amplify CLI installed](https://docs.amplify.aws/cli/)
+* Run `npm install -g @aws-amplify/cli`
+* Run  `amplify --version` to verify installed version
 
 ## Security Notice
+
 It is important to note that **4 IAM roles** are created by CDK. These roles in addition to the Cognito User Pool Groups determine what permissions your users can perform. You can add additional roles, user pool groups, and users to the groups either via the AWS Management Console, or with CDK (another IaC provider). During testing/development it is fine to launch resources in the console, however for production workloads it is ***HIGHLY*** recommended to manage your resources via IaC (Infrastructure as Code).
 
 ### IAM Roles
 
-- clqsAdminUserRole
-- clqsStandardUserRole
-- clqsAuthRole
-- clqsUnAuthRole
-#### Cognito User Pool Groups
-- Admin
-- Standard-Users
+* clqsAdminUserRole
+* clqsStandardUserRole
+* clqsAuthRole
+* clqsUnAuthRole
+
+### Cognito User Pool Groups
+
+* Admin
+* Standard-Users
 
 When users are added to the above groups, they have the respective permissions granted through the IAM roles (**clqsAdminUserRole** or **clqsStandardUserRole**). The standard permissions are all S3 actions for all resources. For the clqsAuthRole and clqsUnAuthRole, the permissions are S3 read-only. To modify these permissions, edit the customer managed policies in **/lib/api/carbonlake-api-stack.ts**"
 ***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CarbonLakeQuickstart**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CarbonlakeQuickstart** in the resource name.
@@ -46,6 +52,7 @@ EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 ## Setup Guide
 
 ### 1/ Check that CarbonLake Quickstart CDK has deployed
+
 Ensure that the CDK for the quickstart has been deployed following all instructions contained in the CarbonLake Quickstart Deployment guide.
 
 ### 2/ Install dependencies
@@ -86,7 +93,13 @@ Your project has been successfully initialized and connected to the cloud!
 ```
 When deploying the CarbonLake QuickStart CDK, a Cognito user pool `CarbonLakeQuickStartUserPool`, Identity pool `CarbonLakeQuickStartIdentityPool`, and GraphQL API `CarbonLakeApi` will be deployed automatically, so **do not**  run the command `amplify add api` or `amplify add auth`. These resources will be imported from `cdk-outputs.json`
 
-### 5/ Add appsync helper code using codegen 
+### 5/ Optional: Add appsync helper code using codegen
+
+Is this method if you want to modify AppSync GraphQL API helper code. Start by removing the current codegen helper functions.
+
+```sh
+amplify remove codegen
+```
 
 Appsync helper code is used to help connect your frontend with the CarbonLake GraphQL API backend. Use amplify codegen and your graphQL api ID to generate the helper code. You can do this by navigating to the AWS Console and selecting AppSync and copying the relevant command, or using she prompt below. This will take the `apiId` from the `ApiStack` and generate it for you.
 
@@ -114,6 +127,7 @@ Successfully added API clqsApi to your Amplify project
 ```sh
 npm start
 ```
+
 You should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point. 
 
 ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
