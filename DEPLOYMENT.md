@@ -204,37 +204,6 @@ The forecast stack includes a pre-built sagemaker notebook instance running an `
 
 To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
-## Work with outputs
-
-The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs for this application:
-
-```json
-  {"outputName": "outputValue"}
-```
-
-### Guide to working with stack outputs
-
-You can access these outputs in other stacks by adding them as props to your stack inputs. For example, you can access the `pinVpc` output by adding `networkStack.pinVpc` as props your your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via props.pinVpc (or whatever you call it) within your stack. Below is an example.
-
-```javascript
-// Start by importing it when you instatiate your stack 👇
-new MyFirstStack(app, 'MyFirstStack', {
-    vpc: networkStack.vpc.value, //this is a bit unique that you have to use .value because its a CfnOutput
-    subnet: networkStack.subnet.value //this is a bit unique that you have to use .value because its a CfnOutput
-});
-
-// Now export this as an interface within that stack 👇
-export interface MySecondStackStackProps extends StackProps {
-    vpc: string; //generally we recommend the type here matches the type of output
-    subnet: string; //generally we recommend the type here matches the type of output
-}
-
-// Now access it as a prop where you need it within the stack 👇
-const opcuaSG = new ec2.SecurityGroup(this, 'opcuaSim-sg', {
-            props.vpc, allowAllOutbound: true,
-        });
-```
-
 ## How to Destroy
 
 You can destroy all stacks included in CarbonLake Quickstart with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
