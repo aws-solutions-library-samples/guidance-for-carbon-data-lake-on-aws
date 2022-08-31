@@ -92,7 +92,7 @@ amplify-test: # runs test of amplify app
     - echo "Build complete."
     - cdk synth
     - echo "Starting Amplify test"
-    - sh amplify-test.sh
+    - sh test-amplify.sh
     - echo "amplify test successful"
 
 end-to-end-test:   # runs e2e test
