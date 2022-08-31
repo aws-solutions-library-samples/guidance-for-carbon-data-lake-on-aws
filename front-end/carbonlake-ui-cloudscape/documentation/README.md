@@ -1,5 +1,3 @@
-<!-- *Copyright Amazon.com, Inc.  This package is confidential and proprietary Amazon.com, Inc. software.* -->
-
 # CarbonLake Amplify App Documentation
 
 ## 👋 Introduction
