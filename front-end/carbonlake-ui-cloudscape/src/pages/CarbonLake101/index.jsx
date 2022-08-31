@@ -1,9 +1,18 @@
-import React from 'react';
+/************************************************************************
+                            DISCLAIMER
+
+This is just a playground package. It does not comply with best practices
+of using Cloudscape Design components. For production code, follow the
+integration guidelines:
+
+https://cloudscape.design/patterns/patterns/overview/
+************************************************************************/
+
+import React, {useState, useRef} from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import TopNavigationHeader from '../components/TopNavigationHeader';
-import HelpTools from '../components/HelpTools';
-// import { Sidebar } from '../components/Navigation/Sidebar'
+import Sidebar from '../../common/components/Sidebar';
+import TopNavigationHeader from '../../common/components/TopNavigationHeader';
+
 import {
   AppLayout,
   SideNavigation,
@@ -13,29 +22,27 @@ import {
   Grid,
   Box,
   TextContent,
-  SpaceBetween
-} from '@awsui/components-react';
+  SpaceBetween,
+  Flashbar,
+  Alert,
+  Form,
+  Button,
+  Table,
+  Icon
+} from '@cloudscape-design/components';
 
-import '../styles/intro.scss';
-import '../styles/servicehomepage.scss';
+import { ExternalLinkItem } from '../../common/common-components-config';
 
-// This is not meant to be a template, rather it is the
-// introduction page that you see upon loading the webserver.
-
-const CarbonLake101 = () => {
+import '../../common/styles/intro.scss';
+import '../../common/styles/servicehomepage.scss';
+const  CarbonLake101 = () => {
   return (
     <>
-    <TopNavigationHeader/>
-
-
-
-
-  {/* <Sidebar /> */}
     <AppLayout
     navigation={<Sidebar activeHref="#/" />}
     // navigation={<Sidebar activeHref="#/" items={navItems}/>}
     content={<Content />}
-    tools={<HelpTools/>}
+    tools={<ToolsContent />}
     headerSelector='#h'
     disableContentPaddings={true}
     // toolsHide={true}
@@ -44,12 +51,12 @@ const CarbonLake101 = () => {
   )
 }
 
-export default CarbonLake101;
+export default  CarbonLake101;
 
 
 const Content = () => {
-  return (
 
+  return (
 <div>
     <TextContent>
       <div>
@@ -68,7 +75,9 @@ const Content = () => {
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
                 AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
-                  Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more.
+                 {/* TODO - replace this link with external CarbonLake link/blog post when published */}
+                  Click <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">here</a> to learn more.
+
                 </span>
               </Box>
             </div>
@@ -155,5 +164,66 @@ const Content = () => {
   )
 }
 
-<HelpTools/>
+
+export const ToolsContent = () => (
+  <HelpPanel
+    header={<h2>Amazon TCA 101</h2>}
+    footer={
+      <>
+        <h3>
+          Learn more{' '}
+          <span role="img" aria-label="Icon external Link">
+            <Icon name="external" />
+          </span>
+        </h3>
+        <ul>
+        <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
+        <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/Third-Party-Databases/IPCC-Emissions-Factor-Database"
+              text="IPCC Emissions Factor Database"
+            />
+          </li>
+          {/* <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
+              text="Amazon Transcribe FAQs"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
+              text="Amazon Transcribe Custom Language Models"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
+              text="Amazon Transcribe Custom Vocabularies"
+            />
+          </li> */}
+        </ul>
+      </>
+    }
+  >
+    <p>
+
+      CarbonLake is referencing the public IPCC Emissions Factor Database.
+    </p>
+  </HelpPanel>
+);
+
+
+
 

@@ -2,15 +2,17 @@
                             DISCLAIMER
 
 This is just a playground package. It does not comply with best practices
-of using AWS-UI components.
+of using Cloudscape Design components. For production code, follow the
+integration guidelines:
 
+https://cloudscape.design/patterns/patterns/overview/
 ************************************************************************/
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import TopNavigationHeader from '../components/TopNavigationHeader';
-import HelpTools from '../components/HelpTools';
-// import { Sidebar } from '../components/Navigation/Sidebar'
+import Sidebar from '../../common/components/Sidebar';
+import TopNavigationHeader from '../../common/components/TopNavigationHeader';
+
 import {
   AppLayout,
   SideNavigation,
@@ -20,38 +22,35 @@ import {
   Grid,
   Box,
   TextContent,
-  SpaceBetween
-} from '@awsui/components-react';
+  SpaceBetween,
+  Flashbar,
+  Alert,
+  Form,
+  Button,
+  Table,
+  Icon
+} from '@cloudscape-design/components';
 
-import '../styles/intro.scss';
-import '../styles/servicehomepage.scss';
+import { ExternalLinkItem } from '../../common/common-components-config';
 
-// This is not meant to be a template, rather it is the
-// introduction page that you see upon loading the webserver.
+import '../../common/styles/intro.scss';
+import '../../common/styles/servicehomepage.scss';
 
-const SetupGuide = () => {
+const AccountSettings = () => {
   return (
     <>
-    <TopNavigationHeader/>
-
-
-
-
-  {/* <Sidebar /> */}
-    <AppLayout
-    navigation={<Sidebar activeHref="#/" />}
-    // navigation={<Sidebar activeHref="#/" items={navItems}/>}
-    content={<Content />}
-    tools={<HelpTools/>}
-    headerSelector='#h'
-    disableContentPaddings={true}
-    // toolsHide={true}
-  />
+      <AppLayout
+      navigation={<Sidebar activeHref="#/" />}
+      content={<Content />}
+      tools={<ToolsContent />}
+      headerSelector='#h'
+      disableContentPaddings={true}
+    />
 </>
   )
 }
 
-export default SetupGuide;
+export default AccountSettings;
 
 
 const Content = () => {
@@ -67,15 +66,14 @@ const Content = () => {
             </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                AWS CarbonLake
+                Amazon TCA
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Setup Guide
+              Account Settings
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                For issues getting started, please reach out to us on our
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
+                For issues with your account, please submit a <a target="_blank" rel="noopener noreferrer" href="https:/google.com/">support ticket</a>.
                 </span>
               </Box>
             </div>
@@ -93,12 +91,13 @@ const Content = () => {
                 <ol>
                   <li>
                       Navigate to the "Data Uploader" page and browse for your file.
+                      Alternatively you can use an S3 endpoint and ingest your data that way.
                     <br />
                   </li>
                   <li>
                     This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
                     The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
-                    Once finished, the file contents will be be visible in the "Emissions Records" page. To see the status as the pipeline
+                    Once finished, the file contents will be be visible in the "TCA Jobs" page. To see the status as the pipeline
                     runs, view the Step Function in the AWS Console.
                   </li>
 
@@ -197,5 +196,55 @@ const Content = () => {
   )
 }
 
-<HelpTools/>
+export const ToolsContent = () => (
+  <HelpPanel
+    header={<h2>Setup Guide</h2>}
+    footer={
+      <>
+        <h3>
+          Learn more{' '}
+          <span role="img" aria-label="Icon external Link">
+            <Icon name="external" />
+          </span>
+        </h3>
+        <ul>
+          <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
+              text="Amazon Transcribe FAQs"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
+              text="Amazon Transcribe Custom Language Models"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
+              text="Amazon Transcribe Custom Vocabularies"
+            />
+          </li>
+        </ul>
+      </>
+    }
+  >
+    <p>
+    For issues with your account, please submit a <a target="_blank" rel="noopener noreferrer" href="https:/google.com/">support ticket</a>.
+    </p>
+  </HelpPanel>
+);
 

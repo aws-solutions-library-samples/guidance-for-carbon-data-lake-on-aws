@@ -145,7 +145,8 @@ export const CUSTOM_PREFERENCE_OPTIONS = [{ value: 'table', label: 'Table' }, { 
 export const DEFAULT_PREFERENCES = {
   pageSize: 30,
   visibleContent:
-  ['activity_event_id',
+  [
+  'activity_event_id',
   'activity',
   'asset_id',
   'category',

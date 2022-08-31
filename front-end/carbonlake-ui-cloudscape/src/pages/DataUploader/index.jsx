@@ -2,14 +2,17 @@
                             DISCLAIMER
 
 This is just a playground package. It does not comply with best practices
-of using Cloudscape Design components.
+of using Cloudscape Design components. For production code, follow the
+integration guidelines:
 
+https://cloudscape.design/patterns/patterns/overview/
 ************************************************************************/
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import TopNavigationHeader from '../components/TopNavigationHeader';
-import HelpTools from '../components/HelpTools';
+
+import React, {useState, useRef} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Sidebar from '../../common/components/Sidebar';
+import TopNavigationHeader from '../../common/components/TopNavigationHeader';
+
 import {
   AppLayout,
   SideNavigation,
@@ -20,30 +23,27 @@ import {
   Box,
   TextContent,
   SpaceBetween,
+  Flashbar,
+  Alert,
   Form,
   Button,
   Table,
-  Alert,
-  Flashbar,
+  Icon,
   ProgressBar
 } from '@cloudscape-design/components';
 
-import '../styles/intro.scss';
-import '../styles/servicehomepage.scss';
+import { ExternalLinkItem } from '../../common/common-components-config';
 
-import {COLUMN_DEFINITIONS} from '../resources/table_uploader/table-config'
+import '../../common/styles/intro.scss';
+import '../../common/styles/servicehomepage.scss';
+
+
+import {COLUMN_DEFINITIONS} from './TableConfig'
 
 
 // Amplify
-import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Storage } from 'aws-amplify';
 
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import { forEachLeadingCommentRange } from 'typescript';
-import {existingS3} from '../amplify-config-template';
-
-
-Amplify.configure(existingS3);
 
 
 // This is not meant to be a template, rather it is the
@@ -52,12 +52,12 @@ Amplify.configure(existingS3);
 const DataUploader = () => {
   return (
     <>
-    <TopNavigationHeader/>
+    {/* <TopNavigationHeader/> */}
     <AppLayout
-    navigation={<Sidebar activeHref="#/" />}
+    navigation={<Sidebar activeHref="/data-uploader" />}
     // navigation={<Sidebar activeHref="#/" items={navItems}/>}
     content={<Content />}
-    tools={<HelpTools/>}
+    tools={<ToolsContent />}
     headerSelector='#h'
     disableContentPaddings={true}
     // toolsHide={true}
@@ -136,6 +136,7 @@ const Content = () => {
     setDisableRemoveButton(true)
     setDisableCancelButton(true)
     setDisableUploadButton(true)
+
   };
 
   const cancelFileUpload = () => {
@@ -149,11 +150,11 @@ const Content = () => {
     setShowErrorFlashbar(false)
     setDisableRemoveButton(true)
     setDisableCancelButton(true)
-    setDisableAddFileButton(false)
-    // setDisableUploadButton(false) HERE
-
+    setDisableUploadButton(true)
 
   };
+
+  const navigate = useNavigate();
 
   const uploadFile = async () => {
     setShowUploadingFlashbar(true)
@@ -163,11 +164,13 @@ const Content = () => {
     setDisableUploadButton(true)
     setDisableRemoveButton(true)
     setDisableAddFileButton(true)
+
     try{
       setAlertType('success');
       setAlertContent('File was uploaded successfully');
 
-      const put_tca_file = await Storage.put(files.name, files, {
+
+      const put_emission_file = await Storage.put(files.name, files, {
         // bucket: "your-bucket-name", - use this parameter to add to bucket beyond amplify-config
         // bucket: outputsJSON.outputs.tca_app_storage_bucket.value,
         progressCallback(progress) {
@@ -181,13 +184,15 @@ const Content = () => {
             {
               type: "success",
               content: `File: ${files.name} has been successfully uploaded.`,
-              // action: <Button>View Emission Records</Button>, // TODO - make this nav to emission records page
+              action: <Button onClick={() => navigate("/emission-records")}>View Emission Records</Button>, // TODO - make this nav to TCA jobs page
               dismissible: true,
               dismissLabel: "Dismiss message",
+              // onDismiss: () => {setItems([]); setShowSuccessFlashbar(false)},
               onDismiss: () => setShowSuccessFlashbar(false),
               id: "success_message_1"
           }
           ])
+
 
         },
         // level: 'public',
@@ -206,6 +211,7 @@ const Content = () => {
       setData([])
       setDisableCancelButton(true)
       setDisableAddFileButton(false)
+      setFilePercentUploaded (0) // reset file upload state back to 0
       // setFileUploadStatus('Successful')
 
     } catch (err) {
@@ -233,7 +239,6 @@ const Content = () => {
     setDisableCancelButton(false) // allow cancel button to work again if file cannot be uploaded successfully
     setDisableAddFileButton(false)
     setDisableRemoveButton(false)
-
     // setFileUploadStatus('Failed')
     // setFileUploadErrorMessage('403: Unauthorized')
 
@@ -364,7 +369,8 @@ const Content = () => {
         header={
           <Header
             variant="h1"
-            description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API."
+            description="Add the file you want to upload to S3. To upload a file larger than 160GB, use the AWS CLI, AWS SDK or Amazon S3 REST API.
+            Current supported file type is CSV."
           >
             Upload
           </Header>
@@ -377,7 +383,7 @@ const Content = () => {
               actions={
         <SpaceBetween direction="horizontal" size="s">
           <Button onClick={removeButton} disabled={disableRemoveButton}> Remove </Button>
-          <input type="file" accept=".csv" id="carbonlake-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
+          <input type="file" accept=".csv" id="tca-file" hidden="hidden" style={{ "display": "none" }} ref={fileInput} onChange={handleFileInput}/>
           <Button disabled = {disableAddFileButton} iconName="file" id="carbonlake-button" onClick={selectFile}> Add File </Button>
         </SpaceBetween>
       }
@@ -414,4 +420,65 @@ const Content = () => {
   </div>
   )
 }
-<HelpTools/>
+export const ToolsContent = () => (
+  <HelpPanel
+    header={<h2>Data Uploader</h2>}
+    footer={
+      <>
+        <h3>
+          Learn more{' '}
+          <span role="img" aria-label="Icon external Link">
+            <Icon name="external" />
+          </span>
+        </h3>
+        <ul>
+        <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/energy/"
+              text="AWS Energy & Utilities"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://ghgprotocol.org/"
+              text="GHG Protocol Guidance"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3&ef_id=CjwKCAjw6raYBhB7EiwABge5KqUG9sIsNhuxzW3Hg6cdcjqUTNBBQjemhU_QbEXjAvORKvXj8NulOhoCmfYQAvD_BwE:G:s&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3"
+              text="Amazon S3"
+            />
+          </li>
+          {/* <li>
+            <ExternalLinkItem
+              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
+              text="Amazon Transcribe FAQs"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
+              text="Amazon Transcribe Custom Language Models"
+            />
+          </li>
+          <li>
+            <ExternalLinkItem
+              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
+              text="Amazon Transcribe Custom Vocabularies"
+            />
+          </li> */}
+        </ul>
+      </>
+    }
+  >
+    <p>
+      Select 'Add file' to upload your data. To upload a file larger than 160GB,
+      use the AWS CLI, AWS SDK or Amazon S3 REST API. Current supported file type is CSV.
+    </p>
+  </HelpPanel>
+);
+
+
+
+
