@@ -2,23 +2,15 @@
 
 # CarbonLake Amplify App Documentation
 
-## Introduction
+## 👋 Introduction
 
 This sample app is used to serve as a demonstration for what you can do with the CarbonLake Quickstart core features. This code is meant to be used purely for development/demo purpose. For production workloads it is ***highly*** recommended that you do your own extensive internal testing before using.
 
 This package sets up a React development environment that has access to all [Cloudscape](https://cloudscape.design/) React components. It comes with a sample application using the AWS-UI to give a demo of what your own Amplify Application using CarbonLake could look like. See [Getting started with Cloudscape](https://cloudscape.design/get-started/guides/introduction/).
 
-## React + Babel/ES6 + React Scripts
+## 🏁 Getting started
 
-This is a modern JS skeleton with React AWS-UI components for [React Scripts](https://create-react-app.dev/docs/available-scripts).
-
-## Installation
-
-Clone this repo manually or download the .zip file. The react/amplify related items are in the **'frontend/'** directory.
-
-## Getting started
-
-### Prerequisites
+### 🎒 Prerequisites
 
 * The CarbonLake CDK Application must be deployed and running in an active AWS account
 * This application requires that you have accurate outputs from `cdk-outputs.json` -- check that this file has been successfully created upon deployment of your application.
@@ -29,7 +21,7 @@ Clone this repo manually or download the .zip file. The react/amplify related it
 * Run `npm install -g @aws-amplify/cli`
 * Run  `amplify --version` to verify installed version
 
-## Security Notice
+## 🔐 Security Notice
 
 It is important to note that **4 IAM roles** are created by CDK. These roles in addition to the Cognito User Pool Groups determine what permissions your users can perform. You can add additional roles, user pool groups, and users to the groups either via the AWS Management Console, or with CDK (another IaC provider). During testing/development it is fine to launch resources in the console, however for production workloads it is ***HIGHLY*** recommended to manage your resources via IaC (Infrastructure as Code).
 
@@ -49,7 +41,7 @@ When users are added to the above groups, they have the respective permissions g
 ***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CarbonLakeQuickstart**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CarbonlakeQuickstart** in the resource name.
 EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 
-## Setup Guide
+## 🚀 Setup Guide
 
 ### 1/ Check that CarbonLake Quickstart CDK has deployed
 
@@ -93,9 +85,36 @@ Your project has been successfully initialized and connected to the cloud!
 ```
 When deploying the CarbonLake QuickStart CDK, a Cognito user pool `CarbonLakeQuickStartUserPool`, Identity pool `CarbonLakeQuickStartIdentityPool`, and GraphQL API `CarbonLakeApi` will be deployed automatically, so **do not**  run the command `amplify add api` or `amplify add auth`. These resources will be imported from `cdk-outputs.json`
 
-### 5/ Optional: Add appsync helper code using codegen
+### 6/ Start your AWS Amplify application running on localhost
 
-Is this method if you want to modify AppSync GraphQL API helper code. Start by removing the current codegen helper functions.
+```sh
+npm start
+```
+
+You should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point. 
+
+***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+
+![image info](./images/cognito-login.png)
+![image info](./images/carbonlake-ui.png)
+
+Success! At this point, you should successfully have the Amplify app working.
+
+## 🥳 Usage
+
+### 1/ Test out the application by uploading some data
+
+Navigate to the `Data Uploader` page. Browse for a file and click `Upload` (you must be signed in as a user in the Admin group to do this. If not, you will receive an error message).
+
+![image info](./images//data-uploader.png)
+
+### 2/ Check that your data is flowing properly to the dashboard
+
+Navigate to the dashboard and check that the table is flowing to your table.
+
+### 3/ Optional: Add appsync helper code using codegen
+
+For advanced implementation only. Use this method if you want to modify AppSync GraphQL API helper code. Start by removing the current codegen helper functions.
 
 ```sh
 amplify remove codegen
@@ -122,34 +141,7 @@ Successfully added API clqsApi to your Amplify project
 # enter Y for yes
 ```
 
-### 6/ Start your AWS Amplify application running on localhost
-
-```sh
-npm start
-```
-
-You should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point. 
-
-***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
-
-![image info](./images/cognito-login.png)
-![image info](./images/carbonlake-ui.png)
-
-Success! At this point, you should successfully have the Amplify app working.
-
-## Usage
-
-### 1/ Test out the application by uploading some data
-
-Navigate to the `Data Uploader` page. Browse for a file and click `Upload` (you must be signed in as a user in the Admin group to do this. If not, you will receive an error message).
-
-![image info](./images//data-uploader.png)
-
-### 2/ Check that your data is flowing properly to the dashboard
-
-Navigate to the dashboard and check that the table is flowing to your table.
-
-## Helpful Resources
+## 📚 Helpful Resources
 
 ### NPM Commands
 
