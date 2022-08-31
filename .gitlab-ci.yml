@@ -20,16 +20,8 @@ variables:
 
 build-job:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
-  image: node:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   script:
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
     - npm ci
     - echo "succesfully installed package dependencies!"
     - echo "Building with npm..."
@@ -41,16 +33,8 @@ build-job:       # Validates that cdk will build, install dependencies, and that
 
 tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
   stage: static
-  image: node:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   script:
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
     - npm ci
     - echo "succesfully installed package dependencies!"
     - echo "Building with npm..."
@@ -77,18 +61,10 @@ bandit:   # Runs python bandit test job for security checks on python code in re
 
 cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
-  image: node:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
     - npm ci
     - echo "succesfully installed package dependencies!"
     - echo "Building with npm..."
@@ -100,31 +76,15 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 
 end-to-end-test:   # runs e2e test
   stage: static
-  image: amazonlinux:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - amazon-linux-extras
-    - yum install -y unzip
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
     - aws --version
-    - echo "$AWS_ACCESS_KEY_ID"
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set region $AWS_DEFAULT_REGION
-    - curl -sL https://rpm.nodesource.com/setup_16.x | bash 
-    - yum install -y nodejs
     - node --version
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
     - npm ci
     - echo "succesfully installed package dependencies!"
     - echo "Building with npm..."
@@ -139,31 +99,14 @@ end-to-end-test:   # runs e2e test
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  image: amazonlinux:latest
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - amazon-linux-extras
-    - yum install -y unzip
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-    - aws --version
-    - echo "$AWS_ACCESS_KEY_ID"
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set region $AWS_DEFAULT_REGION
-    - curl -sL https://rpm.nodesource.com/setup_16.x | bash 
-    - yum install -y nodejs
     - node --version
-    - echo "Installing typescript as dependency"
-    - npm install typescript@latest -g
-    - echo "succesfully installed typescript"
-    - echo "Installing python as dependency"
-    - npm i python@latest -g
-    - echo "succesfully installed python"
-    - echo "Installing all package dependencies"
-    - npm install -g aws-cdk
     - npm ci
     - echo "succesfully installed package dependencies!"
     - echo "Building with npm..."
