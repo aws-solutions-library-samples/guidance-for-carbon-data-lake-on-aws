@@ -22,9 +22,13 @@ Analytics and AI/ML stack provide integrated analytics, business intelligence, a
 
 The shared resource stack deploys all cross-stack referenced resources such as S3 buckets and lambda functions that are built as dependencies.
 
+Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Stack Outputs](#shared-resources-stack-outputs)
+
 ### Optional CI/CD Pipeline
 
 The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
+
+Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/carbonlake-qs-ci-cd-pipeline-stack.ts)
 
 ### Data Pipeline
 
@@ -36,6 +40,8 @@ The CarbonLake data pipeline is an event-driven Step Functions Workflow triggere
 4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
 5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
 
+Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
+
 ### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
 
 The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the World Resource Institute GHG Protocol model.
@@ -44,9 +50,13 @@ The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon Dyna
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the CarbonLake AWS Amplify Sample Web Application.
 
+Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Documentation]() and [Stack Outputs]()
+
 ### Optional: AWS Amplify Sample Web Application
 
 An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront. The AWS Amplify application references the outputs of a full successful CarbonLake Quickstart deployment and requires additional manual deployment steps outlines in the associated module README file.
+
+Review the [Sample Web Application Stack](front-end/carbonlake-ui-cloudscape/) and [Documentation](front-end/carbonlake-ui-cloudscape/documentation/README.md)
 
 ### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
 
@@ -99,11 +109,13 @@ You can deploy CarbonLake Quickstart through the manual setup process using AWS 
 
 ## 🎒 Pre-requisites
 
-- The [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) must be installed *and* configured with an AWS account on the deployment machine (see https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html for instructions on how to do this on your preferred development platform).
+- The [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) must be installed *and* configured with an AWS account on the deployment machine (see <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html> for instructions on how to do this on your preferred development platform).
 - This project requires [Node.js](http://nodejs.org/). To make sure you have it available on your machine, try running the following command.
+
   ```sh
   node -v
   ```
+
 - For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
 
 ## 🚀 Setup
@@ -116,9 +128,9 @@ git clone #insert-http-or-ssh-for-this-repository
 
 ### 1/ Set up your AWS environment
 
-* Configure your AWS credentials --> `aws configure`
-* Get your AWS Account Number --> `aws sts get-caller-identity`
-* Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
+- Configure your AWS credentials --> `aws configure`
+- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
 
 ### 2/ Prepare your CDK environment (Manual Setup)
 
@@ -176,7 +188,7 @@ npm run deploy:cicd
 
 ### 4/ Optional: Set up the Amplify Web Application
 
-To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first. 
+To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -188,7 +200,7 @@ To deploy this stack navigate to `cdk.context.json` and change `deployQuicksight
 
 ### Optional B/ Manually enable & set up Forecast stack
 
-The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts. 
+The forecast stack includes a pre-built sagemaker notebook instance running an `.ipynb` with embedded machine learning tools and prompts.
 
 To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
@@ -206,13 +218,13 @@ You can access these outputs in other stacks by adding them as props to your sta
 
 ```javascript
 // Start by importing it when you instatiate your stack 👇
-new IndustrialDataConnectorStack(app, 'IndustrialDataConnectorStack', {
+new MyFirstStack(app, 'MyFirstStack', {
     vpc: networkStack.vpc.value, //this is a bit unique that you have to use .value because its a CfnOutput
     subnet: networkStack.subnet.value //this is a bit unique that you have to use .value because its a CfnOutput
 });
 
 // Now export this as an interface within that stack 👇
-export interface IndustrialDataConnectorStackProps extends StackProps {
+export interface MySecondStackStackProps extends StackProps {
     vpc: string; //generally we recommend the type here matches the type of output
     subnet: string; //generally we recommend the type here matches the type of output
 }
@@ -286,9 +298,9 @@ Time to get started using CarbonLake Quickstart! Follow the steps below to see i
 
 ### 1/ Make sure all the infrastructure deployed properly
 
-In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully. You can also search for the tag: 
+In your command line shell you should see confirmation of all resources deploying. Did they deploy successfully? Any errors or issues? If all is successful you should see indication that CDK deployed. You can also verify this by navigating to the Cloudformation service in the AWS console. Visually check the series of stacks that all begin with `CLQS` to see that they deployed successfully. You can also search for the tag:
 
-```json 
+```json
 
 "application": "carbonlake" 
 
@@ -353,6 +365,7 @@ query MyQuery {
   }
 }
 ```
+
 Did that all work? Continue...
 
 ### 5/ Take a look at the Amplify Sample Web Application
@@ -405,7 +418,7 @@ To ingest data into CarbonLake you can use various inputs to get data into the C
 
 ### General Guide to adding features
 
-To add additional features to CarbonLake we recommend developing your own stack that integrates with the existing CarbonLake stack inputs and outputs. We recommend starting by reviewing the concepts of application, stack, and construct in AWS CDK. Adding a stack is the best way to add functionality to CarbonLake. 
+To add additional features to CarbonLake we recommend developing your own stack that integrates with the existing CarbonLake stack inputs and outputs. We recommend starting by reviewing the concepts of application, stack, and construct in AWS CDK. Adding a stack is the best way to add functionality to CarbonLake.
 
 1. Start by adding your own stack directory to `lib/stacks`
 
@@ -483,6 +496,7 @@ this.myStackObject = new ec2.SecurityGroup(this, 'ec2SecurityGroup', {
         });
 
 ```
+
 The above is a theoretical example. We recommend reviewing the CDK documentation and the existing stacks to see more examples.
 
 ### Integrating with existing AWS Services
@@ -493,13 +507,13 @@ CarbonLake was designed for simple integration with existing AWS services. This 
 
 ### Helpful Commands for CDK
 
-* `npm run build`                          compile typescript to js
-* `npm run watch`                          watch for changes and compile
-* `npm run test`                           perform the jest unit tests\
-* `cdk diff`                               compare deployed stack with current state
-* `cdk synth`                              emits the synthesized CloudFormation template
-* `cdk deploy --all`                       deploy this stack to your default AWS account/region w/o the CICD pipeline
-* `npm run deploy:cicd`                       deploy this application CI/CD stack and then link your repo for automated pipeline
+- `npm run build`                          compile typescript to js
+- `npm run watch`                          watch for changes and compile
+- `npm run test`                           perform the jest unit tests\
+- `cdk diff`                               compare deployed stack with current state
+- `cdk synth`                              emits the synthesized CloudFormation template
+- `cdk deploy --all`                       deploy this stack to your default AWS account/region w/o the CICD pipeline
+- `npm run deploy:cicd`                       deploy this application CI/CD stack and then link your repo for automated pipeline
 
 ### Data Model
 
