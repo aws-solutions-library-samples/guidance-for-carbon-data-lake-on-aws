@@ -1,0 +1,12 @@
+{
+  "name": "ampdeploy",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Tool for automating the deployment of AWS Amplify Applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "--test"
+  },
+  "author": "Sam Ward Biddle",
+  "license": "ISC"
+}
