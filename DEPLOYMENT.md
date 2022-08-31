@@ -364,6 +364,7 @@ For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/o
 - Runs bandit security tests for common vulnerabilities in Python
 - Runs ESLint for common formatting issues in Javascript and Typescript
 - Runs CDK-Nag to check for common compliance, configuration, and vulnerability issues in CDK code
+- Runs `test-amplify.sh` -- builds and deploys the Amplify App on localhost to make sure it works
 - Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
 - Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 
@@ -373,6 +374,7 @@ You can run several of these tests manually on your local machine to check that 
 
 - `sh test-deployment.sh` Runs CDKitten locally using your assumed AWS role
 - `sh test-e2e.sh`runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
+- `test-amplify.sh` -- builds and deploys the Amplify App on localhost to make sure it works.
 - `npm run lint` tests your code locally with the prebuilt linter configuration
 
 ## Extending CarbonLake
