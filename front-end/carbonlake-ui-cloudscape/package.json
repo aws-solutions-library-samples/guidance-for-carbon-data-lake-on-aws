@@ -1,0 +1,52 @@
+{
+  "name": "carbonlakequickstart",
+  "description": "Sample Amplify Web App powered by AWS CarbonLake Quickstart.",
+  "private": true,
+  "author": "Kevon Mayers",
+  "version": "0.0.1",
+  "repository": "",
+  "homepage": "./",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@aws-amplify/ui-react": "^3.4.1",
+    "@cloudscape-design/collection-hooks": "^1.0.3",
+    "@cloudscape-design/components": "^3.0.19",
+    "@cloudscape-design/design-tokens": "^3.0.1",
+    "@cloudscape-design/global-styles": "^1.0.1",
+    "@cloudscape-design/test-utils-core": "^1.0.1",
+    "@cloudscape-design/theming-runtime": "^1.0.1",
+    "aws-amplify": "^4.3.33",
+    "jq": "^1.7.2",
+    "lodash": "^4.17.21",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "sass": "^1.32.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.1.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "1.15.3",
+    "vite": "^2.7.13"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

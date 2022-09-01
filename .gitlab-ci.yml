@@ -74,6 +74,31 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     # - cdk synth --context nag=true <-- nag is removed for now while nag-pack is in development
     - echo "Completed CDK nag check"
 
+amplify-test: # runs test of amplify app
+  stage: static
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  script:
+    - aws --version
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - echo $AWS_PROFILE
+    - node --version
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - cdk bootstrap
+    - cdk synth
+    - cdk deploy --all
+    - wait
+    - echo "Starting Amplify test"
+    - sh test-amplify.sh
+    - cdk destroy --all --force
+    - echo "amplify test successful"
+
 end-to-end-test:   # runs e2e test
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
@@ -81,9 +106,10 @@ end-to-end-test:   # runs e2e test
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - aws --version
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-    - aws configure set region $AWS_DEFAULT_REGION
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
     - node --version
     - npm ci
     - echo "succesfully installed package dependencies!"
@@ -103,9 +129,10 @@ cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
   script:
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-    - aws configure set region $AWS_DEFAULT_REGION
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
     - node --version
     - npm ci
     - echo "succesfully installed package dependencies!"
