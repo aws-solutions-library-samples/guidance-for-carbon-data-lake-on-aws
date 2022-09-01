@@ -47,7 +47,7 @@ For the simplest setup you will need to have access to a linux or unix shell. If
 
 ```sh
 cd front-end/carbonlake-ui-cloudscape
-sh deploy-amplify-script.sh
+sh ampdeploy/scripts/deploy-amplify-script.sh
 ```
 
 ## 🚀 Manual Setup Guide
