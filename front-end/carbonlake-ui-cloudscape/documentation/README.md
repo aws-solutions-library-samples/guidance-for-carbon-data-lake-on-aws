@@ -59,7 +59,7 @@ Ensure that the CDK for the quickstart has been deployed following all instructi
 ### 2/ Install dependencies
 
 ```sh
-cd front-end/carbonlake-ui/carbonlake-ui-cloudscape # navigate to the amplify app directory
+cd front-end/carbonlake-ui-cloudscape # navigate to the amplify app directory
 npm install # install amplify app dependencies
 ```
 
@@ -69,7 +69,7 @@ npm install # install amplify app dependencies
 amplify init # this initializes the amplify app and will prompt you for several inputs
 ```
 
-**(ENSURE YOU ARE IN THE ROOT of the app directory `front-end/carbonlake-ui/carbonlake-cloudscape-ui` and not in any sub directory
+**(ENSURE YOU ARE IN THE ROOT of the app directory `front-end/carbonlake-ui-cloudscape` and not in any sub directory
 
 ### 4/ Follow amplify setup prompts
 
@@ -104,8 +104,8 @@ You should see a cognito login page with input fields for an email address and p
 
 ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![image info](./images/cognito-login.png)
-![image info](./images/carbonlake-ui.png)
+![cognito login](./images/cognito-login.png)
+![carbonlake ui](./images/carbonlake-ui.png)
 
 Success! At this point, you should successfully have the Amplify app working.
 
@@ -115,7 +115,7 @@ Success! At this point, you should successfully have the Amplify app working.
 
 Navigate to the `Data Uploader` page. Browse for a file and click `Upload` (you must be signed in as a user in the Admin group to do this. If not, you will receive an error message).
 
-![image info](./images//data-uploader.png)
+![image info](./images/data-uploader.png)
 
 ### 2/ Check that your data is flowing properly to the dashboard
 
