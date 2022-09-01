@@ -1,5 +1,6 @@
 {
   "name": "carbonlake-quickstart",
+  "author": "AWS CarbonLake Quickstart Builder Team",
   "version": "0.1.0",
   "bin": {
     "carbonlake-quickstart": "bin/carbonlake-quickstart-main.js"
@@ -11,7 +12,11 @@
     "cdk": "cdk",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/carbonlake-quickstart-cicd.ts'"
+    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/carbonlake-quickstart-cicd.ts'",
+    "web": "sh deploy-amplify.sh"
+  },
+  "browser": {
+    "child_process": false
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
@@ -42,9 +47,7 @@
     "cdk-nag": "^2.15.45",
     "child_process": "^1.0.2",
     "constructs": "^10.0.0",
-    "jq": "^1.7.2",
     "node": "^16.17.0",
-    "node-jq": "^2.3.3",
     "run": "^1.4.0",
     "source-map-support": "^0.5.16"
   }

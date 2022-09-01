@@ -50,7 +50,7 @@ The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon Dyna
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the CarbonLake AWS Amplify Sample Web Application.
 
-Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Documentation]() and [Stack Outputs]()
+Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Documentation](lib/stacks/stack-api/README.md) and [Stack Outputs](#api-stack-outputs)
 
 ### Optional: AWS Amplify Sample Web Application
 
@@ -146,7 +146,7 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`quicksightUserName` Username for access to the carbon emissions dataset and dashboard.
 - Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
-Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/quicksight/documentation/README.md)
+Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
@@ -184,11 +184,34 @@ cdk deploy --all
 npm run deploy:cicd
 ```
 
-👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/ci-cd/gitlab-mirroring-aws-remove-later/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
+👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Optional: Set up the Amplify Web Application
 
-To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
+As a prerequisite you will need to install `jq` with `brew install jq` `apt-get install jq` `yum install -y jq` or another suitable method for package installation. For more on installing `jq` for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
+
+For quick setup follow the instructions below. For advanced manual setup instructions review [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md)
+
+#### Recommended: Quick Setup
+
+```sh
+cd <top-level-director-of-this-project>
+npm run web # make sure you wait and follow the prompts
+# after this runs go click on the link to your page
+```
+
+When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point.
+
+***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+
+![Cognito Login Page](front-end/carbonlake-ui-cloudscape/documentation/images/cognito-login.png)
+![CarbonLake Web Application](front-end/carbonlake-ui-cloudscape/documentation/images/carbonlake-ui.png)
+
+Success! At this point, you should successfully have the Amplify app working.
+
+#### Advanced: Manual Setup
+
+If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -212,11 +235,11 @@ You can destroy all stacks included in CarbonLake Quickstart with `cdk destroy -
 - S3 Buckets
 - Cognito User Pools
 
-### 5/ Work with outputs
+## Work with outputs
 
 The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs.
 
-#### Shared Resources Stack Outputs
+### Shared Resources Stack Outputs
 
 Shared resource stack outputs include:
 
@@ -226,7 +249,7 @@ Shared resource stack outputs include:
 - `CLQSDataLineageBucket`: Data lineage S3 bucket
 - `CLQSDataLineageBucketUrl`: Data lineage S3 bucket URL
 
-#### API Stack Outputs
+### API Stack Outputs
 
 -`CLQSuserPoolId`: Cognito user pool ID for authentication
 -`CLQidentityPoolId`: Cognito Identity pool ID for authentication
@@ -237,26 +260,26 @@ Shared resource stack outputs include:
 -`CLQSApiUsername`: GraphQL API admin username
 -`CLQSGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
 
-#### Data Pipeline Stack Outputs
+### Data Pipeline Stack Outputs
 
 -`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline.
 -`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline.
 -`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
 
-#### Quicksight Stack Outputs
+### Quicksight Stack Outputs
 
 -`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
 -`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards.
 -`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications.
 -`CLQSQuicksightUrl`: URL of Quicksight Dashboard.
 
-#### Sagemaker Notebook Stack Outputs
+### Sagemaker Notebook Stack Outputs
 
 -`CLQSSagemakerRepository`: Codecommit repository of sagemaker notebook.
 -`CLQSSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
 
-#### Test Stack Outputs
+### Test Stack Outputs
 
 -`CLQSe2eTestLambdaFunctionName`: Name of CarbonLake lambda test function.
 -`CLQSe2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
@@ -280,7 +303,7 @@ In your command line shell you should see confirmation of all resources deployin
 Time to test some data out and see if everything is working. This section assumes basic prerequisite knowledge of how to manually upload an object to S3 with the AWS console. For more on this please review [how to upload an object to S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
 
 - Go to the S3 console and locate your CarbonLake landing zone bucket it will be called `carbonlakepipelinestack-carbonlakelandingbucket` with a unique identifier appended to it
-- Upload [CarbonLakeQS Synthetic Input Data](sample-data/carbon-lake-synthetic-input-data.csv) to the S3 bucket manually
+- Upload [CarbonLakeQS Synthetic Input Data](sample-data/carbonlake-test-synthetic-input-data.csv) to the S3 bucket manually
 - This will kick trigger the pipeline kickoff lambda function and start the data pipeline step functions workflow -- continue!
 
 ### 3/ Take a look at the step functions workflow
@@ -339,7 +362,7 @@ Did that all work? Continue...
 
 ### 5/ Take a look at the Amplify Sample Web Application
 
-If you have not yet this is a great time to deploy the sample web application. Once you've run some data throught the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application.
+If you have not yet this is a great time to deploy the sample web application. Once you've run some data throught the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application.
 
 ### 6/ Try dropping some other sample data into the landing zone
 
@@ -575,7 +598,7 @@ The model below describes the standard output model from the carbonlake emission
 
 The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated July 2022.
 
-[GHG Protocol Lookup Table Model](lib/pipeline/calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
+[GHG Protocol Lookup Table Model](lib/stacks/stack-data-pipeline/calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
 
 Calculation methodologies are direct representations of the [World Resource Institute GHG Protocol scope 1, 2, and 3 guidance](https://ghgprotocol.org/guidance-0). To review calculation methodology and lookup tables please review the [CarbonLake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/calculator/README.md).
 
@@ -586,4 +609,4 @@ Calculation methodologies are direct representations of the [World Resource Inst
 
 ## 🔐 Security
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information. (TODO Implement this)
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.

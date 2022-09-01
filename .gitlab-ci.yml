@@ -19,7 +19,7 @@ variables:
   SHELL_SCRIPTS: bin/validate-config
 
 
-build-job:       # Validates that cdk will build, install dependencies, and that cdk with synth
+build-cdk:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   script:
@@ -31,6 +31,22 @@ build-job:       # Validates that cdk will build, install dependencies, and that
     - echo "Synthesizing CDK"
     - cdk synth
     - echo "Completed build check"
+
+build-amplify:       # Validates that cdk will build, install dependencies, and that cdk with synth
+  stage: build
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  script:
+    - node --version
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - cd front-end/carbonlake-ui-cloudscape
+    - pwd
+    - npm install
+    - wait
+    - npm run build
+    - wait
+    - echo "amplify test successful"
 
 tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
   stage: static
@@ -78,6 +94,8 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 amplify-test: # runs test of amplify app
   stage: web
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test

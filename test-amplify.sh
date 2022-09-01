@@ -2,7 +2,9 @@
 
 cd front-end/carbonlake-ui-cloudscape || exit
 pwd
-npm install 
+npm install
+wait
+npm run build
 wait
 
 set -e

@@ -39,18 +39,18 @@ When users are added to the above groups, they have the respective permissions g
 ***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CarbonLakeQuickstart**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CarbonlakeQuickstart** in the resource name.
 EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 
-## 🚀 Quick Setup Guide
+## Recommended: Quick Setup Guide
 
-For the simplest setup you will need to have access to a linux or unix shell. If you are running MacOS or Linux you don't need to do anything else. If you are working with Windows you will need to install a linux shell emulator. You will also need to install jq with `brew install jq` `apt-get install jq` or another suitable method for package installation. For more on installing jq for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
+For the simplest setup you will need to have access to a linux or unix shell. If you are running MacOS or Linux you don't need to do anything else. If you are working with Windows you will need to install a linux shell emulator such as WSL. If you are using windows either skip to the manual installation or make sure you have a way to execute shell script commands. You will also need to install jq with `brew install jq` `apt-get install jq` or another suitable method for package installation. For more on installing jq for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
 
 ### Instructions
 
 ```sh
 cd front-end/carbonlake-ui-cloudscape
-sh deploy-amplify-script.sh
+sh ampdeploy/scripts/deploy-amplify-script.sh
 ```
 
-## 🚀 Manual Setup Guide
+## Advanced: 🚀 Manual Setup Guide
 
 ### 1/ Check that CarbonLake Quickstart CDK has deployed
 
@@ -59,7 +59,7 @@ Ensure that the CDK for the quickstart has been deployed following all instructi
 ### 2/ Install dependencies
 
 ```sh
-cd front-end/carbonlake-ui/carbonlake-ui-cloudscape # navigate to the amplify app directory
+cd front-end/carbonlake-ui-cloudscape # navigate to the amplify app directory
 npm install # install amplify app dependencies
 ```
 
@@ -69,7 +69,7 @@ npm install # install amplify app dependencies
 amplify init # this initializes the amplify app and will prompt you for several inputs
 ```
 
-**(ENSURE YOU ARE IN THE ROOT of the app directory `front-end/carbonlake-ui/carbonlake-cloudscape-ui` and not in any sub directory
+**(ENSURE YOU ARE IN THE ROOT of the app directory `front-end/carbonlake-ui-cloudscape` and not in any sub directory
 
 ### 4/ Follow amplify setup prompts
 
@@ -104,8 +104,8 @@ You should see a cognito login page with input fields for an email address and p
 
 ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![image info](./images/cognito-login.png)
-![image info](./images/carbonlake-ui.png)
+![cognito login](./images/cognito-login.png)
+![carbonlake ui](./images/carbonlake-ui.png)
 
 Success! At this point, you should successfully have the Amplify app working.
 
@@ -115,7 +115,7 @@ Success! At this point, you should successfully have the Amplify app working.
 
 Navigate to the `Data Uploader` page. Browse for a file and click `Upload` (you must be signed in as a user in the Admin group to do this. If not, you will receive an error message).
 
-![image info](./images//data-uploader.png)
+![image info](./images/data-uploader.png)
 
 ### 2/ Check that your data is flowing properly to the dashboard
 
