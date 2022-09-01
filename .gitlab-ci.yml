@@ -77,6 +77,9 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 amplify-test: # runs test of amplify app
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  rules:
+    - changes:
+      - front-end # only runs when there are changes to the front-end directory
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
@@ -90,9 +93,13 @@ amplify-test: # runs test of amplify app
     - echo "Building with npm..."
     - npm run build
     - echo "Build complete."
+    - cdk bootstrap
     - cdk synth
+    - cdk deploy --all
+    - wait
     - echo "Starting Amplify test"
     - sh test-amplify.sh
+    - cdk destroy --all --force
     - echo "amplify test successful"
 
 end-to-end-test:   # runs e2e test

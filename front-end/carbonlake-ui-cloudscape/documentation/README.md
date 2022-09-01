@@ -39,7 +39,18 @@ When users are added to the above groups, they have the respective permissions g
 ***HINT***: in some resources launched by CDK will start with **clqs** - this stands for **CarbonLakeQuickstart**. When searching for resources deployed by CDK for the quickstart, resources should begin with **clqs** or include **CarbonlakeQuickstart** in the resource name.
 EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 
-## 🚀 Setup Guide
+## 🚀 Quick Setup Guide
+
+For the simplest setup you will need to have access to a linux or unix shell. If you are running MacOS or Linux you don't need to do anything else. If you are working with Windows you will need to install a linux shell emulator. You will also need to install jq with `brew install jq` `apt-get install jq` or another suitable method for package installation. For more on installing jq for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
+
+### Instructions
+
+```sh
+cd front-end/carbonlake-ui-cloudscape
+sh deploy-amplify-script.sh
+```
+
+## 🚀 Manual Setup Guide
 
 ### 1/ Check that CarbonLake Quickstart CDK has deployed
 
