@@ -83,7 +83,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - npm ci
     - echo "succesfully installed package dependencies!"
