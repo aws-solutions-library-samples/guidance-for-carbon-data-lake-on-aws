@@ -35,9 +35,6 @@ build-cdk:       # Validates that cdk will build, install dependencies, and that
 build-amplify:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
-  rules:
-    - changes:
-        - front-end/carbonlake-ui-cloudscape/**/*
   script:
     - node --version
     - npm ci
