@@ -192,7 +192,7 @@ As a prerequisite you will need to install `jq` with `brew install jq` `apt-get 
 
 For quick setup follow the instructions below. For advanced manual setup instructions review [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md)
 
-#### Quick Setup
+#### Recommended: Quick Setup
 
 ```sh
 cd <top-level-director-of-this-project>
@@ -209,7 +209,9 @@ When you open the web application in your browser you should see a cognito login
 
 Success! At this point, you should successfully have the Amplify app working.
 
-To really test out the CarbonLake Quickstart please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
+#### Advanced: Manual Setup
+
+If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -233,11 +235,11 @@ You can destroy all stacks included in CarbonLake Quickstart with `cdk destroy -
 - S3 Buckets
 - Cognito User Pools
 
-### 5/ Work with outputs
+## Work with outputs
 
 The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs.
 
-#### Shared Resources Stack Outputs
+### Shared Resources Stack Outputs
 
 Shared resource stack outputs include:
 
@@ -247,7 +249,7 @@ Shared resource stack outputs include:
 - `CLQSDataLineageBucket`: Data lineage S3 bucket
 - `CLQSDataLineageBucketUrl`: Data lineage S3 bucket URL
 
-#### API Stack Outputs
+### API Stack Outputs
 
 -`CLQSuserPoolId`: Cognito user pool ID for authentication
 -`CLQidentityPoolId`: Cognito Identity pool ID for authentication
@@ -258,26 +260,26 @@ Shared resource stack outputs include:
 -`CLQSApiUsername`: GraphQL API admin username
 -`CLQSGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
 
-#### Data Pipeline Stack Outputs
+### Data Pipeline Stack Outputs
 
 -`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline.
 -`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline.
 -`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
 
-#### Quicksight Stack Outputs
+### Quicksight Stack Outputs
 
 -`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
 -`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards.
 -`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications.
 -`CLQSQuicksightUrl`: URL of Quicksight Dashboard.
 
-#### Sagemaker Notebook Stack Outputs
+### Sagemaker Notebook Stack Outputs
 
 -`CLQSSagemakerRepository`: Codecommit repository of sagemaker notebook.
 -`CLQSSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
 
-#### Test Stack Outputs
+### Test Stack Outputs
 
 -`CLQSe2eTestLambdaFunctionName`: Name of CarbonLake lambda test function.
 -`CLQSe2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.

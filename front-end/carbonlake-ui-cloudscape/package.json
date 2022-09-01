@@ -23,7 +23,6 @@
     "@cloudscape-design/theming-runtime": "^1.0.1",
     "aws-amplify": "^4.3.33",
     "child_process": "^1.0.2",
-    "jq": "^1.7.2",
     "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
