@@ -41,7 +41,7 @@ EX: clqsAdminUserRoleB570F25-PONQFPYKOOBAB
 
 ## 🚀 Quick Setup Guide
 
-For the simplest setup you will need to have access to a linux or unix shell. If you are running MacOS or Linux you don't need to do anything else. If you are working with Windows you will need to install a linux shell emulator. You will also need to install jq with `brew install jq` `apt-get install jq` or another suitable method for package installation. For more on installing jq for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
+For the simplest setup you will need to have access to a linux or unix shell. If you are running MacOS or Linux you don't need to do anything else. If you are working with Windows you will need to install a linux shell emulator such as WSL. If you are using windows either skip to the manual installation or make sure you have a way to execute shell script commands. You will also need to install jq with `brew install jq` `apt-get install jq` or another suitable method for package installation. For more on installing jq for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
 
 ### Instructions
 
