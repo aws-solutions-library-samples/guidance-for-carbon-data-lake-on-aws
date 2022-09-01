@@ -79,7 +79,7 @@ amplify-test: # runs test of amplify app
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - changes:
-      - front-end/**/*/ # only runs when there are changes to the front-end directory
+      - carbonlake-ui-cloudscape/**/*/ # only runs when there are changes to the front-end directory
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
