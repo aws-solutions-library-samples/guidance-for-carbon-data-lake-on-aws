@@ -9,6 +9,7 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - static
+  - web
   - validate
   - deploy
 
@@ -75,7 +76,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     - echo "Completed CDK nag check"
 
 amplify-test: # runs test of amplify app
-  stage: static
+  stage: web
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   script:
     - aws --version
