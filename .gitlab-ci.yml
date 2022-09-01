@@ -83,7 +83,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - npm ci
     - echo "succesfully installed package dependencies!"
@@ -98,7 +98,7 @@ amplify-test: # runs test of amplify app
   stage: web
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
@@ -125,7 +125,7 @@ end-to-end-test:   # runs e2e test
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
@@ -149,7 +149,7 @@ cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
   script:
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
