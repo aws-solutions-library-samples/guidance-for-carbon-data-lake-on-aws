@@ -10,6 +10,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - static
   - web
+  - infra
   - validate
   - deploy
 
@@ -94,8 +95,9 @@ cdk-nag-job:   # runs cdk-nag script in test stage
 amplify-test: # runs test of amplify app
   stage: web
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'main'
+  only:
+    changes:
+      - front-end/carbonlake-ui-cloudscape/*/**
   script:
     - aws --version
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
@@ -119,7 +121,7 @@ amplify-test: # runs test of amplify app
     - echo "amplify test successful"
 
 end-to-end-test:   # runs e2e test
-  stage: static
+  stage: infra
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
@@ -143,7 +145,7 @@ end-to-end-test:   # runs e2e test
     - echo "e2e test successful"
 
 cdkitten-deploy-job:      # Runs cdkitten deployment job in test AWS accounts
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  stage: validate  # It only runs when *both* jobs in the test stage complete successfully.
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
