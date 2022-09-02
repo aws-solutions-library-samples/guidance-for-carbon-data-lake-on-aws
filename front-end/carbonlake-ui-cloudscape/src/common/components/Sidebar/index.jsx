@@ -1,21 +1,25 @@
 import React from 'react'
 import { useState } from 'react'
-// import { SideNavigation } from '@awsui/components-react';
-import { SideNavigation } from '@cloudscape-design/components';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import  { SideNavigation,  Badge } from '@cloudscape-design/components';
+
 const Sidebar = () => {
-  const [activeHref, setActiveHref] = useState('/');
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <>
   <SideNavigation
-  // TODO - Make active link work for navigation
-    activeHref={activeHref}
+
+    activeHref={location.pathname}
     header={{ text: 'AWS CarbonLake', href: '/' }}
-    // onFollow={event => {
-    //   if (!event.detail.external) {
-    //     event.preventDefault();
-    //     setActiveHref(event.detail.href);
-    //   }
-    // }}
+    onFollow={event => {
+      if (!event.detail.external) {
+        event.preventDefault();
+        // setActiveHref(event.detail.href);
+        navigate(event.detail.href);
+
+      }
+    }}
     items={[
       // { type: "link", text: "Dashboard", href: "/" },
       {
@@ -53,43 +57,25 @@ const Sidebar = () => {
         items: [
           { type: 'link', text: 'Emission Records', href: '/emission-records' },
           { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
-          // { type: 'link', text: 'Decarb Intelligence', href: '/decarb-intelligence' },
-          // { type: 'link', text: 'Visualizations', href: '/visualizations' },
         ]
       },
-      // {
-      //   type: 'section',
-      //   text: 'Data Quality',
-      //   expanded: true,
-      //   items: [
-      //     { type: 'link', text: 'Metrics', href: '/metrics' },
-      //     { type: 'link', text: 'Model Editor', href: '/model-editor' },
-      //     { type: 'link', text: 'Alerts', href: '/dq-alerts' },
-      //   ]
-      // },
-      // {
-      //   type: 'section',
-      //   text: 'Forecasting',
-      //   expanded: true,
-      //   items: [
-      //     { type: 'link', text: 'Models', href: '/forecasting-models' },
-      //     { type: 'link', text: 'Training', href: '/forecasting-model-training' },
-      //   ]
-      // },
-      // {
-      //   type: 'section',
-      //   text: 'Data Exchange',
-      //   expanded: true,
-      //   items: [
-      //     { type: 'link', text: 'AWS Data Exchange', href: '/aws-data-exchange' },
-      //     { type: 'link', text: 'ASDI', href: '/asdi' },
-      //     { type: 'link', text: 'Data Marketplace', href: '/data-marketplace' },
-      //   ]
-      // },
-      // { type: "link", text: "Logout", href: "/" },
+      // Example of notifications in sidebar, uncomment this if not needed
+      {
+        type: "link",
+        text: "Notifications",
+        href: "#/notifications",
+        info: <Badge color="red">8</Badge>
+      },
+      {
+        type: "link",
+        text: "Documentation",
+        // href: "https://example.com",
+        external: true
+      }
+
 
     ]}
-    // activeHref="#/carbonlake-101"
+
     />
     </>
   )
