@@ -10,7 +10,6 @@ sample-pages/*
 sample-pages/
 
 #amplify-do-not-edit-begin
-amplify/
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
