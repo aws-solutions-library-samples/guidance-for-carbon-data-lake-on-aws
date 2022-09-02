@@ -95,7 +95,7 @@ The following list of limitations covers current known functional limitations as
 
 ## 💲 Cost and Licenses
 
-You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start.  
+You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start.
 
 The AWS CloudFormation templates for this Quick Start include configuration parameters that you can customize. Some of these settings, such as instance type, affect the cost of deployment. For cost estimates, see the pricing pages for each AWS service you use. Prices are subject to change.
 
@@ -204,14 +204,14 @@ When you open the web application in your browser you should see a cognito login
 
 ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![Cognito Login Page](front-end/carbonlake-ui-cloudscape/documentation/images/cognito-login.png)
-![CarbonLake Web Application](front-end/carbonlake-ui-cloudscape/documentation/images/carbonlake-ui.png)
+![Cognito Login Page](front-end/carbonlake-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
+![CarbonLake Web Application](front-end/carbonlake-ui-cloudscape/documentation/images/CarbonLake101.png)
 
 Success! At this point, you should successfully have the Amplify app working.
 
 #### Advanced: Manual Setup
 
-If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
+If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -294,7 +294,7 @@ In your command line shell you should see confirmation of all resources deployin
 
 ```json
 
-"application": "carbonlake" 
+"application": "carbonlake"
 
 ```
 
@@ -459,10 +459,10 @@ To add additional features to CarbonLake we recommend developing your own stack 
     // Now create a new stack to deploy within the application
     const stackName = new YourStackName(app, "YourStackTitle", {
         // these are props that serve as an input to your stack
-        // these are optional, but could include things like S3 bucket names or other outputs of other stacks. 
+        // these are optional, but could include things like S3 bucket names or other outputs of other stacks.
         // For more on this see the stack output section above.
         yourStackProp1: prop1,
-        yourStackProp2: prop2, 
+        yourStackProp2: prop2,
         env: appEnv // be sure to include this environment prop
     })
     ```
@@ -485,7 +485,7 @@ export interface MySecondStackProps extends StackProps {
 
 // Now access it as a prop where you need it within the stack 👇
 this.myStackObject = new ec2.SecurityGroup(this, 'ec2SecurityGroup', {
-            props.vpc, 
+            props.vpc,
             allowAllOutbound: true,
         });
 
@@ -519,16 +519,16 @@ The model below describes the required schema for input to the CarbonLake calcul
 ```json
 {
     "activity_event_id": "customer-CarbonLake-12345",
-    "asset_id": "vehicle-1234", 
+    "asset_id": "vehicle-1234",
     "geo": {
         "lat": 45.5152,
         "long": 122.6784
     },
-    "origin_measurement_timestamp":"2022-06-26 02:31:29", 
+    "origin_measurement_timestamp":"2022-06-26 02:31:29",
     "scope": 1,
     "category": "mobile-combustion",
     "activity": "Diesel Fuel - Diesel Passenger Cars",
-    "source": "company_fleet_management_database", 
+    "source": "company_fleet_management_database",
     "raw_data": 103.45,
     "units": "gal"
 }
