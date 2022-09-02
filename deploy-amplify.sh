@@ -12,6 +12,7 @@ wait
 set -e
 IFS='|'
 AWS_REGION=$(jq -r '.SharedResources.CLQSAwsRegion' ../../cdk-outputs.json)
+API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
 
 REACTCONFIG="{\
 \"SourceDir\":\"src\",\
@@ -39,6 +40,8 @@ FRONTEND="{\
 PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
+
+amplify add codegen --"$API_ID"
 
 amplify init \
 --amplify $AMPLIFY \

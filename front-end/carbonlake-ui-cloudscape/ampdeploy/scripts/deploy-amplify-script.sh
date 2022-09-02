@@ -37,6 +37,9 @@ PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
 
+API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
+amplify add codegen --"$API_ID"
+
 amplify init \
 --amplify $AMPLIFY \
 --frontend $FRONTEND \
