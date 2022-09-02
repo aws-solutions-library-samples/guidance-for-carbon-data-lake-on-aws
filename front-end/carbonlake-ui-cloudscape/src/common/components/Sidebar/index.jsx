@@ -55,7 +55,7 @@ const Sidebar = () => {
         text: 'Data Explorer',
         expanded: true,
         items: [
-          { type: 'link', text: 'Emission Records', href: '/emission-records' },
+          { type: 'link', text: 'Emission Records', href: '/emissions-records' },
           { type: 'link', text: 'Data Uploader', href: '/data-uploader' },
         ]
       },

@@ -17,7 +17,7 @@ import SetupGuide from './SetupGuide';
 import DataUploader from './DataUploader/index.jsx';
 import AccountSettings from './AccountSettings';
 import ErrorPage from './ErrorPage'
-import TCAJobs from './EmissionsRecords';
+import EmissionsRecords from './EmissionsRecords';
 import FetchUserDetails from '../common/components/FetchUserDetails/index.jsx';
 ;
 
@@ -51,7 +51,7 @@ const App = ({signOut, user}) => {
               <Route  path="/setup-guide" element={<SetupGuide />} />
               <Route  path="/data-uploader" element={<DataUploader />} />
               <Route  path="/account-settings" element={<AccountSettings />} />
-              <Route path="/emission-records" element={<TCAJobs />} />
+              <Route path="/emissions-records" element={<EmissionsRecords />} />
               <Route path = "*" element = {<ErrorPage />} />
           </Routes>
       {/* </Router> */}

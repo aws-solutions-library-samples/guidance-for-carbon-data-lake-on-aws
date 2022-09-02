@@ -263,7 +263,7 @@ export const EmissionsTableEmptyState = ({ resourceName }) => {
         <div>
           <b>No {resourceName}s</b>
           <Box variant="p" color="inherit">
-            No {resourceName}s found. Click 'Create {resourceName}' to start the pipeline.
+            No {resourceName} found. Click 'Create {resourceName}' to start the pipeline.
           </Box>
         </div>
         <Button onClick={() => navigate("/data-uploader")}>Create {resourceName}</Button>

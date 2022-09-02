@@ -184,7 +184,7 @@ const Content = () => {
             {
               type: "success",
               content: `File: ${files.name} has been successfully uploaded.`,
-              action: <Button onClick={() => navigate("/emission-records")}>View Emission Records</Button>, // TODO - make this nav to TCA jobs page
+              action: <Button onClick={() => navigate("/emissions-records")}>View Emission Records</Button>, // TODO - make this nav to TCA jobs page
               dismissible: true,
               dismissLabel: "Dismiss message",
               // onDismiss: () => {setItems([]); setShowSuccessFlashbar(false)},

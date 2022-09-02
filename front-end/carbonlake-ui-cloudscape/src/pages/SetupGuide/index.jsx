@@ -97,7 +97,7 @@ const Content = () => {
                   <li>
                     This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
                     The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
-                    Once finished, the file contents will be be visible in the <a href="/emission-records" > Emission Records</a> page.
+                    Once finished, the file contents will be be visible in the <a href="/emissions-records" > Emission Records</a> page.
                     runs, view the <a target="_blank" rel="noopener noreferrer" href="https://console.aws.amazon.com/states/home?region=us-east-1" > Step Function in the AWS Console</a>.
 
                   </li>
