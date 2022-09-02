@@ -1,4 +1,4 @@
-# CarbonLake Amplify App Documentation
+# CarbonLake Web Application Documentation
 
 ## 👋 Introduction
 
