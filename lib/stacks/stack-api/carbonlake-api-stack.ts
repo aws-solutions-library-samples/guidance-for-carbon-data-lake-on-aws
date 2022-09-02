@@ -389,12 +389,13 @@ export class CLQSApiStack extends Stack {
     })
 
     // Create a resolver for deleting a record by the activity_event_id
-    datasource.createResolver({
-      typeName: 'Mutation',
-      fieldName: 'delete',
-      requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
-      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    })
+    // Commented out. Uncomment if you wish to use.
+    //datasource.createResolver({
+      //typeName: 'Mutation',
+      //fieldName: 'delete',
+      //requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
+      //responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
+    //})
 
     // -- Outputs --
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables

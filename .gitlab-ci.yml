@@ -11,6 +11,7 @@ stages:          # List of stages for jobs, and their order of execution
   - static
   - web
   - infra
+  - functional
   - validate
   - deploy
 
@@ -120,8 +121,38 @@ amplify-test: # runs test of amplify app
     - cdk destroy --all --force
     - echo "amplify test successful"
 
-end-to-end-test:   # runs e2e test
+cdk-test: # runs test of amplify app
   stage: infra
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  only:
+    changes:
+      - lib/*/**
+      - bin/*/**
+      - cdk.json
+  script:
+    - aws --version
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
+    - aws configure set region $AWS_DEFAULT_REGION --profile test
+    - export AWS_PROFILE=test
+    - echo $AWS_PROFILE
+    - node --version
+    - npm ci
+    - echo "succesfully installed package dependencies!"
+    - echo "Building with npm..."
+    - npm run build
+    - echo "Build complete."
+    - cdk bootstrap
+    - cdk synth
+    - cdk deploy --all
+    - wait
+    - echo "Starting Amplify test"
+    - sh test-amplify.sh
+    - cdk destroy --all --force
+    - echo "amplify test successful"
+
+end-to-end-test:   # runs e2e test
+  stage: functional
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   rules:
     - if: $CI_COMMIT_BRANCH == 'main'
