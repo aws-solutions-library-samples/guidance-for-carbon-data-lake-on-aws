@@ -7,7 +7,7 @@ import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
 interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProps {
-  glueCompactionJobName: any
+  glueCompactionJobName: string
   glueDataFlushJobName: any
   glueHistoricalCalculatorCrawlerName: any
   createIndividualAthenaViewsLambda: lambda.Function

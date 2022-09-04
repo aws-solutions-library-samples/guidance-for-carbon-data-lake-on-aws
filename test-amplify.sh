@@ -45,5 +45,8 @@ amplify init \
 --yes
 wait
 
+API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
+amplify add codegen --apiId "$API_ID"
+
 amplify delete --force
 echo '🥳 Success! You were able to deploy the Amplify App successfully to localhost and then delete it!'

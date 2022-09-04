@@ -34,5 +34,26 @@
     "ExportsOutputFnGetAttCLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource97A834ABOutputsDataPipelineStackCLQSCalculatorStackcarbonLakeCalculatorHandler333AB52DArn091AF17B": "arn:aws:lambda:us-east-1:829599872203:function:DataPipelineStack-CLQSCal-carbonLakeCalculatorHand-30eE2RQD72fZ",
     "ExportsOutputRefCLQSLandingBucketAE4C707E6307F438": "datapipelinestack-clqslandingbucketae4c707e-1b3hrpky0oqu2",
     "ExportsOutputFnGetAttCLQSLandingBucketAE4C707EArnBF111D11": "arn:aws:s3:::datapipelinestack-clqslandingbucketae4c707e-1b3hrpky0oqu2"
+  },
+  "ApiStack": {
+    "adminUsername": "carbonlake-quickstart@amazon.com",
+    "graphqueryTestUrl": "https://us-east-1.console.aws.amazon.com/appsync/home?region=us-east-1#/vtbx37wvlvepjgrwvgafkz34uq/v1/queries",
+    "CLQSuserPoolId": "us-east-1_BrgkZ6e3n",
+    "graphqlUrl": "https://nn4jyt2nine53arvmv3uakntiy.appsync-api.us-east-1.amazonaws.com/graphql",
+    "apiEndpoint": "https://nn4jyt2nine53arvmv3uakntiy.appsync-api.us-east-1.amazonaws.com/graphql",
+    "userPoolClientId": "2s54o2h7l4cuvki5s3hfmpg49j",
+    "ExportsOutputFnGetAttclqsApiFC5F2A48ApiId47759854": "vtbx37wvlvepjgrwvgafkz34uq",
+    "userPoolId": "us-east-1_BrgkZ6e3n",
+    "identityPoolId": "us-east-1:6a39de4c-8065-4b18-aa50-ecf757cfd0ef",
+    "clqsStandardUserRoleOutput": "arn:aws:iam::829599872203:role/ApiStack-clqsStandardUserRoleB6D3748F-I8T81BVD69KC",
+    "apiId": "vtbx37wvlvepjgrwvgafkz34uq",
+    "clqsAdminUserRoleOutput": "arn:aws:iam::829599872203:role/ApiStack-clqsAdminUserRoleB570F259-CFX7ZHYPWM7B"
+  },
+  "CLQSTest": {
+    "CLQSe2eTestLambdaConsoleLink": "https://us-east-1.console.aws.amazon.com/lambda/home?us-east-1#/functions/CLQSTest-carbonlakePipelineTestLambdaFD2F9954-BZf03W7365x0?tab=code",
+    "CLQSe2eTestLambdaFunctionName": "CLQSTest-carbonlakePipelineTestLambdaFD2F9954-BZf03W7365x0"
+  },
+  "WebStack": {
+    "CLQSAmplifyRepository": "repo"
   }
 }
