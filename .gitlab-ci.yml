@@ -7,6 +7,7 @@
 
 
 stages:          # List of stages for jobs, and their order of execution
+  - docs
   - build
   - static
   - web
@@ -20,6 +21,13 @@ variables:
   TS_SCRIPTS: bin/stats
   SHELL_SCRIPTS: bin/validate-config
 
+build-docs:
+  stage: docs
+  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
+  script:
+    - echo "Convert all docs to asciidocs"
+    - echo "push them to docs-edit repo branch"
+    - echo "done!"
 
 build-cdk:       # Validates that cdk will build, install dependencies, and that cdk with synth
   stage: build

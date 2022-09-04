@@ -3,5 +3,6 @@
   "quicksightUserName": "carbonlake-quickstart@amazon.com",
   "repoBranch": "main",
   "deployQuicksightStack": false,
-  "deploySagemakerStack": false
+  "deploySagemakerStack": false,
+  "deployWebStack": true
 }

@@ -36,10 +36,28 @@ export class CLQSWebStack extends cdk.Stack {
 
     });
 
-    new CfnOutput(this, 'CLQSAmplifyRepository', {
-      value: "repo",
-      description: 'CLQSAmplifyRepository',
-      exportName: 'CLQSAmplifyRepository'
+    new CfnOutput(this, 'CLQSWebAppRepositoryCloneUrl', {
+      value: this.amplifyDeployment.repository.repositoryCloneUrlHttp,
+      description: 'CLQSWebAppRepository',
+      exportName: 'CLQSWebAppRepository'
+    });
+
+    new CfnOutput(this, 'CLQSWebAppId', {
+      value: this.amplifyDeployment.amplifyApp.appId,
+      description: 'CLQSWebAppRepository',
+      exportName: 'CLQSWebAppRepository'
+    });
+
+    new CfnOutput(this, 'CLQSAmplifyLink', {
+      value: `https://${this.amplifyDeployment.amplifyApp.env.region}.console.aws.amazon.com/amplify/home?region=${this.amplifyDeployment.amplifyApp.env.region}#/${this.amplifyDeployment.amplifyApp.appName}`,
+      description: 'CLQSAmplifyLink',
+      exportName: 'CLQSAmplifyLink'
+    });
+
+    new CfnOutput(this, 'CLQSWebAppDomain', {
+      value: this.amplifyDeployment.amplifyApp.defaultDomain,
+      description: 'CLQSAmplifyLink',
+      exportName: 'CLQSAmplifyLink'
     });
 
   cdk.Tags.of(this).add("component", "amplifyDeployment");

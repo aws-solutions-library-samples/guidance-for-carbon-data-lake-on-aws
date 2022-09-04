@@ -200,7 +200,7 @@ For quick setup follow the instructions below. For advanced manual setup instruc
 
 If you are reading this it is because you deployed the CarbonLake Quickstart Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
-1. Visit the [AWS Amplify Console]()
+1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify
 2. Initiate the build process --> select your application and select "start build"
 3. Visit your live web application --> click on the link in the Amplify console
    When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point.
