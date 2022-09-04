@@ -38,8 +38,7 @@ PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
 
-API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
-amplify add codegen --"$API_ID"
+
 
 amplify init \
 --amplify $AMPLIFY \
@@ -47,6 +46,9 @@ amplify init \
 --providers $PROVIDERS \
 --yes
 wait
+
+API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
+amplify add codegen --apiId "$API_ID"
 
 amplify delete --force
 echo '🥳 Success! You were able to deploy the Amplify App successfully to localhost and then delete it!'

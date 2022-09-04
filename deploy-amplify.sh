@@ -6,13 +6,13 @@ cd front-end/carbonlake-ui-cloudscape
 pwd
 npm install
 wait
-npm run build
-wait
+
 
 set -e
 IFS='|'
 AWS_REGION=$(jq -r '.SharedResources.CLQSAwsRegion' ../../cdk-outputs.json)
 API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
+echo "Your API ID is: $API_ID"
 
 REACTCONFIG="{\
 \"SourceDir\":\"src\",\
@@ -41,13 +41,32 @@ PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
 }"
 
-amplify add codegen --"$API_ID"
+CODEGEN="{\
+\"generateCode\":true,\
+\"codeLanguage\":\"typescript\",\
+\"fileNamePattern\":\"src/graphql/**/*.js\",\
+\"generatedFileName\":\"API\",\
+\"generateDocs\":true\
+}"
 
 amplify init \
 --amplify $AMPLIFY \
 --frontend $FRONTEND \
 --providers $PROVIDERS \
 --yes
+wait
+
+
+API_ID=$(jq -r '.ApiStack.apiId' ../../cdk-outputs.json)
+amplify add codegen --apiId "$API_ID" --yes
+wait
+
+amplify push \
+--codegen $CODEGEN \
+--yes
+echo "Added codegen api!"
+
+npm run build
 wait
 
 echo '🥳  Success! You were able to deploy the Amplify App to localhost successfully!'

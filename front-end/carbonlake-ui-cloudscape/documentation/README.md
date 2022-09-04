@@ -94,7 +94,15 @@ Your project has been successfully initialized and connected to the cloud!
 ```
 When deploying the CarbonLake QuickStart CDK, a Cognito user pool `CarbonLakeQuickStartUserPool`, Identity pool `CarbonLakeQuickStartIdentityPool`, and GraphQL API `CarbonLakeApi` will be deployed automatically, so **do not**  run the command `amplify add api` or `amplify add auth`. These resources will be imported from `cdk-outputs.json`
 
-### 6/ Start your AWS Amplify application running on localhost
+### 6/ Generate the Appsync GraphQL Helper Code
+
+```javascript
+amplify add codegen --apiId <get api id from cdk-outputs.json file>
+```
+
+You should receive a success message and be prompted to choose the code generation language target. You may also optionally enter the file name pattern for queries, mutations and subscriptions (default will be `src/grapql/**/*.js*`. When prompted choose **'Y'** to generate/update all possible GraphQL operations. For maximum statement depth, choose the number that suits the complexity of your statement. For our testing we used **'2'**.
+
+### 7/ Start your AWS Amplify application running on localhost
 
 ```sh
 npm start
@@ -104,10 +112,14 @@ You should see a cognito login page with input fields for an email address and p
 
 ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![cognito login](./images/cognito-login.png)
-![carbonlake ui](./images/carbonlake-ui.png)
-
 Success! At this point, you should successfully have the Amplify app working.
+
+### 8/ Add Amplify Hosting & Publish
+
+```sh
+amplify add hosting
+amplify publish
+```
 
 ## 🥳 Usage
 
