@@ -1,10 +1,7 @@
-"use strict";
-/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOne = exports.all = void 0;
-exports.all = `
+
+export const all = /* GraphQL */ `
   query All($limit: Int, $nextToken: String) {
     all(limit: $limit, nextToken: $nextToken) {
       items {
@@ -24,7 +21,7 @@ exports.all = `
     }
   }
 `;
-exports.getOne = `
+export const getOne = /* GraphQL */ `
   query GetOne($activity_event_id: String!) {
     getOne(activity_event_id: $activity_event_id) {
       activity_event_id

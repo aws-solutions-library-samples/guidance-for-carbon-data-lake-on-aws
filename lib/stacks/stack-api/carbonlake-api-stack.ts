@@ -55,6 +55,7 @@ export class CLQSApiStack extends Stack {
   public readonly clqsUnAuthRole: Role
   public readonly clqsAdminUserRoleManagedPolicy: ManagedPolicy
   public readonly clStandardUserRoleManagedPolicy: ManagedPolicy
+  public readonly clqsIdentityPool: CfnIdentityPool
   
 
   constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
@@ -129,7 +130,7 @@ export class CLQSApiStack extends Stack {
     //         ],
     //     });
     // -- COGNITO IDENTITY POOL
-    const clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
+    this.clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
       identityPoolName: 'clqsIdentityPool',
       allowUnauthenticatedIdentities: false,
       cognitoIdentityProviders: [
@@ -148,7 +149,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -168,7 +169,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'unauthenticated',
@@ -188,7 +189,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -221,7 +222,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -252,7 +253,7 @@ export class CLQSApiStack extends Stack {
     const identityProviderUrl = `cognito-idp.${clqsRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`
 
     new CfnIdentityPoolRoleAttachment(this, 'identity-pool-role-attachment', {
-      identityPoolId: clqsIdentityPool.ref,
+      identityPoolId: this.clqsIdentityPool.ref,
       roles: {
         authenticated: this.clqsAuthRole.roleArn,
         unauthenticated: this.clqsUnAuthRole.roleArn,
@@ -411,7 +412,7 @@ export class CLQSApiStack extends Stack {
     })
     
     new CfnOutput(this, 'identityPoolId', { 
-      value: clqsIdentityPool.ref,
+      value: this.clqsIdentityPool.ref,
       exportName: 'CLQidentityPoolId'
     })
 

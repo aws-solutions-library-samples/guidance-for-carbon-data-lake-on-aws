@@ -119,7 +119,7 @@ console.log(`Web deployment option is set to: ${webOption}`)
       env: appEnv,
       apiId: apiStack.apiId,
       graphqlUrl: apiStack.graphqlUrl,
-      identityPoolId: apiStack.identityPool.identityPoolId,
+      identityPoolId: apiStack.clqsIdentityPool.ref,
       userPoolId: apiStack.userPool.userPoolId,
       userPoolWebClientId: apiStack.userPoolClient.userPoolClientId,
       landingBucketName: dataPipeline.carbonlakeLandingBucket.bucketName

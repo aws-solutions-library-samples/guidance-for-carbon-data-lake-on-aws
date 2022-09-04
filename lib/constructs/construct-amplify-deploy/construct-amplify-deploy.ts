@@ -19,21 +19,22 @@ interface AmplifyDeployProps {
 export class AmplifyDeploy extends Construct {
   public repository: codecommit.Repository;
   public amplifyApp: Amplify.App;
+  public repositoryNameString: string;
 
   constructor(scope: Construct, id: string, props: AmplifyDeployProps) {
     super(scope, id)
         
 
-        const repository = new codecommit.Repository(this, 'AmplifyCodeCommitRepository', {
+        this.repository = new codecommit.Repository(this, 'AmplifyCodeCommitRepository', {
             repositoryName: props.repoName,
             description: "Amplify Web Application Deployment Repository",
             code: codecommit.Code.fromDirectory(props.appPath, 'dev'),
         });
 
-        const amplifyApp = new Amplify.App(this, 'CarbonLakeQSWebApp', {
+        this.amplifyApp = new Amplify.App(this, 'CarbonLakeQSWebApp', {
           description: "Sample AWS Amplify Application for CarbonLake Quickstart Development Kit",
           sourceCodeProvider: new Amplify.CodeCommitSourceCodeProvider({
-            repository: repository
+            repository: this.repository
           },
           ),
           environmentVariables: {
@@ -47,8 +48,9 @@ export class AmplifyDeploy extends Construct {
           }
         })
 
-        const devBranch = amplifyApp.addBranch('dev');
 
-        amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
+        const devBranch = this.amplifyApp.addBranch('dev');
+
+        this.amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
     }
 }

@@ -36,8 +36,8 @@ export class CLQSWebStack extends cdk.Stack {
 
     });
 
-    new CfnOutput(this, 'CLQSWebAppRepositoryCloneUrl', {
-      value: this.amplifyDeployment.repository.repositoryCloneUrlHttp,
+    new CfnOutput(this, 'CLQSWebAppRepositoryLink', {
+      value: `www.${this.amplifyDeployment.repository.repositoryName}.com`,
       description: 'CLQSWebAppRepository',
       exportName: 'CLQSWebAppRepository'
     });
