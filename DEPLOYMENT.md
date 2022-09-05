@@ -62,9 +62,13 @@ Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
+Review the [Amazon Quicksight Stack](lin/stacks/stack-quicksight/../../../README.md)
+
 ### Optional: Sagemaker Notebook Instance with pre-built Machine Learning notebook
 
 A pre-built machine learning notebook is deployed on an Amazon Sagemaker Notebook EC2 instance with `.ipynb` and pre-built prompts and functions.
+
+Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook.ts).
 
 ### Sample Data Collection for Testing
 
