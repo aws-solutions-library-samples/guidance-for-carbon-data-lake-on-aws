@@ -110,8 +110,6 @@ cdk-test: # runs test of amplify app
     - cdk synth
     - cdk deploy --all
     - wait
-    - echo "Starting Amplify test"
-    - sh test-amplify.sh
     - cdk destroy --all --force
     - echo "amplify test successful"
 
