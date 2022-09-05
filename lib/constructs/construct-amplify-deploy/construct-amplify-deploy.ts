@@ -20,6 +20,7 @@ export class AmplifyDeploy extends Construct {
   public repository: codecommit.Repository;
   public amplifyApp: Amplify.App;
   public repositoryNameString: string;
+  public branchOutput: any;
 
   constructor(scope: Construct, id: string, props: AmplifyDeployProps) {
     super(scope, id)
@@ -50,6 +51,8 @@ export class AmplifyDeploy extends Construct {
 
 
         const devBranch = this.amplifyApp.addBranch('dev');
+
+        this.branchOutput = devBranch.branchName;
 
         this.amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
     }

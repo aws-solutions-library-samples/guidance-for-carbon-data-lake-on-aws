@@ -50,13 +50,13 @@ The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon Dyna
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the CarbonLake AWS Amplify Sample Web Application.
 
-Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Documentation](lib/stacks/stack-api/README.md) and [Stack Outputs](#api-stack-outputs)
+Review the [AppSync GraphQL API Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts), [Documentation](lib/stacks/stack-api/README.md), and [Stack Outputs](#api-stack-outputs)
 
 ### Optional: AWS Amplify Sample Web Application
 
-An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront. The AWS Amplify application references the outputs of a full successful CarbonLake Quickstart deployment and requires additional manual deployment steps outlines in the associated module README file.
+An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful CarbonLake Quickstart Application deployment. The AWS Amplify Web Application depends on the core CarbonLake Quickstart components.
 
-Review the [Sample Web Application Stack](front-end/carbonlake-ui-cloudscape/) and [Documentation](front-end/carbonlake-ui-cloudscape/documentation/README.md)
+Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.ts) and [Stack Outputs](#web-stack-outputs).
 
 ### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
 
@@ -192,48 +192,41 @@ npm run deploy:cicd
 
 ### 4/ Optional: Set up the Amplify Web Application
 
-If you have chosen to deploy the optional Web Application by setting `deployWebStack: true` in the `cdk.context.json` file, there are a few simple steps to get up and running with the web application. If you are an advanced AWS Amplify User and you wish to deploy the Amplify Web Application manually you can navigate to the separate directory and deploy the application from there.
+If you have chosen to deploy the optional Web Application by setting `deployWebStack: true` in the `cdk.context.json` file, there are a few simple steps to get up and running with the web application.
 
-For quick setup follow the instructions below. For advanced manual setup instructions review [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md)
+For quick setup follow the instructions below.
 
-#### Recommended: Quick Setup
+#### Quick Setup
 
 If you are reading this it is because you deployed the CarbonLake Quickstart Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
-1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify
-2. Initiate the build process --> select your application and select "start build"
+1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
+2. Initiate the build process --> select your application and select "run build"
 3. Visit your live web application --> click on the link in the Amplify console
-   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point.
+   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
+   ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+
+![Cognito Login Page](lib/stacks/stack-web/carbonlake-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
+![CarbonLake Web Application](lib/stacks/stack-web/carbonlake-ui-cloudscape/documentation/images/CarbonLake101.png)
 4. Create a separate directory to manage your web application
 
     ```sh
     mkdir <your-web-application-directory>
     ```
 
-5. Install the AWS Amplify CLI
-
-    ```sh
-    mkdir <your-web-application-directory>
-    ```
+5. Install the AWS Amplify CLI following the instructions on the official [AWS Amplify Documentation](https://docs.amplify.aws/cli/start/install/).
 
 6. Pull your Amplify project
 
     ```sh
-    mkdir <your-web-application-directory>
+    amplify pull --appId <app-id> --envName <env-name>
     ```
 
-7. Learn more about working with AWS Amplify CLI or the AWS Amplify Console
-8. Make the web application your own
-
-***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
-
-![Cognito Login Page](front-end/carbonlake-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
-![CarbonLake Web Application](front-end/carbonlake-ui-cloudscape/documentation/images/CarbonLake101.png)
+7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
+8. Make the web application your own and let us know what you choose do to with it.
 
 Success! At this point, you should successfully have the Amplify app working.
-
-If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -288,6 +281,13 @@ Shared resource stack outputs include:
 -`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline.
 -`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
+
+### Web Stack Outputs
+
+-`CLQSWebAppRepositoryLink`: Amplify Web Application codecommit repository link.
+-`CLQSWebAppId`: Amplify Web Application ID.
+-`CLQSAmplifyLink`: Amplify Web Application AWS Console URL.
+-`CLQSWebAppDomain`: Amplify Web Application live web URL.
 
 ### Quicksight Stack Outputs
 

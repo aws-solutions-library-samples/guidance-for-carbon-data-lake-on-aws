@@ -42,22 +42,6 @@ build-cdk:       # Validates that cdk will build, install dependencies, and that
     - cdk synth
     - echo "Completed build check"
 
-build-amplify:       # Validates that cdk will build, install dependencies, and that cdk with synth
-  stage: build
-  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
-  script:
-    - node --version
-    - npm ci
-    - echo "succesfully installed package dependencies!"
-    - echo "Building with npm..."
-    - cd front-end/carbonlake-ui-cloudscape
-    - pwd
-    - npm install
-    - wait
-    - npm run build
-    - wait
-    - echo "amplify test successful"
-
 tslint-test-job:   # Runs eslint for typescript to validate linting of typescript code
   stage: static
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
@@ -100,34 +84,6 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     - echo "Running cdk nag to check for security vulnerabilities"
     # - cdk synth --context nag=true <-- nag is removed for now while nag-pack is in development
     - echo "Completed CDK nag check"
-
-amplify-test: # runs test of amplify app
-  stage: web
-  image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
-  only:
-    changes:
-      - front-end/carbonlake-ui-cloudscape/*/**
-  script:
-    - aws --version
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile test
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile test
-    - aws configure set region $AWS_DEFAULT_REGION --profile test
-    - export AWS_PROFILE=test
-    - echo $AWS_PROFILE
-    - node --version
-    - npm ci
-    - echo "succesfully installed package dependencies!"
-    - echo "Building with npm..."
-    - npm run build
-    - echo "Build complete."
-    - cdk bootstrap
-    - cdk synth
-    - cdk deploy --all
-    - wait
-    - echo "Starting Amplify test"
-    - sh test-amplify.sh
-    - cdk destroy --all --force
-    - echo "amplify test successful"
 
 cdk-test: # runs test of amplify app
   stage: infra

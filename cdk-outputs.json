@@ -53,9 +53,9 @@
     "apiId": "b3tug3hw4rcphk64y262pgox34"
   },
   "WebStack": {
-    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/CarbonLakeQSWebApp",
+    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/d1w6310ljj2zfk",
     "CLQSWebAppRepositoryLink": "www.CLQSWebAppRepo.com",
-    "CLQSWebAppDomain": "d10xsnksm70z3q.amplifyapp.com",
-    "CLQSWebAppId": "d10xsnksm70z3q"
+    "CLQSWebAppDomain": "https://dev.d1w6310ljj2zfk.amplifyapp.com",
+    "CLQSWebAppId": "d1w6310ljj2zfk"
   }
 }

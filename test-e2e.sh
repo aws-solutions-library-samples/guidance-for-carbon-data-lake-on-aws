@@ -36,7 +36,7 @@ do
    testoutcomecode=$(jq -r '.' response.json)
    echo "$testoutcomecode"
    if [ "$testoutcomecode" = "Success" ]; then
-      echo "$testoutcomecode" 
+      echo "$testoutcomecode"
       echo "Test passed! It works."
       rm response.json
    else

@@ -13,9 +13,9 @@ frontend:
         - echo "VITE_USER_POOL_ID=$USER_POOL_ID" >> .env
         - echo "VITE_USER_POOL_WEB_CLIENT_ID=$USER_POOL_WEB_CLIENT_ID" >> .env
         - echo "VITE_UPLOAD_BUCKET=$UPLOAD_BUCKET" >> .env
+        - echo "Printing environmental variables to the console to ensure they are correct"
         - cat .env
         - npm run build
-        - cat src/config/amplify-config.js
         - echo "Success!"
   artifacts:
     baseDirectory: build

@@ -55,7 +55,7 @@ export class CLQSWebStack extends cdk.Stack {
     });
 
     new CfnOutput(this, 'CLQSWebAppDomain', {
-      value: `https://${"dev"}.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
+      value: `https://${this.amplifyDeployment.branchOutput.branchName}.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
       description: 'CLQSWebAppDomain',
       exportName: 'CLQSWebAppDomain'
     });
