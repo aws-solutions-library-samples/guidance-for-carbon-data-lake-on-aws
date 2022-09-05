@@ -49,8 +49,13 @@
     "ExportsOutputFnGetAttclqsApiFC5F2A48GraphQLUrl68A29A6F": "https://d2mrjn7p25hddjtdrcgfk5vqra.appsync-api.us-east-1.amazonaws.com/graphql",
     "ExportsOutputRefclqsIdentityPool8088BCBD": "us-east-1:8b8b15f8-3853-4f8c-a289-75966f610d62",
     "ExportsOutputRefclqsUserPoolBAB5A93330A88221": "us-east-1_8sXaV12u2",
-    "userPoolId": "us-east-1_8sXaV12u2",
     "identityPoolId": "us-east-1:8b8b15f8-3853-4f8c-a289-75966f610d62",
     "apiId": "b3tug3hw4rcphk64y262pgox34"
+  },
+  "WebStack": {
+    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/CarbonLakeQSWebApp",
+    "CLQSWebAppRepositoryLink": "www.CLQSWebAppRepo.com",
+    "CLQSWebAppDomain": "d10xsnksm70z3q.amplifyapp.com",
+    "CLQSWebAppId": "d10xsnksm70z3q"
   }
 }

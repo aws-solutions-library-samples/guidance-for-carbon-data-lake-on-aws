@@ -6,14 +6,16 @@ frontend:
         - npm install
     build:
       commands:
-        - echo "REACT_APP_REGION=$REGION" >> .env
-        - echo "REACT_APP_API_ID=$API_ID" >> .env
-        - echo "REACT_APP_GRAPH_QL_URL=$GRAPH_QL_URL" >> .env
-        - echo "REACT_APP_IDENTITY_POOL_ID=$IDENTITY_POOL_ID" >> .env
-        - echo "REACT_APP_USER_POOL_ID=$USER_POOL_ID" >> .env
-        - echo "REACT_APP_USER_POOL_WEB_CLIENT_ID=$USER_POOL_WEB_CLIENT_ID" >> .env
-        - echo "REACT_APP_UPLOAD_BUCKET=$UPLOAD_BUCKET" >> .env
+        - echo "VITE_REGION=$REGION" >> .env
+        - echo "VITE_API_ID=$API_ID" >> .env
+        - echo "VITE_GRAPH_QL_URL=$GRAPH_QL_URL" >> .env
+        - echo "VITE_IDENTITY_POOL_ID=$IDENTITY_POOL_ID" >> .env
+        - echo "VITE_USER_POOL_ID=$USER_POOL_ID" >> .env
+        - echo "VITE_USER_POOL_WEB_CLIENT_ID=$USER_POOL_WEB_CLIENT_ID" >> .env
+        - echo "VITE_UPLOAD_BUCKET=$UPLOAD_BUCKET" >> .env
+        - cat .env
         - npm run build
+        - cat src/config/amplify-config.js
         - echo "Success!"
   artifacts:
     baseDirectory: build

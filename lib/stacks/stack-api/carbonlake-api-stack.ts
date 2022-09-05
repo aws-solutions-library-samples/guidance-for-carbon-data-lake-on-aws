@@ -57,6 +57,10 @@ export class CLQSApiStack extends Stack {
   public readonly clStandardUserRoleManagedPolicy: ManagedPolicy
   public readonly clqsIdentityPool: CfnIdentityPool
   
+  // Outputs
+  public readonly userPoolClientIdOutput: CfnOutput
+  public readonly identityPoolIdOutputId: CfnOutput
+  public readonly userPoolIdOutput: CfnOutput
 
   constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
     super(scope, id, props)
@@ -402,21 +406,18 @@ export class CLQSApiStack extends Stack {
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables
 
     // Cognito
-    this.userPool = userPool
-    new CfnOutput(this, 'userPoolId', { value: userPool.userPoolId })
     
-    this.userPoolClient = userPoolClient
-    new CfnOutput(this, 'CLQSuserPoolId', { 
+    this.userPoolIdOutput = new CfnOutput(this, 'CLQSuserPoolId', { 
       value: userPool.userPoolId,
       exportName: 'CLQSuserPoolId'
     })
     
-    new CfnOutput(this, 'identityPoolId', { 
+    this.identityPoolIdOutputId = new CfnOutput(this, 'identityPoolId', { 
       value: this.clqsIdentityPool.ref,
       exportName: 'CLQidentityPoolId'
     })
 
-    new CfnOutput(this, 'userPoolClientId', {
+    this.userPoolClientIdOutput = new CfnOutput(this, 'userPoolClientId', {
        value: userPoolClient.userPoolClientId,
        exportName: 'CLQSuserPoolClientId' 
       })

@@ -114,14 +114,14 @@ console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
 const webOption = app.node.tryGetContext('deployWebStack')
 console.log(`Web deployment option is set to: ${webOption}`)
     if (webOption === true) {
-    
+
     new CLQSWebStack(app, 'WebStack', {
       env: appEnv,
       apiId: apiStack.apiId,
       graphqlUrl: apiStack.graphqlUrl,
-      identityPoolId: apiStack.clqsIdentityPool.ref,
-      userPoolId: apiStack.userPool.userPoolId,
-      userPoolWebClientId: apiStack.userPoolClient.userPoolClientId,
+      identityPoolId: apiStack.identityPoolIdOutputId.value,
+      userPoolId: apiStack.userPoolIdOutput.value,
+      userPoolWebClientId: apiStack.userPoolClientIdOutput.value,
       landingBucketName: dataPipeline.carbonlakeLandingBucket.bucketName
     })
     }

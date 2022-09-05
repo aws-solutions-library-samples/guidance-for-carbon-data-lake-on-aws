@@ -49,13 +49,13 @@ export class CLQSWebStack extends cdk.Stack {
     });
 
     new CfnOutput(this, 'CLQSAmplifyLink', {
-      value: `https://${this.amplifyDeployment.amplifyApp.env.region}.console.aws.amazon.com/amplify/home?region=${this.amplifyDeployment.amplifyApp.env.region}#/${this.amplifyDeployment.amplifyApp.appName}`,
+      value: `https://${this.amplifyDeployment.amplifyApp.env.region}.console.aws.amazon.com/amplify/home?region=${this.amplifyDeployment.amplifyApp.env.region}#/${this.amplifyDeployment.amplifyApp.appId}`,
       description: 'CLQSAmplifyLink',
       exportName: 'CLQSAmplifyLink'
     });
 
     new CfnOutput(this, 'CLQSWebAppDomain', {
-      value: this.amplifyDeployment.amplifyApp.defaultDomain,
+      value: `https://${"dev"}.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
       description: 'CLQSWebAppDomain',
       exportName: 'CLQSWebAppDomain'
     });
