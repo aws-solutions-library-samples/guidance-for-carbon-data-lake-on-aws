@@ -374,6 +374,9 @@ bin/**/*.js
 !jest.config.js
 *.d.ts
 
+### Unignore Web App Subdirectory ###
+!/lib/stacks/stack-web/app/carbonlake-ui-cloudscape/*/**
+
 # CDK asset staging directory
 .cdk.staging
 cdk.out
