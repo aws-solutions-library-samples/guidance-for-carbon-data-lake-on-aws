@@ -85,7 +85,7 @@ cdk-nag-job:   # runs cdk-nag script in test stage
     # - cdk synth --context nag=true <-- nag is removed for now while nag-pack is in development
     - echo "Completed CDK nag check"
 
-cdk-test: # runs test of amplify app
+cdk-test: # runs test of cdk deployment
   stage: infra
   image: registry.gitlab.aws.dev/aws-energy-solutions/area/cross-cutting-solutions/cdk-powertools-build-image
   only:

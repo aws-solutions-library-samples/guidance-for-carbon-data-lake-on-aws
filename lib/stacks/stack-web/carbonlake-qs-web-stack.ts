@@ -37,8 +37,8 @@ export class CLQSWebStack extends cdk.Stack {
 
     });
 
-    new CfnOutput(this, 'CLQSWebAppRepositoryLink', {
-      value: `www.${this.amplifyDeployment.repository.repositoryName}.com`,
+    new CfnOutput(this, 'CLQSWebAppRepositoryCloneUrl', {
+      value: this.amplifyDeployment.repository.repositoryCloneUrlHttp,
       description: 'CLQSWebAppRepositoryLink',
       exportName: 'CLQSWebAppRepositoryLink'
     });
@@ -56,7 +56,7 @@ export class CLQSWebStack extends cdk.Stack {
     });
 
     new CfnOutput(this, 'CLQSWebAppDomain', {
-      value: `https://${this.amplifyDeployment.branchOutput.branchName}.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
+      value: `https://dev.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
       description: 'CLQSWebAppDomain',
       exportName: 'CLQSWebAppDomain'
     });

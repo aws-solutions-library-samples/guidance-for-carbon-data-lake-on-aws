@@ -47,6 +47,7 @@ export class AmplifyDeploy extends Construct {
             'UPLOAD_BUCKET': props.landingBucketName,
           },
           autoBranchCreation: {
+            patterns: ['dev'],
             autoBuild: true
           }
         })

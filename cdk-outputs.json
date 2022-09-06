@@ -53,9 +53,9 @@
     "apiId": "b3tug3hw4rcphk64y262pgox34"
   },
   "WebStack": {
-    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/d1hh2lsclzfy37",
-    "CLQSWebAppRepositoryLink": "www.CLQSWebAppRepo.com",
-    "CLQSWebAppDomain": "https://undefined.d1hh2lsclzfy37.amplifyapp.com",
-    "CLQSWebAppId": "d1hh2lsclzfy37"
+    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/d16nshqfw5rg8f",
+    "CLQSWebAppDomain": "https://dev.d16nshqfw5rg8f.amplifyapp.com",
+    "CLQSWebAppId": "d16nshqfw5rg8f",
+    "CLQSWebAppRepositoryCloneUrl": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/CLQSWebAppRepo"
   }
 }
