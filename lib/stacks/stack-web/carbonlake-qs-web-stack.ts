@@ -32,7 +32,8 @@ export class CLQSWebStack extends cdk.Stack {
       identityPoolId: props.identityPoolId,
       userPoolId: props.userPoolId,
       userPoolWebClientId: props.userPoolWebClientId,
-      landingBucketName: props.landingBucketName
+      landingBucketName: props.landingBucketName,
+      
 
     });
 

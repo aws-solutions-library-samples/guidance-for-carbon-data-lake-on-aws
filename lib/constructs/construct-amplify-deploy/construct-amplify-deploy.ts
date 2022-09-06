@@ -25,7 +25,6 @@ export class AmplifyDeploy extends Construct {
   constructor(scope: Construct, id: string, props: AmplifyDeployProps) {
     super(scope, id)
         
-
         this.repository = new codecommit.Repository(this, 'AmplifyCodeCommitRepository', {
             repositoryName: props.repoName,
             description: "Amplify Web Application Deployment Repository",
@@ -35,7 +34,7 @@ export class AmplifyDeploy extends Construct {
         this.amplifyApp = new Amplify.App(this, 'CarbonLakeQSWebApp', {
           description: "Sample AWS Amplify Application for CarbonLake Quickstart Development Kit",
           sourceCodeProvider: new Amplify.CodeCommitSourceCodeProvider({
-            repository: this.repository
+            repository: this.repository,
           },
           ),
           environmentVariables: {
@@ -46,6 +45,9 @@ export class AmplifyDeploy extends Construct {
             'USER_POOL_ID': props.userPoolId,
             'USER_POOL_WEB_CLIENT_ID': props.userPoolWebClientId,
             'UPLOAD_BUCKET': props.landingBucketName,
+          },
+          autoBranchCreation: {
+            autoBuild: true
           }
         })
 

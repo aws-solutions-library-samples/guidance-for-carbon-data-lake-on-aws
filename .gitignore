@@ -374,8 +374,9 @@ bin/**/*.js
 !jest.config.js
 *.d.ts
 
-### Unignore Web App Subdirectory ###
-!/lib/stacks/stack-web/app/carbonlake-ui-cloudscape/*/**
+### Unignore Web App Subdirectory so that js files are allowed ###
+### Note that this directory has it's own gitignore and will follow that ###
+!/lib/stacks/stack-web/app/*/**
 
 # CDK asset staging directory
 .cdk.staging
