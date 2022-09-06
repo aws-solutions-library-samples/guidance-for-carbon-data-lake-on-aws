@@ -70,11 +70,11 @@ const Content = () => {
                 AWS CarbonLake
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Decarbonization measurement in the cloud.
+              Decarbonization measurement in the cloud
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                AWS CarbonLake was created to help businesses more accurately and conveniently keep track of their carbon emissions.
+                CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services
                  {/* TODO - replace this link with external CarbonLake link/blog post when published */}
                   Click <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">here</a> to learn more.
 
@@ -93,10 +93,7 @@ const Content = () => {
             <Container>
               <div>
                   <p>
-                  CarbonLake Quickstart is a decarbonization measurement data solution built on AWS Services. CarbonLake Quickstart
-                  reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and
-                  ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and
-                  products to drive innovation. CarbonLake includes the following purpose-built solutions:
+                  AWS CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
                     <br />
                   </p>
                   <li>
@@ -115,7 +112,7 @@ const Content = () => {
                     Business Intelligence Tools
                   </li>
                   <li>
-                    Managed Forecasting Service
+                    Managed Forecasting Notebook
                   </li>
                   <li>
                     GraphQL API
@@ -136,7 +133,7 @@ const Content = () => {
             <Container header={<Header>Basic Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <img src="../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
+                <img src="../../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
@@ -147,7 +144,7 @@ const Content = () => {
             <Container header={<Header>Detailed Architecture</Header>}>
               {/* Make this flex later. maxWidth is not mobile responsive */}
               <div>
-                <img src="../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
+                <img src="../../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
               </div>
               <div>
                 <p>
@@ -167,7 +164,7 @@ const Content = () => {
 
 export const ToolsContent = () => (
   <HelpPanel
-    header={<h2>Amazon TCA 101</h2>}
+    header={<h2>AWS CarbonLake Quickstart</h2>}
     footer={
       <>
         <h3>
