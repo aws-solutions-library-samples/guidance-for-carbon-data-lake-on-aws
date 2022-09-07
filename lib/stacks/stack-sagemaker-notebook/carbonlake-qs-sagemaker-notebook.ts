@@ -62,7 +62,7 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
 
     // creates a sagemaker notebook instance with the defined codecommit repo as the default repo
     this.sagemakerNotebookInstance = new sagemaker.CfnNotebookInstance(this, "CLQSSagemakerNotebook", {
-      instanceType: 'ml.t2.large',
+      instanceType: 'ml.t2.medium',
       roleArn: sagemakerExecutionRole.roleArn,
       notebookInstanceName: "CarbonLakeSagemakerNotebook",
       defaultCodeRepository: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
