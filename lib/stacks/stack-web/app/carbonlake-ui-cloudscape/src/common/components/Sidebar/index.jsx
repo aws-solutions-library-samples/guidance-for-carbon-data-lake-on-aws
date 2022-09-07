@@ -27,9 +27,8 @@ const Sidebar = () => {
         text: 'Getting Started',
         expanded: true,
         items: [
-          { type: 'link', text: 'CarbonLake 101', href: '/carbonlake-101' },
+          { type: 'link', text: 'Get Started', href: '/get-started' },
           { type: 'link', text: 'Setup Guide', href: '/setup-guide' },
-          { type: 'link', text: 'Case Studies', href: '/case-studies' },
         ]
       },
       {
@@ -69,7 +68,7 @@ const Sidebar = () => {
       {
         type: "link",
         text: "Documentation",
-        // href: "https://example.com",
+        href: "https://github.com/aws-quickstart/quickstart-aws-carbonlake",
         external: true
       }
 

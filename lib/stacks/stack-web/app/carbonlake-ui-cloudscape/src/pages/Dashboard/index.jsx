@@ -88,36 +88,13 @@ export const ToolsContent = () => (
               text="GHG Protocol Guidance"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/call-analytics/"
-              text="Amazon Transcribe Call Analytics Service Page"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
-              text="Amazon Transcribe FAQs"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
-              text="Amazon Transcribe Custom Language Models"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
-              text="Amazon Transcribe Custom Vocabularies"
-            />
-          </li> */}
+          {}
         </ul>
       </>
     }
   >
     <p>
-    The dashboard page serves as your single pane of glass into your relevant data points.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     </p>
   </HelpPanel>
 );

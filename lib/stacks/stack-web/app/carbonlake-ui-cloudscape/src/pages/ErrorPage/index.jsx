@@ -76,7 +76,7 @@ const Content = () => {
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                You've gone where <i>no man has gone before</i>.
+                You've found a 404 error page! This page is here to demonstrate how 404 errors are handled in the react router of this app. You can remove this page, since you don't need it.
                   {/* Click <Link to={{ pathname: "/about-carbonlake"}}  target="_blank">here</Link> to learn more. */}
                    <br/>
                    <br/>

@@ -25,12 +25,14 @@ export class AmplifyDeploy extends Construct {
   constructor(scope: Construct, id: string, props: AmplifyDeployProps) {
     super(scope, id)
         
+        // create a codecommit repository and 
         this.repository = new codecommit.Repository(this, 'AmplifyCodeCommitRepository', {
             repositoryName: props.repoName,
             description: "Amplify Web Application Deployment Repository",
-            code: codecommit.Code.fromDirectory(props.appPath, 'dev'),
+            code: codecommit.Code.fromDirectory(props.appPath, 'dev')
         });
 
+        // define an amplify app
         this.amplifyApp = new Amplify.App(this, 'CarbonLakeQSWebApp', {
           description: "Sample AWS Amplify Application for CarbonLake Quickstart Development Kit",
           sourceCodeProvider: new Amplify.CodeCommitSourceCodeProvider({
@@ -46,16 +48,14 @@ export class AmplifyDeploy extends Construct {
             'USER_POOL_WEB_CLIENT_ID': props.userPoolWebClientId,
             'UPLOAD_BUCKET': props.landingBucketName,
           },
-          autoBranchCreation: {
-            patterns: ['dev'],
-            autoBuild: true
-          }
+          customRules: []
+
         })
+
+        this.amplifyApp.addCustomRule(Amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT) // adds support for amplify single page react application delivery
 
 
         const devBranch = this.amplifyApp.addBranch('dev');
-
-        this.branchOutput = devBranch.branchName;
 
         this.amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
     }

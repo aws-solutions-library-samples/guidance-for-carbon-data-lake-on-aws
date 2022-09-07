@@ -61,21 +61,9 @@ const Content = () => {
       <div>
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
-            <Box margin={{ bottom: 's' }}>
-              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws logo" />
-            </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                AWS CarbonLake
-              </Box>
-              <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Setup Guide
-              </Box>
-              <Box fontWeight="light">
-                <span className="custom-home__header-sub-title">
-                For issues getting started, please reach out to us on our
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">GitHub Page</a>.
-                </span>
+                How it works
               </Box>
             </div>
           </Box>
@@ -86,7 +74,7 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>How it works</h1>
+            <h1>Start using the CarbonLake Quickstart integrations</h1>
             <Container>
               <div>
                 <ol>
@@ -95,10 +83,10 @@ const Content = () => {
                     <br />
                   </li>
                   <li>
-                    This will upload your file to the "LANDING" S3 bucket which will trigger a pipeline to run automatically.
-                    The file will be validated to ensure it conforms to the set schema, and if successful will continue down the pipeline.
-                    Once finished, the file contents will be be visible in the <a href="/emissions-records" > Emission Records</a> page.
-                    runs, view the <a target="_blank" rel="noopener noreferrer" href="https://console.aws.amazon.com/states/home?region=us-east-1" > Step Function in the AWS Console</a>.
+                    This will upload your file to the CarbonLake Landing Zone S3 bucket which will trigger the CarbonLake data pipeline.
+                    The file will be validated to ensure it conforms to the data quality model for GHG protocol, and if successful will continue through extract, transform, and load in preparation for the calculator microservice.
+                    Once finished, the file contents will be be visible in the <a href="/emissions-records" >Emission Records</a> page.
+                    runs, view the <a target="_blank" rel="noopener noreferrer" href="https://console.aws.amazon.com/states/home?region=us-east-1" >Step Function in the AWS Console</a>.
 
                   </li>
 
@@ -227,30 +215,12 @@ export const ToolsContent = () => (
               text="Amazon S3"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
-              text="Amazon Transcribe FAQs"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
-              text="Amazon Transcribe Custom Language Models"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
-              text="Amazon Transcribe Custom Vocabularies"
-            />
-          </li> */}
         </ul>
       </>
     }
   >
     <p>
-    For issues getting started, please reach out to us on our  <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/" > GitHub Page</a>.
+    For issues getting started, please reach out to us on our <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/" > GitHub Page</a>.
     </p>
   </HelpPanel>
 );

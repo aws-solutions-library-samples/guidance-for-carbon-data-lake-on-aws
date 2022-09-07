@@ -12,14 +12,13 @@ import { BrowserRouter as Router, Route, Routes, Link, useParams } from 'react-r
 
 // Components
 import Dashboard from './Dashboard';
-import CarbonLake101 from './CarbonLake101';
+import GetStarted from './GetStarted';
 import SetupGuide from './SetupGuide';
 import DataUploader from './DataUploader/index.jsx';
 import AccountSettings from './AccountSettings';
 import ErrorPage from './ErrorPage'
 import EmissionsRecords from './EmissionsRecords';
 import FetchUserDetails from '../common/components/FetchUserDetails/index.jsx';
-;
 
 //Styles
 import '@cloudscape-design/global-styles/index.css';
@@ -45,9 +44,9 @@ const App = ({signOut, user}) => {
       {/* <Router> */}
               <FetchUserDetails user = {user} signOut = {signOut}  />
           <Routes>
-              <Route  path="/" element={<CarbonLake101 />} />
+              <Route  path="/" element={<GetStarted />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route  path="/carbonlake-101" element={<CarbonLake101 />} />
+              <Route  path="/get-started" element={<GetStarted />} />
               <Route  path="/setup-guide" element={<SetupGuide />} />
               <Route  path="/data-uploader" element={<DataUploader />} />
               <Route  path="/account-settings" element={<AccountSettings />} />

@@ -172,7 +172,6 @@ const Content = () => {
 
       const put_emission_file = await Storage.put(files.name, files, {
         // bucket: "your-bucket-name", - use this parameter to add to bucket beyond amplify-config
-        // bucket: outputsJSON.outputs.tca_app_storage_bucket.value,
         progressCallback(progress) {
           const percent_uploaded = Math.floor((progress.loaded/progress.total)*100)
           console.log('Uploading file to S3 Bucket ...');
@@ -252,19 +251,13 @@ const Content = () => {
       <div>
         <Grid className="custom-home__header" disableGutters={true}>
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
-            <Box margin={{ bottom: 's' }}>
-              <img src="./images/AWS_logo_RGB_REV.png" className="intro-logo" alt="aws logo" />
-            </Box>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                AWS CarbonLake
-              </Box>
-              <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-                Data Uploader
+              Data Uploader
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                  Upload your files below to start the pipeline.
+                  Upload your emissions records CSV files below
                 </span>
               </Box>
             </div>``
@@ -283,8 +276,7 @@ const Content = () => {
                   onDismiss: () => setVisibleInfo(false),
                   content: (
                     <>
-                    We currently support single file upload. Multi-file upload is coming in
-                    future releases. Please upload one file at a time.
+                    We currently only support single file upload. Please upload one file at a time.
                     {/* <br />
                     <br />
                     For more information, see the
@@ -450,24 +442,6 @@ export const ToolsContent = () => (
               text="Amazon S3"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
-              text="Amazon Transcribe FAQs"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
-              text="Amazon Transcribe Custom Language Models"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
-              text="Amazon Transcribe Custom Vocabularies"
-            />
-          </li> */}
         </ul>
       </>
     }

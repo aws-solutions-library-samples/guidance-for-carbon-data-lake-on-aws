@@ -133,8 +133,7 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 1/ Set up your AWS environment
 
 - Configure your AWS credentials --> `aws configure`
-- Get your AWS Account Number --> `aws sts get-caller-identity`
-- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
+- For more on setting up your AWS Credentials please visit
 
 ### 2/ Prepare your CDK environment (Manual Setup)
 
@@ -169,6 +168,10 @@ npm ci
 ```sh
 npm run build
 ```
+
+- Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
+- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
 
 - Synthesize the CDK application
 
@@ -226,6 +229,7 @@ If you are reading this it is because you deployed the CarbonLake Quickstart Web
     ```sh
     amplify pull --appId <app-id> --envName <env-name>
     ```
+
 
 7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
 8. Make the web application your own and let us know what you choose do to with it.

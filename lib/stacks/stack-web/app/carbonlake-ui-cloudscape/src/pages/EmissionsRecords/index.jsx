@@ -194,24 +194,6 @@ export const ToolsContent = () => (
               text="GHG Protocol Guidance"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
-              text="Amazon Transcribe FAQs"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
-              text="Amazon Transcribe Custom Language Models"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
-              text="Amazon Transcribe Custom Vocabularies"
-            />
-          </li> */}
         </ul>
       </>
     }
@@ -223,34 +205,6 @@ export const ToolsContent = () => (
     </p>
   </HelpPanel>
 );
-
-export const EC2ToolsContent = () => (
-  <HelpPanel header={<h2>Instances</h2>}>
-    <p>
-      View your current instances and related information such as the instance ID, instance type, instance status, and
-      more. To drill down even further into the details, select an individual instance.
-    </p>
-  </HelpPanel>
-);
-
-export const InstanceHeader = ({ ...props }) => {
-  const isOnlyOneSelected = props.selectedItems.length === 1;
-
-  return (
-    <TableHeader
-      {...props}
-      title="Instances"
-      actionButtons={
-        <SpaceBetween size="xs" direction="horizontal">
-          <Button disabled={!isOnlyOneSelected}>View details</Button>
-          <Button disabled={!isOnlyOneSelected}>Edit</Button>
-          <Button disabled={props.selectedItems.length === 0}>Delete</Button>
-          <Button variant="primary">Create instance</Button>
-        </SpaceBetween>
-      }
-    />
-  );
-};
 
 export const EmissionsTableEmptyState = ({ resourceName }) => {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@
 
 Placeholder for internal Amazon use: to set up quicksight follow the directions found here: https://quip-amazon.com/I8uHA8P3XriO/CarbonLake-Quickstart-V1-Release-Document#temp:C:KHA67d5b118d37b4619b3a86b145
 
-## *Set up Amazon QuickSight*
+## Quicksight Setup: Console
 
 1. Log into AWS Console and navigate to *Amazon QuickSight*
 
@@ -60,3 +60,7 @@ Placeholder for internal Amazon use: to set up quicksight follow the directions 
 7. Now you need to go to `cdk.context.json` and enter the `quicksightUsername` you just entered as the parameter for `quicksightUsername`
 
    <img alt="qs-step-12" src="./images/image%20(24).png" width="50%">
+
+8. You can now `cdk deploy --all` or `cdk deploy QuicksightStack`
+9. Log in to the quicksight console with your newly created username. You will need to use the `ACCOUNT_NAME` that you chose when you created the account and sign in with your password.
+10. You should now be able to select "dashboard" on the left menu and select the Combined-Emissions-Dashboard. Note that this data will be updated only once you drop data into your CarbonLake landing zone bucket and after the nightly data compaction job.

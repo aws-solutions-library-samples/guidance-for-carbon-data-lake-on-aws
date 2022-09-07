@@ -35,7 +35,7 @@ import { ExternalLinkItem } from '../../common/common-components-config';
 
 import '../../common/styles/intro.scss';
 import '../../common/styles/servicehomepage.scss';
-const  CarbonLake101 = () => {
+const  GetStarted = () => {
   return (
     <>
     <AppLayout
@@ -51,7 +51,7 @@ const  CarbonLake101 = () => {
   )
 }
 
-export default  CarbonLake101;
+export default  GetStarted;
 
 
 const Content = () => {
@@ -64,16 +64,11 @@ const Content = () => {
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                AWS CarbonLake
-              </Box>
-              <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
-              Decarbonization measurement in the cloud
+                Sample Web Application
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services
-                 {/* TODO - replace this link with external CarbonLake link/blog post when published */}
-                  Click <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">here</a> to learn more.
+                This AWS Amplify web application is a working sample component of <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">CarbonLake Quickstart</a>
 
                 </span>
               </Box>
@@ -86,70 +81,42 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>CarbonLake 101</h1>
+            <h1>Get Started</h1>
             <Container>
               <div>
                   <p>
-                  AWS CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+                    Welcome to the CarbonLake Quickstart sample web application. This application demonstrates some features and functionalities of CarbonLake in a web interface while also giving you a starter to develop your own application.
                     <br />
+                    You will notice that some elements of the application are not fully built out. We put them there as exampled and so that you can make the application your own. This web application was built using AWS Amplify, Cloudscape Design System, and React. The application consists of starter integrations, and sample components to be customized.
                   </p>
+                  <h2>Starter Integrations</h2>
+                  <p>The starter integrations in this application show how you can integrate CarbonLake Quickstart backend resources with a web application.</p>
                   <li>
-                    Data Pipeline
+                    Data Explorer - Emissions Records: This component demonstrates the use of dynamic tables with integrated serverless GraphQL API backends. This table connects to the CarbonLake Quickstart GraphQL API, authenticated with Amazon Cognito, and dynamically updates emissions records.
                   </li>
                   <li>
-                    Data Quality Stack
+                    Data Explorer - Data Uploader: This component demonstrates serverless integration with Amazon S3. This file uploader component uploads to the CarbonLake Landing Zone to trigger the CarbonLake data pipeline.
+                  </li>
+                  <h2>Sample Components</h2>
+                  <p>This application also includes several sample front-end components to demonstrate the Cloudscape Design System features and give you additional starter code. You will notice that some features do not dynamically update, such as the notification count. We put it there as an example and we invite you to make it your own.</p>
+                  <li>
+                    Left Navigation Drawer: This component demonstrates the built-in navigation functionality of Cloudscape Design System and 
                   </li>
                   <li>
-                    Data Lineage Stack
+                    Right Info Drawer: Add informational prompts or companion links to each page by customizing this component.
                   </li>
                   <li>
-                    Calculator Engine
+                    Notification Counter: Integrate with notifications to dynamically update users.
                   </li>
                   <li>
-                    Business Intelligence Tools
+                    Settings Menu: Build your own settings pages to customize your application.
                   </li>
                   <li>
-                    Managed Forecasting Notebook
+                    User Dropdown: Build your own user management pages to customize the user experience.
                   </li>
-                  <li>
-                    GraphQL API
-                  </li>
-                  <li>
-                    Sample Web Application
-                  </li>
-                  <p>
-                  CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
-                    <br />
-                  </p>
-
+                 
               </div>
             </Container>
-          </div>
-          <div>
-            <h1>CarbonLake Architecture</h1>
-            <Container header={<Header>Basic Architecture</Header>}>
-              {/* Make this flex later. maxWidth is not mobile responsive */}
-              <div>
-                <img src="../../../public/images/carbonlake-basic-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
-              </div>
-              <div>
-                <p>
-                  This is the basic architecture for CarbonLake.
-                </p>
-              </div>
-            </Container>
-            <Container header={<Header>Detailed Architecture</Header>}>
-              {/* Make this flex later. maxWidth is not mobile responsive */}
-              <div>
-                <img src="../../../public/images/carbonlake-detailed-arch.png" alt="" style={{ maxWidth : '100%', paddingRight: '2em' }} />
-              </div>
-              <div>
-                <p>
-                  This is the detailed architecture for CarbonLake.
-                </p>
-              </div>
-            </Container>
-
           </div>
         </SpaceBetween>
       </Box>

@@ -69,8 +69,6 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
       volumeSizeInGb: 20,
     });
 
-    // adds codecommit repo as dependency so that it is created before the sagemaker notebook instance
-    //this.sagemakerNotebookInstance.node.addDependency(this.sagemakerCodecommitRepo);
 
     new cdk.CfnOutput(this, 'CLQSSagemakerRepository', {
       value: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
@@ -78,9 +76,9 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
       exportName: 'CLQSSagemakerRepository',
     });
 
-      // Output link to forecast stack
+      // Output link to Sagemaker Notebook in the console
   new cdk.CfnOutput(this, 'CLQSSagemakerNotebookUrl', {
-    value: `https://${this.region}.console.aws.amazon.com/sagemaker/home?region=${this.region}#/${this.sagemakerNotebookInstance.notebookInstanceName}`,
+    value: `https://${this.region}.console.aws.amazon.com/sagemaker/home?region=${this.region}#/notebook-instances/${this.sagemakerNotebookInstance.notebookInstanceName}`,
     description: 'AWS console URL for Sagemaker Notebook ML Instance',
     exportName: 'CLQSSagemakerNotebookUrl',
   });
