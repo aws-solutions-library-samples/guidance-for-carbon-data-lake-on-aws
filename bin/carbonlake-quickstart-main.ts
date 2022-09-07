@@ -2,7 +2,7 @@
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
 import { CLQSTestStack } from '../lib/stacks/stack-tests/clqs-test'
-import { AwsSolutionsChecks } from 'cdk-nag'
+//import { AwsSolutionsChecks } from 'cdk-nag'
 import { CLQSQuicksightStack } from '../lib/stacks/stack-quicksight/carbonlake-qs-quicksight'
 import { Aspects } from 'aws-cdk-lib';
 import { CLQSSharedResourcesStack } from '../lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack'
@@ -11,6 +11,7 @@ import { CLQSCompactionStack } from "../lib/stacks/stack-data-compaction/carbonl
 import { CLQSDataPipelineStack } from '../lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack';
 import { CLQSApiStack } from '../lib/stacks/stack-api/carbonlake-api-stack'
 import { CLQSSageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
+import { CLQSWebStack } from '../lib/stacks/stack-web/carbonlake-qs-web-stack'
 
 const app = new cdk.App();
 
@@ -69,7 +70,7 @@ new CLQSCompactionStack(app,'CompactionStack',
     ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
 // QS5 --> Create the carbonlake api stack
-new CLQSApiStack (app, 'ApiStack', {
+const apiStack = new CLQSApiStack (app, 'ApiStack', {
       adminEmail: adminEmail,
       calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
       env: appEnv
@@ -107,13 +108,28 @@ console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
   new CLQSSageMakerNotebookStack(app, 'SageMakerNotebookStack', {
       env: appEnv
     });
-
-    cdk.Tags.of(app).add("application", "carbonlake");
     }
-    
+
+// QS7 --> Create the carbonlake forecast stack
+const webOption = app.node.tryGetContext('deployWebStack')
+console.log(`Web deployment option is set to: ${webOption}`)
+    if (webOption === true) {
+
+    new CLQSWebStack(app, 'WebStack', {
+      env: appEnv,
+      apiId: apiStack.apiId,
+      graphqlUrl: apiStack.graphqlUrl,
+      identityPoolId: apiStack.identityPoolIdOutputId.value,
+      userPoolId: apiStack.userPoolIdOutput.value,
+      userPoolWebClientId: apiStack.userPoolClientIdOutput.value,
+      landingBucketName: dataPipeline.carbonlakeLandingBucket.bucketName
+    })
+    }
+
+cdk.Tags.of(app).add("application", "carbonlake");
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-const nag = app.node.tryGetContext('nag')
+//const nag = app.node.tryGetContext('nag')
 
 /*
     Description: Checks if context variable nag=true and 
@@ -123,9 +139,9 @@ const nag = app.node.tryGetContext('nag')
     AWS Services: cdk, cdk-nag package
 */
 
-if (nag == "true"){
-    Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
-}
+//if (nag == "true"){
+    //Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
+//}
 
 
 new CLQSTestStack(app, 'CLQSTest', {

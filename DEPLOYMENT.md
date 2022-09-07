@@ -50,21 +50,25 @@ The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon Dyna
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the CarbonLake AWS Amplify Sample Web Application.
 
-Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts) and [Documentation](lib/stacks/stack-api/README.md) and [Stack Outputs](#api-stack-outputs)
+Review the [AppSync GraphQL API Stack](lib/stacks/stack-shared-resources/carbonlake-qs-shared-resources-stack.ts), [Documentation](lib/stacks/stack-api/README.md), and [Stack Outputs](#api-stack-outputs)
 
 ### Optional: AWS Amplify Sample Web Application
 
-An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront. The AWS Amplify application references the outputs of a full successful CarbonLake Quickstart deployment and requires additional manual deployment steps outlines in the associated module README file.
+An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful CarbonLake Quickstart Application deployment. The AWS Amplify Web Application depends on the core CarbonLake Quickstart components.
 
-Review the [Sample Web Application Stack](front-end/carbonlake-ui-cloudscape/) and [Documentation](front-end/carbonlake-ui-cloudscape/documentation/README.md)
+Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.ts) and [Stack Outputs](#web-stack-outputs).
 
 ### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
+Review the [Amazon Quicksight Stack](lin/stacks/stack-quicksight/../../../README.md)
+
 ### Optional: Sagemaker Notebook Instance with pre-built Machine Learning notebook
 
 A pre-built machine learning notebook is deployed on an Amazon Sagemaker Notebook EC2 instance with `.ipynb` and pre-built prompts and functions.
+
+Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook.ts).
 
 ### Sample Data Collection for Testing
 
@@ -95,7 +99,7 @@ The following list of limitations covers current known functional limitations as
 
 ## 💲 Cost and Licenses
 
-You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start.  
+You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start.
 
 The AWS CloudFormation templates for this Quick Start include configuration parameters that you can customize. Some of these settings, such as instance type, affect the cost of deployment. For cost estimates, see the pricing pages for each AWS service you use. Prices are subject to change.
 
@@ -129,8 +133,7 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 1/ Set up your AWS environment
 
 - Configure your AWS credentials --> `aws configure`
-- Get your AWS Account Number --> `aws sts get-caller-identity`
-- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
+- For more on setting up your AWS Credentials please visit
 
 ### 2/ Prepare your CDK environment (Manual Setup)
 
@@ -146,7 +149,11 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`quicksightUserName` Username for access to the carbon emissions dataset and dashboard.
 - Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
-Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
+- Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
+
+Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
+
+Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](lib/stacks/stack-web/app/carbonlake-ui-cloudscape/documentation/README.md)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
@@ -161,6 +168,10 @@ npm ci
 ```sh
 npm run build
 ```
+
+- Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
+- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
 
 - Synthesize the CDK application
 
@@ -188,30 +199,42 @@ npm run deploy:cicd
 
 ### 4/ Optional: Set up the Amplify Web Application
 
-As a prerequisite you will need to install `jq` with `brew install jq` `apt-get install jq` `yum install -y jq` or another suitable method for package installation. For more on installing `jq` for your operating system visit the [jq docs](https://stedolan.github.io/jq/download/).
+If you have chosen to deploy the optional Web Application by setting `deployWebStack: true` in the `cdk.context.json` file, there are a few simple steps to get up and running with the web application.
 
-For quick setup follow the instructions below. For advanced manual setup instructions review [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md)
+For quick setup follow the instructions below.
 
-#### Recommended: Quick Setup
+#### Quick Setup
 
-```sh
-cd <top-level-director-of-this-project>
-npm run web # make sure you wait and follow the prompts
-# after this runs go click on the link to your page
-```
+If you are reading this it is because you deployed the CarbonLake Quickstart Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
-When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign-in successfully at this point.
+1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
+2. Initiate the build process --> select your application and select "run build"
+3. Visit your live web application --> click on the link in the Amplify console
+   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
-***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+   ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![Cognito Login Page](front-end/carbonlake-ui-cloudscape/documentation/images/cognito-login.png)
-![CarbonLake Web Application](front-end/carbonlake-ui-cloudscape/documentation/images/carbonlake-ui.png)
+![Cognito Login Page](lib/stacks/stack-web/carbonlake-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
+![CarbonLake Web Application](lib/stacks/stack-web/carbonlake-ui-cloudscape/documentation/images/CarbonLake101.png)
+4. Create a separate directory to manage your web application
+
+    ```sh
+    mkdir <your-web-application-directory>
+    ```
+
+5. Install the AWS Amplify CLI following the instructions on the official [AWS Amplify Documentation](https://docs.amplify.aws/cli/start/install/).
+
+6. Pull your Amplify project
+
+    ```sh
+    amplify pull --appId <app-id> --envName <env-name>
+    ```
+
+
+7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
+8. Make the web application your own and let us know what you choose do to with it.
 
 Success! At this point, you should successfully have the Amplify app working.
-
-#### Advanced: Manual Setup
-
-If you wish to complete a manual deployment process or modify your existing deployment please follow the [Web Application README](front-end/carbonlake-ui/documentation/README.md) to manually deploy the AWS Amplify sample web application. The AWS Amplify CLI will use outputs from your application deployment, so you have to deploy CarbonLake first.
 
 ### Optional A/ Manually enable & set up Amazon Quicksight Stack
 
@@ -267,6 +290,13 @@ Shared resource stack outputs include:
 -`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
 
+### Web Stack Outputs
+
+-`CLQSWebAppRepositoryLink`: Amplify Web Application codecommit repository link.
+-`CLQSWebAppId`: Amplify Web Application ID.
+-`CLQSAmplifyLink`: Amplify Web Application AWS Console URL.
+-`CLQSWebAppDomain`: Amplify Web Application live web URL.
+
 ### Quicksight Stack Outputs
 
 -`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
@@ -294,7 +324,7 @@ In your command line shell you should see confirmation of all resources deployin
 
 ```json
 
-"application": "carbonlake" 
+"application": "carbonlake"
 
 ```
 
@@ -459,10 +489,10 @@ To add additional features to CarbonLake we recommend developing your own stack 
     // Now create a new stack to deploy within the application
     const stackName = new YourStackName(app, "YourStackTitle", {
         // these are props that serve as an input to your stack
-        // these are optional, but could include things like S3 bucket names or other outputs of other stacks. 
+        // these are optional, but could include things like S3 bucket names or other outputs of other stacks.
         // For more on this see the stack output section above.
         yourStackProp1: prop1,
-        yourStackProp2: prop2, 
+        yourStackProp2: prop2,
         env: appEnv // be sure to include this environment prop
     })
     ```
@@ -485,7 +515,7 @@ export interface MySecondStackProps extends StackProps {
 
 // Now access it as a prop where you need it within the stack 👇
 this.myStackObject = new ec2.SecurityGroup(this, 'ec2SecurityGroup', {
-            props.vpc, 
+            props.vpc,
             allowAllOutbound: true,
         });
 
@@ -519,16 +549,16 @@ The model below describes the required schema for input to the CarbonLake calcul
 ```json
 {
     "activity_event_id": "customer-CarbonLake-12345",
-    "asset_id": "vehicle-1234", 
+    "asset_id": "vehicle-1234",
     "geo": {
         "lat": 45.5152,
         "long": 122.6784
     },
-    "origin_measurement_timestamp":"2022-06-26 02:31:29", 
+    "origin_measurement_timestamp":"2022-06-26 02:31:29",
     "scope": 1,
     "category": "mobile-combustion",
     "activity": "Diesel Fuel - Diesel Passenger Cars",
-    "source": "company_fleet_management_database", 
+    "source": "company_fleet_management_database",
     "raw_data": 103.45,
     "units": "gal"
 }

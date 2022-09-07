@@ -5,6 +5,7 @@ import { aws_glue as glue } from 'aws-cdk-lib';
 import * as cfninc from 'aws-cdk-lib/cloudformation-include';
 import { Construct } from 'constructs';
 import * as path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 interface CarbonlakeQuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
@@ -35,7 +36,7 @@ export class CLQSQuicksightStack extends Stack {
     role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
     // Create unique identifier to be appended to QuickSight resources
-    const quicksightUniqueIdentifier = `CarbonLake-Combined-Emissions-${Names.uniqueId(role).slice(-8)}`;
+    const quicksightUniqueIdentifier = `CLQS-${Names.uniqueId(role).slice(-8)}-${uuidv4().slice(-12)}`;
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template

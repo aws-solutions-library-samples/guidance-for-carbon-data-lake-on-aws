@@ -55,7 +55,12 @@ export class CLQSApiStack extends Stack {
   public readonly clqsUnAuthRole: Role
   public readonly clqsAdminUserRoleManagedPolicy: ManagedPolicy
   public readonly clStandardUserRoleManagedPolicy: ManagedPolicy
+  public readonly clqsIdentityPool: CfnIdentityPool
   
+  // Outputs
+  public readonly userPoolClientIdOutput: CfnOutput
+  public readonly identityPoolIdOutputId: CfnOutput
+  public readonly userPoolIdOutput: CfnOutput
 
   constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
     super(scope, id, props)
@@ -129,7 +134,7 @@ export class CLQSApiStack extends Stack {
     //         ],
     //     });
     // -- COGNITO IDENTITY POOL
-    const clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
+    this.clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
       identityPoolName: 'clqsIdentityPool',
       allowUnauthenticatedIdentities: false,
       cognitoIdentityProviders: [
@@ -148,7 +153,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -168,7 +173,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'unauthenticated',
@@ -188,7 +193,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -221,7 +226,7 @@ export class CLQSApiStack extends Stack {
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -252,7 +257,7 @@ export class CLQSApiStack extends Stack {
     const identityProviderUrl = `cognito-idp.${clqsRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`
 
     new CfnIdentityPoolRoleAttachment(this, 'identity-pool-role-attachment', {
-      identityPoolId: clqsIdentityPool.ref,
+      identityPoolId: this.clqsIdentityPool.ref,
       roles: {
         authenticated: this.clqsAuthRole.roleArn,
         unauthenticated: this.clqsUnAuthRole.roleArn,
@@ -389,32 +394,30 @@ export class CLQSApiStack extends Stack {
     })
 
     // Create a resolver for deleting a record by the activity_event_id
-    datasource.createResolver({
-      typeName: 'Mutation',
-      fieldName: 'delete',
-      requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
-      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    })
+    // Commented out. Uncomment if you wish to use.
+    //datasource.createResolver({
+      //typeName: 'Mutation',
+      //fieldName: 'delete',
+      //requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
+      //responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
+    //})
 
     // -- Outputs --
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables
 
     // Cognito
-    this.userPool = userPool
-    new CfnOutput(this, 'userPoolId', { value: userPool.userPoolId })
     
-    this.userPoolClient = userPoolClient
-    new CfnOutput(this, 'CLQSuserPoolId', { 
+    this.userPoolIdOutput = new CfnOutput(this, 'CLQSuserPoolId', { 
       value: userPool.userPoolId,
       exportName: 'CLQSuserPoolId'
     })
     
-    new CfnOutput(this, 'identityPoolId', { 
-      value: clqsIdentityPool.ref,
+    this.identityPoolIdOutputId = new CfnOutput(this, 'identityPoolId', { 
+      value: this.clqsIdentityPool.ref,
       exportName: 'CLQidentityPoolId'
     })
 
-    new CfnOutput(this, 'userPoolClientId', {
+    this.userPoolClientIdOutput = new CfnOutput(this, 'userPoolClientId', {
        value: userPoolClient.userPoolClientId,
        exportName: 'CLQSuserPoolClientId' 
       })

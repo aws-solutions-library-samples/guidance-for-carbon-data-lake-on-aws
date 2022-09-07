@@ -21,6 +21,8 @@
   "devDependencies": {
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "@types/prettier": "<2.6.0",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "aws-cdk": "2.15.0",
@@ -35,6 +37,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-amplify-alpha": "^2.21.0-alpha.0",
     "@aws-cdk/aws-appsync-alpha": "^2.21.1-alpha.0",
     "@aws-cdk/aws-cognito-identitypool-alpha": "^2.21.1-alpha.0",
     "@awsui/collection-hooks": "^1.0.25",
@@ -44,11 +47,13 @@
     "@awsui/test-utils-core": "^1.0.17",
     "aws-cdk-exec": "^0.0.5",
     "aws-cdk-lib": "2.21.1",
+    "aws-sdk": "^2.1210.0",
     "cdk-nag": "^2.15.45",
     "child_process": "^1.0.2",
     "constructs": "^10.0.0",
     "node": "^16.17.0",
     "run": "^1.4.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "uuid": "^9.0.0"
   }
 }
