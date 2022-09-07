@@ -2,5 +2,74 @@
   "SageMakerNotebookStack": {
     "CLQSSagemakerRepository": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/CLQSSagemakerRepository",
     "CLQSSagemakerNotebookUrl": "https://us-east-1.console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances/CarbonLakeSagemakerNotebook"
+  },
+  "SharedResources": {
+    "CLQSEnrichedDataBucketUrl": "http://sharedresources-carbonlakeenrichedbucketaa16bb6c-1a9dwlxmtl4jq.s3-website-us-east-1.amazonaws.com",
+    "ExportsOutputRefcarbonlakeRawBucketE543B87F70A6D1A7": "sharedresources-carbonlakerawbuckete543b87f-1379msydygu9c",
+    "ExportsOutputRefenrichedCalculatorDataDatabase0B4B875B": "enrichedcalculatordatadatab-ynv8j2176y0e",
+    "ExportsOutputRefcarbonlakeErrorBucket2C2A91A5FC466BD2": "sharedresources-carbonlakeerrorbucket2c2a91a5-l0juazglafg4",
+    "ExportsOutputFnGetAttcarbonlakeEnrichedBucketAA16BB6CArnF9AB7C4B": "arn:aws:s3:::sharedresources-carbonlakeenrichedbucketaa16bb6c-1a9dwlxmtl4jq",
+    "ExportsOutputRefcarbonlakeEnrichedBucketAA16BB6CCBD23F3F": "sharedresources-carbonlakeenrichedbucketaa16bb6c-1a9dwlxmtl4jq",
+    "ExportsOutputRefcarbonlakeTransformedBucketAF7EE581B6EE8058": "sharedresources-carbonlaketransformedbucketaf7ee5-ool2ifyhv9mi",
+    "ExportsOutputFnGetAttcarbonlakeRawBucketE543B87FArn0A3DE8C1": "arn:aws:s3:::sharedresources-carbonlakerawbuckete543b87f-1379msydygu9c",
+    "ExportsOutputFnGetAttcarbonlakeErrorBucket2C2A91A5ArnEA77215B": "arn:aws:s3:::sharedresources-carbonlakeerrorbucket2c2a91a5-l0juazglafg4",
+    "ExportsOutputRefcarbonlakeDataLineageBucketE54E0375D1BBFADF": "sharedresources-carbonlakedatalineagebuckete54e03-gbdwdvdjzorl",
+    "ExportsOutputFnGetAttcarbonlakeDataLineageBucketE54E0375ArnA8ACD9C6": "arn:aws:s3:::sharedresources-carbonlakedatalineagebuckete54e03-gbdwdvdjzorl",
+    "CLQSDataLineageBucketUrl": "http://sharedresources-carbonlakedatalineagebuckete54e03-gbdwdvdjzorl.s3-website-us-east-1.amazonaws.com",
+    "ExportsOutputFnGetAttcarbonlakeTransformedBucketAF7EE581ArnF7B2E2DD": "arn:aws:s3:::sharedresources-carbonlaketransformedbucketaf7ee5-ool2ifyhv9mi",
+    "CLQSEnrichedDataBucket": "sharedresources-carbonlakeenrichedbucketaa16bb6c-1a9dwlxmtl4jq",
+    "CLQSDataLineageBucket": "sharedresources-carbonlakedatalineagebuckete54e03-gbdwdvdjzorl",
+    "CLQSAwsRegion": "us-east-1"
+  },
+  "LineageStack": {
+    "ExportsOutputFnGetAttcarbonlakeDataLineageInputBA9E6B87Arn0B5D3F17": "arn:aws:lambda:us-east-1:829599872203:function:LineageStack-carbonlakeDataLineageInputBA9E6B87-6qukQICPdl6h",
+    "ExportsOutputFnGetAttcarbonlakeDataLineageTraceQueueC20A84CAArn0F033F01": "arn:aws:sqs:us-east-1:829599872203:LineageStack-carbonlakeDataLineageTraceQueueC20A84CA-uDx3XxFxQ0gS",
+    "ExportsOutputRefcarbonlakeDataLineageTraceQueueC20A84CA717E198B": "https://sqs.us-east-1.amazonaws.com/829599872203/LineageStack-carbonlakeDataLineageTraceQueueC20A84CA-uDx3XxFxQ0gS"
+  },
+  "QuicksightStack": {
+    "CLQSQuicksightUrl": "Quicksight URL to be added",
+    "QuickSightDashboard": "CLQS-803A89FD-caa87ca327c2-Dashboard",
+    "QuickSightDataSource": "CLQS-803A89FD-caa87ca327c2-Athena-DataSource",
+    "QuickSightDataSet": "CLQS-803A89FD-caa87ca327c2-Data-Set"
+  },
+  "DataPipelineStack": {
+    "CLQSLandingBucketUrl": "http://datapipelinestack-clqslandingbucketae4c707e-2m1iotwwt5ra.s3-website-us-east-1.amazonaws.com",
+    "CLQSDataPipelineStateMachineUrl": "https://us-east-1.console.aws.amazon.com/states/home?region=us-east-1#/statemachines/view/arn:aws:states:us-east-1:829599872203:stateMachine:carbonlakePipelineBA64B018-OXUwAk6i88LA",
+    "ExportsOutputFnGetAttCLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource97A834ABOutputsDataPipelineStackCLQSCalculatorStackcarbonlakeCalculatorOutputTable379CBC3BRefAEEAC7E6": "DataPipelineStack-CLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource-1DFV3IOPT2IQM-carbonlakeCalculatorOutputTable1236608A-1Q7CBHEOULE66",
+    "ExportsOutputFnGetAttCLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource97A834ABOutputsDataPipelineStackCLQSCalculatorStackcarbonLakeCalculatorHandler333AB52DRef189712AD": "DataPipelineStack-CLQSCal-carbonLakeCalculatorHand-5wCTPlM7YQoy",
+    "CLQSGlueDataBrewURL": "https://us-east-1.console.aws.amazon.com/states/home?region=us-east-1",
+    "LandingBucketName": "datapipelinestack-clqslandingbucketae4c707e-2m1iotwwt5ra",
+    "ExportsOutputFnGetAttCLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource97A834ABOutputsDataPipelineStackCLQSCalculatorStackcarbonlakeCalculatorOutputTable379CBC3BArn8F1A2234": "arn:aws:dynamodb:us-east-1:829599872203:table/DataPipelineStack-CLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource-1DFV3IOPT2IQM-carbonlakeCalculatorOutputTable1236608A-1Q7CBHEOULE66",
+    "ExportsOutputFnGetAttCLQSStatemachineStackNestedStackCLQSStatemachineStackNestedStackResource5799113BOutputsDataPipelineStackCLQSStatemachineStackcarbonlakePipeline289B8B70Ref9C074399": "arn:aws:states:us-east-1:829599872203:stateMachine:carbonlakePipelineBA64B018-OXUwAk6i88LA",
+    "ExportsOutputFnGetAttCLQSCalculatorStackNestedStackCLQSCalculatorStackNestedStackResource97A834ABOutputsDataPipelineStackCLQSCalculatorStackcarbonLakeCalculatorHandler333AB52DArn091AF17B": "arn:aws:lambda:us-east-1:829599872203:function:DataPipelineStack-CLQSCal-carbonLakeCalculatorHand-5wCTPlM7YQoy",
+    "ExportsOutputRefCLQSLandingBucketAE4C707E6307F438": "datapipelinestack-clqslandingbucketae4c707e-2m1iotwwt5ra",
+    "ExportsOutputFnGetAttCLQSLandingBucketAE4C707EArnBF111D11": "arn:aws:s3:::datapipelinestack-clqslandingbucketae4c707e-2m1iotwwt5ra"
+  },
+  "ApiStack": {
+    "CLQSuserPoolId": "us-east-1_2IV6rBCNZ",
+    "ExportsOutputRefclqsUserPoolClient042AD2FB19C2949B": "6mq0h5j68ura04fdn5mqp474bu",
+    "ExportsOutputFnGetAttclqsApiFC5F2A48ApiId47759854": "b37yt4awpjfwxpabrrs54j6wty",
+    "clqsStandardUserRoleOutput": "arn:aws:iam::829599872203:role/ApiStack-clqsStandardUserRoleB6D3748F-J7TUQYJ5BBXZ",
+    "clqsAdminUserRoleOutput": "arn:aws:iam::829599872203:role/ApiStack-clqsAdminUserRoleB570F259-1H22PTB7J1TOV",
+    "adminUsername": "carbonlake-quickstart@amazon.com",
+    "graphqueryTestUrl": "https://us-east-1.console.aws.amazon.com/appsync/home?region=us-east-1#/b37yt4awpjfwxpabrrs54j6wty/v1/queries",
+    "graphqlUrl": "https://5yn4mk3fdbelfdcbmb2lifm36y.appsync-api.us-east-1.amazonaws.com/graphql",
+    "apiEndpoint": "https://5yn4mk3fdbelfdcbmb2lifm36y.appsync-api.us-east-1.amazonaws.com/graphql",
+    "userPoolClientId": "6mq0h5j68ura04fdn5mqp474bu",
+    "ExportsOutputFnGetAttclqsApiFC5F2A48GraphQLUrl68A29A6F": "https://5yn4mk3fdbelfdcbmb2lifm36y.appsync-api.us-east-1.amazonaws.com/graphql",
+    "ExportsOutputRefclqsIdentityPool8088BCBD": "us-east-1:00e423ed-9964-4744-a7dd-2943c3761a4f",
+    "ExportsOutputRefclqsUserPoolBAB5A93330A88221": "us-east-1_2IV6rBCNZ",
+    "identityPoolId": "us-east-1:00e423ed-9964-4744-a7dd-2943c3761a4f",
+    "apiId": "b37yt4awpjfwxpabrrs54j6wty"
+  },
+  "CLQSTest": {
+    "CLQSe2eTestLambdaConsoleLink": "https://us-east-1.console.aws.amazon.com/lambda/home?us-east-1#/functions/CLQSTest-carbonlakePipelineTestLambdaFD2F9954-Cf1IPQz4mlZC?tab=code",
+    "CLQSe2eTestLambdaFunctionName": "CLQSTest-carbonlakePipelineTestLambdaFD2F9954-Cf1IPQz4mlZC"
+  },
+  "WebStack": {
+    "CLQSAmplifyLink": "https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/d29csa0gavom4d",
+    "CLQSWebAppDomain": "https://dev.d29csa0gavom4d.amplifyapp.com",
+    "CLQSWebAppId": "d29csa0gavom4d",
+    "CLQSWebAppRepositoryCloneUrl": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/CLQSWebAppRepo"
   }
 }
