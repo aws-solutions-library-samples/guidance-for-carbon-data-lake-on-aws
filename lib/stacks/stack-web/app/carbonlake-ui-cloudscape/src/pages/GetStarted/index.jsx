@@ -81,12 +81,11 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            
             <Container>
               <div>
               <h1>Get Started</h1>
                   <p>
-                    Welcome to the CarbonLake Quickstart sample web application. This application demonstrates some features and functionalities of CarbonLake in a web interface while also giving you a starter to develop your own application. You will notice that some elements of the application are not fully built out. We put them there as exampled and so that you can make the application your own. This web application was built using AWS Amplify, Cloudscape Design System, and React. The application consists of starter integrations, and sample components to be customized.
+                    Welcome to the CarbonLake Quickstart sample web application. This application demonstrates some features and functionalities of CarbonLake in a web interface while also giving you a starter to develop your own application. You will notice that some elements of the application are not fully built out. We put them there as examples and so that you can make the application your own. This web application was built using AWS Amplify, Cloudscape Design System, and React. The application consists of starter integrations, and sample components to be customized. Read on to learn more.
                   </p>
                   <h2>Starter Integrations</h2>
                   <p>The starter integrations in this application show how you can integrate CarbonLake Quickstart backend resources with a web application.</p>
@@ -155,24 +154,6 @@ export const ToolsContent = () => (
               text="IPCC Emissions Factor Database"
             />
           </li>
-          {/* <li>
-            <ExternalLinkItem
-              href="https://aws.amazon.com/transcribe/faqs/?nc=sn&loc=5"
-              text="Amazon Transcribe FAQs"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html"
-              text="Amazon Transcribe Custom Language Models"
-            />
-          </li>
-          <li>
-            <ExternalLinkItem
-              href="https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html"
-              text="Amazon Transcribe Custom Vocabularies"
-            />
-          </li> */}
         </ul>
       </>
     }
