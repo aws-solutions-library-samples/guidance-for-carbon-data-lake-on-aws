@@ -1,6 +1,6 @@
 {
   "adminEmail": "carbonlake-quickstart@amazon.com",
-  "quicksightUserName": "sambiddl@amazon.com",
+  "quicksightUserName": "carbonlake-quickstart@amazon.com",
   "repoBranch": "main",
   "deployQuicksightStack": true,
   "deploySagemakerStack": true,
