@@ -110,6 +110,7 @@ cdk-test: # runs test of cdk deployment
     - cdk synth
     - cdk deploy --all
     - wait
+    - cdk destroy WebStack
     - cdk destroy --all --force
     - echo "amplify test successful"
 
