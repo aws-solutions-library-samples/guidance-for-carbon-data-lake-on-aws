@@ -383,7 +383,7 @@ bin/**/*.js
 cdk.out
 
 # CDK outputs
-#cdk-outputs.json
+cdk-outputs.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
