@@ -6,7 +6,7 @@ CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution buil
 
 ![CarbonLake architectural diagram](resources/architecture/architecture_diagram.png)
 
-1. Scope 1-3 customer data is supported in formats including including JSON, CSV, Image, and PDF. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data.
+1. Scope 1-3 customer data is supported in formats including JSON, CSV, Image, and PDF. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data.
 2. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
 3. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
 4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
@@ -72,7 +72,7 @@ Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebo
 
 ### Sample Data Collection for Testing
 
-The CarbonLake Quickstart application comes with sample data for testing successful deployment of the application and can be found in teh `resource/sample-data` directory.
+The CarbonLake Quickstart application comes with sample data for testing successful deployment of the application and can be found in the `resource/sample-data` directory.
 
 ## What it does
 
@@ -392,7 +392,7 @@ Did that all work? Continue...
 
 ### 5/ Take a look at the Amplify Sample Web Application
 
-If you have not yet this is a great time to deploy the sample web application. Once you've run some data throught the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application.
+If you have not yet this is a great time to deploy the sample web application. Once you've run some data through the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/carbonlake-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application.
 
 ### 6/ Try dropping some other sample data into the landing zone
 
@@ -499,7 +499,7 @@ To add additional features to CarbonLake we recommend developing your own stack 
 
 #### Working with Stack Outputs
 
-You can access the outputs of application stacks by adding them as props to your stack inputs. For example, you can access the `myVpc` output by adding `networkStack.myVpc` as props your your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via `props.myVpc` (or whatever you call it) within your stack. Below is an example.
+You can access the outputs of application stacks by adding them as props to your stack inputs. For example, you can access the `myVpc` output by adding `networkStack.myVpc` as props your own stack. It is best practice to add this as props at the application level, and then as an interface at the stack level. Finally, you can access it via `props.myVpc` (or whatever you call it) within your stack. Below is an example.
 
 ```javascript
 
