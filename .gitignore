@@ -383,7 +383,7 @@ bin/**/*.js
 cdk.out
 
 # CDK outputs
-cdk-output.json
+#cdk-outputs.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
@@ -405,9 +405,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-#cdk context test
-cdk.contexttest.json
 
 response.json
 
