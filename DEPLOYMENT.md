@@ -4,7 +4,7 @@ CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution buil
 
 ## 🛠 What you will build
 
-![CarbonLake architectural diagram](resources/architecture/carbonlake-quickstart-v1-architecture-image.png)
+![CarbonLake architectural diagram](resources/architecture/architecture_diagram.png)
 
 1. Scope 1-3 customer data is supported in formats including including JSON, CSV, Image, and PDF. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data.
 2. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
@@ -62,7 +62,7 @@ Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
-Review the [Amazon Quicksight Stack](lin/stacks/stack-quicksight/../../../README.md)
+Review the [Amazon Quicksight Stack](lib/stacks/stack-quicksight/documentation/README.md)
 
 ### Optional: Sagemaker Notebook Instance with pre-built Machine Learning notebook
 
