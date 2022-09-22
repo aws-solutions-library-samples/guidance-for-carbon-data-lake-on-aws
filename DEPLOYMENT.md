@@ -1,6 +1,6 @@
-# Welcome to CarbonLake Quickstart CDK Application
+# Welcome to CarbonLake Quick Start CDK Application
 
-CarbonLake Quickstart (CLQS) is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quickstart reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligency services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+CarbonLake Quick Start (CLQS) is a decarbonization data accelerator solution built on existing AWS Services. CarbonLake Quick Start reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. CarbonLake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. CarbonLake data is ingested through the CarbonLake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
 ## 🛠 What you will build
 
@@ -42,7 +42,7 @@ The CarbonLake data pipeline is an event-driven Step Functions Workflow triggere
 
 Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
-### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
+### Emissions Factor Reference Databases pre-seeded in an Amazon DynamoDB table
 
 The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the World Resource Institute GHG Protocol model.
 
@@ -54,11 +54,11 @@ Review the [AppSync GraphQL API Stack](lib/stacks/stack-shared-resources/carbonl
 
 ### Optional: AWS Amplify Sample Web Application
 
-An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful CarbonLake Quickstart Application deployment. The AWS Amplify Web Application depends on the core CarbonLake Quickstart components.
+An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful CarbonLake Quick Start Application deployment. The AWS Amplify Web Application depends on the core CarbonLake Quick Start components.
 
 Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.ts) and [Stack Outputs](#web-stack-outputs).
 
-### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
+### Optional: Amazon Quicksight Module with pre-built visualizations and Analysis
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
@@ -72,18 +72,18 @@ Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebo
 
 ### Sample Data Collection for Testing
 
-The CarbonLake Quickstart application comes with sample data for testing successful deployment of the application and can be found in the `resource/sample-data` directory.
+The CarbonLake Quick Start application comes with sample data for testing successful deployment of the application and can be found in the `resource/sample-data` directory.
 
 ## What it does
 
-This Quickstart provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities and limitations of the CarbonLake Quickstart. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
+This Quick Start provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities and limitations of the CarbonLake Quick Start. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
 
 ### Capabilities
 
 The following list of capabilities covers current capabilities as recorded and updated August 2022:
 
 1. Accepts CSV formatted data inputs as S3 upload to CarbonLake Landing Bucket
-2. Accepts mult-part and standard upload via S3 CLI, Console, and other programmatic means
+2. Accepts multi-part and standard upload via S3 CLI, Console, and other programmatic means
 3. Accepts single file upload via AWS Amplify console with optional web application
 4. Provides daily data compaction at midnight in local time
 5. Performs calculation using pre-built GHG calculator lookup table
@@ -105,11 +105,11 @@ The AWS CloudFormation templates for this Quick Start include configuration para
 
 Tip: After you deploy the Quick Start,  create AWS Cost and Usage Reports to track costs associated with the Quick Start. These reports deliver billing metrics to an S3 bucket in your account. They provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see  What are AWS Cost and Usage Reports?
 
-This Quickstart doesn’t require any software license or AWS Marketplace subscription.
+This Quick Start doesn’t require any software license or AWS Marketplace subscription.
 
 ## How to Deploy
 
-You can deploy CarbonLake Quickstart through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrating with your existing infrastructure using AWS Organizations.
+You can deploy CarbonLake Quick Start through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrating with your existing infrastructure using AWS Organizations.
 
 ## 🎒 Pre-requisites
 
@@ -205,12 +205,12 @@ For quick setup follow the instructions below.
 
 #### Quick Setup
 
-If you are reading this it is because you deployed the CarbonLake Quickstart Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
+If you are reading this it is because you deployed the CarbonLake Quick Start Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
 2. Initiate the build process --> select your application and select "run build"
 3. Visit your live web application --> click on the link in the Amplify console
-   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quickstart CDK Application. After changing your password, you should be able to sign in successfully at this point.
+   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your CarbonLake Quick Start CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
@@ -252,7 +252,7 @@ To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerS
 
 ## 🗑 How to Destroy
 
-You can destroy all stacks included in CarbonLake Quickstart with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
+You can destroy all stacks included in CarbonLake Quick Start with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
 
 - DynamoDB Tables
 - S3 Buckets
@@ -285,8 +285,8 @@ Shared resource stack outputs include:
 
 ### Data Pipeline Stack Outputs
 
--`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline.
--`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline.
+-`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to CarbonLake Quick Start Data Pipeline.
+-`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to CarbonLake Quick Start Data Pipeline.
 -`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
 
@@ -316,7 +316,7 @@ Shared resource stack outputs include:
 
 ## 🛠 Usage
 
-Time to get started using CarbonLake Quickstart! Follow the steps below to see if everything is working and get familiar with this solution.
+Time to get started using CarbonLake Quick Start! Follow the steps below to see if everything is working and get familiar with this solution.
 
 ### 1/ Make sure all the infrastructure deployed properly
 
@@ -345,10 +345,10 @@ Time to test some data out and see if everything is working. This section assume
 - Have a quick look and familiarize yourself with the workflow graph inspector
 - The workflow will highlight green for each passed step. See two image examples below.
 
-![In-Progress Step Functions Workflow](resources/carbonlake-quickstart-step-func-in-progress.png)
+![In-Progress Step Functions Workflow](resources/carbonlake-Quick Start-step-func-in-progress.png)
 Figure. In progress step function workflow
 
-![Successful Step Functions Workflow](resources/carbonlake-quickstart-step-func-graph-inspector-completed.png)
+![Successful Step Functions Workflow](resources/carbonlake-Quick Start-step-func-graph-inspector-completed.png)
 Figure. Completed step function workflow
 
 ### 3/ Review your calculated outputs
@@ -475,11 +475,11 @@ To add additional features to CarbonLake we recommend developing your own stack 
 
 5. If you have integrated your stack successfully you should see it build when you run `cdk synth`. For development purposes we recommend deploying your stack in isolation before you deploy with the full application. You can run `cdk deploy YourStackName` to deploy in isolation.
 
-6. Integrate your stack with the full application by importing it to `bin/carbonlake-quickstart-main.ts` and `carbonlake-quickstart-cicd.ts` if you have chosen to deploy it.
+6. Integrate your stack with the full application by importing it to `bin/carbonlake-Quick Start-main.ts` and `carbonlake-Quick Start-cicd.ts` if you have chosen to deploy it.
 
     ```sh
-    #open the file carbonlake-quickstart-main.ts
-    open carbonlake-quickstart-main.ts
+    #open the file carbonlake-Quick Start-main.ts
+    open carbonlake-Quick Start-main.ts
     ```
 
     ```javascript
