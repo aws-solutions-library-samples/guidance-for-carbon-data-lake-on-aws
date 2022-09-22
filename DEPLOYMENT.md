@@ -640,3 +640,21 @@ Calculation methodologies are direct representations of the [World Resource Inst
 ## 🔐 Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## Appendix
+
+### Troubleshooting
+
+For users with an Apple M1 chip, you may run into the following error when executing npm commands: "no matching version found for node-darwin-amd64@16.4.0" or similar terminal error output depending on the version of node you are running. If this happens, execute the following commands from your terminal in order (this fix assumes you have node version manager (nvm) installed). In this example, we will use node version 16.4.0. Replace the node version in these commands with the version you are running:
+```sh
+nvm uninstall 16.4.0
+```
+```sh
+arch -x86_64 zsh
+```
+```sh
+nvm install 16.4.0
+```
+```sh
+nvm alias default 16.4.0
+```
