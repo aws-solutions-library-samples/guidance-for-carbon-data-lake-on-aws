@@ -1,6 +1,6 @@
 {
-  "adminEmail": "youremail@email.com",
-  "quicksightUserName": "youremail@email.com",
+  "adminEmail": "your-email@your-email.com",
+  "quicksightUserName": "your-email@your-email.com",
   "repoBranch": "main",
   "deployQuicksightStack": false,
   "deploySagemakerStack": false,
