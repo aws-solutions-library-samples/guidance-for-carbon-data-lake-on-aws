@@ -1,6 +1,6 @@
 {
   "name": "carbonlake-quickstart",
-  "author": "AWS CarbonLake Quickstart Builder Team",
+  "author": "AWS CarbonLake Quick Start Builder Team",
   "version": "0.1.0",
   "bin": {
     "carbonlake-quickstart": "bin/carbonlake-quickstart-main.js"
