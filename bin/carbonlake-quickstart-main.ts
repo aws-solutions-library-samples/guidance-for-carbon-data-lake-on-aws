@@ -12,6 +12,7 @@ import { CLQSDataPipelineStack } from '../lib/stacks/stack-data-pipeline/carbonl
 import { CLQSApiStack } from '../lib/stacks/stack-api/carbonlake-api-stack'
 import { CLQSSageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/carbonlake-qs-sagemaker-notebook'
 import { CLQSWebStack } from '../lib/stacks/stack-web/carbonlake-qs-web-stack'
+import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
 
 const app = new cdk.App();
 
@@ -22,14 +23,7 @@ const appEnv = {
 
 const adminEmail = app.node.tryGetContext('adminEmail')
     
-if (!adminEmail) {
-      console.warn('****************************************************************')
-      console.warn('*** WARNING: You must provide a valid adminEmail address     ***')
-      console.warn('*** you can do this via cdk.context.json                     ***')
-      console.warn('***              -- OR --                                    ***')
-      console.warn('*** via --context adminEmail=value                           ***')
-      console.warn('****************************************************************')
-    }
+checkAdminEmailSetup(adminEmail);
 
 // QS1 --> Create the carbonlake shared resource stack
 const sharedResources = new CLQSSharedResourcesStack(app, 'SharedResources', {env: appEnv});
@@ -77,23 +71,14 @@ const apiStack = new CLQSApiStack (app, 'ApiStack', {
     })
 
 // QS6 --> Create the carbonlake quicksight stack
-// commenting quicksight stack out for test
 const quicksightOption = app.node.tryGetContext('deployQuicksightStack')
 console.log(`Quicksight deployment option is set to: ${quicksightOption}`)
 if (quicksightOption === true) {
 
     const quicksightUsername = app.node.tryGetContext('quicksightUserName')
-    if (!quicksightUsername) {
-      console.warn('********************************************************************')
-      console.warn('*** WARNING: If you will be deploying CarbonlakeQuicksightStack, ***')
-      console.warn('*** you must provide a valid admin email address                 ***')
-      console.warn('*** you can do this via cdk.context.json                         ***')
-      console.warn('***              -- OR --                                        ***')
-      console.warn('*** via --context quicksightUserName=value                       ***')
-      console.warn('********************************************************************')
-    }
+    checkQuicksightSetup(quicksightUsername);
 
-new CLQSQuicksightStack(app, 'QuicksightStack', {
+  new CLQSQuicksightStack(app, 'QuicksightStack', {
     enrichedBucket: sharedResources.carbonlakeEnrichedBucket,
     quicksightUsername: quicksightUsername,
     enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
