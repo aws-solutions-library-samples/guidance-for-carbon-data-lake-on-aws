@@ -6,15 +6,15 @@ CarbonLake Quick Start (CLQS) is a decarbonization data accelerator solution bui
 
 ![CarbonLake architectural diagram](resources/architecture/architecture_diagram.png)
 
-1. Scope 1-3 customer data is supported in formats including JSON, CSV, Image, and PDF. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data.
+1. Scope 1-3 customer carbon emissions data ([See World Resource Institute GHG Protocol Guidance](https://ghgprotocol.org/guidance-0)) is currently supported in CSV format. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data. CarbonLake Quick Start provides a pre-built GHG Protocol Calculator Microservice adapted from [WRI GHG Protocol Emissions Calculator Tool](https://ghgprotocol.org/calculation-tools), which is aligned with [ISO 14064](https://www.iso.org/standard/66453.html). This calculator and standards lookup table can be modified or augmented with additional bring your own standards lookup tables and calculator logic.
 2. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
 3. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
 4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
 5. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
 6. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB GHG Protocol Emissions factor lookup database.
 7. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
-Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting toolsets including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
-9. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
+Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting tools including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
+8. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
 
 ## Application Stacks
 
@@ -42,7 +42,7 @@ The CarbonLake data pipeline is an event-driven Step Functions Workflow triggere
 
 Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/carbonlake-qs-pipeline-stack.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
-### Emissions Factor Reference Databases pre-seeded in an Amazon DynamoDB table
+### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
 
 The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the World Resource Institute GHG Protocol model.
 
@@ -58,7 +58,7 @@ An AWS Amplify application can be deployed optionally and hosted via Amazon Clou
 
 Review the [Web Application Stack](lib/stacks/stack-web/carbonlake-qs-web-stack.ts) and [Stack Outputs](#web-stack-outputs).
 
-### Optional: Amazon Quicksight Module with pre-built visualizations and Analysis
+### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
@@ -83,7 +83,7 @@ This Quick Start provides core functionality to accelerate data ingestion, proce
 The following list of capabilities covers current capabilities as recorded and updated August 2022:
 
 1. Accepts CSV formatted data inputs as S3 upload to CarbonLake Landing Bucket
-2. Accepts multi-part and standard upload via S3 CLI, Console, and other programmatic means
+2. Accepts mult-part and standard upload via S3 CLI, Console, and other programmatic means
 3. Accepts single file upload via AWS Amplify console with optional web application
 4. Provides daily data compaction at midnight in local time
 5. Performs calculation using pre-built GHG calculator lookup table
@@ -205,7 +205,7 @@ For quick setup follow the instructions below.
 
 #### Quick Setup
 
-If you are reading this it is because you deployed the CarbonLake Quick Start Web Applicaiton by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
+If you are reading this it is because you deployed the CarbonLake Quick Start Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
 2. Initiate the build process --> select your application and select "run build"
