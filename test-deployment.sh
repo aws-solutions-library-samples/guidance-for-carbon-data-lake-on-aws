@@ -19,10 +19,10 @@ do
    export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap #bootstraps cdk in the region
+   cdk bootstrap --context adminEmail="test@test.com" quicksightUsername="test@test.com" #bootstraps cdk in the region
    wait
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region="$region" #deploys all with the optional region context variable
+   cdk deploy --all --context region="$region" adminEmail="test@test.com" quicksightUsername="test@test.com" #deploys all with the optional region context variable
    wait
    echo "👋 destroying all in $region 📍"
    cdk destroy --all --force #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation

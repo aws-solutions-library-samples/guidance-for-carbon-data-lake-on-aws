@@ -1,6 +1,6 @@
 {
   "adminEmail": "sambiddl@amazon.com",
-  "quicksightUserName": "enter-context-parameter",
+  "quicksightUserName": "quicksight-user-email@amazon.com",
   "repoBranch": "main",
   "deployQuicksightStack": true,
   "deploySagemakerStack": false,
