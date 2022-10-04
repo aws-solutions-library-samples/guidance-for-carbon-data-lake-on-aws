@@ -15,7 +15,7 @@ export function checkAdminEmailSetup(adminEmail:string){
 export function checkQuicksightSetup(quicksightUsername:string){
     if (quicksightUsername === "enter-context-parameter") {
       console.warn('********************************************************************');
-      console.warn('*** ⛔️ WARNING: You are seeing this message because               ***');
+      console.warn('*** ⛔️ WARNING: You are seeing this message because              ***');
       console.warn('*** you have set deployQuicksightStack as true                   ***');
       console.warn('*** but you have not followed all steps to set up Quicksight     ***');
       console.warn('*** You can fix this! 🛠  Read on for directions...              ***');
@@ -24,7 +24,7 @@ export function checkQuicksightSetup(quicksightUsername:string){
       console.warn('*** lib/stacks/stack-quicksight/documentation/README.md          ***');
       console.warn('*** 🚨 Please note that you MUST follow ALL directions IN ORDER  ***');
       console.warn('*** ###################################################          ***');
-      console.warn('*** ❓ Did you set up a Quicksight account?                       ***');
+      console.warn('*** ❓ Did you set up a Quicksight account?                      ***');
       console.warn('*** ❓ Did you create a Quicksight user with author privileges?   ***');
       console.warn('*** ❓ Did you accept the email invite and log in as that user?   ***');
       console.warn('*** ❓ Did you enter the email for that user in cdk context?      ***');
