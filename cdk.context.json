@@ -1,8 +1,8 @@
 {
-  "adminEmail": "sambiddl@amazon.com",
-  "quicksightUserName": "quicksight-user-email@amazon.com",
+  "adminEmail": "",
+  "quicksightUserName": "",
   "repoBranch": "main",
-  "deployQuicksightStack": true,
+  "deployQuicksightStack": false,
   "deploySagemakerStack": false,
   "deployWebStack": false
 }

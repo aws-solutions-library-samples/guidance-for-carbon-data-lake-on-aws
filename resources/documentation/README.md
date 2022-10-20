@@ -345,10 +345,10 @@ Time to test some data out and see if everything is working. This section assume
 - Have a quick look and familiarize yourself with the workflow graph inspector
 - The workflow will highlight green for each passed step. See two image examples below.
 
-![In-Progress Step Functions Workflow](resources/carbonlake-Quick Start-step-func-in-progress.png)
+![In-Progress Step Functions Workflow](resources/images/carbonlake-Quick Start-step-func-in-progress.png)
 Figure. In progress step function workflow
 
-![Successful Step Functions Workflow](resources/carbonlake-Quick Start-step-func-graph-inspector-completed.png)
+![Successful Step Functions Workflow](resources/images/carbonlake-Quick Start-step-func-graph-inspector-completed.png)
 Figure. Completed step function workflow
 
 ### 3/ Review your calculated outputs
