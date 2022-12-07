@@ -3,7 +3,7 @@ import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CarbonlakeDataQualityStack } from '../../../lib/stacks/stack-data-pipeline/data-quality/carbonlake-qs-data-quality'
+import { CarbonlakeDataQualityStack } from '../../../lib/stacks/stack-data-pipeline/construct-data-quality/carbonlake-qs-data-quality'
 
 describe('test pipeline stack', () => {
   let template: Template | null

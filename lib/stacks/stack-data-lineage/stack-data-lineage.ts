@@ -7,13 +7,13 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
-import { DataLineageQueryStack } from './query/data-lineage-query-stack'
+import { DataLineageQuery } from './construct-data-lineage-query/construct-data-lineage-query-stack'
 
 interface DataLineageStackProps extends StackProps {
   archiveBucket: s3.Bucket
 }
 
-export class CLQSDataLineageStack extends Stack {
+export class DataLineageStack extends Construct {
   public readonly inputFunction: lambda.Function
   public readonly traceQueue: sqs.Queue
 
@@ -63,7 +63,7 @@ export class CLQSDataLineageStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'carbonlakeDataLineageLayer',
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     )
 
     /* ======== INPUT LAMBDA ======== */
@@ -124,7 +124,7 @@ export class CLQSDataLineageStack extends Stack {
 
     /* ======== QUERY STACK ======== */
     // This is an optional stack to add query support on the archive bucket
-    const queryStack = new DataLineageQueryStack(this, 'carbonlakeDataLineageQueryStack', {
+    const queryStack = new DataLineageQuery(this, 'carbonlakeDataLineageQueryStack', {
       dataLineageBucket: props.archiveBucket,
     })
 

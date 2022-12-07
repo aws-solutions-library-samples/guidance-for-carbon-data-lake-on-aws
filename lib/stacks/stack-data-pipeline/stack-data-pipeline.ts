@@ -8,10 +8,10 @@ import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
-import { CLQSCalculatorStack } from './calculator/carbonlake-qs-calculator'
-import { CLQSStatemachineStack } from './statemachine/carbonlake-qs-statemachine-stack'
-import { CarbonLakeGlueTransformationStack } from './transform/glue/carbonlake-qs-glue-transform-job'
-import { CarbonlakeDataQualityStack } from './data-quality/carbonlake-qs-data-quality'
+import { CLQSCalculatorStack } from './construct-calculator/calculator-construct'
+import { CLQSStatemachineStack } from './construct-data-pipeline-statemachine/carbonlake-qs-statemachine-stack'
+import { CarbonLakeGlueTransformationStack } from './construct-transform/glue/carbonlake-qs-glue-transform-job'
+import { CarbonlakeDataQualityStack } from './construct-data-quality/carbonlake-qs-data-quality'
 
 interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function

@@ -1,16 +1,16 @@
-import { NestedStack, NestedStackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
+import { Stack, StackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonLakeDataCompactionGlueJobsStackProps extends NestedStackProps {
+interface DataCompactionGlueJobsProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
 }
 
-export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
+export class DataCompactionGlueJobs extends Construct {
   public readonly glueCompactionJobName: any
   public readonly glueDataFlushJobName: any
 
-  constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionGlueJobsStackProps) {
+  constructor(scope: Construct, id: string, props: DataCompactionGlueJobsProps) {
     super(scope, id, props)
 
     // Create new S3 bucket to store glue data compaction script
@@ -115,7 +115,7 @@ export class CarbonLakeDataCompactionGlueJobsStack extends NestedStack {
 
     // Deploy glue job scripts to S3 bucket
     new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-      sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/glue/assets')],
+      sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/construct-data-compaction-glue/assets')],
       destinationBucket: glueScriptsBucket,
       destinationKeyPrefix: 'Scripts',
     })

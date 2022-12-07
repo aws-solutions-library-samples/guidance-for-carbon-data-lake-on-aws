@@ -1,4 +1,4 @@
-import { Duration, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
@@ -9,16 +9,16 @@ import { Construct } from 'constructs'
 
 const DDB_BATCH_WRITE_ITEM_CHUNK_SIZE = 25
 
-export interface CLQSCalculatorStackProps extends NestedStackProps {
+export interface CalculatorProps extends StackProps {
   transformedBucket: s3.Bucket
   enrichedBucket: s3.Bucket
 }
 
-export class CLQSCalculatorStack extends NestedStack {
+export class Calculator extends Construct {
   public readonly calculatorOutputTable: dynamodb.Table
   public readonly calculatorLambda: lambda.Function
 
-  constructor(scope: Construct, id: string, props: CLQSCalculatorStackProps) {
+  constructor(scope: Construct, id: string, props: CalculatorProps) {
     super(scope, id, props)
 
     const emissionsFactorReferenceTable = new dynamodb.Table(this, 'carbonLakeEmissionsFactorReferenceTable', {
@@ -125,12 +125,12 @@ interface IDdbEmissionFactor {
         M: {
           coefficients: {
             M: {
-              co2_factor: { S: string } //TODO use number (I used string because some values are empty in JSON)
-              ch4_factor: { S: string } //TODO use number (I used string because some values are empty in JSON)
-              n2o_factor: { S: string } //TODO use number (I used string because some values are empty in JSON)
-              biofuel_co2: { S: string } //TODO use number (I used string because some values are empty in JSON)
-              AR4_kgco2e: { S: string } //TODO use number (I used string because some values are empty in JSON)
-              AR5_kgco2e: { S: string } //TODO use number (I used string because some values are empty in JSON)
+              co2_factor: { S: string } 
+              ch4_factor: { S: string } 
+              n2o_factor: { S: string } 
+              biofuel_co2: { S: string } 
+              AR4_kgco2e: { S: string } 
+              AR5_kgco2e: { S: string } 
               units: { S: string }
             }
           }

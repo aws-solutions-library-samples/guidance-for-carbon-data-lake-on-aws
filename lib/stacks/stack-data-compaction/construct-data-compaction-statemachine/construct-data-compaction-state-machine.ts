@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib'
+import { Stack, StackProps, Names } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sqs as sqs } from 'aws-cdk-lib'
@@ -6,7 +6,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProps {
+interface DataCompactionStateMachineProps extends StackProps {
   glueCompactionJobName: string
   glueDataFlushJobName: any
   glueHistoricalCalculatorCrawlerName: any
@@ -16,10 +16,10 @@ interface CarbonlakeDataCompactionStateMachineStackProps extends NestedStackProp
   enemerateDirectoriesFunction: lambda.Function
 }
 
-export class CarbonlakeDataCompactionStateMachineStack extends NestedStack {
+export class DataCompactionStateMachine extends Construct {
   public readonly stateMachineName: any
 
-  constructor(scope: Construct, id: string, props: CarbonlakeDataCompactionStateMachineStackProps) {
+  constructor(scope: Construct, id: string, props: DataCompactionStateMachineProps) {
     super(scope, id, props)
 
     // Create IAM role to be assumed by state machine

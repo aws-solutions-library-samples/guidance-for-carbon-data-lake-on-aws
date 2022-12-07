@@ -1,16 +1,16 @@
-import { Names, NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Names, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonLakeGlueTransformationStackProps extends NestedStackProps {
+interface GlueTransformationProps extends StackProps {
   rawBucket: cdk.aws_s3.Bucket
   transformedBucket: cdk.aws_s3.Bucket
 }
 
-export class CarbonLakeGlueTransformationStack extends NestedStack {
+export class CarbonLakeGlueTransformationStack extends Construct {
   public readonly glueTransformJobName: string
 
-  constructor(scope: Construct, id: string, props: CarbonLakeGlueTransformationStackProps) {
+  constructor(scope: Construct, id: string, props: GlueTransformationProps) {
     super(scope, id, props)
 
     // Create new S3 bucket to store glue script

@@ -1,4 +1,5 @@
 import { Stack, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
@@ -6,26 +7,25 @@ import { aws_sqs as sqs } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import * as path from 'path'
 
-import { CarbonLakeDataCompactionGlueJobsStack } from './glue/carbonlake-qs-data-compaction-glue-jobs'
-import { CarbonLakeDataCompactionHistoricalCrawlerStack } from './glue/carbonlake-qs-data-compaction-historical-crawler'
-import { CarbonLakeGlueEnrichedDataTodayTableStack } from './glue/carbonlake-qs-create-enriched-data-glue-today-table'
-import { CLQSCreateAthenaViewsStack } from './athena/carbonlake-qs-createAthenaViews'
-import { CarbonlakeDataCompactionStateMachineStack } from './statemachine/carbonlake-qs-data-compaction-state-machine'
-import { CarbonLakeEventTriggerStateMachineStack } from './event/carbonlake-qs-event-trigger-state-machine'
-import { Construct } from 'constructs'
+import { DataCompactionGlueJobs } from './construct-data-compaction-glue/construct-data-compaction-glue-jobs'
+import { DataCompactionHistoricalCrawler } from './construct-data-compaction-glue/construct-data-compaction-historical-crawler'
+import { GlueEnrichedDataTodayTable } from './construct-data-compaction-glue/construct-create-enriched-data-glue-today-table'
+import { CreateAthenaViews } from './construct-data-compaction-athena/construct-create-athena-views'
+import { DataCompactionStateMachine } from './construct-data-compaction-statemachine/construct-data-compaction-state-machine'
+import { EventTriggerStateMachine } from './construct-data-compaction-state-machine-event-trigger/construct-event-trigger-state-machine'
 
-interface CLQSCompactionStackProps extends StackProps {
+interface CompactionStackProps extends StackProps {
   enrichedBucket: s3.Bucket
   enrichedDataDatabase: glue.CfnDatabase
   dataLineageTraceQueue: sqs.Queue
 }
 
-export class CLQSCompactionStack extends Stack {
-  constructor(scope: Construct, id: string, props: CLQSCompactionStackProps) {
+export class DataCompactionStack extends Stack {
+  constructor(scope: Construct, id: string, props: CompactionStackProps) {
     super(scope, id, props)
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */
-    const { glueEnrichedDataTodayTable } = new CarbonLakeGlueEnrichedDataTodayTableStack(
+    const { glueEnrichedDataTodayTable } = new GlueEnrichedDataTodayTable(
       this,
       'carbonLakeGlueEnrichedDataDatabaseStack',
       {
@@ -36,7 +36,7 @@ export class CLQSCompactionStack extends Stack {
 
     /* ======== GLUE COMPACTION & FLUSHING JOBS ======== */
     // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
-    const { glueCompactionJobName, glueDataFlushJobName } = new CarbonLakeDataCompactionGlueJobsStack(
+    const { glueCompactionJobName, glueDataFlushJobName } = new DataCompactionGlueJobs(
       this,
       'carbonLakeDataCompactionGlueJobsStack',
       {
@@ -45,7 +45,7 @@ export class CLQSCompactionStack extends Stack {
     )
 
     /* ======== HISTORICAL DATA CRAWLER ======== */
-    const { glueHistoricalCalculatorCrawlerName } = new CarbonLakeDataCompactionHistoricalCrawlerStack(
+    const { glueHistoricalCalculatorCrawlerName } = new DataCompactionHistoricalCrawler(
       this,
       'carbonLakeDataCompactionHistoricalCrawlerStack',
       {
@@ -55,7 +55,7 @@ export class CLQSCompactionStack extends Stack {
     )
 
     /** LAMBDAS TO CREATE ATHENA VIEWS */
-    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CLQSCreateAthenaViewsStack(
+    const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CreateAthenaViews(
       this,
       'CLQSCreateAthenaViewsStack',
       {
@@ -84,7 +84,7 @@ export class CLQSCompactionStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'carbonlakeDataCompactionLayer',
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     )
 
     // Lambda function to process incoming events, generate child node IDs
@@ -103,7 +103,7 @@ export class CLQSCompactionStack extends Stack {
     props.dataLineageTraceQueue.grantSendMessages(enumFunction)
 
     /* ======== STATEMACHINE ======== */
-    const { stateMachineName } = new CarbonlakeDataCompactionStateMachineStack(
+    const { stateMachineName } = new DataCompactionStateMachine(
       this,
       'carbonlakeDataCompactionStateMachineStack',
       {
@@ -118,7 +118,7 @@ export class CLQSCompactionStack extends Stack {
     )
 
     /** VENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
-    const { eventRule } = new CarbonLakeEventTriggerStateMachineStack(this, 'carbonLakeEventTriggerStateMachineStack', {
+    const { eventRule } = new EventTriggerStateMachine(this, 'carbonLakeEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName,
     })
 

@@ -1,4 +1,4 @@
-import { Duration, NestedStack, NestedStackProps } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps } from 'aws-cdk-lib'
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -6,7 +6,7 @@ import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface StateMachineProps extends NestedStackProps {
+interface StateMachineProps extends StackProps {
   dataLineageFunction: lambda.Function
   dqResourcesLambda: lambda.Function
   dqResultsLambda: lambda.Function
@@ -16,7 +16,7 @@ interface StateMachineProps extends NestedStackProps {
   calculationJob: lambda.Function
 }
 
-export class CLQSStatemachineStack extends NestedStack {
+export class StatemachineStack extends Construct {
   public readonly statemachine: sfn.StateMachine
 
   constructor(scope: Construct, id: string, props: StateMachineProps) {

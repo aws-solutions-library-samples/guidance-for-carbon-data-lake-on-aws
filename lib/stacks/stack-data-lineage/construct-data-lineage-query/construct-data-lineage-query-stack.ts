@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib'
+import { Stack, StackProps, Names } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
 import { aws_s3 as s3 } from 'aws-cdk-lib'
@@ -6,18 +6,18 @@ import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { aws_athena as athena } from 'aws-cdk-lib'
 
-interface DataLineageQueryStackProps extends NestedStackProps {
+interface DataLineageQueryProps extends StackProps {
   dataLineageBucket: s3.Bucket
 }
 
-export class DataLineageQueryStack extends NestedStack {
+export class DataLineageQuery extends Construct {
   /* 
       This stack deploys a query stage for the data lineage component to make it simple
       to query historical data lineage records stored within S3.
       This stack is designed to be self contained and an optional component deployed
       alongside the data lineage stack.
   */
-  constructor(scope: Construct, id: string, props: DataLineageQueryStackProps) {
+  constructor(scope: Construct, id: string, props: DataLineageQueryProps) {
     super(scope, id, props)
 
     /* ====== CRAWLER ROLE ====== */
@@ -42,14 +42,14 @@ export class DataLineageQueryStack extends NestedStack {
     /* ====== GLUE DB ====== */
     // Glue Data Catalogue to store data lineage schema information
     const glueDB = new glue.CfnDatabase(this, 'DataLineageQueryDB', {
-      catalogId: this.account,
+      catalogId: Stack.of(this).account,
       databaseInput: { name: `glue-data-lineage-${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}` },
     })
 
     /* ====== GLUE TABLE ====== */
     // Glue table to be updated by the glue crawler
     const glueTable = new glue.CfnTable(this, 'DataLineagetTable', {
-      catalogId: this.account,
+      catalogId: Stack.of(this).account,
       databaseName: glueDB.ref,
       tableInput: {
         name: `carbonlake_data_lineage_${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}`,

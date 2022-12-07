@@ -1,20 +1,20 @@
-import { NestedStack, NestedStackProps, aws_s3 as s3, aws_glue as glue } from 'aws-cdk-lib'
+import { Stack, StackProps, aws_s3 as s3, aws_glue as glue } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonLakeGlueEnrichedDataTodayTableStackProps extends NestedStackProps {
+interface GlueEnrichedDataTodayTableProps extends StackProps {
   enrichedBucket: s3.Bucket
   enrichedDataDatabase: glue.CfnDatabase
 }
 
-export class CarbonLakeGlueEnrichedDataTodayTableStack extends NestedStack {
+export class GlueEnrichedDataTodayTable extends Construct {
   public readonly glueEnrichedDataTodayTable: glue.CfnTable
 
-  constructor(scope: Construct, id: string, props: CarbonLakeGlueEnrichedDataTodayTableStackProps) {
+  constructor(scope: Construct, id: string, props: GlueEnrichedDataTodayTableProps) {
     super(scope, id, props)
 
     // Create 'today' enriched data table in Glue Metadata Catalog ahead of time with pre-defined schema to match JSON output of calculator microservice
     this.glueEnrichedDataTodayTable = new glue.CfnTable(this, 'enrichedCalculatorDataTodayData', {
-      catalogId: this.account,
+      catalogId: Stack.of(this).account,
       databaseName: props.enrichedDataDatabase.ref,
       tableInput: {
         description: "Glue Metadata Catalog table for today's calculator data",

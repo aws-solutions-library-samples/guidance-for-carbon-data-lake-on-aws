@@ -1,16 +1,16 @@
-import { NestedStack, NestedStackProps, Names } from 'aws-cdk-lib'
+import { Stack, StackProps, Names } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonLakeDataCompactionHistoricalCrawlerStackProps extends NestedStackProps {
+interface DataCompactionHistoricalCrawlerProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
   enrichedDataDatabase: cdk.aws_glue.CfnDatabase
 }
 
-export class CarbonLakeDataCompactionHistoricalCrawlerStack extends NestedStack {
+export class DataCompactionHistoricalCrawler extends Construct {
   public readonly glueHistoricalCalculatorCrawlerName: any
 
-  constructor(scope: Construct, id: string, props: CarbonLakeDataCompactionHistoricalCrawlerStackProps) {
+  constructor(scope: Construct, id: string, props: DataCompactionHistoricalCrawlerProps) {
     super(scope, id, props)
 
     // Create IAM policy for Glue to assume

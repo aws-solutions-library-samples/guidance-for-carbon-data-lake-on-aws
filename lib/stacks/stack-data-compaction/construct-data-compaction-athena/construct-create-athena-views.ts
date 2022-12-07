@@ -1,4 +1,4 @@
-import { NestedStack, NestedStackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
@@ -6,15 +6,15 @@ import { aws_iam as iam } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-export interface CLQSCreateAthenaViewsStackProps extends NestedStackProps {
+export interface CreateAthenaViewsProps extends StackProps {
   enrichedDataDatabase: glue.CfnDatabase
 }
 
-export class CLQSCreateAthenaViewsStack extends NestedStack {
+export class CreateAthenaViews extends Construct {
   public readonly createIndividualAthenaViewsLambda: lambda.Function
   public readonly createCombinedAthenaViewsLambda: lambda.Function
 
-  constructor(scope: Construct, id: string, props: CLQSCreateAthenaViewsStackProps) {
+  constructor(scope: Construct, id: string, props: CreateAthenaViewsProps) {
     super(scope, id, props)
 
     const athenaQueryResultsBucket = new s3.Bucket(this, 'athenaQueryResultsBucket', {
@@ -22,6 +22,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     })
+
 
     // Create IAM policy for Lambda to assume
     const createAthenaViewsLambdaRolePolicy = new iam.PolicyDocument({
@@ -54,7 +55,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
           resources: [
             `arn:aws:s3:::${athenaQueryResultsBucket.bucketName}`,
             `arn:aws:s3:::${athenaQueryResultsBucket.bucketName}/*`,
-            `arn:aws:athena:${this.region}:${this.account}:workgroup/primary`,
+            `arn:aws:athena:${Stack.of(this).region}:${Stack.of(this).account}:workgroup/primary`,
           ],
           actions: [
             'athena:GetWorkGroup',
@@ -67,9 +68,9 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
         }),
         new iam.PolicyStatement({
           resources: [
-            `arn:aws:glue:${this.region}:${this.account}:catalog`,
-            `arn:aws:glue:${this.region}:${this.account}:database/${props.enrichedDataDatabase.ref}`,
-            `arn:aws:glue:${this.region}:${this.account}:table/${props.enrichedDataDatabase.ref}/*`,
+            `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:catalog`,
+            `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:database/${props.enrichedDataDatabase.ref}`,
+            `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:table/${props.enrichedDataDatabase.ref}/*`,
           ],
           actions: [
             'glue:CreateDatabase',
@@ -109,7 +110,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
     role.addManagedPolicy(lambdaPolicy)
 
     // Lambda function that creates today & historical Athena views
-    this.createIndividualAthenaViewsLambda = new lambda.Function(this, 'CLQSIndividualAthenaViewsHandler', {
+    this.createIndividualAthenaViewsLambda = new lambda.Function(this, 'CDLIndividualAthenaViewsHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
@@ -123,7 +124,7 @@ export class CLQSCreateAthenaViewsStack extends NestedStack {
     })
 
     // Lambda function that creates combined emissions Athena view
-    this.createCombinedAthenaViewsLambda = new lambda.Function(this, 'CLQSCombinedAthenaViewHandler', {
+    this.createCombinedAthenaViewsLambda = new lambda.Function(this, 'CDLCombinedAthenaViewHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,

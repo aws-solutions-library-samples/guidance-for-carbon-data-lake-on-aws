@@ -1,16 +1,16 @@
-import { NestedStack, NestedStackProps } from 'aws-cdk-lib'
+import { Stack, StackProps } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_events as events } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-interface CarbonLakeEventTriggerStateMachineStackProps extends NestedStackProps {
+interface EventTriggerStateMachineProps extends StackProps {
   stateMachineName: any
 }
 
-export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
+export class EventTriggerStateMachine extends Construct {
   public readonly eventRule: events.CfnRule
 
-  constructor(scope: Construct, id: string, props: CarbonLakeEventTriggerStateMachineStackProps) {
+  constructor(scope: Construct, id: string, props: EventTriggerStateMachineProps) {
     super(scope, id, props)
 
     // Create IAM policy for Event Bridge event to trigger State Machine
@@ -43,7 +43,7 @@ export class CarbonLakeEventTriggerStateMachineStack extends NestedStack {
       scheduleExpression: 'cron(0 0 * * ? *)',
       targets: [
         {
-          arn: `arn:aws:states:${this.region}:${this.account}:stateMachine:${props.stateMachineName}`,
+          arn: `arn:aws:states:${Stack.of(this).region}:${Stack.of(this).account}:stateMachine:${props.stateMachineName}`,
           id: props.stateMachineName,
           roleArn: eventRuleRole.roleArn,
         },
