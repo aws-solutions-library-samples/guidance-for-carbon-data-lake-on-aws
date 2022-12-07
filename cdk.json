@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/carbonlake-quickstart-main.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/main.ts",
   "requireApproval": "never",
   "outputsFile": "cdk-outputs.json",
   "watch": {

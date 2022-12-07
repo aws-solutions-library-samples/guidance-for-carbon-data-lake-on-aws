@@ -1,9 +1,9 @@
 {
-  "name": "carbonlake-quickstart",
-  "author": "AWS CarbonLake Quick Start Builder Team",
+  "name": "carbon-data-lake-quickstart",
+  "author": "AWS Carbon Data Lake Quick Start Builder Team",
   "version": "0.1.0",
   "bin": {
-    "carbonlake-quickstart": "bin/carbonlake-quickstart-main.js"
+    "carbonlake-quickstart": "bin/main.js"
   },
   "scripts": {
     "build": "tsc",
@@ -12,7 +12,7 @@
     "cdk": "cdk",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/carbonlake-quickstart-cicd.ts'",
+    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/cicd.ts'",
     "web": "sh deploy-amplify.sh"
   },
   "browser": {

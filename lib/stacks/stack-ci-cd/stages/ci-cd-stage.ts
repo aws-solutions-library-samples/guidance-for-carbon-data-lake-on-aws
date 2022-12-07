@@ -16,8 +16,6 @@ export class CLQSPipelineStage extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props)
 
-
-
     const thisEnv = {
       region: this.node.tryGetContext('awsRegion')? this.node.tryGetContext('awsRegion') : process.env.CDK_DEFAULT_REGION,
       account: process.env.CDK_DEFAULT_ACCOUNT
