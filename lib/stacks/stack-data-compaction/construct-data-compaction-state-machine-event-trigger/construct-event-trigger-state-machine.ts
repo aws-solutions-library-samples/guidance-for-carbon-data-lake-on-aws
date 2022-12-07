@@ -11,7 +11,7 @@ export class EventTriggerStateMachine extends Construct {
   public readonly eventRule: events.CfnRule
 
   constructor(scope: Construct, id: string, props: EventTriggerStateMachineProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create IAM policy for Event Bridge event to trigger State Machine
     const eventRulePolicy = new iam.PolicyDocument({

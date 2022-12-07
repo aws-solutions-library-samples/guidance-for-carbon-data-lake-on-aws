@@ -8,10 +8,10 @@ import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
-import { CLQSCalculatorStack } from './construct-calculator/calculator-construct'
-import { CLQSStatemachineStack } from './construct-data-pipeline-statemachine/carbonlake-qs-statemachine-stack'
-import { CarbonLakeGlueTransformationStack } from './construct-transform/glue/carbonlake-qs-glue-transform-job'
-import { CarbonlakeDataQualityStack } from './construct-data-quality/carbonlake-qs-data-quality'
+import { Calculator } from './construct-calculator/construct-calculator'
+import { DataPipelineStatemachine } from './construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
+import { GlueTransformation } from './construct-transform/glue/construct-glue-transform-job'
+import { DataQuality } from './construct-data-quality/construct-data-quality'
 
 interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -22,8 +22,8 @@ interface DataPipelineProps extends StackProps {
   notificationEmailAddress: string
 }
 
-export class CLQSDataPipelineStack extends Stack {
-  public readonly carbonlakeLandingBucket: s3.Bucket
+export class DataPipelineStack extends Stack {
+  public readonly cdlLandingBucket: s3.Bucket
   public readonly calculatorOutputTable: ddb.Table
   public readonly calculatorFunction: lambda.Function
   public readonly pipelineStateMachine: stepfunctions.StateMachine
@@ -33,7 +33,7 @@ export class CLQSDataPipelineStack extends Stack {
 
     // Landing bucket where files are dropped by customers
     // Once processed, the files are removed by the pipeline
-    this.carbonlakeLandingBucket = new s3.Bucket(this, 'CLQSLandingBucket', {
+    this.cdlLandingBucket = new s3.Bucket(this, 'LandingBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
@@ -55,19 +55,18 @@ export class CLQSDataPipelineStack extends Stack {
     })
 
     /* ======== DATA QUALITY ======== */
-    const { resourcesLambda, resultsLambda } = new CarbonlakeDataQualityStack(this, 'CLQSDataQualityStack', {
-      inputBucket: this.carbonlakeLandingBucket,
+    const { resourcesLambda, resultsLambda } = new DataQuality(this, 'CDLDataQualityStack', {
+      inputBucket: this.cdlLandingBucket,
       outputBucket: props.rawBucket,
       errorBucket: props.errorBucket,
     })
 
-    const dqErrorNotificationSNS = new sns.Topic(this, 'CLQSDataQualityNotification', {})
+    const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {})
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
     /* ======== GLUE TRANSFORM ======== */
-    // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
-    const { glueTransformJobName } = new CarbonLakeGlueTransformationStack(this, 'CLQSGlueTransformationStack', {
+    const { glueTransformJobName } = new GlueTransformation(this, 'CDLGlueTransformationStack', {
       rawBucket: props?.rawBucket,
       transformedBucket: props?.transformedBucket,
     })
@@ -77,12 +76,12 @@ export class CLQSDataPipelineStack extends Stack {
     // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
-      'carbonlakePipelineDependencyLayer',
+      'cdlPipelineDependencyLayer',
       `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     )
 
     // Lambda function to list total objects in the directory created by AWS Glue
-    const batchEnumLambda = new lambda.Function(this, 'CLQSDataPipelineBatchLambda', {
+    const batchEnumLambda = new lambda.Function(this, 'CDLDataPipelineBatchLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: 'app.lambda_handler',
@@ -97,7 +96,7 @@ export class CLQSDataPipelineStack extends Stack {
 
     /* ======== CALCULATION ======== */
 
-    const { calculatorLambda, calculatorOutputTable } = new CLQSCalculatorStack(this, 'CLQSCalculatorStack', {
+    const { calculatorLambda, calculatorOutputTable } = new Calculator(this, 'CDLCalculatorStack', {
       transformedBucket: props.transformedBucket,
       enrichedBucket: props.enrichedBucket,
     })
@@ -111,7 +110,7 @@ export class CLQSDataPipelineStack extends Stack {
     //  - dq quality workflow
     //  - glue transformation job
     //  - calculation function
-    const { statemachine } = new CLQSStatemachineStack(this, 'CLQSStatemachineStack', {
+    const { statemachine } = new DataPipelineStatemachine(this, 'CDLStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dqResourcesLambda: resourcesLambda,
       dqResultsLambda: resultsLambda,
@@ -125,20 +124,20 @@ export class CLQSDataPipelineStack extends Stack {
     /* ======== KICKOFF LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
-    const kickoffFunction = new lambda.Function(this, 'CLQSKickoffLambda', {
+    const kickoffFunction = new lambda.Function(this, 'CDLKickoffLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
       environment: {
-        LANDING_BUCKET_NAME: this.carbonlakeLandingBucket.bucketName,
+        LANDING_BUCKET_NAME: this.cdlLandingBucket.bucketName,
         STATEMACHINE_ARN: statemachine.stateMachineArn,
       },
     })
     statemachine.grantStartExecution(kickoffFunction)
 
     // Invoke kickoff lambda function every time an object is created in the bucket
-    this.carbonlakeLandingBucket.addEventNotification(
+    this.cdlLandingBucket.addEventNotification(
       s3.EventType.OBJECT_CREATED,
       new s3n.LambdaDestination(kickoffFunction)
       // optional: only invoke lambda if object matches the filter
@@ -147,30 +146,30 @@ export class CLQSDataPipelineStack extends Stack {
 
     // Landing Bucket Name output
     new CfnOutput(this, 'LandingBucketName', {
-      value: this.carbonlakeLandingBucket.bucketName,
-      description: 'S3 Landing Zone bucket name for data ingestion to CarbonLake Quickstart Data Pipeline',
+      value: this.cdlLandingBucket.bucketName,
+      description: 'S3 Landing Zone bucket name for data ingestion to cdl Quickstart Data Pipeline',
       exportName: 'LandingBucketName',
     });
 
     // Landing bucket Url Output
-    new CfnOutput(this, 'CLQSLandingBucketUrl', {
-      value: this.carbonlakeLandingBucket.bucketWebsiteUrl,
-      description: 'S3 Landing Zone bucket URL for data ingestion to CarbonLake Quickstart Data Pipeline',
-      exportName: 'CLQSLandingBucketUrl',
+    new CfnOutput(this, 'CDLLandingBucketUrl', {
+      value: this.cdlLandingBucket.bucketWebsiteUrl,
+      description: 'S3 Landing Zone bucket URL for data ingestion to cdl Quickstart Data Pipeline',
+      exportName: 'CDLLandingBucketUrl',
     });
 
     // Output glue data brew link
-    new CfnOutput(this, 'CLQSGlueDataBrewURL', {
+    new CfnOutput(this, 'CDLGlueDataBrewURL', {
       value: `https://${this.region}.console.aws.amazon.com/states/home?region=${this.region}`,
       description: 'URL for Glue Data Brew in AWS Console',
-      exportName: 'CLQSGlueDataBrewURL',
+      exportName: 'CDLGlueDataBrewURL',
     });
 
     // Output link to state machine
-    new CfnOutput(this, 'CLQSDataPipelineStateMachineUrl', {
+    new CfnOutput(this, 'CDLDataPipelineStateMachineUrl', {
       value: `https://${this.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${this.pipelineStateMachine.env.region}#/statemachines/view/${this.pipelineStateMachine.stateMachineArn}`,
-      description: 'URL to open CLQS State machine to view step functions workflow status',
-      exportName: 'CLQSDataPipelineStateMachineUrl',
+      description: 'URL to open CDL State machine to view step functions workflow status',
+      exportName: 'CDLDataPipelineStateMachineUrl',
 
     }); 
 

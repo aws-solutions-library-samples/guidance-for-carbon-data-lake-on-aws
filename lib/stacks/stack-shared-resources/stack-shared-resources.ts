@@ -3,14 +3,14 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
-export class CLQSSharedResourcesStack extends Stack {
-  public readonly carbonlakeLandingBucket: s3.Bucket
-  public readonly carbonlakeRawBucket: s3.Bucket
-  public readonly carbonlakeErrorBucket: s3.Bucket
-  public readonly carbonlakeTransformedBucket: s3.Bucket
-  public readonly carbonlakeEnrichedBucket: s3.Bucket
-  public readonly carbonlakeForecastBucket: s3.Bucket
-  public readonly carbonlakeDataLineageBucket: s3.Bucket
+export class SharedResourcesStack extends Stack {
+  public readonly cdlLandingBucket: s3.Bucket
+  public readonly cdlRawBucket: s3.Bucket
+  public readonly cdlErrorBucket: s3.Bucket
+  public readonly cdlTransformedBucket: s3.Bucket
+  public readonly cdlEnrichedBucket: s3.Bucket
+  public readonly cdlForecastBucket: s3.Bucket
+  public readonly cdlDataLineageBucket: s3.Bucket
   public readonly glueEnrichedDataDatabase: glue.CfnDatabase
 
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -19,7 +19,7 @@ export class CLQSSharedResourcesStack extends Stack {
     // Raw bucket where files are moved, once they pass the data quality check
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
-    this.carbonlakeRawBucket = new s3.Bucket(this, 'carbonlakeRawBucket', {
+    this.cdlRawBucket = new s3.Bucket(this, 'cdlRawBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -28,7 +28,7 @@ export class CLQSSharedResourcesStack extends Stack {
 
     // Error bucket where files are moved if they don't pass the data quality check
     // Once manually processed, the files are manually removed from the bucket
-    this.carbonlakeErrorBucket = new s3.Bucket(this, 'carbonlakeErrorBucket', {
+    this.cdlErrorBucket = new s3.Bucket(this, 'cdlErrorBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -38,7 +38,7 @@ export class CLQSSharedResourcesStack extends Stack {
     // Transformed bucket where files are moved after they are processed (format = jsonl)
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
-    this.carbonlakeTransformedBucket = new s3.Bucket(this, 'carbonlakeTransformedBucket', {
+    this.cdlTransformedBucket = new s3.Bucket(this, 'cdlTransformedBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -47,7 +47,7 @@ export class CLQSSharedResourcesStack extends Stack {
 
     // Enriched bucket where files are moved after they are enriched with calculated emissions (format = jsonl)
     // A compacting job compacts jsonl files into parquet files every day
-    this.carbonlakeEnrichedBucket = new s3.Bucket(this, 'carbonlakeEnrichedBucket', {
+    this.cdlEnrichedBucket = new s3.Bucket(this, 'cdlEnrichedBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -55,7 +55,7 @@ export class CLQSSharedResourcesStack extends Stack {
     })
 
     // Used for forecasting
-    this.carbonlakeForecastBucket = new s3.Bucket(this, 'carbonlakeForecastBucket', {
+    this.cdlForecastBucket = new s3.Bucket(this, 'cdlForecastBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -64,7 +64,7 @@ export class CLQSSharedResourcesStack extends Stack {
 
     // Bucket used to store unprocessed data lineage events
     // TODO add a lifecycle policy to archive files to Glacier
-    this.carbonlakeDataLineageBucket = new s3.Bucket(this, 'carbonlakeDataLineageBucket', {
+    this.cdlDataLineageBucket = new s3.Bucket(this, 'cdlDataLineageBucket', {
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -79,35 +79,35 @@ export class CLQSSharedResourcesStack extends Stack {
       },
     })
 
-    new CfnOutput(this, 'CLQSEnrichedDataBucket', {
-      value: this.carbonlakeEnrichedBucket.bucketName,
+    new CfnOutput(this, 'CDLEnrichedDataBucket', {
+      value: this.cdlEnrichedBucket.bucketName,
       description: 'Enriched data bucket with outputs from calculator service',
-      exportName: 'CLQSEnrichedDataBucket',
+      exportName: 'CDLEnrichedDataBucket',
     });
 
-    new CfnOutput(this, 'CLQSEnrichedDataBucketUrl', {
-      value: this.carbonlakeEnrichedBucket.bucketWebsiteUrl,
+    new CfnOutput(this, 'CDLEnrichedDataBucketUrl', {
+      value: this.cdlEnrichedBucket.bucketWebsiteUrl,
       description: 'Url for enriched data bucket with outputs from calculator service',
-      exportName: 'CLQSEnrichedDataBucketUrl',
+      exportName: 'CDLEnrichedDataBucketUrl',
     });
 
-    new CfnOutput(this, 'CLQSDataLineageBucket', {
-      value: this.carbonlakeDataLineageBucket.bucketName,
+    new CfnOutput(this, 'CDLDataLineageBucket', {
+      value: this.cdlDataLineageBucket.bucketName,
       description: 'Data lineage S3 bucket',
-      exportName: 'CLQSDataLineageBucket',
+      exportName: 'CDLDataLineageBucket',
     });
 
-    new CfnOutput(this, 'CLQSDataLineageBucketUrl', {
-      value: this.carbonlakeDataLineageBucket.bucketWebsiteUrl,
+    new CfnOutput(this, 'CDLDataLineageBucketUrl', {
+      value: this.cdlDataLineageBucket.bucketWebsiteUrl,
       description: 'Data lineage S3 bucket URL',
-      exportName: 'CLQSDataLineageBucketUrl',
+      exportName: 'CDLDataLineageBucketUrl',
     });
 
     // Outputs the region of the CDK app -- this assumes that there is a single region and should be modified if deploying across multiple regions
-    new CfnOutput(this, 'CLQSAwsRegion', {
+    new CfnOutput(this, 'CDLAwsRegion', {
       value: this.region,
       description: 'Region of CDK Application AWS Deployment',
-      exportName: 'CLQSAwsRegion',
+      exportName: 'CDLAwsRegion',
     });
   
     Tags.of(this).add("component", "sharedResources");

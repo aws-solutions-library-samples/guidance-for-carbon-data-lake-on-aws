@@ -2,15 +2,15 @@ import { Construct } from 'constructs';
 import { aws_iam as iam, CfnOutput } from 'aws-cdk-lib';
 import { aws_codecommit as codecommit } from 'aws-cdk-lib';
 
-interface CarbonlakeGitlabMirroringProps {
+interface GitlabMirroringProps {
   repoName: string;
   iamUserName: string;
   awsRegion: string;
   awsAccountId: string;
 }
 
-export class CLQSGitlabMirror extends Construct {
-  constructor(scope: Construct, id: string, props: CarbonlakeGitlabMirroringProps) {
+export class GitlabMirror extends Construct {
+  constructor(scope: Construct, id: string, props: GitlabMirroringProps) {
     super(scope, id)
 
         new iam.CfnUser(this, 'IAMUser', {

@@ -15,7 +15,7 @@ export class CreateAthenaViews extends Construct {
   public readonly createCombinedAthenaViewsLambda: lambda.Function
 
   constructor(scope: Construct, id: string, props: CreateAthenaViewsProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     const athenaQueryResultsBucket = new s3.Bucket(this, 'athenaQueryResultsBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,

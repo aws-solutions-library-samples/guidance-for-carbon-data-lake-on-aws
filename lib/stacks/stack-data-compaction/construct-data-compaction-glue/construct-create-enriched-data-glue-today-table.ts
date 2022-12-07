@@ -10,7 +10,7 @@ export class GlueEnrichedDataTodayTable extends Construct {
   public readonly glueEnrichedDataTodayTable: glue.CfnTable
 
   constructor(scope: Construct, id: string, props: GlueEnrichedDataTodayTableProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create 'today' enriched data table in Glue Metadata Catalog ahead of time with pre-defined schema to match JSON output of calculator microservice
     this.glueEnrichedDataTodayTable = new glue.CfnTable(this, 'enrichedCalculatorDataTodayData', {

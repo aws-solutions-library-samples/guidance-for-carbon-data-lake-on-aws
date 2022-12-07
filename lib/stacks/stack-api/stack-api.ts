@@ -29,12 +29,12 @@ import {
   RoleMappingMatchType,
 } from '@aws-cdk/aws-cognito-identitypool-alpha'
 
-export interface CLQSApiStackProps extends StackProps {
+export interface ApiStackProps extends StackProps {
   calculatorOutputTableRef: cdk.aws_dynamodb.Table
   adminEmail?: string
 }
 
-export class CLQSApiStack extends Stack {
+export class ApiStack extends Stack {
   // API
   public readonly graphqlUrl: string
   public readonly apiId: string
@@ -49,27 +49,27 @@ export class CLQSApiStack extends Stack {
   public readonly adminUser: CfnUserPoolUser
 
   // IAM
-  public readonly clqsAdminUserRole: Role
-  public readonly clqsStandardUserRole: Role
-  public readonly clqsAuthRole: Role
-  public readonly clqsUnAuthRole: Role
-  public readonly clqsAdminUserRoleManagedPolicy: ManagedPolicy
+  public readonly cdlAdminUserRole: Role
+  public readonly cdlStandardUserRole: Role
+  public readonly cdlAuthRole: Role
+  public readonly cdlUnAuthRole: Role
+  public readonly cdlAdminUserRoleManagedPolicy: ManagedPolicy
   public readonly clStandardUserRoleManagedPolicy: ManagedPolicy
-  public readonly clqsIdentityPool: CfnIdentityPool
+  public readonly cdlIdentityPool: CfnIdentityPool
 
   // Outputs
   public readonly userPoolClientIdOutput: CfnOutput
   public readonly identityPoolIdOutputId: CfnOutput
   public readonly userPoolIdOutput: CfnOutput
 
-  constructor(scope: Construct, id: string, props: CLQSApiStackProps) {
+  constructor(scope: Construct, id: string, props: ApiStackProps) {
     super(scope, id, props)
 
     const defaultAdminEmail = this.node.tryGetContext('adminEmail')
 
     // -- COGNITO USER POOL --
-    const userPool = new UserPool(this, 'clqsUserPool', {
-      userPoolName: 'clqsUserPool',
+    const userPool = new UserPool(this, 'cdlUserPool', {
+      userPoolName: 'cdlUserPool',
       signInAliases: {
         email: true,
         username: false,
@@ -80,17 +80,17 @@ export class CLQSApiStack extends Stack {
       accountRecovery: AccountRecovery.EMAIL_ONLY, // Restricts account recovery only to email method
       // Invite Message
       userInvitation: {
-        emailSubject: `Welcome to AWS CarbonLake!`,
+        emailSubject: `Welcome to AWS Carbon Data Lake!`,
         emailBody:
-          'Hello {username}, you have been invited to join the AWS CarbonLake app! Your temporary password is {####}',
-        smsMessage: 'Hello {username}, your temporary password for the AWS CarbonLake app is {####}',
+          'Hello {username}, you have been invited to join the AWS Carbon Data Lake app! Your temporary password is {####}',
+        smsMessage: 'Hello {username}, your temporary password for the AWS Carbon Data Lake app is {####}',
       },
       // Verification Message
       userVerification: {
-        emailSubject: 'Verify your email for AWS CarbonLake',
-        emailBody: 'Thanks for signing up for AWS CarbonLake! Your verification code is {####}',
+        emailSubject: 'Verify your email for AWS Carbon Data Lake',
+        emailBody: 'Thanks for signing up for AWS Carbon Data Lake! Your verification code is {####}',
         emailStyle: VerificationEmailStyle.CODE,
-        smsMessage: 'Thanks for signing up for AWS CarbonLake! Your verification code is {####}',
+        smsMessage: 'Thanks for signing up for AWS Carbon Data Lake! Your verification code is {####}',
       },
       // Standard User Attributes
       standardAttributes: {
@@ -115,15 +115,15 @@ export class CLQSApiStack extends Stack {
     })
 
     // -- COGNITO USER POOL (APP) CLIENT
-    const userPoolClient = new UserPoolClient(this, 'clqsUserPoolClient', {
+    const userPoolClient = new UserPoolClient(this, 'cdlUserPoolClient', {
       userPool: userPool,
-      userPoolClientName: 'clqsUserPoolClient',
+      userPoolClientName: 'cdlUserPoolClient',
       generateSecret: false, // Don't need to generate secret for web app running on browsers
     })
 
     // // -- COGNITO IDENTITY POOL
-    //     const identityPool = new IdentityPool(this, 'clqsIdentityPool', {
-    //         identityPoolName: 'clqsIdentityPool',
+    //     const identityPool = new IdentityPool(this, 'cdlIdentityPool', {
+    //         identityPoolName: 'cdlIdentityPool',
     //         // allowUnauthenticatedIdentities: true,
     //         allowUnauthenticatedIdentities: false,
     //         cognitoIdentityProviders: [
@@ -134,8 +134,8 @@ export class CLQSApiStack extends Stack {
     //         ],
     //     });
     // -- COGNITO IDENTITY POOL
-    this.clqsIdentityPool = new CfnIdentityPool(this, 'clqsIdentityPool', {
-      identityPoolName: 'clqsIdentityPool',
+    this.cdlIdentityPool = new CfnIdentityPool(this, 'cdlIdentityPool', {
+      identityPoolName: 'cdlIdentityPool',
       allowUnauthenticatedIdentities: false,
       cognitoIdentityProviders: [
         {
@@ -147,13 +147,13 @@ export class CLQSApiStack extends Stack {
 
     // --- IAM ---
     //  -- AuthRole --
-    // Create clqsAuthRole IAM Role using the custom managed policy
-    this.clqsAuthRole = new Role(this, 'clqsAuthRole', {
+    // Create cdlAuthRole IAM Role using the custom managed policy
+    this.cdlAuthRole = new Role(this, 'cdlAuthRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.cdlIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -163,17 +163,17 @@ export class CLQSApiStack extends Stack {
       ),
       // TODO - Add basic read-only AWS Managed Policies
       managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')],
-      description: 'clqsAuthRole granting read-only access to S3',
+      description: 'cdlAuthRole granting read-only access to S3',
     })
 
-    //  -- clqsUnAuthRole --
-    // Create clqsUnAuthRole IAM Role using the custom managed policy
-    this.clqsUnAuthRole = new Role(this, 'clqsUnAuthRole', {
+    //  -- cdlUnAuthRole --
+    // Create cdlUnAuthRole IAM Role using the custom managed policy
+    this.cdlUnAuthRole = new Role(this, 'cdlUnAuthRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.cdlIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'unauthenticated',
@@ -183,17 +183,17 @@ export class CLQSApiStack extends Stack {
       ),
       // TODO - Add basic read-only AWS Managed Policies
       managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')],
-      description: 'clqsUnAuthRole granting access to S3',
+      description: 'cdlUnAuthRole granting access to S3',
     })
 
-    // -- clqsAdminUserRole --
-    // Create clqsAdminUserRole IAM Role using the custom managed policy
-    const clqsAdminUserRole = new Role(this, 'clqsAdminUserRole', {
+    // -- cdlAdminUserRole --
+    // Create cdlAdminUserRole IAM Role using the custom managed policy
+    const cdlAdminUserRole = new Role(this, 'cdlAdminUserRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.cdlIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -204,11 +204,11 @@ export class CLQSApiStack extends Stack {
       // managedPolicies: [
       //  iam.ManagedPolicy.fromManagedPolicyName(scAdminS3PolicyDocument)
       // ],
-      description: 'clqsAdminUserRole granting access to S3',
+      description: 'cdlAdminUserRole granting access to S3',
     })
 
-    this.clqsAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsAdminUserRoleManagedPolicy', {
-      description: 'All permissions for clqsAdminUserRole',
+    this.cdlAdminUserRoleManagedPolicy = new ManagedPolicy(this, 'cdlAdminUserRoleManagedPolicy', {
+      description: 'All permissions for cdlAdminUserRole',
       statements: [
         new PolicyStatement({
           effect: Effect.ALLOW,
@@ -216,17 +216,17 @@ export class CLQSApiStack extends Stack {
           resources: ['*'],
         }),
       ],
-      roles: [clqsAdminUserRole],
+      roles: [cdlAdminUserRole],
     })
 
-    //   // -- clqsStandardUserRole --
-    //   // Create clqsStandardUserRole IAM Role using the custom managed policy
-    this.clqsStandardUserRole = new Role(this, 'clqsStandardUserRole', {
+    //   // -- cdlStandardUserRole --
+    //   // Create cdlStandardUserRole IAM Role using the custom managed policy
+    this.cdlStandardUserRole = new Role(this, 'cdlStandardUserRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
-            'cognito-identity.amazonaws.com:aud': this.clqsIdentityPool.ref,
+            'cognito-identity.amazonaws.com:aud': this.cdlIdentityPool.ref,
           },
           'ForAnyValue:StringLike': {
             'cognito-identity.amazonaws.com:amr': 'authenticated',
@@ -237,10 +237,10 @@ export class CLQSApiStack extends Stack {
       // managedPolicies: [
       //  iam.ManagedPolicy.fromManagedPolicyName(scAdminS3PolicyDocument)
       // ],
-      description: 'clqsStandardUserRole granting access to S3',
+      description: 'cdlStandardUserRole granting access to S3',
     })
-    this.clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'clqsStandardUserRoleManagedPolicy', {
-      description: 'All permissions for clqsStandardUserRole',
+    this.clStandardUserRoleManagedPolicy = new ManagedPolicy(this, 'cdlStandardUserRoleManagedPolicy', {
+      description: 'All permissions for cdlStandardUserRole',
       statements: [
         new PolicyStatement({
           effect: Effect.ALLOW,
@@ -248,19 +248,19 @@ export class CLQSApiStack extends Stack {
           resources: ['*'],
         }),
       ],
-      roles: [this.clqsStandardUserRole],
+      roles: [this.cdlStandardUserRole],
     })
 
     // -- IDENTITY POOL ROLE ATTACHMENT --
 
-    const clqsRegion = cdk.Stack.of(this).region // Reference current AWS Region
-    const identityProviderUrl = `cognito-idp.${clqsRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`
+    const cdlRegion = cdk.Stack.of(this).region // Reference current AWS Region
+    const identityProviderUrl = `cognito-idp.${cdlRegion}.amazonaws.com/${userPool.userPoolId}:${userPoolClient.userPoolClientId}`
 
     new CfnIdentityPoolRoleAttachment(this, 'identity-pool-role-attachment', {
-      identityPoolId: this.clqsIdentityPool.ref,
+      identityPoolId: this.cdlIdentityPool.ref,
       roles: {
-        authenticated: this.clqsAuthRole.roleArn,
-        unauthenticated: this.clqsUnAuthRole.roleArn,
+        authenticated: this.cdlAuthRole.roleArn,
+        unauthenticated: this.cdlUnAuthRole.roleArn,
       },
       roleMappings: {
         roleMappingsKey: {
@@ -272,13 +272,13 @@ export class CLQSApiStack extends Stack {
               {
                 claim: 'cognito:groups',
                 matchType: RoleMappingMatchType.CONTAINS,
-                roleArn: clqsAdminUserRole.roleArn,
+                roleArn: cdlAdminUserRole.roleArn,
                 value: 'Admin',
               },
               {
                 claim: 'cognito:groups',
                 matchType: RoleMappingMatchType.CONTAINS,
-                roleArn: this.clqsStandardUserRole.roleArn,
+                roleArn: this.cdlStandardUserRole.roleArn,
                 value: 'Standard-Users',
               },
             ],
@@ -288,24 +288,24 @@ export class CLQSApiStack extends Stack {
     })
 
     // -- COGNITO USER POOL GROUPS
-    const clqsAdminUserPoolGroup = new CfnUserPoolGroup(this, 'clqsAdmin', {
+    const cdlAdminUserPoolGroup = new CfnUserPoolGroup(this, 'cdlAdmin', {
       userPoolId: userPool.userPoolId,
       description: 'Admin user group',
       groupName: 'Admin',
       precedence: 1,
-      roleArn: clqsAdminUserRole.roleArn,
+      roleArn: cdlAdminUserRole.roleArn,
     })
-    clqsAdminUserPoolGroup.node.addDependency(clqsAdminUserRole)
-    const clqsStandardUserPoolGroup = new CfnUserPoolGroup(this, 'clqsStandard', {
+    cdlAdminUserPoolGroup.node.addDependency(cdlAdminUserRole)
+    const cdlStandardUserPoolGroup = new CfnUserPoolGroup(this, 'cdlStandard', {
       userPoolId: userPool.userPoolId,
       groupName: 'Standard-Users',
       description: 'Standard user group',
       precedence: 2,
-      roleArn: this.clqsStandardUserRole.roleArn,
+      roleArn: this.cdlStandardUserRole.roleArn,
     })
 
     // Create an initial admin user with the email address provided in the CDK context
-    const adminUser = new CfnUserPoolUser(this, 'clqsDefaultAdminUser', {
+    const adminUser = new CfnUserPoolUser(this, 'cdlDefaultAdminUser', {
       userPoolId: userPool.userPoolId,
       desiredDeliveryMediums: ['EMAIL'],
       userAttributes: [
@@ -315,7 +315,7 @@ export class CLQSApiStack extends Stack {
         },
         {
           name: 'given_name',
-          value: 'CarbonLake',
+          value: 'Carbon Data Lake',
         },
         {
           name: 'family_name',
@@ -337,11 +337,11 @@ export class CLQSApiStack extends Stack {
 
     // Prevent creation of UserGroupAttachment until User is created
     cfnUserPoolUserToGroupAttachment.node.addDependency(adminUser)
-    cfnUserPoolUserToGroupAttachment.node.addDependency(clqsAdminUserPoolGroup)
+    cfnUserPoolUserToGroupAttachment.node.addDependency(cdlAdminUserPoolGroup)
 
     // Create the GraphQL api and provide the schema.graphql file
-    const api = new GraphqlApi(this, 'clqsApi', {
-      name: 'clqsApi',
+    const api = new GraphqlApi(this, 'cdlApi', {
+      name: 'cdlApi',
       schema: Schema.fromAsset(path.join(__dirname, 'schema.graphql')),
       authorizationConfig: {
         defaultAuthorization: {
@@ -407,52 +407,52 @@ export class CLQSApiStack extends Stack {
 
     // Cognito
 
-    this.userPoolIdOutput = new CfnOutput(this, 'CLQSuserPoolId', {
+    this.userPoolIdOutput = new CfnOutput(this, 'cdluserPoolId', {
       value: userPool.userPoolId,
-      exportName: 'CLQSuserPoolId'
+      exportName: 'cdluserPoolId'
     })
 
     this.identityPoolIdOutputId = new CfnOutput(this, 'identityPoolId', {
-      value: this.clqsIdentityPool.ref,
+      value: this.cdlIdentityPool.ref,
       exportName: 'CLQidentityPoolId'
     })
 
     this.userPoolClientIdOutput = new CfnOutput(this, 'userPoolClientId', {
        value: userPoolClient.userPoolClientId,
-       exportName: 'CLQSuserPoolClientId'
+       exportName: 'cdluserPoolClientId'
       })
 
     // IAM
-    this.clqsAdminUserRole = clqsAdminUserRole
-    new CfnOutput(this, 'clqsAdminUserRoleOutput', {
-      value: this.clqsAdminUserRole.roleArn,
-      exportName: 'CLQSclqsAdminUserRoleOutput'
+    this.cdlAdminUserRole = cdlAdminUserRole
+    new CfnOutput(this, 'cdlAdminUserRoleOutput', {
+      value: this.cdlAdminUserRole.roleArn,
+      exportName: 'cdlcdlAdminUserRoleOutput'
     })
 
-    new CfnOutput(this, 'clqsStandardUserRoleOutput', {
-      value: this.clqsStandardUserRole.roleArn,
-      exportName: 'CLQSclqsStandardUserRoleOutput'
+    new CfnOutput(this, 'cdlStandardUserRoleOutput', {
+      value: this.cdlStandardUserRole.roleArn,
+      exportName: 'cdlcdlStandardUserRoleOutput'
     })
 
     // Output API Endpoint
     new cdk.CfnOutput(this, 'apiEndpoint', {
       value: this.graphqlUrl,
       description: 'Base http endpoint for CarbonLake Quickstart GraphQL API',
-      exportName: 'CLQSApiEndpoint',
+      exportName: 'cdlApiEndpoint',
     });
 
     // Output API Username (password will be email to admin user on create)
     new cdk.CfnOutput(this, 'adminUsername', {
       value: adminUser.username ?? '' ,
       description: 'Admin username created on build for GraphQL API',
-      exportName: 'CLQSApiUsername',
+      exportName: 'cdlApiUsername',
     });
 
     // Output Appsync Query Link
     new cdk.CfnOutput(this, 'graphqueryTestUrl', {
       value: `https://${this.region}.console.aws.amazon.com/appsync/home?region=${this.region}#/${this.apiId}/v1/queries`,
       description: 'URL for testing AppSync GraphQL API queries in the AWS console.',
-      exportName: 'CLQSGraphQLTestQueryURL',
+      exportName: 'cdlGraphQLTestQueryURL',
     });
 
     cdk.Tags.of(this).add("component", "graphQLApi");

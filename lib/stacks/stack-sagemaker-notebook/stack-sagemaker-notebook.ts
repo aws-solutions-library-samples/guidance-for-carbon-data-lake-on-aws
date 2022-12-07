@@ -8,7 +8,7 @@ import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import * as path from 'path';
 
 
-export class CLQSSageMakerNotebookStack extends cdk.Stack {
+export class SageMakerNotebookStack extends cdk.Stack {
   public sagemakerNotebookInstance: sagemaker.CfnNotebookInstance;
   public sagemakerAnalysisBucket: s3.Bucket;
   readonly sagemakerCodecommitRepo: codecommit.Repository;
@@ -53,15 +53,15 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
     });
 
     // creates a codecommit repo and uploads the sagemaker notebook to it as a first commit
-    this.sagemakerCodecommitRepo = new codecommit.Repository(this, 'CLQSSagemakerCodecommitRepo', {
-      repositoryName: 'CLQSSagemakerRepository',
+    this.sagemakerCodecommitRepo = new codecommit.Repository(this, 'CDLSagemakerCodecommitRepo', {
+      repositoryName: 'CDLSagemakerRepository',
       code: codecommit.Code.fromDirectory(path.join(__dirname, 'notebooks/')), // optional property, branch parameter can be omitted
     });
 
     this.sagemakerCodecommitRepo.grantRead(sagemakerExecutionRole);
 
     // creates a sagemaker notebook instance with the defined codecommit repo as the default repo
-    this.sagemakerNotebookInstance = new sagemaker.CfnNotebookInstance(this, "CLQSSagemakerNotebook", {
+    this.sagemakerNotebookInstance = new sagemaker.CfnNotebookInstance(this, "CDLSagemakerNotebook", {
       instanceType: 'ml.t2.medium',
       roleArn: sagemakerExecutionRole.roleArn,
       notebookInstanceName: "CarbonLakeSagemakerNotebook",
@@ -70,17 +70,17 @@ export class CLQSSageMakerNotebookStack extends cdk.Stack {
     });
 
 
-    new cdk.CfnOutput(this, 'CLQSSagemakerRepository', {
+    new cdk.CfnOutput(this, 'CDLSagemakerRepository', {
       value: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
-      description: 'CLQSSagemakerRepository',
-      exportName: 'CLQSSagemakerRepository',
+      description: 'CDLSagemakerRepository',
+      exportName: 'CDLSagemakerRepository',
     });
 
       // Output link to Sagemaker Notebook in the console
-  new cdk.CfnOutput(this, 'CLQSSagemakerNotebookUrl', {
+  new cdk.CfnOutput(this, 'CDLSagemakerNotebookUrl', {
     value: `https://${this.region}.console.aws.amazon.com/sagemaker/home?region=${this.region}#/notebook-instances/${this.sagemakerNotebookInstance.notebookInstanceName}`,
     description: 'AWS console URL for Sagemaker Notebook ML Instance',
-    exportName: 'CLQSSagemakerNotebookUrl',
+    exportName: 'CDLSagemakerNotebookUrl',
   });
 
   cdk.Tags.of(this).add("component", "sagemakerNotebook");

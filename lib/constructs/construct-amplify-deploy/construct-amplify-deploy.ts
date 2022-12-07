@@ -33,8 +33,8 @@ export class AmplifyDeploy extends Construct {
         });
 
         // define an amplify app
-        this.amplifyApp = new Amplify.App(this, 'CarbonLakeQSWebApp', {
-          description: "Sample AWS Amplify Application for CarbonLake Quickstart Development Kit",
+        this.amplifyApp = new Amplify.App(this, 'CDLWebApp', {
+          description: "Sample AWS Amplify Application for Carbon Data Lake Quickstart Development Kit",
           sourceCodeProvider: new Amplify.CodeCommitSourceCodeProvider({
             repository: this.repository,
           },

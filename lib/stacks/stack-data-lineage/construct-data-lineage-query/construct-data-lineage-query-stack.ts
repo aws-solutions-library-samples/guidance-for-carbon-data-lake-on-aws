@@ -18,7 +18,7 @@ export class DataLineageQuery extends Construct {
       alongside the data lineage stack.
   */
   constructor(scope: Construct, id: string, props: DataLineageQueryProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     /* ====== CRAWLER ROLE ====== */
     const crawlerRole = new iam.Role(this, 'DataLineageCrawlerRole', {
@@ -52,7 +52,7 @@ export class DataLineageQuery extends Construct {
       catalogId: Stack.of(this).account,
       databaseName: glueDB.ref,
       tableInput: {
-        name: `carbonlake_data_lineage_${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}`,
+        name: `cdl_data_lineage_${Names.uniqueId(crawlerRole).slice(-8).toLowerCase()}`,
         storageDescriptor: {
           columns: [
             {

@@ -11,7 +11,7 @@ export class DataCompactionGlueJobs extends Construct {
   public readonly glueDataFlushJobName: any
 
   constructor(scope: Construct, id: string, props: DataCompactionGlueJobsProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create new S3 bucket to store glue data compaction script
     const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueCompactionJobScriptsBucket', {
@@ -46,7 +46,7 @@ export class DataCompactionGlueJobs extends Construct {
     const gluePolicy = cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole')
 
     // Create IAM Role to be assumed by Glue
-    const role = new cdk.aws_iam.Role(this, 'carbonlake-glue-transform-role', {
+    const role = new cdk.aws_iam.Role(this, 'cdl-glue-transform-role', {
       assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
       description: 'IAM role to be assumed by Glue transformation job',
       inlinePolicies: {

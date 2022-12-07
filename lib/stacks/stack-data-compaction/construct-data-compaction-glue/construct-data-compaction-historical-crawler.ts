@@ -11,7 +11,7 @@ export class DataCompactionHistoricalCrawler extends Construct {
   public readonly glueHistoricalCalculatorCrawlerName: any
 
   constructor(scope: Construct, id: string, props: DataCompactionHistoricalCrawlerProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create IAM policy for Glue to assume
     const glueCrawlerPolicy = new cdk.aws_iam.PolicyDocument({
@@ -29,7 +29,7 @@ export class DataCompactionHistoricalCrawler extends Construct {
     const gluePolicy = cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole')
 
     // Create IAM Role to be assumed by Glue
-    const role = new cdk.aws_iam.Role(this, 'carbonlake-glue-historical-calculator-data-crawler-role', {
+    const role = new cdk.aws_iam.Role(this, 'cdl-glue-historical-calculator-data-crawler-role', {
       assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
       description: 'IAM role to be assumed by Glue crawler job',
       inlinePolicies: {

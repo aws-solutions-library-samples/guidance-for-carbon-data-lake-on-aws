@@ -15,7 +15,7 @@ interface DataQualityProps extends StackProps {
 /*
   Databrew jobs require a static dataset location at the point of creation
   so it is not possible to create the databrew resources within CDK, as the
-  pipleine is expecting to provide an s3 key to be processed. Instead, this
+  pipeline is expecting to provide an s3 key to be processed. Instead, this
   stack defines a lambda function to handle the deployment and tear down of
   databrew resources to be executed from within the step functions pipeline.
 */
@@ -23,7 +23,7 @@ export class DataQuality extends Construct {
   public readonly resourcesLambda: lambda.Function
   public readonly resultsLambda: lambda.Function
   constructor(scope: Construct, id: string, props: DataQualityProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     /* ====== DEPENDENCIES ====== */
 

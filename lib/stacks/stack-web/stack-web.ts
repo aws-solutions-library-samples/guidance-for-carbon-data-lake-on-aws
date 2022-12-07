@@ -6,7 +6,7 @@ import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import * as path from 'path';
 import { AmplifyDeploy } from "../../constructs/construct-amplify-deploy/construct-amplify-deploy";
 
-interface CLQSWebStackProps extends cdk.StackProps {
+interface WebStackProps extends cdk.StackProps {
   apiId: string;
   graphqlUrl: string;
   identityPoolId: string;
@@ -15,17 +15,17 @@ interface CLQSWebStackProps extends cdk.StackProps {
   landingBucketName: string;
 }
 
-export class CLQSWebStack extends cdk.Stack {
+export class WebStack extends cdk.Stack {
   public amplifyDeployment: AmplifyDeploy;
   public sagemakerAnalysisBucket: s3.Bucket;
   readonly sagemakerCodecommitRepo: codecommit.Repository;
 
-  constructor(scope: Construct, id: string, props: CLQSWebStackProps) {
+  constructor(scope: Construct, id: string, props: WebStackProps) {
     super(scope, id, props);
 
     this.amplifyDeployment = new AmplifyDeploy(this, 'AmplifyDeployment', {
       appPath: path.join(__dirname, './app/carbonlake-ui-cloudscape'),
-      repoName: 'CLQSWebAppRepo',
+      repoName: 'CDLWebAppRepo',
       region: this.region,
       apiId: props.apiId,
       graphqlUrl: props.graphqlUrl,
@@ -37,28 +37,28 @@ export class CLQSWebStack extends cdk.Stack {
 
     });
 
-    new CfnOutput(this, 'CLQSWebAppRepositoryCloneUrl', {
+    new CfnOutput(this, 'CDLWebAppRepositoryCloneUrl', {
       value: this.amplifyDeployment.repository.repositoryCloneUrlHttp,
-      description: 'CLQSWebAppRepositoryLink',
-      exportName: 'CLQSWebAppRepositoryLink'
+      description: 'CDLWebAppRepositoryLink',
+      exportName: 'CDLWebAppRepositoryLink'
     });
 
-    new CfnOutput(this, 'CLQSWebAppId', {
+    new CfnOutput(this, 'CDLWebAppId', {
       value: this.amplifyDeployment.amplifyApp.appId,
-      description: 'CLQSWebAppRepository',
-      exportName: 'CLQSWebAppRepository'
+      description: 'CDLWebAppRepository',
+      exportName: 'CDLWebAppRepository'
     });
 
-    new CfnOutput(this, 'CLQSAmplifyLink', {
+    new CfnOutput(this, 'CDLAmplifyLink', {
       value: `https://${this.amplifyDeployment.amplifyApp.env.region}.console.aws.amazon.com/amplify/home?region=${this.amplifyDeployment.amplifyApp.env.region}#/${this.amplifyDeployment.amplifyApp.appId}`,
-      description: 'CLQSAmplifyLink',
-      exportName: 'CLQSAmplifyLink'
+      description: 'CDLAmplifyLink',
+      exportName: 'CDLAmplifyLink'
     });
 
-    new CfnOutput(this, 'CLQSWebAppDomain', {
+    new CfnOutput(this, 'CDLWebAppDomain', {
       value: `https://dev.${this.amplifyDeployment.amplifyApp.defaultDomain}`,
-      description: 'CLQSWebAppDomain',
-      exportName: 'CLQSWebAppDomain'
+      description: 'CDLWebAppDomain',
+      exportName: 'CDLWebAppDomain'
     });
 
   cdk.Tags.of(this).add("component", "amplifyDeployment");

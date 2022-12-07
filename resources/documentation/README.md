@@ -1,20 +1,21 @@
 # Welcome to Carbon Data Lake Quick Start CDK Application
 
-Carbon Data Lake Quick Start is a decarbonization data accelerator solution built on existing AWS Services. Carbon Data Lake Quick Start reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. Carbon Data Lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. Carbon Data Lake data is ingested through the Carbon Data Lake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+Carbon Data Lake Quick Start (CDL) is a decarbonization data accelerator solution built on existing AWS Services. Carbon Data Lake Quick Start reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and ghg emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. Carbon Data Lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. Carbon Data Lake data is ingested through the Carbon Data Lake landing zone, and can be ingested from any service within or connected to the AWS cloud.
 
 ## 🛠 What you will build
 
-![Carbon Data Lake architectural diagram](resources/architecture/architecture_diagram.png)
+![Carbon Data Lake architectural diagram](./../architecture/architecture_diagram.png)
 
-1. Scope 1-3 customer carbon emissions data ([See World Resource Institute GHG Protocol Guidance](https://ghgprotocol.org/guidance-0)) is currently supported in CSV format. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data. Carbon Data Lake Quick Start provides a pre-built GHG Protocol Calculator Microservice adapted from [WRI GHG Protocol Emissions Calculator Tool](https://ghgprotocol.org/calculation-tools), which is aligned with [ISO 14064](https://www.iso.org/standard/66453.html). This calculator and standards lookup table can be modified or augmented with additional bring your own standards lookup tables and calculator logic.
+1. Customers can ingest CSV formatted Carbon Emissions Data from on-premise and cloud resources.
 2. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
 3. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
-4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
-5. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
-6. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB GHG Protocol Emissions factor lookup database.
-7. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
+4. AWS Lambda functions trigger the data lineage service, with queueing managed by Amazon Simple Queue Service, and a second AWS Lambda Function writing all data transformations as pointers to an Amazon DynamoDB table. This table can be accessed for data lineage queries using a data lineage reconstruction AWS Lambda Function.
+5. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
+6. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
+7. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB GHG Protocol Emissions factor lookup database.
+8. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
 Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting tools including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
-8. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
+9. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications. AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
 
 ## Application Stacks
 
@@ -22,13 +23,13 @@ Analytics and AI/ML stack provide integrated analytics, business intelligence, a
 
 The shared resource stack deploys all cross-stack referenced resources such as S3 buckets and lambda functions that are built as dependencies.
 
-Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/shared-resources-stack.ts) and [Stack Outputs](#shared-resources-stack-outputs)
+Review the [Shared Resources Stack](../../lib/stacks/stack-shared-resources/stack-shared-resources.ts) and [Stack Outputs](#shared-resources-stack-outputs)
 
 ### Optional CI/CD Pipeline
 
 The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
 
-Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/ci-cd-pipeline-stack.ts)
+Review the [Optional CI/CD Stack](../../lib/stacks/stack-ci-cd/stack-ci-cd.ts)
 
 ### Data Pipeline
 
@@ -40,7 +41,7 @@ The Carbon Data Lake data pipeline is an event-driven Step Functions Workflow tr
 4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
 5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
 
-Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/pipeline-stack.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
+Review the [Data Pipeline Stack](../../lib/stacks/stack-data-pipeline/stack-data-pipeline.ts), [README](../../lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
 ### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
 
@@ -50,29 +51,29 @@ The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon Dyna
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the Carbon Data Lake AWS Amplify Sample Web Application.
 
-Review the [AppSync GraphQL API Stack](lib/stacks/stack-shared-resources/shared-resources-stack.ts), [Documentation](lib/stacks/stack-api/README.md), and [Stack Outputs](#api-stack-outputs)
+Review the [AppSync GraphQL API Stack](../../lib/stacks/stack-api/stack-api.ts), [Documentation](../../lib/stacks/stack-api/README.md), and [Stack Outputs](#api-stack-outputs)
 
 ### Optional: AWS Amplify Sample Web Application
 
 An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful Carbon Data Lake Quick Start Application deployment. The AWS Amplify Web Application depends on the core Carbon Data Lake Quick Start components.
 
-Review the [Web Application Stack](lib/stacks/stack-web/web-stack.ts) and [Stack Outputs](#web-stack-outputs).
+Review the [Web Application Stack](../../lib/stacks/stack-web/stack-web.ts) and [Stack Outputs](#web-stack-outputs).
 
 ### Optional: Amazon Quicksight Module with prebuilt visualizations and Analysis
 
 An Amazon Quicksight stack can be deployed optionally with pre-built visualizations for Scope 1, 2, and 3 emissions. This stack requires additional manual setup in the AWS console detailed in this guide.
 
-Review the [Amazon Quicksight Stack](lib/stacks/stack-quicksight/documentation/README.md)
+Review the [Amazon Quicksight Stack](../../lib/stacks/stack-quicksight/documentation/README.md)
 
 ### Optional: Sagemaker Notebook Instance with pre-built Machine Learning notebook
 
 A pre-built machine learning notebook is deployed on an Amazon Sagemaker Notebook EC2 instance with `.ipynb` and pre-built prompts and functions.
 
-Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebook/sagemaker-notebook.ts).
+Review the [Sagemaker Notebook Instance Stack](../../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook.ts).
 
 ### Sample Data Collection for Testing
 
-The Carbon Data Lake Quick Start application comes with sample data for testing successful deployment of the application and can be found in the `resource/sample-data` directory.
+The Carbon Data Lake Quick Start application comes with sample data for testing successful deployment of the application and can be found in the `sample-data` directory.
 
 ## What it does
 
@@ -88,14 +89,6 @@ The following list of capabilities covers current capabilities as recorded and u
 4. Provides daily data compaction at midnight in local time
 5. Performs calculation using pre-built GHG calculator lookup table
 6. Can accept new calculator lookup table and data model with required updates to JSON files for data quality AND calculator.
-
-### Limitations
-
-The following list of limitations covers current known functional limitations as recorded and updated August 2022:
-
-1. Does not accept file type JSON, Parquet, XML, and all image file types.
-2. Does not accept multi-file upload via sample web application
-3. Does not allow for data model update from a single data model file source (currently requires manual editing of multiple files).
 
 ## 💲 Cost and Licenses
 
@@ -195,7 +188,7 @@ cdk deploy --all
 npm run deploy:cicd
 ```
 
-👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
+👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](../../lib/constructs/construct-gitlab-mirroring/construct-gitlab-mirroring.ts) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Optional: Set up the Amplify Web Application
 
@@ -214,8 +207,10 @@ If you are reading this it is because you deployed the Carbon Data Lake Quick St
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![Cognito Login Page](lib/stacks/stack-web/Carbon Data Lake-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
-![Carbon Data Lake Web Application](lib/stacks/stack-web/sample-ui-cloudscape/documentation/images/Carbon Data Lake101.png)
+![Cognito Login Page](../../lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
+
+![Carbon Data Lake Web Application](../../lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLake101.png)
+
 4. Create a separate directory to manage your web application
 
     ```sh
@@ -240,7 +235,7 @@ Success! At this point, you should successfully have the Amplify app working.
 
 If you choose to deploy the Amazon Quicksight business intelligence stack it will include prebuilt data visualizations that leverage Amazon Athena to query your processed data. If you elect to deploy this stack you will need to remove the comments.
 
-Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](lib/stacks/stack-quicksight/documentation/README.md).
+Before you proceed you need to set up your quicksight account and user. This needs to be done manually in the console, so please open this link and follow the instructions [here](../../lib/stacks/stack-quicksight/documentation/README.md).
 
 To deploy this stack navigate to `cdk.context.json` and change `deployQuicksightStack` value to `true` and redeploy the application by running `cdk deploy --all`
 
@@ -266,53 +261,53 @@ The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the 
 
 Shared resource stack outputs include:
 
-- `CLQSAwsRegion`: Region of CDK Application AWS Deployment.
-- `CLQSEnrichedDataBucket`: Enriched data bucket with outputs from calculator service.
-- `CLQSEnrichedDataBucketUrl`: Url for enriched data bucket with outputs from calculator service
-- `CLQSDataLineageBucket`: Data lineage S3 bucket
-- `CLQSDataLineageBucketUrl`: Data lineage S3 bucket URL
+- `cdlAwsRegion`: Region of CDK Application AWS Deployment.
+- `cdlEnrichedDataBucket`: Enriched data bucket with outputs from calculator service.
+- `cdlEnrichedDataBucketUrl`: Url for enriched data bucket with outputs from calculator service
+- `cdlDataLineageBucket`: Data lineage S3 bucket
+- `cdlDataLineageBucketUrl`: Data lineage S3 bucket URL
 
 ### API Stack Outputs
 
--`CLQSuserPoolId`: Cognito user pool ID for authentication
+-`cdluserPoolId`: Cognito user pool ID for authentication
 -`CLQidentityPoolId`: Cognito Identity pool ID for authentication
--`CLQSuserPoolClientId`: Cognito user pool client ID for authentication
--`CLQSclqsAdminUserRoleOutput`: Admin user role output
--`CLQSclqsStandardUserRoleOutput`: Standard user role output
--`CLQSApiEndpoint`: GraphQL API endpoint
--`CLQSApiUsername`: GraphQL API admin username
--`CLQSGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
+-`cdluserPoolClientId`: Cognito user pool client ID for authentication
+-`cdlcdlAdminUserRoleOutput`: Admin user role output
+-`cdlcdlStandardUserRoleOutput`: Standard user role output
+-`cdlApiEndpoint`: GraphQL API endpoint
+-`cdlApiUsername`: GraphQL API admin username
+-`cdlGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
 
 ### Data Pipeline Stack Outputs
 
 -`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to Carbon Data Lake Quick Start Data Pipeline.
--`CLQSLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to Carbon Data Lake Quick Start Data Pipeline.
--`CLQSGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
--`CLQSDataPipelineStateMachineUrl`: URL to open CLQS State machine to view step functions workflow status.
+-`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to Carbon Data Lake Quick Start Data Pipeline.
+-`cdlGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
+-`cdlDataPipelineStateMachineUrl`: URL to open cdl State machine to view step functions workflow status.
 
 ### Web Stack Outputs
 
--`CLQSWebAppRepositoryLink`: Amplify Web Application codecommit repository link.
--`CLQSWebAppId`: Amplify Web Application ID.
--`CLQSAmplifyLink`: Amplify Web Application AWS Console URL.
--`CLQSWebAppDomain`: Amplify Web Application live web URL.
+-`cdlWebAppRepositoryLink`: Amplify Web Application codecommit repository link.
+-`cdlWebAppId`: Amplify Web Application ID.
+-`cdlAmplifyLink`: Amplify Web Application AWS Console URL.
+-`cdlWebAppDomain`: Amplify Web Application live web URL.
 
 ### Quicksight Stack Outputs
 
 -`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
 -`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards.
 -`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications.
--`CLQSQuicksightUrl`: URL of Quicksight Dashboard.
+-`cdlQuicksightUrl`: URL of Quicksight Dashboard.
 
 ### Sagemaker Notebook Stack Outputs
 
--`CLQSSagemakerRepository`: Codecommit repository of sagemaker notebook.
--`CLQSSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
+-`cdlSagemakerRepository`: Codecommit repository of sagemaker notebook.
+-`cdlSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
 
 ### Test Stack Outputs
 
--`CLQSe2eTestLambdaFunctionName`: Name of Carbon Data Lake lambda test function.
--`CLQSe2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
+-`e2eTestLambdaFunctionName`: Name of Carbon Data Lake lambda test function.
+-`e2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
 
 ## 🛠 Usage
 
@@ -332,23 +327,24 @@ In your command line shell you should see confirmation of all resources deployin
 
 Time to test some data out and see if everything is working. This section assumes basic prerequisite knowledge of how to manually upload an object to S3 with the AWS console. For more on this please review [how to upload an object to S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
 
-- Go to the S3 console and locate your Carbon Data Lake landing zone bucket it will be called `carbonlakepipelinestack-carbonlakelandingbucket` with a unique identifier appended to it
+- Go to the S3 console and locate your Carbon Data Lake landing zone bucket it will be called `cdlpipelinestack-cdllandingbucket` with a unique identifier appended to it
 - Upload [Carbon Data Lake Quickstart Synthetic Input Data](sample-data/Carbon Data Lake-test-synthetic-input-data.csv) to the S3 bucket manually
 - This will kick trigger the pipeline kickoff lambda function and start the data pipeline step functions workflow -- continue!
 
 ### 3/ Take a look at the step functions workflow
 
 - Navigate to step functions service in the aws console
-- Select the step function named `Carbon Data LakePipeline` with an appended uuid
+- Select the step function named `cdlPipeline` with an appended uuid
 - Select the recent active workflow
 - Select from the "executions" list
 - Have a quick look and familiarize yourself with the workflow graph inspector
 - The workflow will highlight green for each passed step. See two image examples below.
 
-![In-Progress Step Functions Workflow](resources/images/Carbon Data Lake-Quick Start-step-func-in-progress.png)
+![In-Progress Step Functions Workflow](./images/../../images/carbonlake-quickstart-step-func-in-progress.png)
+
 Figure. In progress step function workflow
 
-![Successful Step Functions Workflow](resources/images/carbonlake-Quick Start-step-func-graph-inspector-completed.png)
+![Successful Step Functions Workflow](./images/../../images/carbonlake-quickstart-step-func-graph-inspector-completed.png)
 Figure. Completed step function workflow
 
 ### 3/ Review your calculated outputs
@@ -392,7 +388,7 @@ Did that all work? Continue...
 
 ### 5/ Take a look at the Amplify Sample Web Application
 
-If you have not yet this is a great time to deploy the sample web application. Once you've run some data through the pipeline you should see that successfully populating in the application. Please follow the [Web Application README](front-end/sample-ui-cloudscape/documentation/README.md) to manually deploy the AWS Amplify sample web application.
+If you have not yet this is a great time to deploy the sample web application. Once you've run some data through the pipeline you should see that successfully populating in the application. Remember that to deploy the web application you will need to set `"deployWebStack": "true"` in `cdk.context.json`.
 
 ### 6/ Try dropping some other sample data into the landing zone
 
@@ -416,8 +412,6 @@ For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/o
 - `cdk synth` synthesizes all CDK stacks in the application
 - Runs bandit security tests for common vulnerabilities in Python
 - Runs ESLint for common formatting issues in Javascript and Typescript
-- Runs CDK-Nag to check for common compliance, configuration, and vulnerability issues in CDK code
-- Runs `test-amplify.sh` -- builds and deploys the Amplify App on localhost to make sure it works
 - Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
 - Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 
@@ -427,7 +421,6 @@ You can run several of these tests manually on your local machine to check that 
 
 - `sh test-deployment.sh` Runs CDKitten locally using your assumed AWS role
 - `sh test-e2e.sh`runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
-- `sh test-amplify.sh` -- builds and deploys the Amplify App on localhost to make sure it works.
 - `npm run lint` tests your code locally with the prebuilt linter configuration
 
 ## Extending Carbon Data Lake
@@ -453,13 +446,28 @@ To add additional features to Carbon Data Lake we recommend developing your own 
 2. Add a stack file to this directory
 
     ```sh
-    touch lib/stacks/stack-title/title-stack.ts
+    touch lib/stacks/stack-title/stack-title.ts
     ```
 
 3. Use basic CDK stack starter code to formulate your own stack. See example below:
 
     ```javascript
+    import * as cdk from 'aws-cdk-lib';
+    import { Construct } from 'constructs';
+    // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
+    export class ExampleStack extends cdk.Stack {
+        constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
+
+        // The code that defines your stack goes here
+
+        // example resource
+        // const queue = new sqs.Queue(this, 'ExampleStackQueue', {
+        //   visibilityTimeout: cdk.Duration.seconds(300)
+        // });
+        }
+    }
     ```
 
 4. We recommend using a single stack, and integrating additional submodular components as constructs. Constructs are logical groupings of AWS resources with "sane" defaults. In many cases the CDK team has already created a reusable construct and you can simply work with that. But in specific cases you may way to create your own. You can create a construct using the commands and example below:
@@ -469,13 +477,9 @@ To add additional features to Carbon Data Lake we recommend developing your own 
     touch lib/constructs/construct-title/title-construct.ts
     ```
 
-    ```javascript
-
-    ```
-
 5. If you have integrated your stack successfully you should see it build when you run `cdk synth`. For development purposes we recommend deploying your stack in isolation before you deploy with the full application. You can run `cdk deploy YourStackName` to deploy in isolation.
 
-6. Integrate your stack with the full application by importing it to `bin/main.ts` and `cicd.ts` if you have chosen to deploy it.
+6. Integrate your stack with the full application by importing it to `bin/main.ts` and `bin/cicd.ts` if you have chosen to deploy it.
 
     ```sh
     #open the file carbonlake-Quick Start-main.ts
@@ -544,7 +548,7 @@ Carbon Data Lake was designed for simple integration with existing AWS services.
 #### Calculator Input Model
 
 The model below describes the required schema for input to the Carbon Data Lake calculator microservice. This is
-[Calculator Data Input Model](sample-data/calculator_input_single_record_scope1_example.json)
+[Calculator Data Input Model](../../sample-data/calculator_input_single_record_scope1_example.json)
 
 ```json
 {
@@ -568,7 +572,7 @@ The model below describes the required schema for input to the Carbon Data Lake 
 
 The model below describes the standard output model from the Carbon Data Lake emissions calculator microservice.
 
-[Calculator Output Model](sample-data/calculator_output_single_record_scope1_example.json)
+[Calculator Output Model](../../sample-data/calculator_output_single_record_scope1_example.json)
 
 ```json
 {
@@ -628,9 +632,9 @@ The model below describes the standard output model from the Carbon Data Lake em
 
 The json document below describes the emissions factor model extracted via python script from the GHG protocol emissions factor calculator excel spreadsheet last updated July 2022.
 
-[GHG Protocol Lookup Table Model](lib/stacks/stack-data-pipeline/calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
+[GHG Protocol Lookup Table Model](../../lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
 
-Calculation methodologies are direct representations of the [World Resource Institute GHG Protocol scope 1, 2, and 3 guidance](https://ghgprotocol.org/guidance-0). To review calculation methodology and lookup tables please review the [Carbon Data Lake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/calculator/README.md).
+Calculation methodologies are direct representations of the [World Resource Institute GHG Protocol scope 1, 2, and 3 guidance](https://ghgprotocol.org/guidance-0). To review calculation methodology and lookup tables please review the [Carbon Data Lake Emissions Calculator Stack](../../lib/stacks/stack-data-pipeline/construct-calculator/README.md).
 
 ## 👀 See also
 

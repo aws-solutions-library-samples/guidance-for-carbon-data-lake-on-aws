@@ -27,7 +27,7 @@ export class DataCompactionStack extends Stack {
     /* ======== GLUE METADATA CATALOG TABLE ======== */
     const { glueEnrichedDataTodayTable } = new GlueEnrichedDataTodayTable(
       this,
-      'carbonLakeGlueEnrichedDataDatabaseStack',
+      'cdlGlueEnrichedDataDatabaseStack',
       {
         enrichedBucket: props?.enrichedBucket,
         enrichedDataDatabase: props?.enrichedDataDatabase,
@@ -35,10 +35,9 @@ export class DataCompactionStack extends Stack {
     )
 
     /* ======== GLUE COMPACTION & FLUSHING JOBS ======== */
-    // TODO: how should this object be instantiated? Should CarbonLakeGlueTransformationStack return the necessary glue jobs?
     const { glueCompactionJobName, glueDataFlushJobName } = new DataCompactionGlueJobs(
       this,
-      'carbonLakeDataCompactionGlueJobsStack',
+      'cdlDataCompactionGlueJobsStack',
       {
         enrichedBucket: props?.enrichedBucket,
       }
@@ -47,7 +46,7 @@ export class DataCompactionStack extends Stack {
     /* ======== HISTORICAL DATA CRAWLER ======== */
     const { glueHistoricalCalculatorCrawlerName } = new DataCompactionHistoricalCrawler(
       this,
-      'carbonLakeDataCompactionHistoricalCrawlerStack',
+      'cdlDataCompactionHistoricalCrawlerStack',
       {
         enrichedBucket: props?.enrichedBucket,
         enrichedDataDatabase: props?.enrichedDataDatabase,
@@ -57,7 +56,7 @@ export class DataCompactionStack extends Stack {
     /** LAMBDAS TO CREATE ATHENA VIEWS */
     const { createIndividualAthenaViewsLambda, createCombinedAthenaViewsLambda } = new CreateAthenaViews(
       this,
-      'CLQSCreateAthenaViewsStack',
+      'cdlCreateAthenaViewsStack',
       {
         enrichedDataDatabase: props?.enrichedDataDatabase,
       }
@@ -70,8 +69,8 @@ export class DataCompactionStack extends Stack {
       autoDeleteObjects: true,
     })
 
-    new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
-      sources: [s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/statemachine/json')],
+    const deployStateMachineJSON = new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
+      sources: [s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/construct-data-compaction-statemachine/json')],
       destinationBucket: stateMachineS3Bucket,
     })
 
@@ -83,12 +82,12 @@ export class DataCompactionStack extends Stack {
     // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
-      'carbonlakeDataCompactionLayer',
+      'cdlDataCompactionLayer',
       `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
     )
 
     // Lambda function to process incoming events, generate child node IDs
-    const enumFunction = new lambda.Function(this, 'carbonlakeDataCompactionEnum', {
+    const enumFunction = new lambda.Function(this, 'cdlDataCompactionEnum', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/enumerate_directories/')),
       handler: 'app.lambda_handler',
@@ -105,7 +104,7 @@ export class DataCompactionStack extends Stack {
     /* ======== STATEMACHINE ======== */
     const { stateMachineName } = new DataCompactionStateMachine(
       this,
-      'carbonlakeDataCompactionStateMachineStack',
+      'cdlDataCompactionStateMachineStack',
       {
         glueCompactionJobName: glueCompactionJobName,
         glueDataFlushJobName: glueDataFlushJobName,
@@ -117,8 +116,10 @@ export class DataCompactionStack extends Stack {
       }
     )
 
+    enumFunction.node.addDependency(deployStateMachineJSON);
+
     /** VENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
-    const { eventRule } = new EventTriggerStateMachine(this, 'carbonLakeEventTriggerStateMachineStack', {
+    const { eventRule }  = new EventTriggerStateMachine(this, 'cdlEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName,
     })
 

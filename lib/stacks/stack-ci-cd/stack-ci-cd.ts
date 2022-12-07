@@ -2,17 +2,17 @@ import * as cdk from 'aws-cdk-lib'
 import * as codecommit from 'aws-cdk-lib/aws-codecommit'
 import { Construct } from 'constructs'
 import { CodeBuildStep, CodePipeline, CodePipelineSource, ManualApprovalStep } from 'aws-cdk-lib/pipelines'
-import { CLQSPipelineStage } from './stages/carbonlake-qs-ci-cd-stage'
-import { CLQSGitlabMirror } from '../../constructs/construct-gitlab-mirroring/carbonlake-qs-gitlab-mirroring'
+import { PipelineStage } from './stages/ci-cd-stage'
+import { GitlabMirror } from '../../constructs/construct-gitlab-mirroring/gitlab-mirroring'
 
 export class CLQSCiCdStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
-    // Creates a CodeCommit repository called 'CarbonLakeDevTestRepo'
+    // Creates a CodeCommit repository called 'CarbonLakeRepo'
     // If you are repurposing this repository use your own name here
-    const repo = new codecommit.Repository(this, 'CarbonLakeRepo', {
-      repositoryName: 'CarbonLakeRepo',
+    const repo = new codecommit.Repository(this, 'CarbonDataLakeRepo', {
+      repositoryName: 'CarbonDataLakeRepo',
       
     })
 

@@ -6,7 +6,7 @@ import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 
-export interface CLQSTestStackProps extends StackProps {
+export interface TestStackProps extends StackProps {
   landingBucket: s3.Bucket
   transformedBucket: s3.Bucket
   enrichedBucket: s3.Bucket
@@ -15,12 +15,12 @@ export interface CLQSTestStackProps extends StackProps {
   calculatorOutputTable: dynamodb.Table
 }
 
-export class CLQSTestStack extends Stack {
-  constructor(scope: Construct, id: string, props: CLQSTestStackProps) {
+export class TestStack extends Stack {
+  constructor(scope: Construct, id: string, props: TestStackProps) {
     super(scope, id, props)
 
     // Calculator tests
-    const carbonlakeCalculatorTestFunction = new lambda.Function(this, 'carbonlakeCalculatorTestLambda', {
+    const cdlCalculatorTestFunction = new lambda.Function(this, 'CalculatorTestLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_calculator.lambda_handler',
@@ -31,12 +31,12 @@ export class CLQSTestStack extends Stack {
         CALCULATOR_FUNCTION_NAME: props.calculatorFunction.functionName,
       },
     })
-    props.transformedBucket.grantReadWrite(carbonlakeCalculatorTestFunction)
-    props.enrichedBucket.grantReadWrite(carbonlakeCalculatorTestFunction)
-    props.calculatorFunction.grantInvoke(carbonlakeCalculatorTestFunction)
+    props.transformedBucket.grantReadWrite(cdlCalculatorTestFunction)
+    props.enrichedBucket.grantReadWrite(cdlCalculatorTestFunction)
+    props.calculatorFunction.grantInvoke(cdlCalculatorTestFunction)
 
     // Pipeline E2E tests
-    const carbonlakePipelineTestFunction = new lambda.Function(this, 'carbonlakePipelineTestLambda', {
+    const cdlPipelineTestFunction = new lambda.Function(this, 'PipelineTestLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_pipeline.lambda_handler',
@@ -48,23 +48,23 @@ export class CLQSTestStack extends Stack {
         OUTPUT_DYNAMODB_TABLE_NAME: props.calculatorOutputTable.tableName,
       },
     })
-    props.landingBucket.grantReadWrite(carbonlakePipelineTestFunction)
-    props.enrichedBucket.grantReadWrite(carbonlakePipelineTestFunction)
-    props.pipelineStateMachine.grantRead(carbonlakePipelineTestFunction)
-    props.calculatorOutputTable.grantReadWriteData(carbonlakePipelineTestFunction)
+    props.landingBucket.grantReadWrite(cdlPipelineTestFunction)
+    props.enrichedBucket.grantReadWrite(cdlPipelineTestFunction)
+    props.pipelineStateMachine.grantRead(cdlPipelineTestFunction)
+    props.calculatorOutputTable.grantReadWriteData(cdlPipelineTestFunction)
 
     // Output name of test function
-    new CfnOutput(this, 'CLQSe2eTestLambdaFunctionName', {
-      value: carbonlakePipelineTestFunction.functionName,
-      description: 'Name of CarbonLake lambda test function',
-      exportName: 'CLQSe2eTestLambdaFunctionName',
+    new CfnOutput(this, 'e2eTestLambdaFunctionName', {
+      value: cdlPipelineTestFunction.functionName,
+      description: 'Name of cdl lambda test function',
+      exportName: 'CDLe2eTestLambdaFunctionName',
     });
 
     // Output aws console link to test function
-    new CfnOutput(this, 'CLQSe2eTestLambdaConsoleLink', {
-      value: `https://${carbonlakePipelineTestFunction.env.region}.console.aws.amazon.com/lambda/home?${carbonlakePipelineTestFunction.env.region}#/functions/${carbonlakePipelineTestFunction.functionName}?tab=code`,
+    new CfnOutput(this, 'e2eTestLambdaConsoleLink', {
+      value: `https://${cdlPipelineTestFunction.env.region}.console.aws.amazon.com/lambda/home?${cdlPipelineTestFunction.env.region}#/functions/${cdlPipelineTestFunction.functionName}?tab=code`,
       description: 'URL to open and invoke calculator test function in the AWS Console',
-      exportName: 'CLQSe2eTestLambdaConsoleLink',
+      exportName: 'CDLe2eTestLambdaConsoleLink',
 
     });
 

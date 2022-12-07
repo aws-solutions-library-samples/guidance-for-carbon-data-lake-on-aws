@@ -20,7 +20,7 @@ export class DataCompactionStateMachine extends Construct {
   public readonly stateMachineName: any
 
   constructor(scope: Construct, id: string, props: DataCompactionStateMachineProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create IAM role to be assumed by state machine
     const stepFunctionsExecutionPolicy = new iam.PolicyDocument({
@@ -74,7 +74,7 @@ export class DataCompactionStateMachine extends Construct {
     })
 
     // Create IAM Role to be assumed by Step Functions State Machine
-    const stateMachineRole = new iam.Role(this, 'carbonlake-data-compaction-state-machine-role', {
+    const stateMachineRole = new iam.Role(this, 'cdl-data-compaction-state-machine-role', {
       assumedBy: new iam.ServicePrincipal('states.amazonaws.com'),
       description: 'IAM role to be assumed by Step Functions State Machine',
       inlinePolicies: {

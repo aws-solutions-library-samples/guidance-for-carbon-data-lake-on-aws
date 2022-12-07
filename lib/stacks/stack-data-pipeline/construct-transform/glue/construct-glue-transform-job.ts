@@ -7,11 +7,11 @@ interface GlueTransformationProps extends StackProps {
   transformedBucket: cdk.aws_s3.Bucket
 }
 
-export class CarbonLakeGlueTransformationStack extends Construct {
+export class GlueTransformation extends Construct {
   public readonly glueTransformJobName: string
 
   constructor(scope: Construct, id: string, props: GlueTransformationProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     // Create new S3 bucket to store glue script
     const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueTransformationScriptsBucket', {
@@ -47,7 +47,7 @@ export class CarbonLakeGlueTransformationStack extends Construct {
     const gluePolicy = cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSGlueServiceRole')
 
     // Create IAM Role to be assumed by Glue
-    const role = new cdk.aws_iam.Role(this, 'carbonlake-glue-transform-role', {
+    const role = new cdk.aws_iam.Role(this, 'cdl-glue-transform-role', {
       assumedBy: new cdk.aws_iam.ServicePrincipal('glue.amazonaws.com'),
       description: 'IAM role to be assumed by Glue transformation job',
       inlinePolicies: {
@@ -92,7 +92,7 @@ export class CarbonLakeGlueTransformationStack extends Construct {
 
     // Deploy glue job to S3 bucket
     new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployGlueJobFiles', {
-      sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-pipeline/transform/glue/assets')],
+      sources: [cdk.aws_s3_deployment.Source.asset('./lib/stacks/stack-data-pipeline/construct-transform/glue/assets')],
       destinationBucket: glueScriptsBucket,
       destinationKeyPrefix: 'Scripts',
     })

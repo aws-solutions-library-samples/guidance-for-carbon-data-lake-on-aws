@@ -16,11 +16,11 @@ interface StateMachineProps extends StackProps {
   calculationJob: lambda.Function
 }
 
-export class StatemachineStack extends Construct {
+export class DataPipelineStatemachine extends Construct {
   public readonly statemachine: sfn.StateMachine
 
   constructor(scope: Construct, id: string, props: StateMachineProps) {
-    super(scope, id, props)
+    super(scope, id)
 
     /* ======== STEP FUNCTION TASKS ======== */
 
@@ -142,7 +142,7 @@ export class StatemachineStack extends Construct {
       subject: 'Data Quality check failed',
       message: sfn.TaskInput.fromText(
         sfn.JsonPath.format(
-          'Your Carbonlake Data Quality job has failed. Please review your dataset: {}',
+          'Your Carbon Data Lake Data Quality job has failed. Please review your dataset: {}',
           sfn.JsonPath.stringAt('$.data_quality.storage_location')
         )
       ),
@@ -251,7 +251,7 @@ export class StatemachineStack extends Construct {
           .otherwise(sfn.Chain.start(errorNotificaiton).next(dataLineageTask1_2).next(sfnFailure))
       )
 
-    this.statemachine = new sfn.StateMachine(this, 'carbonlakePipeline', {
+    this.statemachine = new sfn.StateMachine(this, 'cdlPipeline', {
       definition,
       timeout: Duration.minutes(60),
     })

@@ -19,9 +19,9 @@ export class Calculator extends Construct {
   public readonly calculatorLambda: lambda.Function
 
   constructor(scope: Construct, id: string, props: CalculatorProps) {
-    super(scope, id, props)
+    super(scope, id)
 
-    const emissionsFactorReferenceTable = new dynamodb.Table(this, 'carbonLakeEmissionsFactorReferenceTable', {
+    const emissionsFactorReferenceTable = new dynamodb.Table(this, 'cdlEmissionsFactorReferenceTable', {
       partitionKey: { name: 'category', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'activity', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
@@ -29,13 +29,13 @@ export class Calculator extends Construct {
     })
 
     // Define DynamoDB Table for calculator output
-    this.calculatorOutputTable = new dynamodb.Table(this, 'carbonlakeCalculatorOutputTable', {
+    this.calculatorOutputTable = new dynamodb.Table(this, 'cdlCalculatorOutputTable', {
       partitionKey: { name: 'activity_event_id', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     })
 
-    this.calculatorLambda = new lambda.Function(this, 'carbonLakeCalculatorHandler', {
+    this.calculatorLambda = new lambda.Function(this, 'cdlCalculatorHandler', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'calculatorLambda.lambda_handler',
@@ -54,12 +54,12 @@ export class Calculator extends Construct {
     props.enrichedBucket.grantWrite(this.calculatorLambda)
 
     checkDuplicatedEmissionFactors()
-    //We popupate the Emission Factors DB with data from a JSON file
+    //We populate the Emission Factors DB with data from a JSON file
     //We split into chunks because BatchWriteItem has a limitation of 25 items per batch
     //See https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchWriteItem.html
     for (let i = 0; i < emission_factors.length; i += DDB_BATCH_WRITE_ITEM_CHUNK_SIZE) {
       const chunk = emission_factors.slice(i, i + DDB_BATCH_WRITE_ITEM_CHUNK_SIZE)
-      new cr.AwsCustomResource(this, `initCarbonLakeEmissionsFactorReferenceTable${i}`, {
+      new cr.AwsCustomResource(this, `initcdlEmissionsFactorReferenceTable${i}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'batchWriteItem',

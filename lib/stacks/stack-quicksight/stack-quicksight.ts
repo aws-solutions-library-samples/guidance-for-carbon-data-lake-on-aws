@@ -7,14 +7,14 @@ import { Construct } from 'constructs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-interface CarbonlakeQuicksightStackProps extends StackProps {
+interface QuicksightStackProps extends StackProps {
   enrichedBucket: s3.Bucket;
   quicksightUsername?: string;
   enrichedDataDatabase: glue.CfnDatabase;
 }
 
-export class CLQSQuicksightStack extends Stack {
-  constructor(scope: Construct, id: string, props: CarbonlakeQuicksightStackProps) {
+export class QuicksightStack extends Stack {
+  constructor(scope: Construct, id: string, props: QuicksightStackProps) {
     super(scope, id, props);
 
     // Update Quicksight IAM role to allow access to enriched data S3 bucket
@@ -36,7 +36,7 @@ export class CLQSQuicksightStack extends Stack {
     role.addToPrincipalPolicy(quicksightS3AccessPolicy);
 
     // Create unique identifier to be appended to QuickSight resources
-    const quicksightUniqueIdentifier = `CLQS-${Names.uniqueId(role).slice(-8)}-${uuidv4().slice(-12)}`;
+    const quicksightUniqueIdentifier = `CDL-${Names.uniqueId(role).slice(-8)}-${uuidv4().slice(-12)}`;
 
 
     // Create Quicksight data source, data set, template and dashboard via CloudFormation template
@@ -73,10 +73,10 @@ export class CLQSQuicksightStack extends Stack {
     })
 
     // Output link to quicksight
-    new CfnOutput(this, 'CLQSQuicksightUrl', {
+    new CfnOutput(this, 'CDLQuicksightUrl', {
       value: "Quicksight URL to be added",
       description: 'URL of QuickSight Dashboard',
-      exportName: 'CLQSQuicksightUrl',
+      exportName: 'CDLQuicksightUrl',
     });
 
     Tags.of(this).add("component", "quicksight");
