@@ -2,7 +2,7 @@
   "adminEmail": "sambiddl@amazon.com",
   "quicksightUserName": "sambiddl@amazon.com",
   "repoBranch": "main",
-  "deployQuicksightStack": false,
-  "deploySagemakerStack": false,
-  "deployWebStack": false
+  "deployQuicksightStack": true,
+  "deploySagemakerStack": true,
+  "deployWebStack": true
 }

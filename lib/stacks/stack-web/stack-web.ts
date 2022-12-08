@@ -24,7 +24,7 @@ export class WebStack extends cdk.Stack {
     super(scope, id, props);
 
     this.amplifyDeployment = new AmplifyDeploy(this, 'AmplifyDeployment', {
-      appPath: path.join(__dirname, './app/carbonlake-ui-cloudscape'),
+      appPath: path.join(__dirname, './app/sample-ui-cloudscape'),
       repoName: 'CDLWebAppRepo',
       region: this.region,
       apiId: props.apiId,
