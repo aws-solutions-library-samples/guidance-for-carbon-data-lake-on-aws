@@ -68,7 +68,7 @@ const Content = () => {
               </Box>
               <Box fontWeight="light">
                 <span className="custom-home__header-sub-title">
-                This AWS Amplify web application is a working sample component of <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/">CarbonLake Quickstart</a>
+                This AWS Amplify web application is a working sample component of <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbon-data-lake/">Carbon Data Lake Quickstart</a>
 
                 </span>
               </Box>
@@ -85,15 +85,15 @@ const Content = () => {
               <div>
               <h1>Get Started</h1>
                   <p>
-                    Welcome to the CarbonLake Quickstart sample web application. This application demonstrates some features and functionalities of CarbonLake in a web interface while also giving you a starter to develop your own application. You will notice that some elements of the application are not fully built out. We put them there as examples and so that you can make the application your own. This web application was built using AWS Amplify, Cloudscape Design System, and React. The application consists of starter integrations, and sample components to be customized. Read on to learn more.
+                    Welcome to the Carbon Data Lake Quickstart sample web application. This application demonstrates some features and functionalities of Carbon Data Lake in a web interface while also giving you a starter to develop your own application. You will notice that some elements of the application are not fully built out. We put them there as examples and so that you can make the application your own. This web application was built using AWS Amplify, Cloudscape Design System, and React. The application consists of starter integrations, and sample components to be customized. Read on to learn more.
                   </p>
                   <h2>Starter Integrations</h2>
-                  <p>The starter integrations in this application show how you can integrate CarbonLake Quickstart backend resources with a web application.</p>
+                  <p>The starter integrations in this application show how you can integrate Carbon Data Lake Quickstart backend resources with a web application.</p>
                   <li>
-                    Data Explorer - Emissions Records: This component demonstrates the use of dynamic tables with integrated serverless GraphQL API backends. This table connects to the CarbonLake Quickstart GraphQL API, authenticated with Amazon Cognito, and dynamically updates emissions records.
+                    Data Explorer - Emissions Records: This component demonstrates the use of dynamic tables with integrated serverless GraphQL API backends. This table connects to the Carbon Data Lake Quickstart GraphQL API, authenticated with Amazon Cognito, and dynamically updates emissions records.
                   </li>
                   <li>
-                    Data Explorer - Data Uploader: This component demonstrates serverless integration with Amazon S3. This file uploader component uploads to the CarbonLake Landing Zone to trigger the CarbonLake data pipeline.
+                    Data Explorer - Data Uploader: This component demonstrates serverless integration with Amazon S3. This file uploader component uploads to the Carbon Data Lake Landing Zone to trigger the Carbon Data Lake data pipeline.
                   </li>
                   <h2>Sample Components</h2>
                   <p>This application also includes several sample front-end components to demonstrate the Cloudscape Design System features and give you additional starter code. You will notice that some features do not dynamically update, such as the notification count. We put it there as an example and we invite you to make it your own.</p>
@@ -126,7 +126,7 @@ const Content = () => {
 
 export const ToolsContent = () => (
   <HelpPanel
-    header={<h2>AWS CarbonLake Quickstart</h2>}
+    header={<h2>AWS Carbon Data Lake Quickstart</h2>}
     footer={
       <>
         <h3>
@@ -160,7 +160,7 @@ export const ToolsContent = () => (
   >
     <p>
 
-      CarbonLake is referencing the public IPCC Emissions Factor Database.
+      Carbon Data Lake is referencing the public IPCC Emissions Factor Database.
     </p>
   </HelpPanel>
 );

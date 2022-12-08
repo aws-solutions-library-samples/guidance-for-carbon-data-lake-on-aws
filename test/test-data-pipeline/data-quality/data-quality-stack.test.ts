@@ -3,7 +3,7 @@ import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CarbonlakeDataQualityStack } from '../../../lib/stacks/stack-data-pipeline/construct-data-quality/construct-data-quality'
+import { DataQuality } from '../../../lib/stacks/stack-data-pipeline/construct-data-quality/construct-data-quality'
 
 describe('test pipeline stack', () => {
   let template: Template | null
@@ -23,14 +23,14 @@ describe('test pipeline stack', () => {
     const parentStack = new Stack(app, 'DQParentStack', {})
 
     // create the pipeline stack with the required props
-    const dqStack = new CarbonlakeDataQualityStack(parentStack, 'DQStack', {
+    const dqStack = new DataQuality(parentStack, 'DQStack', {
       inputBucket: dummyBucket,
       outputBucket: dummyBucket,
       errorBucket: dummyBucket,
     })
 
     // synth a cloudformation template from the stack
-    const template = Template.fromStack(dqStack)
+    const template = Template.fromStack(parentStack)
   })
 
   afterEach(() => {

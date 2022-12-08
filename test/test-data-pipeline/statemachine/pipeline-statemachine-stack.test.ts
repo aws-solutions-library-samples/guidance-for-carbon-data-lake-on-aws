@@ -4,7 +4,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
-import { CLQSStatemachineStack } from '../../../lib/stacks/stack-data-pipeline/construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
+import { DataPipelineStatemachine } from '../../../lib/stacks/stack-data-pipeline/construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
 
 describe('test statemachine stack', () => {
   let template: Template | null
@@ -33,7 +33,7 @@ describe('test statemachine stack', () => {
     const parentStack = new Stack(app, 'ParentPipelineStack', {})
 
     // create the pipeline stack with the required props
-    const statemachineStack = new CLQSStatemachineStack(parentStack, 'PipelineStack', {
+    const statemachineStack = new DataPipelineStatemachine(parentStack, 'PipelineStack', {
       dataLineageFunction: dummyLambda,
       dqResourcesLambda: dummyLambda,
       dqResultsLambda: dummyLambda,
@@ -44,13 +44,13 @@ describe('test statemachine stack', () => {
     })
 
     // synth a cloudformation template from the stack
-    template = Template.fromStack(statemachineStack)
+    template = Template.fromStack(parentStack)
   })
 
   afterEach(() => {
     template = null
   })
-
+  
   test('synthesises as expected', () => {
     /* ====== ASSERTIONS ====== */
     template?.resourceCountIs('AWS::StepFunctions::StateMachine', 1)

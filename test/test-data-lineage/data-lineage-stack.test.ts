@@ -2,8 +2,7 @@ import { Capture, Match, Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
-
-import { CLQSDataLineageStack } from '../../lib/stacks/stack-data-lineage/carbonlake-data-lineage-stack'
+import { DataLineageStack } from '../../lib/stacks/stack-data-lineage/stack-data-lineage'
 
 describe('test data lineage stack', () => {
   let template: Template | null
@@ -16,7 +15,7 @@ describe('test data lineage stack', () => {
     const sharedResourcesStack = new Stack(app, 'SharedResourcesStack')
     const archiveBucket = new s3.Bucket(sharedResourcesStack, 'ArchiveBucket', {})
 
-    const dataLineageStack = new CLQSDataLineageStack(app, 'DataLineageStack', {
+    const dataLineageStack = new DataLineageStack(app, 'DataLineageStack', {
       archiveBucket: archiveBucket,
     })
 

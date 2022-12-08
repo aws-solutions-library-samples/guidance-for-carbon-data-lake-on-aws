@@ -63,7 +63,7 @@ const Content = () => {
           <Box margin="xxl" padding={{ vertical: 'xl', horizontal: 'l' }}>
             <div className="custom-home__header-title">
               <Box fontSize="display-l" fontWeight="bold" color="inherit">
-                AWS CarbonLake Quickstart
+                Carbon Data Lake Quickstart
               </Box>
               <Box fontSize="display-l" padding={{ bottom: 's' }} fontWeight="light" color="inherit">
               Account Settings

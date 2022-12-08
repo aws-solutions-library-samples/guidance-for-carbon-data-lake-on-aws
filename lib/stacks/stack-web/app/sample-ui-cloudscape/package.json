@@ -1,8 +1,8 @@
 {
-  "name": "carbonlakequickstart",
-  "description": "Sample Amplify Web App powered by AWS CarbonLake Quickstart.",
+  "name": "carbondatalakequickstart",
+  "description": "Sample Amplify Web App powered by AWS Carbon Data Lake Quickstart.",
   "private": true,
-  "author": "AWS CarbonLake Quickstart Builder Team",
+  "author": "AWS Carbon Data Lake Quickstart Builder Team",
   "version": "0.0.1",
   "repository": "",
   "homepage": "./",

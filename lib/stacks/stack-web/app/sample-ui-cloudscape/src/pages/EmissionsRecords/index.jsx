@@ -97,7 +97,7 @@ const Content = () => {
 
 const Tools = [
   <HelpPanel
-    header={<h2>CarbonLake 101</h2>}
+    header={<h2>Carbon Data Lake 101</h2>}
     footer={
       <div>
         <h3>
@@ -201,7 +201,7 @@ export const ToolsContent = () => (
     <p>
       View your Emissions Records and related information such as the activity id, asset id, geo, timestamp,
       and more. To drill down even further into the details, choose the name of an individual Emission Record.
-      By default, CarbonLake is referencing the public IPCC Emissions Factor Database.
+      By default, Carbon Data Lake is referencing the public IPCC Emissions Factor Database.
     </p>
   </HelpPanel>
 );

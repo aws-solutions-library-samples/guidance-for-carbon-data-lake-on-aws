@@ -74,7 +74,7 @@ const Content = () => {
       <Box margin="xxl" padding="l">
         <SpaceBetween size="l">
           <div>
-            <h1>Start using the CarbonLake Quickstart integrations</h1>
+            <h1>Start using the Carbon Data Lake Quickstart integrations</h1>
             <Container>
               <div>
                 <ol>
@@ -83,7 +83,7 @@ const Content = () => {
                     <br />
                   </li>
                   <li>
-                    This will upload your file to the CarbonLake Landing Zone S3 bucket which will trigger the CarbonLake data pipeline.
+                    This will upload your file to the Carbon Data Lake Landing Zone S3 bucket which will trigger the Carbon Data Lake data pipeline.
                     The file will be validated to ensure it conforms to the data quality model for GHG protocol, and if successful will continue through extract, transform, and load in preparation for the calculator microservice.
                     Once finished, the file contents will be be visible in the <a href="/emissions-records" >Emission Records</a> page.
                     runs, view the <a target="_blank" rel="noopener noreferrer" href="https://console.aws.amazon.com/states/home?region=us-east-1" >Step Function in the AWS Console</a>.
@@ -211,7 +211,7 @@ export const ToolsContent = () => (
           </li>
           <li>
             <ExternalLinkItem
-              href="https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3&ef_id=CjwKCAjw6raYBhB7EiwABge5KqUG9sIsNhuxzW3Hg6cdcjqUTNBBQjemhU_QbEXjAvORKvXj8NulOhoCmfYQAvD_BwE:G:s&s_kwcid=AL!4422!3!536452728638!e!!g!!amazon%20s3"
+              href="https://s3.console.aws.amazon.com/s3/"
               text="Amazon S3"
             />
           </li>
@@ -220,7 +220,7 @@ export const ToolsContent = () => (
     }
   >
     <p>
-    For issues getting started, please reach out to us on our <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbonlake/" > GitHub Page</a>.
+    For issues getting started, please reach out to us on our <a target="_blank" rel="noopener noreferrer" href="https://github.com/aws-quickstart/quickstart-aws-carbon-data-lake/" > GitHub Page</a>.
     </p>
   </HelpPanel>
 );
