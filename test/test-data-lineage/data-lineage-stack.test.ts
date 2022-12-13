@@ -41,7 +41,7 @@ describe('test data lineage stack', () => {
     template?.resourceCountIs('AWS::Lambda::EventSourceMapping', 2)
 
     // verify iam role & policy creation for all lambdas
-    template?.resourceCountIs('AWS::IAM::Role', 3)
+    template?.resourceCountIs('AWS::IAM::Role', 4)
     template?.resourceCountIs('AWS::IAM::Policy', 3)
 
     // ddb created with pk=root_id and sk=node_id
