@@ -161,7 +161,6 @@ export class ApiStack extends Stack {
         },
         'sts:AssumeRoleWithWebIdentity'
       ),
-      // TODO - Add basic read-only AWS Managed Policies
       managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')],
       description: 'cdlAuthRole granting read-only access to S3',
     })
@@ -181,7 +180,6 @@ export class ApiStack extends Stack {
         },
         'sts:AssumeRoleWithWebIdentity'
       ),
-      // TODO - Add basic read-only AWS Managed Policies
       managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')],
       description: 'cdlUnAuthRole granting access to S3',
     })

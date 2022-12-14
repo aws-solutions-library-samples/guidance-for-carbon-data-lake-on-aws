@@ -23,6 +23,6 @@ Generate Credentials:
     1. Git repository URL should be the `GitRepositoryURL` from the outputs of your CloudFormation file
     2. Mirror direction: `Push`
     3. Authentication method: `Password`
-    4. Password: Insert the password in from step 6. _(If you need to regenerate the password, you will need to remove the old one first OR change the username, aka the text before the @ characheter, in the Git repository URL according the new username)_
+    4. Password: Insert the password in from step 6. _(If you need to regenerate the password, you will need to remove the old one first OR change the username, aka the text before the @ character, in the Git repository URL according the new username)_
 7. Once added, click on the Refresh/Update now button next to the name of the repository.
 ![](./images/screenshot_gitlab_refresh.png)

@@ -43,10 +43,6 @@ Submit a data lineage request for the RAW_DATA_INPUT phase, indicating that a fi
 }
 ```
 
-## Data Quality Component
-
-TODO: @armdiazg or @jangna to describe the data quality component
-
 ### Setup Lambda Function
 Create all of the necessary DataBrew resources to profile the data -> dataset, ruleset and profile job.
 ```jsonc

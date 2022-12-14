@@ -126,7 +126,7 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 1/ Set up your AWS environment
 
 - Configure your AWS credentials --> `aws configure`
-- For more on setting up your AWS Credentials please visit
+- For more on setting up your AWS Credentials please visit [AWS CLI Setup](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
 ### 2/ Prepare your CDK environment (Manual Setup)
 
@@ -144,9 +144,9 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 
-Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
+Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](../../lib/stacks/stack-quicksight/documentation/README.md)
 
-Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/README.md)
+Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](../../lib/stacks/stack-web/app/sample-ui-cloudscape)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
@@ -163,8 +163,7 @@ npm run build
 ```
 
 - Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
-- Get your AWS Account Number --> `aws sts get-caller-identity`
-- Bootstrap CDK so that you can build cdk assets --> `cdk bootstrap aws://ACCOUNT-NUMBER/REGION` or `cdk bootstrap` if you are authenticated through aws configure
+- Bootstrap CDK so that you can build cdk assets: `cdk bootstrap`
 
 - Synthesize the CDK application
 
@@ -188,7 +187,7 @@ cdk deploy --all
 npm run deploy:cicd
 ```
 
-👆 If you are deploying the full CI/CD pipeline will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](../../lib/constructs/construct-gitlab-mirroring/construct-gitlab-mirroring.ts) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
+👆 If you are deploying the full CI/CD pipeline this will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](../../lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Optional: Set up the Amplify Web Application
 
