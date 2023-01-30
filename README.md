@@ -64,9 +64,15 @@ The Carbon Data Lake data pipeline is an event-driven Step Functions Workflow tr
 
 Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/stack-data-pipeline.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
-### Emissions Factor Reference Databases preseeded in a Amazon DynamoDB table
+### Emissions Factor Reference Database Sample
 
-The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes.
+The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that Carbon Data Lake users modify this JSON document and/or create their own using a similar format.
+
+To bring your own emissions factor model:
+
+1. Modify and/or replace the existing [emissions factor sample document](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
+2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
+3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
 
 ### AWS AppSync GraphQL API
 

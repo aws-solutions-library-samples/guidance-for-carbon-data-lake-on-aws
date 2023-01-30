@@ -1,7 +1,10 @@
 # Carbonlake - Calculator service
 
-Calculation is based on the [GHG Emissions Calculation Tool](https://ghgprotocol.org/ghg-emissions-calculation-tool).  
-CO2e emissions are calculated based on Global warming potential from the IPPC Report v4 and v5.
+This calculator is built to manage individual and batch calculations using the sample emissions factor model provided for development purposes. We recommend modifying this data structure to reflect your own emissions factor reporting requirements. To bring your own emissions factor model:
+
+1. Modify and/or replace the existing [emissions factor sample document](../../../../lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
+2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](../../../../lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
+3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](../../../../lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
 
 ## Trigger calculation
 The calculator function
