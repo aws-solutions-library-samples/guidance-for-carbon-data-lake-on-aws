@@ -1,18 +1,18 @@
-# Welcome to Carbon Data Lake Quick Start CDK Application
+# Welcome to the carbon data lake AWS Cloud Development Kit (CDK) application
 
-Carbon Data Lake is a solution guidance built on existing AWS Services. Carbon Data Lake reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating carbon and greenhouse gas emission data so that customers can build decarbonization reporting, forecasting, and analytics solutions and products for internal and external use. Carbon Data Lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. Carbon data is ingested through the Carbon Data Lake landing zone, and can be ingested from any service within or connected to the AWS cloud.
+This carbon data lake is a solution guidance with sample code that deploys an arrangement of AWS Services to enable carbon accounting applications. The carbon data lake reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating greenhouse gas emission data in carbon dioxide equivalent (CO2eq). Customers can use this guidance with sample code to advance their starting point for building decarbonization reporting, forecasting, and analytics solutions and/or products. The carbon data lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. 
 
-Carbon emissions data input is currently supported in CSV format. Supported sources include existing databases, historians, and data stores, APIs, and streaming IoT and Sensor Data. Carbon Data Lake provides a pre-built Emissions Factor Calculator Microservice. This calculator can be deployed with a sample emissions factor model or can be modified or augmented with additional bring your own standards lookup tables and calculator logic.
+Customer emissions data (such as databases, historians, existing data lakes, internal/external APIs, Images, CSVs, JSON, IoT/sensor data, and third party applications including CRMs, ERPs, MES, and more) can be mapped to the standard CSV format to support centralization and processing of customer carbon data. Carbon data is ingested through the carbon data lake landing zone, and can be ingested from any service within or connected to the AWS cloud. This calculator can be deployed with a sample emissions factor model or can be modified or augmented with additional bring your own standards lookup tables and calculator logic.
 
 ## What it does
 
-This solution provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities and limitations of the Carbon Data Lake. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
+This guidance with sample code provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities of the carbon data lake. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
 
 ### Capabilities
 
 The following list covers current capabilities as of today:
 
-- Accepts CSV formatted data inputs as S3 upload to Carbon Data Lake Landing Bucket
+- Accepts a standard CSV formatted data input as S3 upload to the carbon data lake Landing Bucket
 - Accepts multi-part and standard upload via S3 CLI, Console, and other programmatic means
 - Accepts single file upload via AWS Amplify console with optional web application
 - Provides daily data compaction at midnight in local time
@@ -21,9 +21,9 @@ The following list covers current capabilities as of today:
 
 ## 🛠 What you will build
 
-Deploying this repository with default parameters builds the following Carbon Data Lake environment in the AWS Cloud.
+Deploying this repository with default parameters builds the following carbon data lake environment in the AWS Cloud.
 
-![CarbonLake architectural diagram](resources/architecture/architecture_diagram.png)
+![carbon data lake diagram](resources/architecture/architecture_diagram.png)
 Figure 1: Solution Architecture Diagram
 
 As shown in Figure 1: Solution Architecture Diagram, this Quick Start sets up the following application stacks
@@ -54,10 +54,10 @@ Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/stack-ci-cd.ts)
 
 ### Data Pipeline
 
-The Carbon Data Lake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the Carbon Data Lake landing zone S3 bucket. The data pipeline performs the following functions:
+The carbon data lake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the carbon data lake landing zone S3 bucket. The data pipeline performs the following functions:
 
 1. AWS Glue Data Brew Data Quality Check: If the data quality check passes the data is passed to the next step. If the data quality check fails the admin user receives a Simple Notification Services alert via email.
-2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the Carbon Data Lake calculator microservice.
+2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the carbon data lake calculator microservice.
 3. Data Compaction: night data compaction jobs prepare data for analytics and machine learning workloads.
 4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
 5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
@@ -66,7 +66,7 @@ Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/stack-data-pipel
 
 ### Emissions Factor Reference Database Sample
 
-The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that Carbon Data Lake users modify this JSON document and/or create their own using a similar format.
+The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format.
 
 To bring your own emissions factor model:
 
@@ -76,13 +76,13 @@ To bring your own emissions factor model:
 
 ### AWS AppSync GraphQL API
 
-A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the Carbon Data Lake AWS Amplify Sample Web Application.
+A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the carbon data lake AWS Amplify Sample Web Application.
 
 Review the [AppSync GraphQL API Stack](lib/stacks/stack-api/stack-api.ts), [Documentation](lib/stacks/stack-api/README.md), and [Stack Outputs](#api-stack-outputs)
 
 ### Optional: AWS Amplify Sample Web Application
 
-An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful Carbon Data Lake Quick Start Application deployment. The AWS Amplify Web Application depends on the core Carbon Data Lake Quick Start components.
+An AWS Amplify application can be deployed optionally and hosted via Amazon Cloudfront and AWS Amplify. To review deployment steps complete a successful carbon data lake application deployment. The AWS Amplify Web Application depends on the core carbon data lake components.
 
 Review the [Web Application Stack](lib/stacks/stack-web/stack-web.ts) and [Stack Outputs](#web-stack-outputs).
 
@@ -100,22 +100,7 @@ Review the [Sagemaker Notebook Instance Stack](lib/stacks/stack-sagemaker-notebo
 
 ### Sample Data Collection for Testing
 
-The Carbon Data Lake Quick Start application comes with sample data for testing successful deployment of the application and can be found in the `sample-data` directory.
-
-## What it does
-
-This Quick Start provides core functionality to accelerate data ingestion, processing, calculation, storage, analytics and insights. The following list outlines the current capabilities and limitations of the Carbon Data Lake Quick Start. Please submit a PR to request additional capabilities and features. We appreciate your feedback as we continue to improve this offering.
-
-### Capabilities
-
-The following list of capabilities covers current capabilities as recorded and updated August 2022:
-
-1. Accepts CSV formatted data inputs as S3 upload to Carbon Data Lake Landing Bucket
-2. Accepts mult-part and standard upload via S3 CLI, Console, and other programmatic means
-3. Accepts single file upload via AWS Amplify console with optional web application
-4. Provides daily data compaction at midnight in local time
-5. Performs calculation using pre-built sample emissions factor calculator lookup table
-6. Can accept new calculator lookup table and data model with required updates to JSON files for data quality AND calculator.
+The carbon data lake guidance with sample code comes with sample data for testing successful deployment of the application and can be found in the `sample-data` directory.
 
 ## 💲 Cost and Licenses
 
@@ -127,9 +112,9 @@ Tip: After you deploy the repository, create AWS Cost and Usage Reports to track
 
 This application doesn’t require any software license or AWS Marketplace subscription.
 
-## How to Deploy
+## 🚀 How to Deploy
 
-You can deploy Carbon Data Lake Quick Start through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrating with your existing infrastructure using AWS Organizations.
+You can deploy the carbon data lake guidance with sample code through the manual setup process using AWS CDK. We recommend use of an AWS Cloud9 instance in your AWS account or VS Code and the AWS CLI. We also generally recommend a fresh AWS account that can be integrating with your existing infrastructure using AWS Organizations.
 
 ## 🎒 Pre-requisites
 
@@ -217,7 +202,7 @@ cdk synth
 cdk deploy --all
 ```
 
-👆 If you are deploying only for local development this will deploy all of the Carbon Data Lake stacks without the CI/CD pipeline. This is recommended.
+👆 If you are deploying only for local development this will deploy all of the carbon data lake stacks without the CI/CD pipeline. This is recommended.
 
 - ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
 
@@ -235,18 +220,18 @@ For quick setup follow the instructions below.
 
 #### Quick Setup
 
-If you are reading this it is because you deployed the Carbon Data Lake Quick Start Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
+If you are reading this it is because you deployed the carbon data lake Quick Start Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
 2. Initiate the build process --> select your application and select "run build"
 3. Visit your live web application --> click on the link in the Amplify console
-   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your Carbon Data Lake Quick Start CDK Application. After changing your password, you should be able to sign in successfully at this point.
+   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake Quick Start CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
 ![Cognito Login Page](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
 
-![Carbon Data Lake Web Application](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLake101.png)
+![carbon data lake Web Application](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLake101.png)
 
 4. Create a separate directory to manage your web application
 
@@ -261,7 +246,6 @@ If you are reading this it is because you deployed the Carbon Data Lake Quick St
     ```sh
     amplify pull --appId <app-id> --envName <env-name>
     ```
-
 
 7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
 8. Make the web application your own and let us know what you choose do to with it.
@@ -284,7 +268,7 @@ To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerS
 
 ## 🗑 How to Destroy
 
-You can destroy all stacks included in Carbon Data Lake Quick Start with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
+You can destroy all stacks included in carbon data lake Quick Start with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
 
 - DynamoDB Tables
 - S3 Buckets
@@ -292,7 +276,7 @@ You can destroy all stacks included in Carbon Data Lake Quick Start with `cdk de
 
 ## Work with outputs
 
-The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via .gitignore so any outputs will not be commited to a version control repository. Below is a guide to the standard outputs.
+The CDK stacks by default export all stack outputs to `cdk-outputs.json` at the top level of the directory. You can disable this feature by removing `"outputsFile": "cdk-outputs.json"` from `cdk.json` but we recommend leaving this feature, as it is a requirement for some other features. By default this file is ignored via `.gitignore` so any outputs will not be committed to a version control repository. Below is a guide to the standard outputs.
 
 ### Shared Resources Stack Outputs
 
@@ -317,10 +301,10 @@ Shared resource stack outputs include:
 
 ### Data Pipeline Stack Outputs
 
--`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to Carbon Data Lake Quick Start Data Pipeline.
--`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to Carbon Data Lake Quick Start Data Pipeline.
+-`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to carbon data lake Quick Start Data Pipeline.
+-`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to carbon data lake Quick Start Data Pipeline.
 -`cdlGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
--`cdlDataPipelineStateMachineUrl`: URL to open cdl State machine to view step functions workflow status.
+-`cdlDataPipelineStateMachineUrl`: URL to open cdl state machine to view step functions workflow status.
 
 ### Web Stack Outputs
 
@@ -343,12 +327,12 @@ Shared resource stack outputs include:
 
 ### Test Stack Outputs
 
--`e2eTestLambdaFunctionName`: Name of Carbon Data Lake lambda test function.
+-`e2eTestLambdaFunctionName`: Name of carbon data lake lambda test function.
 -`e2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
 
 ## 🛠 Usage
 
-Time to get started using Carbon Data Lake Quick Start! Follow the steps below to see if everything is working and get familiar with this solution.
+Time to get started using carbon data lake Quick Start! Follow the steps below to see if everything is working and get familiar with this solution.
 
 ### 1/ Make sure all the infrastructure deployed properly
 
@@ -360,12 +344,12 @@ In your command line shell you should see confirmation of all resources deployin
 
 ```
 
-### 2/ Drop some synthetic test data into the Carbon Data Lake landing zone S3 Bucket
+### 2/ Drop some synthetic test data into the carbon data lake landing zone S3 Bucket
 
 Time to test some data out and see if everything is working. This section assumes basic prerequisite knowledge of how to manually upload an object to S3 with the AWS console. For more on this please review [how to upload an object to S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
 
-- Go to the S3 console and locate your Carbon Data Lake landing zone bucket it will be called `cdlpipelinestack-cdllandingbucket` with a unique identifier appended to it
-- Upload [Carbon Data Lake Quickstart Synthetic Input Data](sample-data/Carbon Data Lake-test-synthetic-input-data.csv) to the S3 bucket manually
+- Go to the S3 console and locate your carbon data lake landing zone bucket it will be called `cdlpipelinestack-cdllandingbucket` with a unique identifier appended to it
+- Upload [carbon data lake synthetic input data](sample-data/carbonlake-test-synthetic-input-data.csv) to the S3 bucket manually
 - This will kick trigger the pipeline kickoff lambda function and start the data pipeline step functions workflow -- continue!
 
 ### 3/ Take a look at the step functions workflow
@@ -432,7 +416,7 @@ If you have not yet this is a great time to deploy the sample web application. O
 - Generate or select some additional data (it can be anything really, but carbon emissions data is good)
 - Test out the data quality module by dropping different data into the bucket. Does it run through? Do you get a notification if it does not?
 
-### 7/ Start connecting your own data to the Carbon Data Lake landing zone
+### 7/ Start connecting your own data to the carbon data lake landing zone
 
 - Connect other data sources such as IoT, Streaming Data, Database Migration Workloads, or other applications to the S3 landing zone bucket. Try something out and let us know how it goes.
 
@@ -460,19 +444,19 @@ You can run several of these tests manually on your local machine to check that 
 - `sh test-e2e.sh`runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 - `npm run lint` tests your code locally with the prebuilt linter configuration
 
-## Extending Carbon Data Lake
+## Extending carbon data lake
 
-If you are looking to utilize existing features of Carbon Data Lake while integrating your own features, modules, or applications this section provides details for how to ingest your data to the Carbon Data Lake data pipeline, how to connect data outputs, how to integrate other applications, and how to integrate other existing AWS services. As we engage with customers this list of recommendations will grow with customer use-cases. Please feel free to submit issues that describe use-cases you would like to be documented.
+If you are looking to utilize existing features of carbon data lake while integrating your own features, modules, or applications this section provides details for how to ingest your data to the carbon data lake data pipeline, how to connect data outputs, how to integrate other applications, and how to integrate other existing AWS services. As we engage with customers this list of recommendations will grow with customer use-cases. Please feel free to submit issues that describe use-cases you would like to be documented.
 
-### Ingesting data into Carbon Data Lake
+### Ingesting data into carbon data lake
 
-To ingest data into Carbon Data Lake you can use various inputs to get data into the Carbon Data Lake landing zone S3 bucket. This bucket can be found via AWS Console or AWS CLI under the name `bucketName`. It can also be accessed as a public readonly stack output via props `stackOutputName`. There are several methods for bringing data into an S3 bucket to start an event-driven pipeline. This article is a helpful resource as you explore options. Once your data is in S3 it will kick off the pipeline and the data quality check will begin.
+To ingest data into carbon data lake you can use various inputs to get data into the carbon data lake landing zone S3 bucket. This bucket can be found via AWS Console or AWS CLI under the name `bucketName`. It can also be accessed as a public readonly stack output via props `stackOutputName`. There are several methods for bringing data into an S3 bucket to start an event-driven pipeline. This article is a helpful resource as you explore options. Once your data is in S3 it will kick off the pipeline and the data quality check will begin.
 
-### Integrating Carbon Data Lake data outputs
+### Integrating carbon data lake data outputs
 
 ### General Guide to adding features
 
-To add additional features to Carbon Data Lake we recommend developing your own stack that integrates with the existing Carbon Data Lake stack inputs and outputs. We recommend starting by reviewing the concepts of application, stack, and construct in AWS CDK. Adding a stack is the best way to add functionality to Carbon Data Lake.
+To add additional features to carbon data lake we recommend developing your own stack that integrates with the existing carbon data lake stack inputs and outputs. We recommend starting by reviewing the concepts of application, stack, and construct in AWS CDK. Adding a stack is the best way to add functionality to carbon data lake.
 
 1. Start by adding your own stack directory to `lib/stacks`
 
@@ -519,7 +503,7 @@ To add additional features to Carbon Data Lake we recommend developing your own 
 6. Integrate your stack with the full application by importing it to `bin/main.ts` and `bin/cicd.ts` if you have chosen to deploy it.
 
     ```sh
-    #open the file carbonlake-Quick Start-main.ts
+    #open the file main.ts
     open main.ts
     ```
 
@@ -566,7 +550,7 @@ The above is a theoretical example. We recommend reviewing the CDK documentation
 
 ### Integrating with existing AWS Services
 
-Carbon Data Lake was designed for simple integration with existing AWS services. This section will detail integration with existing AWS services.
+The model below describes the required schema for input to the carbon data lake calculator microservice. This is Calculator Data Input Model.
 
 ## 📚 Reference & Resources
 
@@ -584,7 +568,7 @@ Carbon Data Lake was designed for simple integration with existing AWS services.
 
 #### Calculator Input Model
 
-The model below describes the required schema for input to the Carbon Data Lake calculator microservice. This is
+The model below describes the required schema for input to the carbon data lake calculator microservice. This is
 [Calculator Data Input Model](sample-data/calculator_input_single_record_scope1_example.json)
 
 ```json
@@ -607,7 +591,7 @@ The model below describes the required schema for input to the Carbon Data Lake 
 
 ### Calculator Output Model
 
-The model below describes the standard output model from the Carbon Data Lake emissions calculator microservice.
+The model below describes the standard output model from the carbon data lake emissions calculator microservice.
 
 [Calculator Output Model](sample-data/calculator_output_single_record_scope1_example.json)
 
@@ -671,7 +655,7 @@ The json document below is a sample emissions factor model for testing and devel
 
 [Sample Emissions Factor Model](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json). This is the lookup table used for coefficient inputs to the calculator microservice.
 
-Calculation methodologies reflected in this solution are aligned with the sample model, and this calculator stack may require modification if a new model is applied. To review calculation methodology and lookup tables please review the [Carbon Data Lake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/construct-calculator/README.md).
+Calculation methodologies reflected in this solution are aligned with the sample model, and this calculator stack may require modification if a new model is applied. To review calculation methodology and lookup tables please review the [carbon data lake Emissions Calculator Stack](lib/stacks/stack-data-pipeline/construct-calculator/README.md).
 
 ## 👀 See also
 
