@@ -26,7 +26,7 @@ Deploying this repository with default parameters builds the following carbon da
 ![carbon data lake diagram](resources/architecture/architecture_diagram.png)
 Figure 1: Solution Architecture Diagram
 
-As shown in Figure 1: Solution Architecture Diagram, this Quick Start sets up the following application stacks
+As shown in Figure 1: Solution Architecture Diagram, this guidance with sample code sets up the following application stacks
 
 1. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
 2. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
@@ -108,7 +108,7 @@ You are responsible for the cost of the AWS services used while running this  re
 
 The AWS CDK stacks for this repository include configuration parameters that you can customize. Some of these settings, such as instance type, affect the cost of deployment. For cost estimates, see the pricing pages for each AWS service you use. Prices are subject to change.
 
-Tip: After you deploy the repository, create AWS Cost and Usage Reports to track costs associated with the Quick Start. These reports deliver billing metrics to an S3 bucket in your account. They provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see [What are AWS Cost and Usage Reports?](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html)
+Tip: After you deploy the repository, create AWS Cost and Usage Reports to track costs associated with the guidance with sample code. These reports deliver billing metrics to an S3 bucket in your account. They provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see [What are AWS Cost and Usage Reports?](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html)
 
 This application doesn’t require any software license or AWS Marketplace subscription.
 
@@ -220,12 +220,12 @@ For quick setup follow the instructions below.
 
 #### Quick Setup
 
-If you are reading this it is because you deployed the carbon data lake Quick Start Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
+If you are reading this it is because you deployed the carbon data lake guidance with sample code Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
 2. Initiate the build process --> select your application and select "run build"
 3. Visit your live web application --> click on the link in the Amplify console
-   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake Quick Start CDK Application. After changing your password, you should be able to sign in successfully at this point.
+   When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake guidance with sample code CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
@@ -268,7 +268,7 @@ To deploy this stack navigate to `cdk.context.json` and change `deploySagemakerS
 
 ## 🗑 How to Destroy
 
-You can destroy all stacks included in carbon data lake Quick Start with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
+You can destroy all stacks included in carbon data lake guidance with sample code with `cdk destroy --all`. You can destroy individual stacks with `cdk destroy --StackName`. By default using CDK Destroy will destroy EVERYTHING. Use this with caution! We strongly recommend that you modify this functionality by applying no delete defaults within your CDK constructs. Some stacks and constructs that we recommend revising include:
 
 - DynamoDB Tables
 - S3 Buckets
@@ -301,8 +301,8 @@ Shared resource stack outputs include:
 
 ### Data Pipeline Stack Outputs
 
--`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to carbon data lake Quick Start Data Pipeline.
--`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to carbon data lake Quick Start Data Pipeline.
+-`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to carbon data lake guidance with sample code Data Pipeline.
+-`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to carbon data lake guidance with sample code Data Pipeline.
 -`cdlGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
 -`cdlDataPipelineStateMachineUrl`: URL to open cdl state machine to view step functions workflow status.
 
@@ -332,7 +332,7 @@ Shared resource stack outputs include:
 
 ## 🛠 Usage
 
-Time to get started using carbon data lake Quick Start! Follow the steps below to see if everything is working and get familiar with this solution.
+Time to get started using carbon data lake guidance with sample code! Follow the steps below to see if everything is working and get familiar with this solution.
 
 ### 1/ Make sure all the infrastructure deployed properly
 
@@ -361,11 +361,11 @@ Time to test some data out and see if everything is working. This section assume
 - Have a quick look and familiarize yourself with the workflow graph inspector
 - The workflow will highlight green for each passed step. See two image examples below.
 
-![In-Progress Step Functions Workflow](resources/images/carbonlake-quickstart-step-func-in-progress.png)
+![In-Progress Step Functions Workflow](resources/images/cdl-step-func-in-progress.png)
 
 Figure. In progress step function workflow
 
-![Successful Step Functions Workflow](resources/images/carbonlake-quickstart-step-func-graph-inspector-completed.png)
+![Successful Step Functions Workflow](resources/images/cdl-step-func-graph-inspector-completed.png)
 Figure. Completed step function workflow
 
 ### 3/ Review your calculated outputs
