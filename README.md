@@ -158,7 +158,7 @@ Before deployment navigate to `cdk.context.json` and update the required context
 
 Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 
-Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](lib/stacks/stack-web/app/sample-ui-cloudscape)
+Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](#4-optional-set-up-the-amplify-web-application)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
