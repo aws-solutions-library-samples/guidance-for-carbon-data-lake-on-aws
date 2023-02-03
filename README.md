@@ -68,12 +68,6 @@ Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/stack-data-pipel
 
 The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format.
 
-To bring your own emissions factor model:
-
-1. Modify and/or replace the existing [emissions factor sample document](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
-2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
-3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
-
 ### AWS AppSync GraphQL API
 
 A pre-built AWS AppSync GraphQL API provides flexible querying for application integration. This GraphQL API is authorized using Amazon Cognito User Pools and comes with a predefined Admin and Basic User role. This GraphQL API is used for integration with the carbon data lake AWS Amplify Sample Web Application.
@@ -143,7 +137,14 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 2/ Prepare your CDK environment
 
 1. Navigate to CDK Directory
-2. Set `cdk.context.json` values (see Context Parameters below)
+2. Set up your emissions factor document
+3. Set `cdk.context.json` values (see Context Parameters below)
+
+#### --Set up your emissions factor document--
+
+1. Modify and/or replace the existing [emissions factor sample document](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
+2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
+3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
 
 #### --Context Parameters--
 

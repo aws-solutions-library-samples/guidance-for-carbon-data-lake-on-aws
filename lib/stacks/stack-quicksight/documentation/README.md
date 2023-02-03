@@ -16,7 +16,7 @@
 
 3. Under *Create your QuickSight account*, ** fill in the following:
     1. Authentication method: Use IAM federated identities & QuickSight users
-    2. QuickSight region: Select the region used for your QuickStart deployment
+    2. QuickSight region: Select the region used for your deployment
     3. QuickSight account name: Account name must be globally unique (i.e. “carbon-data-lake-{account-number}”)
     4. Notification email address: Enter your email address
 
@@ -51,7 +51,7 @@
    <img alt="qs-step-10" src="./images/quicksight-setup-10.png" width="50%">
 
 5. You should receive an email from Amazon QuickSight. If you do not, click *Resend invitation* in the Quicksight console.
-6. From your email, click *Click to accept invitation* to confirm your QuickSight user. This is the user you will log into the QuickSight console with to view the QuickStart emissions dataset and dashboard.
+6. From your email, click *Click to accept invitation* to confirm your QuickSight user. This is the user you will log into the QuickSight console with to view the emissions dataset and dashboard.
 
    <img alt="qs-step-11" src="./images/quicksight-setup-11.png" width="50%">
 
