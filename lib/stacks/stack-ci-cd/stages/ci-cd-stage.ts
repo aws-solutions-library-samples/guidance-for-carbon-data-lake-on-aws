@@ -92,7 +92,8 @@ export class PipelineStage extends Stage {
     console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
         if (sagemakerOption === true) {
       new SageMakerNotebookStack(this, 'SageMakerNotebookStack', {
-          env: thisEnv
+          env: thisEnv,
+          enrichedDataBucket: sharedResources.cdlEnrichedBucket
         });
         }
 

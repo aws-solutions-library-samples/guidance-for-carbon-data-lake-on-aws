@@ -90,7 +90,8 @@ const sagemakerOption = app.node.tryGetContext('deploySagemakerStack')
 console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
     if (sagemakerOption === true) {
   new SageMakerNotebookStack(app, 'SageMakerNotebookStack', {
-      env: appEnv
+      env: appEnv,
+      enrichedDataBucket: sharedResources.cdlEnrichedBucket
     });
     }
 
