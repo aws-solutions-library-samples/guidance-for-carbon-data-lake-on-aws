@@ -1,6 +1,6 @@
 # Contributing
 
-Hi! Welcome to the Contributor's guide for Carbon Data Lake. This is very much a collaborative project that we are approaching with the spirit of open source. Please exercise ownership and treat this project like you're a founder and key contributor. That means you will have lots of power to fix things and also to break things. Not a ton of risk at the time of this writing, since this is a project that is not in production or in use by anybody but us! Once more people start using this we will probably need to create more checks and balances, but for now if you're been invited to this project you should consider yourself an owner with all the powers and responsibilities that come with this. This guide takes you from "hi I'm brand new to this project" all the way through "I commit, merge, and deploy like it's my job".
+Hi! Welcome to the Contributor's guide for the carbon data lake solutions guidance with sample code. This guide takes you from "hi I'm brand new to this project" all the way through "I commit, merge, and deploy like it's my job".
 
 Read on to find out how to set up your dev environment and get started.
 
@@ -17,21 +17,20 @@ Okay so getting set up with all the right tooling at Amazon is a little tricky, 
 
 So there are a few things you'll want to do to get started developing with Gitlab:
 
-1. [Set up Gitlab access for AWS using Midway and SSH](https://w.amazon.com/bin/view/AWS/Teams/WWPS/TSD/GitLab#HSettingupgitAccess)
-2. [Set up isengardcli and start using it (trust us)](https://w.amazon.com/bin/view/Isengard-cli/)
+1. [Set up your AWS Credentials Locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 3. Pick an IDE of choice -- we generally recommend VS Code (see more about vs code setup for amazon [here](https://w.amazon.com/bin/view/VisualStudioCode/#HDownloadingandinstalling)), but it's up to you. Cloud9 can also be quite nice when you're doing CDK and/or Amplify work.
 
-## Picking an Issue & Getting Started**
+## Picking an Issue & Getting Started
 
-There are two ways to start contributing to the CarbonLakeQS project...
+There are two ways to start contributing to the project...
 
-#### If you have been onboarded as a contributor and joined the CarbonLakeQS Team
+#### If you have been onboarded as a contributor and joined the Team
 - You can create branches and work off of them. The directions below are all about this.
 - Proceed :D
 
 #### If you are just out here on your own looking to contribute or just want to play around and use some of our code
+
 - Follow the same instructions below, but instead of following a branching workflow (you won't be able to bc you don't have permissions by default), you are going to fork the repository.
-- See some docs on forking gitlab repos [here](https://docs.gitlab.com/ee/user/project/repository/forking_workflow.html)
 - When you fork the repository you can either use it for your own purposes or you can submit merge requests back with changes or updates you have made. We would love to hear about what you're doing with the fork at `#carbonlake-interest` on slack.
 
 ### 1/ Pick an Issue OR Create One 
@@ -172,9 +171,8 @@ Make sure you add yourself ass assignee, set tags to `WIP` at a minimum, and sel
 ### 5/ Get coding!
 
 Follow the instructions here for:
-1. [Getting started with a Gitlab branch](https://docs.gitlab.com/ee/tutorials/make_your_first_git_commit.html)
-2. [Getting started with CDK](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
-3. [Creating a CDK App with Multiple Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stack_how_to_create_multiple_stacks.html)
+1. [Getting started with CDK](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
+2. [Creating a CDK App with Multiple Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stack_how_to_create_multiple_stacks.html)
 
 
 ## CDK Architecture
@@ -188,11 +186,6 @@ We are using a CDK with component constructs approach to development. Why? Becau
 3. Okay now we've got all these stacks like `storage` and `iot` and `dashboard` and `monitoring` or something like that. Now there is a main stack that basically calls all these stacks and deploys them in order, returning any outputs needed for inputs to other stacks. Make sense?
 
 It's just like the way cloudformation stacks work when they're deployed as nested stacks. Basically you can build a bunch of independent modules, but they all are called in succession by a main module. Sound fun? Try it out.
-
-Want to learn more about CDK development at Amazon? This is a good place to start:
-- [CDK Hacks Broadcast Channel](https://broadcast.amazon.com/channels/36432)
-- [CDK at Scale Video](https://broadcast.amazon.com/videos/259836)
-- [Technical Delivery Kit Examples](https://gitlab.aws.dev/technical-delivery-kits)
 
 ## Atomic Commits
 
@@ -217,7 +210,7 @@ There are a few key benefits to atomic commits:
 
 ## Testing Your Code
 
-Okay so we're keeping testing relatively easy here. For now. So basically please test your branches and ensure they deploy along with the full infrastructure before you make a merge request. What does this mean? Use the Isengard account for your feature and make sure everything deploys and generally works. CDK will do a lot of automated testing for you. But beyond that your testing will be your responsibility. This is not a production app, so for now don't be too skittish. We need to develop things and it would be nice to not break upstream code, but if you do...the door is two-way and the consequences are relatively few.
+Okay so we're keeping testing relatively easy here. For now. So basically please test your branches and ensure they deploy along with the full infrastructure before you make a merge request. CDK will do a lot of automated testing for you. But beyond that your testing will be your responsibility.
 
 ## Before you merge!
 
@@ -249,44 +242,11 @@ We're going to keep our approval workflow simple in the name of speed and reduci
 
 1. The only people who can approve merge requests are maintainers. Consult the project information guide to view a directory of maintainers. Please add yourself as assignee and then a maintainer as the reviewer. The maintainer will approve and or send back to you for changes.
 
-## Deploying Your Code in Sandboxed Test
-
-Ready to deploy your code? Great. You should be developing in an Isengard account just for this issue. In most cases if you're working on a CarbonLakeQS module it will have it's own Isengard account. Do all your test and dev in there, and link the CDK app to that account. We strongly recommend you don't use this account for anything else. It will make your life way easier.
-
-## Deploying Your Code to Consolidated Test
-
-Ready to deploy this code further down the pipe? Great news. We use code mirroring between gitlab and the `CarbonLakeQS-qsv1-test` isengard account to simplify the process of pushing `qsv1-test` branch. So once a merge request to test is accepted it will automatically deploy. Go take a look in the test isengard and see how things went. Run into an issue? Roll back immediately and then search for the root cause.
-
 ## Approval Workflow
 
 We're going to keep our approval workflow simple in the name of speed and reducing bottlenecks. Don't worry, we can always roll back changes. Thanks, git! Always have one approver for merge to `main`. Ask them if they have the time to approve your code before you actually assign them.
 
-## Getting Feedback and Support
-
-## Deploying Your Code to "Production"
-
-There is no "production" as of now, but once there is it will follow the same automated pipeline process as the deploying to consolidated test above.
-
 ## Additional Resources
-
-### Some additional useful context
-
-It may also be helpful to know what the CI/CD pipeline for this project looks like. Keep in mind that we are approaching development from an asynchronous gated open source perspective. That means we've designed the project to move fast with minimal need for synchronous communication. So let's consider the lifecycle of an issue, feature, fix, whatever:
-
-1. Issue is created with a clear user story, input, desired output, description, and references section
-2. Contributor selects an issue and creates a branch
-3. Contributor works on the branch with atomic commits and clear concise messages
-4. Contributor submits a merge request and a request to close the issue
-5. 2 reviewers review and approver approves
-6. Code is deployed to test environment isengard account
-7. Automated tests are run
-8. Manual tests are run
-9. Depending on outcome the test environment either:
-    - Triggers an approval process for the dev environment
-    - Triggers a merge comment and a request for revisions
-10. Once deployed to dev the whole process starts again, with a longer list of approvals
-
-So now imagine that all of that is run by volunteers. The good news is that we can always roll back, but the bottom line is **keep things atomic** the smaller the update the easier it is to push it through the pipeline with proper devsecops hygeine. So be nice and keep things atomic. Thanks!
 
 #### Handy Resource: Some Git Commands for Maintaining Atomic Commits
 
@@ -296,16 +256,3 @@ So now imagine that all of that is run by volunteers. The good news is that we c
 4. Reset a commit: `git reset HEAD~`
 5. Enter interactive rebase: `git rebase -i HEAD~5` and replace `pick` with `f` for fixup. Squash does the same `s` but allows you to edit the comment message and description
 5. Take a commit from another branch: find the commit with `git log`. Copy the hash. Now "cherry-pick" the commit with `git cherry-pick 1234yourhash`
-
-### Troubleshooting Sagemaker Access
-
-### 1.5/ Enable Sagemaker Notebook Instance Type
-
-Note for AWS users only (will be removed later). To deploy the forecast stack in an Isengard account If you're an internal AWS Isengard user you will need to request a Sagemaker notebook limit increase at this link:
-
-1. Go to [Sagemaker Tools](https://sagemaker-tools.corp.amazon.com/limits)
-2. Select the resource type dropdown
-3. Select `notebook instances`
-4. Select `notebook-instance/ml.t2.large` and select 1 instance as the limit
-5. Under justification required enter: Quickstart development.
-6. Press enter
