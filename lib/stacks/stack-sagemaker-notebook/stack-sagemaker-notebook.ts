@@ -1,51 +1,55 @@
-import * as cdk from "aws-cdk-lib";
+import { Stack, StackProps, CfnOutput, PhysicalName, RemovalPolicy, Tags } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { aws_ec2 as ec2, StackProps } from "aws-cdk-lib";
-import { aws_iam as iam, CfnOutput } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from "aws-cdk-lib";
 import { aws_sagemaker as sagemaker } from "aws-cdk-lib";
 import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import * as path from 'path';
 
+interface SagemakerForecastStackProps extends StackProps {
+  enrichedDataBucket: s3.Bucket
+}
 
-export class SageMakerNotebookStack extends cdk.Stack {
-  public sagemakerNotebookInstance: sagemaker.CfnNotebookInstance;
-  public sagemakerAnalysisBucket: s3.Bucket;
-  readonly sagemakerCodecommitRepo: codecommit.Repository;
-
-  constructor(scope: Construct, id: string, props: cdk.StackProps) {
+export class SageMakerNotebookStack extends Stack {
+  constructor(scope: Construct, id: string, props: SagemakerForecastStackProps) {
     super(scope, id, props);
 
-    this.sagemakerAnalysisBucket = new s3.Bucket(this, "data-analysis", {
-      encryption: s3.BucketEncryption.S3_MANAGED,
-      autoDeleteObjects: true,
-      versioned: true,
+    // Used for forecasting
+    const sagemakerForecastResultsBucket = new s3.Bucket(this, 'cdlForecastBucket', {
+      bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
+    // role to be assumed by the sagemaker notebook, grants privileges to read from
+    // encriched data bucket, write to results bucket, and full access to Forecast
     const sagemakerExecutionRole = new iam.Role(this, "sagemaker-execution-role", {
       assumedBy: new iam.ServicePrincipal("sagemaker.amazonaws.com"),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonSageMakerFullAccess"),
-        iam.ManagedPolicy.fromManagedPolicyArn(
-          this,
-          "personalize-full-access",
-          "arn:aws:iam::aws:policy/service-role/AmazonPersonalizeFullAccess"
-        ),
+        iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonForecastFullAccess")
       ],
       inlinePolicies: {
         s3Buckets: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              resources: [this.sagemakerAnalysisBucket.bucketArn],
+              resources: [
+                sagemakerForecastResultsBucket.bucketArn,
+                props.enrichedDataBucket.bucketArn
+              ],
               actions: ["s3:ListBucket"],
             }),
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              resources: [`${this.sagemakerAnalysisBucket.bucketArn}/*`],
+              resources: [sagemakerForecastResultsBucket.arnForObjects("*")],
               actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+            }),
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              resources: [props.enrichedDataBucket.arnForObjects("*")],
+              actions: ["s3:GetObject"],
             }),
           ],
         }),
@@ -53,36 +57,54 @@ export class SageMakerNotebookStack extends cdk.Stack {
     });
 
     // creates a codecommit repo and uploads the sagemaker notebook to it as a first commit
-    this.sagemakerCodecommitRepo = new codecommit.Repository(this, 'CDLSagemakerCodecommitRepo', {
+    const sagemakerCodecommitRepo = new codecommit.Repository(this, 'CDLSagemakerCodecommitRepo', {
       repositoryName: 'CDLSagemakerRepository',
       code: codecommit.Code.fromDirectory(path.join(__dirname, 'notebooks/')), // optional property, branch parameter can be omitted
     });
 
-    this.sagemakerCodecommitRepo.grantRead(sagemakerExecutionRole);
+    sagemakerCodecommitRepo.grantRead(sagemakerExecutionRole);
 
     // creates a sagemaker notebook instance with the defined codecommit repo as the default repo
-    this.sagemakerNotebookInstance = new sagemaker.CfnNotebookInstance(this, "CDLSagemakerNotebook", {
+    const sagemakerNotebookInstance = new sagemaker.CfnNotebookInstance(this, "CDLSagemakerNotebook", {
       instanceType: 'ml.t2.medium',
       roleArn: sagemakerExecutionRole.roleArn,
       notebookInstanceName: "CarbonLakeSagemakerNotebook",
-      defaultCodeRepository: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
+      defaultCodeRepository: sagemakerCodecommitRepo.repositoryCloneUrlHttp,
       volumeSizeInGb: 20,
     });
 
+    // creates a role for Amazon Forecast to assume, with permissions to access data in the results bucket
+    const forecastRole = new iam.Role(this, "forecast-execution-role", {
+      assumedBy: new iam.ServicePrincipal("forecast.amazonaws.com"),
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess")]
+    });
 
-    new cdk.CfnOutput(this, 'CDLSagemakerRepository', {
-      value: this.sagemakerCodecommitRepo.repositoryCloneUrlHttp,
+
+    new CfnOutput(this, 'CDLSagemakerRepository', {
+      value: sagemakerCodecommitRepo.repositoryCloneUrlHttp,
       description: 'CDLSagemakerRepository',
       exportName: 'CDLSagemakerRepository',
     });
 
-      // Output link to Sagemaker Notebook in the console
-  new cdk.CfnOutput(this, 'CDLSagemakerNotebookUrl', {
-    value: `https://${this.region}.console.aws.amazon.com/sagemaker/home?region=${this.region}#/notebook-instances/${this.sagemakerNotebookInstance.notebookInstanceName}`,
-    description: 'AWS console URL for Sagemaker Notebook ML Instance',
-    exportName: 'CDLSagemakerNotebookUrl',
-  });
+    // Output link to Sagemaker Notebook in the console
+    new CfnOutput(this, 'CDLSagemakerNotebookUrl', {
+      value: `https://${this.region}.console.aws.amazon.com/sagemaker/home?region=${this.region}#/notebook-instances/${sagemakerNotebookInstance.notebookInstanceName}`,
+      description: 'AWS console URL for Sagemaker Notebook ML Instance',
+      exportName: 'CDLSagemakerNotebookUrl',
+    });
 
-  cdk.Tags.of(this).add("component", "sagemakerNotebook");
-}
+    new CfnOutput(this, 'CDLForecastResultsBucket', {
+      value: sagemakerForecastResultsBucket.bucketName,
+      description: 'Bucket for storing results from the optional forecast stack.',
+      exportName: 'CDLForecastResultsBucket',
+    });
+
+    new CfnOutput(this, 'CDLForecastResultsRole', {
+      value: forecastRole.roleArn,
+      description: 'Role arn assumed by Amazon Forecast, grants permissions to read training and validation data.',
+      exportName: 'CDLForecastResultsRole',
+    });
+
+    Tags.of(this).add("component", "sagemakerNotebook");
+  }
 }
