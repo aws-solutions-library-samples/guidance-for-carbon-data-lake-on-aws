@@ -234,10 +234,6 @@ If you are reading this it is because you deployed the carbon data lake guidance
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-![Cognito Login Page](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
-
-![carbon data lake Web Application](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLake101.png)
-
 4. Create a separate directory to manage your web application
 
     ```sh
