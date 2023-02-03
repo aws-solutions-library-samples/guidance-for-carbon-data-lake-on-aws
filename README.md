@@ -63,14 +63,16 @@ The carbon data lake data pipeline is an event-driven Step Functions Workflow tr
 1. AWS Glue Data Brew Data Quality Check: If the data quality check passes the data is passed to the next step. If the data quality check fails the admin user receives a Simple Notification Services alert via email.
 2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the carbon data lake calculator microservice.
 3. Data Compaction: night data compaction jobs prepare data for analytics and machine learning workloads.
-4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
+4. Emissions calculator AWS Lambda microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
 5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
 
 Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/stack-data-pipeline.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
 ### Emissions Factor Reference Database Sample
 
-The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format.
+The carbon emissions calculator microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample data model is adapted from the [World Resource Institute (WRI) GHG Protocol Guidance](https://ghgprotocol.org/guidance-0). Please consult the WRI guidance to confirm the most up-to-date information and versions.
+
+The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format. Please modify the provided data model when deploying your own application using the instructions found in the [Setup section](#-setup).
 
 ### AWS AppSync GraphQL API
 

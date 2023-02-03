@@ -1,4 +1,4 @@
-# Carbonlake - Calculator service
+# Emissions calculator AWS Lambda microservice
 
 This calculator is built to manage individual and batch calculations using the sample emissions factor model provided for development purposes. We recommend modifying this data structure to reflect your own emissions factor reporting requirements. To bring your own emissions factor model:
 
