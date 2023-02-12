@@ -12,6 +12,7 @@ import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
+import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 
 const app = new cdk.App();
 
@@ -114,7 +115,7 @@ console.log(`Web deployment option is set to: ${webOption}`)
 cdk.Tags.of(app).add("application", "carbon-data-lake");
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-//const nag = app.node.tryGetContext('nag')
+const nag = app.node.tryGetContext('nag')
 
 /*
     Description: Checks if context variable nag=true and 
@@ -124,9 +125,16 @@ cdk.Tags.of(app).add("application", "carbon-data-lake");
     AWS Services: cdk, cdk-nag package
 */
 
-//if (nag == "true"){
-    //Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
-//}
+if (nag == "true"){
+    Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
+}
+/*
+NagSuppressions.addResourceSuppressions(bucket, [
+  {
+    id: 'AwsSolutions-S2',
+    reason: 'Demonstrate a resource level suppression.'
+  },
+*/
 
 
 new TestStack(app, 'TestStack', {

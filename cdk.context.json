@@ -4,5 +4,6 @@
   "repoBranch": "main",
   "deployQuicksightStack": false,
   "deploySagemakerStack": true,
-  "deployWebStack": true
+  "deployWebStack": true,
+  "nag": true
 }
