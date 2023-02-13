@@ -1,0 +1,35 @@
+    type Activity {
+      # TOC level information
+      transportOperatorCompanyId: String!
+      transportOperatorCompanyName: String!
+      accreditationStatus: String!
+      verificationStatus: String!
+      transportOperationCategory: String
+      modeOfTransport: String! 
+      modeSpecificAssetType: String 
+      emissionClass: String 
+      loadFactor: Float 
+      emptyDistance: Float 
+      temperatureControl: String 
+      energyConsumption: Float 
+      energyCarrier: String 
+      feedstock: String 
+      emissionIntensity: Float
+      wtwFuelEmissionFactor: Float
+
+      # TCE level information
+      shipmentId: String!
+      consigmentId: String!
+      transportChainElementId: String!
+      freightMass: Float!
+      packagingUnit: Int
+      originLocation: String!
+      destinationLocation: String!
+      actualDistance: Float
+      activityDistance: Float
+      departureDate: Int # timestamp
+      arrivaleDate: Int # timestamp
+      transportActivity: Float
+      voyageNumber: String
+      flightNumber: String
+    }
