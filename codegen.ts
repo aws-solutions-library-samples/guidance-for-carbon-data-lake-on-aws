@@ -3,15 +3,15 @@
 
 import { CodegenConfig } from '@graphql-codegen/cli'
 
-const schemaLocation = './schema.graphql'
+const schemaLocation = ['lib/stacks/stack-api/schema.graphql', 'lib/stacks/stack-api/appsync.graphql']
 
 // For GLEC compliance copy content from ./configuration-examples/GLEC/activity-schema.graphql into ./activity-schema.graphql file
 
 const config: CodegenConfig = {
   emitLegacyCommonJSImports: true,
+  schema: schemaLocation,
   generates: {
     './lib/stacks/stack-web/app/sample-ui-cloudscape/public/assets/activity-input-template.csv': {
-      schema: schemaLocation,
       plugins: ['./lib/codegen/csv.ts'],
       config: {
         targetType: 'Activity',
