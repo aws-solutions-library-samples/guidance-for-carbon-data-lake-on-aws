@@ -114,18 +114,21 @@ console.log(`Web deployment option is set to: ${webOption}`)
 
 cdk.Tags.of(app).add("application", "carbon-data-lake");
 
+
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-const nag = app.node.tryGetContext('nag')
+const nagOption = app.node.tryGetContext('nagOption')
+console.log(`cdk-nag option is set to: ${nagOption}`)
 
 /*
-    Description: Checks if context variable nag=true and 
-    applies cdk nag if it is added to the app synth contex
-    Inputs: Optionally accepts cdk synth --context nag=true to apply cdk-nag packs
+    Description: Checks if context variable nagOption=true and 
+    applies cdk nag if it is added to the app synth context
+    Inputs: Optionally accepts cdk synth --context nagOption=true to apply cdk-nag packs
     Outputs: Outputs cdk-nag verbose logging and throws errors if violations met
     AWS Services: cdk, cdk-nag package
 */
 
-if (nag == "true"){
+if (nagOption === true){
+    console.log("Starting cdk-nag")
     Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 }
 /*

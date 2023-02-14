@@ -385,6 +385,9 @@ cdk.out
 # CDK outputs
 cdk-outputs.json
 
+# CDK Context
+cdk.context.json
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
