@@ -31,3 +31,17 @@ type Query {
 type Mutation  @aws_auth(cognito_groups: ["Admin",]) {
      delete(activity_event_id: String!): CalculatorOutput
  }
+
+
+type Activity {
+    activity_event_id: String!
+    asset_id: String
+    activity: String
+    category: String
+    scope: Int
+    geo: AWSJSON
+    origin_measurement_timestamp: String
+    raw_data: Float
+    source: String
+    units: String
+}
