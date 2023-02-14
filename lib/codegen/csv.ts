@@ -18,7 +18,6 @@ export const plugin: PluginFunction = async (
   config: InputFileGeneratorConfig,
 ) => {
   const data = schemaToHeaders(schema);
-  console.log(data);
   let result = '';
 
   if (config.fileFormat === FileFormat.XSLX) {

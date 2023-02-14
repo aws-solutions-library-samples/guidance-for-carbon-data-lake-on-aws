@@ -371,6 +371,8 @@ lib/*.js
 lib/**/*.js
 bin/*.js
 bin/**/*.js
+test/*.js
+test/**/*.js
 !jest.config.js
 *.d.ts
 

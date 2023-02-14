@@ -1,6 +1,6 @@
     type Activity {
       # TOC level information
-      transportOperatorCompanyId: String!
+      transportOperatorCompanyId: String! @description(value: "The unique identifier of the transport operator company")
       transportOperatorCompanyName: String!
       accreditationStatus: String!
       verificationStatus: String!
@@ -9,7 +9,8 @@
       modeSpecificAssetType: String 
       emissionClass: String 
       loadFactor: Float 
-      emptyDistance: Float 
+      emptyDistance: Float
+      emptyDistanceUnit: String
       temperatureControl: String 
       energyConsumption: Float 
       energyCarrier: String 
@@ -33,3 +34,5 @@
       voyageNumber: String
       flightNumber: String
     }
+
+    directive @description(value: String!) on FIELD_DEFINITION

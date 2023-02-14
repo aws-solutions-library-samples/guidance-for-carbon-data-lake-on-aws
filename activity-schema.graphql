@@ -1,0 +1,12 @@
+type Activity {
+  activityEventId: String!
+  assetId: String!
+  geo: String
+  originMeasurementTimestamp: Int
+  scope: Int
+  category: String!
+  activity: String!
+  source: String
+  rawData: Float!
+  units: String!
+}
