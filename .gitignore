@@ -367,6 +367,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Typescript .js files
+*.js
 lib/*.js
 lib/**/*.js
 bin/*.js
