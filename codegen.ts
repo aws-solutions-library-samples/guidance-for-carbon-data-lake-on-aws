@@ -2,9 +2,8 @@
 // @see https://graphql-code-generator.com/docs/getting-started/codegen-config
 
 import { CodegenConfig } from '@graphql-codegen/cli'
-import { FileFormat } from './lib/codegen/csv'
 
-const schemaLocation = './activity-schema.graphql'
+const schemaLocation = './schema.graphql'
 
 // For GLEC compliance copy content from ./configuration-examples/GLEC/activity-schema.graphql into ./activity-schema.graphql file
 
@@ -15,7 +14,7 @@ const config: CodegenConfig = {
       schema: schemaLocation,
       plugins: ['./lib/codegen/csv.ts'],
       config: {
-        fileFormat: FileFormat.CSV,
+        targetType: 'Activity',
       },
     },
     // TODO: Graphql javascript operations generator

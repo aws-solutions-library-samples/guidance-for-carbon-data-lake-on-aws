@@ -1,38 +1,35 @@
-import { PluginFunction, Types } from '@graphql-codegen/plugin-helpers';
-import { GraphQLSchema } from 'graphql';
-import { schemaToHeaders } from './utils';
-
-export enum FileFormat {
-  CSV,
-  XSLX,
-}
+import { getCachedDocumentNodeFromSchema, PluginFunction, Types } from '@graphql-codegen/plugin-helpers'
+import { FieldDefinitionNode, GraphQLSchema, ObjectTypeDefinitionNode, visit } from 'graphql'
 
 export type InputFileGeneratorConfig = {
-  includeTypes: string[];
-  fileFormat: FileFormat;
-};
+  targetType: string
+}
 
 export const plugin: PluginFunction = async (
   schema: GraphQLSchema,
   _documents: Types.DocumentFile[],
-  config: InputFileGeneratorConfig,
+  config: InputFileGeneratorConfig
 ) => {
-  const data = schemaToHeaders(schema);
+
+  const astNode = getCachedDocumentNodeFromSchema(schema);
   let result = '';
 
-  if (config.fileFormat === FileFormat.XSLX) {
-    // Not implemented
-    throw new Error('Not implemented');
-  }
-
-  if (config.fileFormat === FileFormat.CSV) {
-    for (const sheet of data) {
-      for (const column of sheet.columns) {
-        result += `${column.label.replace(/([A-Z])/g, '_$1').toLowerCase()},`;
+  const visitor = {
+    FieldDefinition(node: FieldDefinitionNode) {
+      // Transform the field AST node into a string, containing only the name of the field
+      return node.name.value;
+    },
+    ObjectTypeDefinition(node: ObjectTypeDefinitionNode) {
+      // "node.fields" is an array of strings, because we transformed it using "FieldDefinition".
+      if(config.targetType === node.name.value) {
+        node.fields?.map((field) => {
+          result += `${field.name.value.replace(/([A-Z])/g, '_$1').toLowerCase()},`;
+        })
       }
-      result += '\n';
-    }
-  }
+    },
+  };
+  visit(astNode, visitor);
+  result += '\n';
 
   return result;
-};
+}
