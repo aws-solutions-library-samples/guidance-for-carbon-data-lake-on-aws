@@ -1,6 +1,5 @@
-import { generate } from '@graphql-codegen/cli';
 import { buildSchema } from 'graphql';
-import { FileFormat, plugin } from '../../lib/codegen';
+import { FileFormat, plugin } from '../../lib/codegen/csv';
 
 describe('xlsx template generator', () => {
   // GIVEN

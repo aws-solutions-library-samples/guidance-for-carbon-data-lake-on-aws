@@ -2,7 +2,7 @@
 // @see https://graphql-code-generator.com/docs/getting-started/codegen-config
 
 import { CodegenConfig } from '@graphql-codegen/cli'
-import { FileFormat } from './lib/codegen'
+import { FileFormat } from './lib/codegen/csv'
 
 const schemaLocation = './activity-schema.graphql'
 
