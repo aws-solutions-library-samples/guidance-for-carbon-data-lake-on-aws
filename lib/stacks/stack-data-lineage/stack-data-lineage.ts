@@ -1,6 +1,5 @@
 import { Stack, StackProps, RemovalPolicy, Duration, Tags } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
-import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sqs as sqs } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -124,7 +123,7 @@ export class DataLineageStack extends Stack {
 
     /* ======== QUERY STACK ======== */
     // This is an optional stack to add query support on the archive bucket
-    const queryStack = new DataLineageQuery(this, 'cdlDataLineageQueryStack', {
+    new DataLineageQuery(this, 'cdlDataLineageQueryStack', {
       dataLineageBucket: props.archiveBucket,
     })
 

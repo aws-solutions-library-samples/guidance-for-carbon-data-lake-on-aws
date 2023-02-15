@@ -1,4 +1,4 @@
-import { Match, Template } from 'aws-cdk-lib/assertions'
+import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -23,14 +23,14 @@ describe('test pipeline stack', () => {
     const parentStack = new Stack(app, 'DQParentStack', {})
 
     // create the pipeline stack with the required props
-    const dqStack = new DataQuality(parentStack, 'DQStack', {
+    new DataQuality(parentStack, 'DQStack', {
       inputBucket: dummyBucket,
       outputBucket: dummyBucket,
       errorBucket: dummyBucket,
     })
 
     // synth a cloudformation template from the stack
-    const template = Template.fromStack(parentStack)
+    template = Template.fromStack(parentStack)
   })
 
   afterEach(() => {

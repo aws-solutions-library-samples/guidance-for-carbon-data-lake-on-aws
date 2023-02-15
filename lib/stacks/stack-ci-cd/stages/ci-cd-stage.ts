@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
-import { Aspects, Stage, StageProps } from 'aws-cdk-lib'
+import { Stage, StageProps } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { TestStack } from '../../stack-tests/stack-tests'
 import { QuicksightStack } from '../../stack-quicksight/stack-quicksight'

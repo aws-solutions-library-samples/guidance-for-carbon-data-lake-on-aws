@@ -1,4 +1,4 @@
-import { Stack, StackProps, Names } from 'aws-cdk-lib'
+import { StackProps, Names } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
@@ -8,7 +8,7 @@ interface DataCompactionHistoricalCrawlerProps extends StackProps {
 }
 
 export class DataCompactionHistoricalCrawler extends Construct {
-  public readonly glueHistoricalCalculatorCrawlerName: any
+  public readonly glueHistoricalCalculatorCrawlerName: string
 
   constructor(scope: Construct, id: string, props: DataCompactionHistoricalCrawlerProps) {
     super(scope, id)
@@ -44,7 +44,7 @@ export class DataCompactionHistoricalCrawler extends Construct {
     )}`
 
     // Create Glue crawler to update partitions in metadata catalog table for historical calculator records
-    const glueHistoricalCalculatorCrawler = new cdk.aws_glue.CfnCrawler(
+    new cdk.aws_glue.CfnCrawler(
       this,
       this.glueHistoricalCalculatorCrawlerName,
       {

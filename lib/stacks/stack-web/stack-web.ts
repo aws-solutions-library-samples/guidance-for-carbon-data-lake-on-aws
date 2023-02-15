@@ -1,6 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { aws_iam as iam, CfnOutput } from 'aws-cdk-lib';
+import { CfnOutput } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from "aws-cdk-lib";
 import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import * as path from 'path';

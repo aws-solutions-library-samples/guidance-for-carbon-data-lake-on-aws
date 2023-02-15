@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib'
+import { Duration, StackProps } from 'aws-cdk-lib'
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'

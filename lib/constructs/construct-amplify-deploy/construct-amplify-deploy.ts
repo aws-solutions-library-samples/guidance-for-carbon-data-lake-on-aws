@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { aws_iam as iam, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { aws_codecommit as codecommit } from 'aws-cdk-lib';
 import * as Amplify from "@aws-cdk/aws-amplify-alpha"
 
@@ -20,7 +20,7 @@ export class AmplifyDeploy extends Construct {
   public repository: codecommit.Repository;
   public amplifyApp: Amplify.App;
   public repositoryNameString: string;
-  public branchOutput: any;
+  public branchOutput: string;
 
   constructor(scope: Construct, id: string, props: AmplifyDeployProps) {
     super(scope, id)
@@ -55,7 +55,7 @@ export class AmplifyDeploy extends Construct {
         this.amplifyApp.addCustomRule(Amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT) // adds support for amplify single page react application delivery
 
 
-        const devBranch = this.amplifyApp.addBranch('dev');
+        this.amplifyApp.addBranch('dev');
 
         this.amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
     }
