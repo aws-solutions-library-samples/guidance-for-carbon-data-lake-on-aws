@@ -1,4 +1,4 @@
-# Carbonlake - Calculator service
+# Emissions calculator AWS Lambda microservice
 
 This calculator is built to manage individual and batch calculations using the sample emissions factor model provided for development purposes. We recommend modifying this data structure to reflect your own emissions factor reporting requirements. To bring your own emissions factor model:
 
@@ -9,7 +9,7 @@ This calculator is built to manage individual and batch calculations using the s
 ## Trigger calculation
 The calculator function
 - reads input data from the Input S3 Bucket (defined by the environment variable `INPUT_S3_BUCKET_NAME`)
-- calculates the emissions, based on the GHG Protocol Emissions factor table
+- calculates the emissions, based on the Emissions factor table
 - writes output data in the Output S3 Bucket (defined by the environment variable `OUTPUT_S3_BUCKET_NAME`)
 - writes output data in the Output DynamoDB table (defined by the environment variable `OUTPUT_DYNAMODB_TABLE_NAME`)
 
