@@ -4,6 +4,7 @@ import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from "aws-cdk-lib";
 import { aws_sagemaker as sagemaker } from "aws-cdk-lib";
 import { aws_codecommit as codecommit } from "aws-cdk-lib";
+import { aws_kms as kms } from "aws-cdk-lib";
 import * as path from 'path';
 
 interface SagemakerForecastStackProps extends StackProps {
@@ -56,6 +57,13 @@ export class SageMakerNotebookStack extends Stack {
       },
     });
 
+    // creates a kms key to encrypt the storage volume attached the notebook instance
+    const encryptionKey = new kms.Key(this, 'CDLSagemakerEncryptionKey', {
+      alias: "CDLSagemakerEncryptionKey",
+      enableKeyRotation: true,
+      removalPolicy: RemovalPolicy.DESTROY
+    })
+
     // creates a codecommit repo and uploads the sagemaker notebook to it as a first commit
     const sagemakerCodecommitRepo = new codecommit.Repository(this, 'CDLSagemakerCodecommitRepo', {
       repositoryName: 'CDLSagemakerRepository',
@@ -71,6 +79,7 @@ export class SageMakerNotebookStack extends Stack {
       notebookInstanceName: "CarbonLakeSagemakerNotebook",
       defaultCodeRepository: sagemakerCodecommitRepo.repositoryCloneUrlHttp,
       volumeSizeInGb: 20,
+      kmsKeyId: encryptionKey.keyId
     });
 
     // creates a role for Amazon Forecast to assume, with permissions to access data in the results bucket
