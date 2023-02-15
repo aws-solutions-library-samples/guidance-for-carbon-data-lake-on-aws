@@ -40,11 +40,14 @@ const config: CodegenConfig = {
     //   schema: schemaLocation,
     //   plugins: [__dirname + './lib/codegen/dq-rules.ts'],
     // },
-    // TODO: Python types generator for calculator
-    // 'lib/stacks/stack-data-pipeline/construct-calculator/lambda/types.py': {
-    //   schema: schemaLocation,
-    //   plugins: [__dirname + './lib/codegen/python-types.ts'],
-    // },
+    // Emission Factors keys
+    'lib/stacks/stack-data-pipeline/construct-calculator/lambda/emissionFactorsLookupFields.json': {
+      plugins: ['./lib/codegen/field-directives-to-json-array.ts'],
+      config: {
+        targetType: 'EmissionFactor',
+        directive: 'lookup'
+      },
+    },
   },
 }
 
