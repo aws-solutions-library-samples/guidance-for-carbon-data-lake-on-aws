@@ -67,6 +67,7 @@ export class PipelineStage extends Stage {
     // QS5 --> Create the cdl api stack
     const apiStack = new ApiStack (this, 'ApiStack', {
           adminEmail: adminEmail,
+          landingBucket: landingBucket,
           calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
           env: thisEnv
         })

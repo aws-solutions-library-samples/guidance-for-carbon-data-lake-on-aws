@@ -31,6 +31,7 @@ import {
 
 export interface ApiStackProps extends StackProps {
   calculatorOutputTableRef: cdk.aws_dynamodb.Table
+  landingBucket: cdk.aws_s3.Bucket
   adminEmail?: string
 }
 
@@ -363,10 +364,58 @@ export class ApiStack extends Stack {
     this.apiId = api.apiId
     new CfnOutput(this, 'apiId', { value: api.apiId })
 
+
+    // Push data to s3 raw s3 bucket
+    const landingBucketDataSource = api.addHttpDataSource('landingBucketDataSource', `https://${props.landingBucket.bucketName}.s3.amazonaws.com`, {
+      name: 'landingBucketDataSource',
+      description: 'Raw bucket data source',
+      authorizationConfig: {
+        signingRegion: cdk.Stack.of(this).region,
+        signingServiceName: 's3',
+      },
+    });
+    props.landingBucket.grantPut(landingBucketDataSource)
+
+    landingBucketDataSource.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'createActivity',
+      requestMappingTemplate: MappingTemplate.fromString(`{
+        "version": "2018-05-29",
+        "method": "PUT",
+        "resourcePath": "/$ctx.args.input.activity_event_id",
+        "params": {
+          "body": "#foreach ($key in $ctx.args.input.keySet()) $key,#end\\n#foreach ($key in $ctx.args.input.keySet()) $ctx.args.input[$key],#end",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.args.input)`),
+    });
+
     // Add a DynamoDB datasource. The DynamoDB table we will use is created by another stack
     // and is provided in the props of this stack.
     const datasource = api.addDynamoDbDataSource('CalculatorOutputDataSource', props.calculatorOutputTableRef, {
       name: 'CalculatorOutputDataSource',
+    })
+
+    datasource.createResolver({
+      typeName: 'Query',
+      fieldName: 'getActivity',
+      requestMappingTemplate: MappingTemplate.dynamoDbGetItem('activity_event_id', 'id'),
+      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
+    })
+
+    datasource.createResolver({
+      typeName: 'Query',
+      fieldName: 'listActivities',
+      requestMappingTemplate: MappingTemplate.fromString(`{
+                "version": "2018-05-29",
+                "operation": "Scan",
+                "limit": $util.defaultIfNull($ctx.args.limit, 20),
+                "nextToken": $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null))
+            }`),
+      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     })
 
     // Create a resolver for getting 1 record by the activity_event_id

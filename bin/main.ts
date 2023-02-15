@@ -64,6 +64,7 @@ new DataCompactionStack(app,'DataCompactionStack',
 // QS5 --> Create the cdl api stack
 const apiStack = new ApiStack (app, 'ApiStack', {
       adminEmail: adminEmail,
+      landingBucket: landingBucket,
       calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
       env: appEnv
     })

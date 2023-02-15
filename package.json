@@ -23,10 +23,11 @@
     "@types/jest": "^26.0.10",
     "@types/node": "^18.13.0",
     "@types/prettier": "<2.6.0",
+    "@types/tmp": "^0.2.3",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
-    "aws-cdk": "2.15.0",
+    "aws-cdk": "^2.21.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
@@ -38,6 +39,10 @@
     "typescript": "~4.5.0"
   },
   "dependencies": {
+    "@aws-amplify/appsync-modelgen-plugin": "^2.3.3",
+    "@aws-amplify/graphql-docs-generator": "^3.0.3",
+    "@aws-amplify/graphql-model-transformer": "^0.16.8",
+    "@aws-amplify/graphql-transformer-core": "^0.18.4",
     "@aws-cdk/aws-amplify-alpha": "^2.21.0-alpha.0",
     "@aws-cdk/aws-appsync-alpha": "^2.21.1-alpha.0",
     "@aws-cdk/aws-cognito-identitypool-alpha": "^2.21.1-alpha.0",
@@ -59,10 +64,12 @@
     "cdk-nag": "^2.15.45",
     "child_process": "^1.0.2",
     "constructs": "^10.0.0",
-    "graphql": "^16.6.0",
+    "graphql": "^15",
     "node": "^16.17.0",
     "run": "^1.4.0",
     "source-map-support": "^0.5.16",
+    "tempy": "^3.0.0",
+    "tmp": "^0.2.1",
     "uuid": "^9.0.0"
   }
 }
