@@ -8,7 +8,7 @@
      */
 
 import { Construct } from 'constructs';
-import { RemovalPolicy } from 'aws-cdk-lib';
+import { RemovalPolicy, Duration } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
 
@@ -22,6 +22,17 @@ interface CdlS3Props {
      * Optional: set bucket versioning to false, this is true by default
      */
     bucketVersioning?: boolean;
+
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     */
+    bucketLifeCyclePolicyArray?: Array <s3.LifecycleRule>;
+
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     */
+    bucketStorageClass?: boolean;
+
 
   }
 
@@ -54,6 +65,21 @@ interface CdlS3Props {
     constructor(scope: Construct, id: string, props: CdlS3Props) {
         super(scope, id);
 
+        const defaultLifecycleRules = [
+            {
+                transitions: [
+                    {
+                        storageClass: s3.StorageClass.INFREQUENT_ACCESS,
+                        transitionAfter: Duration.days(30),
+                    },
+                    {
+                        storageClass: s3.StorageClass.GLACIER,
+                        transitionAfter: Duration.days(90),
+                    },
+                ],
+            },
+        ];
+
         // Creates new S3 bucket for data upload
         this.accessLogBucket = new s3.Bucket(this, `${props.bucketName}-access-logs`, {
             encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
@@ -67,11 +93,25 @@ interface CdlS3Props {
         this.s3Bucket = new s3.Bucket(this, props.bucketName, {
             encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // all public access is blocked
-            versioned: true, // versioning true by default unless otherwise specified
+            versioned: props.bucketVersioning ? props.bucketVersioning : true, // versioning true by default unless otherwise specified
             removalPolicy: RemovalPolicy.DESTROY, // by default removal policy will be destroy
             autoDeleteObjects: true, // by default auto-delete policy will be true
-            serverAccessLogsBucket: this.accessLogBucket // specifies the s3 bucket for access logs
+            serverAccessLogsBucket: this.accessLogBucket, // specifies the s3 bucket for access logs
+            // by default this leaves the bucket lifecycle policy as the default for the s3 bucket construct
         });
+
+        /**
+        * If optional bucketLifeCyclePolicyArray is defined as prop,
+        * loops through array of policies and adds each to the s3 bucket.
+        * This allows standard s3 policy to be default
+        * and user can define any additional policies to ovveride this default.
+            */
+        if(props.bucketLifeCyclePolicyArray) {
+            console.log("Lifecycle policy option enabled");
+            (props.bucketLifeCyclePolicyArray).forEach(policy => {
+                this.s3Bucket.addLifecycleRule(policy)
+            });
+        }
 
     }
     
