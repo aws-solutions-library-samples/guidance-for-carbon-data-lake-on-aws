@@ -3,6 +3,7 @@ import { FieldDefinitionNode, GraphQLSchema, ObjectTypeDefinitionNode, visit } f
 
 export type InputFileGeneratorConfig = {
   targetType: string
+  onlyIncludeDirectives?: string[]
 }
 
 export const plugin: PluginFunction = async (
@@ -23,7 +24,9 @@ export const plugin: PluginFunction = async (
       // "node.fields" is an array of strings, because we transformed it using "FieldDefinition".
       if(config.targetType === node.name.value) {
         node.fields?.map((field) => {
-          result += `${field.name.value.replace(/([A-Z])/g, '_$1').toLowerCase()},`;
+          if(!config.onlyIncludeDirectives || field.directives?.find(directive => config.onlyIncludeDirectives?.includes(directive.name.value))) {
+            result += `${field.name.value.replace(/([A-Z])/g, '_$1').toLowerCase()},`;
+          }
         })
       }
     },
