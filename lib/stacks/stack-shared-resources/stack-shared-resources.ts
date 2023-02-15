@@ -1,4 +1,4 @@
-import { App, Stack, StackProps, RemovalPolicy, PhysicalName, CfnOutput, Tags } from 'aws-cdk-lib'
+import { Stack, StackProps, RemovalPolicy, PhysicalName, CfnOutput, Tags } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { Construct } from 'constructs'

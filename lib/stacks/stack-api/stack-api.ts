@@ -294,7 +294,7 @@ export class ApiStack extends Stack {
       roleArn: cdlAdminUserRole.roleArn,
     })
     cdlAdminUserPoolGroup.node.addDependency(cdlAdminUserRole)
-    const cdlStandardUserPoolGroup = new CfnUserPoolGroup(this, 'cdlStandard', {
+    new CfnUserPoolGroup(this, 'cdlStandard', {
       userPoolId: userPool.userPoolId,
       groupName: 'Standard-Users',
       description: 'Standard user group',

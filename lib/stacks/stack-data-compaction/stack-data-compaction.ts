@@ -25,7 +25,7 @@ export class DataCompactionStack extends Stack {
     super(scope, id, props)
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */
-    const { glueEnrichedDataTodayTable } = new GlueEnrichedDataTodayTable(
+    new GlueEnrichedDataTodayTable(
       this,
       'cdlGlueEnrichedDataDatabaseStack',
       {
@@ -119,7 +119,7 @@ export class DataCompactionStack extends Stack {
     enumFunction.node.addDependency(deployStateMachineJSON);
 
     /** VENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
-    const { eventRule }  = new EventTriggerStateMachine(this, 'cdlEventTriggerStateMachineStack', {
+    new EventTriggerStateMachine(this, 'cdlEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName,
     })
 

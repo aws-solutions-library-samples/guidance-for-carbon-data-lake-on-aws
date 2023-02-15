@@ -1,4 +1,4 @@
-import { Match, Template } from 'aws-cdk-lib/assertions'
+import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -39,7 +39,7 @@ describe('test pipeline stack', () => {
     })
 
     // synth a cloudformation template from the stack
-    const template = Template.fromStack(pipelineStack)
+    template = Template.fromStack(pipelineStack)
   })
 
   afterEach(() => {
