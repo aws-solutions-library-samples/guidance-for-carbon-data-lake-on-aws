@@ -163,6 +163,7 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
+- - Optional:`nagEnabled` Enables cdk_nag audit tool.
 
 Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 

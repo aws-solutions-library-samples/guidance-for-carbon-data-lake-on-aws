@@ -120,9 +120,9 @@ const nagEnabled = app.node.tryGetContext('nagEnabled')
 console.log(`cdk-nag option is set to: ${nagEnabled}`)
 
 /*
-    Description: Checks if context variable nagOption=true and 
+    Description: Checks if context variable nagEnabled=true and 
     applies cdk nag if it is added to the app synth context
-    Inputs: Optionally accepts cdk synth --context nagOption=true to apply cdk-nag packs
+    Inputs: Optionally accepts cdk synth --context nagEnabled=true to apply cdk-nag packs
     Outputs: Outputs cdk-nag verbose logging and throws errors if violations met
     AWS Services: cdk, cdk-nag package
 */
