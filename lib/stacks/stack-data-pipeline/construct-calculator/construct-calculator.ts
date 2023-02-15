@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Duration, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'

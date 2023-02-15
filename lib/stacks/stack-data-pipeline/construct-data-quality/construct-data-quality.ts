@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
+import { Duration, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import path from 'path'
 

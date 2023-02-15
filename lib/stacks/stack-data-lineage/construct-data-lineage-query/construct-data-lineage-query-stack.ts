@@ -102,7 +102,7 @@ export class DataLineageQuery extends Construct {
     /* ====== CRAWLER ====== */
     // Setup a Glue crawler for the partitioned data lineage records in S3
     // partition scheme = year/month/day/<root_id>.jsonl
-    const crawler = new glue.CfnCrawler(this, 'DataLineageCrawler', {
+    new glue.CfnCrawler(this, 'DataLineageCrawler', {
       role: crawlerRole.roleArn,
       databaseName: glueDB.ref,
       targets: {
@@ -113,7 +113,7 @@ export class DataLineageQuery extends Construct {
     })
 
     /* ====== ATHENA ====== */
-    const dlQuery = new athena.CfnNamedQuery(this, 'DataLineageQuery', {
+    new athena.CfnNamedQuery(this, 'DataLineageQuery', {
       database: glueDB.ref,
       name: 'UnnestDataLineageRecords',
       description: 'Query the partitioned data lineage bucket and unnest lineage data',

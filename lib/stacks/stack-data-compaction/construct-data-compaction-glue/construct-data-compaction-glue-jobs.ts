@@ -1,4 +1,4 @@
-import { Stack, StackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
+import { StackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
@@ -7,8 +7,8 @@ interface DataCompactionGlueJobsProps extends StackProps {
 }
 
 export class DataCompactionGlueJobs extends Construct {
-  public readonly glueCompactionJobName: any
-  public readonly glueDataFlushJobName: any
+  public readonly glueCompactionJobName: string
+  public readonly glueDataFlushJobName: string
 
   constructor(scope: Construct, id: string, props: DataCompactionGlueJobsProps) {
     super(scope, id)
@@ -59,7 +59,7 @@ export class DataCompactionGlueJobs extends Construct {
     this.glueDataFlushJobName = `glue-remove-old-calculator-records-${Names.uniqueId(role).slice(-8)}`
 
     // create glue python shell script for purging old calculator records
-    const glueDataFlushJob = new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
+    new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
       name: this.glueDataFlushJobName,
       role: role.roleArn,
       command: {
@@ -85,7 +85,7 @@ export class DataCompactionGlueJobs extends Construct {
     this.glueCompactionJobName = `glue-compact-daily-calculator-records-${Names.uniqueId(role).slice(-8)}`
 
     // create glue ETL script to process and compact calculator output data and save to S3
-    const glueCompactionJob = new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
+    new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
       name: this.glueCompactionJobName,
       role: role.roleArn,
       command: {

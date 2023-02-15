@@ -1,6 +1,5 @@
-import { Match, Template } from 'aws-cdk-lib/assertions'
+import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
-import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
@@ -33,7 +32,7 @@ describe('test statemachine stack', () => {
     const parentStack = new Stack(app, 'ParentPipelineStack', {})
 
     // create the pipeline stack with the required props
-    const statemachineStack = new DataPipelineStatemachine(parentStack, 'PipelineStack', {
+    new DataPipelineStatemachine(parentStack, 'PipelineStack', {
       dataLineageFunction: dummyLambda,
       dqResourcesLambda: dummyLambda,
       dqResultsLambda: dummyLambda,

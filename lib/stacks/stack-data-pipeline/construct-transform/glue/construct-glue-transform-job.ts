@@ -1,4 +1,4 @@
-import { Names, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Names, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
@@ -60,7 +60,7 @@ export class GlueTransformation extends Construct {
     // create glue ETL script to process split input CSV files into smaller JSON files and save to S3
     this.glueTransformJobName = `glue-transform-${Names.uniqueId(role).slice(-8)}`
 
-    const glueTransformJob = new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
+    new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
       name: this.glueTransformJobName,
       role: role.roleArn,
       command: {
