@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
+import { Aspects } from 'aws-cdk-lib'
 import { TestStack } from '../lib/stacks/stack-tests/stack-tests'
 import { QuicksightStack } from '../lib/stacks/stack-quicksight/stack-quicksight'
 import { SharedResourcesStack } from '../lib/stacks/stack-shared-resources/stack-shared-resources'
