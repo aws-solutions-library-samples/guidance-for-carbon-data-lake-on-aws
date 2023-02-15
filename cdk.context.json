@@ -5,5 +5,5 @@
   "deployQuicksightStack": false,
   "deploySagemakerStack": true,
   "deployWebStack": true,
-  "nagOption": false
+  "nagEnabled": false
 }

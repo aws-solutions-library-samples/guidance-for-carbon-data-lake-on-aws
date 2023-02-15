@@ -116,8 +116,8 @@ cdk.Tags.of(app).add("application", "carbon-data-lake");
 
 
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-const nagOption = app.node.tryGetContext('nagOption')
-console.log(`cdk-nag option is set to: ${nagOption}`)
+const nagEnabled = app.node.tryGetContext('nagEnabled')
+console.log(`cdk-nag option is set to: ${nagEnabled}`)
 
 /*
     Description: Checks if context variable nagOption=true and 
@@ -127,8 +127,8 @@ console.log(`cdk-nag option is set to: ${nagOption}`)
     AWS Services: cdk, cdk-nag package
 */
 
-if (nagOption === true){
-    console.log("Starting cdk-nag")
+if (nagEnabled === true){
+    console.log("CDK-nag enabled. Starting cdk-nag review")
     Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 }
 /*
