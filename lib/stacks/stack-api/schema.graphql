@@ -17,6 +17,24 @@ type CalculatorOutput {
     units: String
 }
 
+directive @lookup on FIELD_DEFINITION
+
+type EmissionFactor {
+    category: String! @lookup
+    activity: String! @lookup
+    scope: Int! @lookup
+    co2_factor: Float
+    ch4_factor: Float
+    n2o_factor: Float
+    biofuel_co2: Float
+    AR4_kgco2e: Float
+    AR5_kgco2e: Float
+    units: String!
+    last_updated: String
+    source: String
+    source_origin: String
+}
+
 type PaginatedCalculatorOutput {
     items: [CalculatorOutput]
     nextToken: String
@@ -28,7 +46,7 @@ type Query {
 }
 
 
-type Mutation  @aws_auth(cognito_groups: ["Admin",]) {
+type Mutation @aws_auth(cognito_groups: ["Admin",]) {
      delete(activity_event_id: String!): CalculatorOutput
  }
 

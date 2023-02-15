@@ -5,11 +5,12 @@ import boto3
 from enum import Enum
 from urllib.parse import urljoin, urlparse
 from decimal import Decimal
+import emissionFactorKey
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSIONS_FACTOR_TABLE_NAME')
+EMISSION_FACTORS_TABLE_NAME = os.environ.get('EMISSION_FACTORS_TABLE_NAME')
 INPUT_S3_BUCKET_NAME = os.environ.get('TRANSFORMED_BUCKET_NAME')
 OUTPUT_S3_BUCKET_NAME = os.environ.get('ENRICHED_BUCKET_NAME')
 OUTPUT_DYNAMODB_TABLE_NAME = os.environ.get('CALCULATOR_OUTPUT_TABLE_NAME')
@@ -53,16 +54,15 @@ input: activity
 output: emissions factor coefficient
 TODO Add a cache
 '''
-def __get_emissions_factor(activity, category):
+def __get_emissions_factor(activity_event):
     LOGGER.info("getting emissions factor from database")
     table = dynamodb.Table(EMISSION_FACTORS_TABLE_NAME)
-    coefficient = table.get_item(
-        Key={
-            'category': category,
-            'activity': activity,
-        }
+    emissions_factor = table.get_item(
+        Key={'hash_key': emissionFactorKey.hash_key(activity_event)}
     )
-    return coefficient
+    # HACK: hotfix for records without matched emissions_factor in DDB - fix this.
+    if 'Item' not in emissions_factor: return None
+    return emissions_factor['Item']
 
 def __calculate_emission(raw_data, factor):
     return float(raw_data) * float(0 if factor=='' else factor) / 1000
@@ -79,16 +79,13 @@ Output: Python Dictionary
 '''
 def __append_emissions_output(activity_event):
     LOGGER.info('appending emissions for: %s', activity_event)
-    emissions_factor = __get_emissions_factor(activity_event['activity'], activity_event['category'])
-    # HACK: hotfix for records without matched emissions_factor in DDB - fix this.
-    if 'Item' not in emissions_factor: return None
-    coefficients = emissions_factor['Item']['emissions_factor_standards']['ghg']['coefficients']
-    LOGGER.info('coefficients: %s', coefficients)
+    emissions_factor = __get_emissions_factor(activity_event)
+    print("emissions_factor :", emissions_factor)
 
     raw_data = activity_event['raw_data']
-    co2_emissions = __calculate_emission(raw_data, coefficients['co2_factor'])
-    ch4_emissions = __calculate_emission(raw_data, coefficients['ch4_factor'])
-    n2o_emissions = __calculate_emission(raw_data, coefficients['n2o_factor'])
+    co2_emissions = __calculate_emission(raw_data, emissions_factor['co2_factor'])
+    ch4_emissions = __calculate_emission(raw_data, emissions_factor['ch4_factor'])
+    n2o_emissions = __calculate_emission(raw_data, emissions_factor['n2o_factor'])
     co2e_ar4      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
     co2e_ar5      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
     emissions_output = {
@@ -119,11 +116,11 @@ def __append_emissions_output(activity_event):
             },
             "emissions_factor": {
                 "ar4": {
-                    "amount": float(coefficients['AR4_kgco2e']),
+                    "amount": float(emissions_factor['AR4_kgco2e']),
                     "unit": "kgCO2e/unit",
                 },
                 "ar5": {
-                    "amount": float(coefficients['AR5_kgco2e']),
+                    "amount": float(emissions_factor['AR5_kgco2e']),
                     "unit": "kgCO2e/unit"
                 }
             }

@@ -1,7 +1,7 @@
 import { buildSchema } from 'graphql'
 import { plugin } from '../../lib/codegen/csv'
 
-describe('xlsx template generator', () => {
+describe('csv template generator', () => {
   it('Should output the right headers', async () => {
     // GIVEN
     const schema = buildSchema(/* GraphQL */ `

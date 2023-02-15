@@ -44,14 +44,14 @@ describe('test pipeline stack', () => {
     template?.resourceCountIs('AWS::S3::Bucket', 1)
 
     // verify lambda creation
-    template?.resourceCountIs('AWS::Lambda::Function', 2)
+    template?.resourceCountIs('AWS::Lambda::Function', 3)
     template?.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'app.lambda_handler',
       Runtime: lambda.Runtime.PYTHON_3_9.name,
     })
 
     // verify iam role & policy creation for all lambdas and dq job
-    template?.resourceCountIs('AWS::IAM::Role', 3)
+    template?.resourceCountIs('AWS::IAM::Role', 4)
     template?.resourceCountIs('AWS::IAM::Policy', 3)
   })
 })
