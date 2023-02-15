@@ -1,9 +1,0 @@
-{
-  "adminEmail": "your-email-here@email.com",
-  "quicksightUserName": "your-email-here@email.com",
-  "repoBranch": "main",
-  "deployQuicksightStack": false,
-  "deploySagemakerStack": true,
-  "deployWebStack": true,
-  "nagEnabled": false
-}
