@@ -1,6 +1,10 @@
 # Welcome to the carbon data lake AWS Cloud Development Kit (CDK) application
 
-This carbon data lake is a solution guidance with sample code that deploys an arrangement of AWS Services to enable carbon accounting applications. The carbon data lake reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating greenhouse gas emission data in carbon dioxide equivalent (CO2eq). Customers can use this guidance with sample code to advance their starting point for building decarbonization reporting, forecasting, and analytics solutions and/or products. The carbon data lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application. 
+The carbon data lake guidance with sample code implements a foundational data lake (and ingestion and processing framework) using the AWS Cloud Development Kit (AWS CDK). The deployed asset provides the base infrastructure for customers and partners to build their carbon accounting use cases.
+
+__Note: This solution by itself will not make a customer compliant with any end to end carbon accounting solution. It provides the foundational infrastructure from which additional complementary solutions can be integrated.__
+
+The carbon data lake reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating greenhouse gas emission data in carbon dioxide equivalent (CO2eq). Customers can use this guidance with sample code to advance their starting point for building decarbonization reporting, forecasting, and analytics solutions and/or products. The carbon data lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application.
 
 Customer emissions data (such as databases, historians, existing data lakes, internal/external APIs, Images, CSVs, JSON, IoT/sensor data, and third party applications including CRMs, ERPs, MES, and more) can be mapped to the standard CSV format to support centralization and processing of customer carbon data. Carbon data is ingested through the carbon data lake landing zone, and can be ingested from any service within or connected to the AWS cloud. This calculator can be deployed with a sample emissions factor model or can be modified or augmented with additional bring your own standards lookup tables and calculator logic.
 
@@ -59,20 +63,16 @@ The carbon data lake data pipeline is an event-driven Step Functions Workflow tr
 1. AWS Glue Data Brew Data Quality Check: If the data quality check passes the data is passed to the next step. If the data quality check fails the admin user receives a Simple Notification Services alert via email.
 2. Data Transformation Glue Workflow: Batch records are transformed and prepared for the carbon data lake calculator microservice.
 3. Data Compaction: night data compaction jobs prepare data for analytics and machine learning workloads.
-4. Emissions Calculator Lambda Microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
+4. Emissions calculator AWS Lambda microservice: An AWS Lambda function performed emissions factor database lookup and calculation, outputting records to a Amazon DynamoDB table and to an S3 bucket for analytics and AI/ML application.
 5. Data Transformation Ledger: Each transformation of data is recorded to a ledger using Amazon Simple Queue Service, AWS Lambda, and Amazon DynamoDB.
 
 Review the [Data Pipeline Stack](lib/stacks/stack-data-pipeline/stack-data-pipeline.ts), [README](lib/stacks/stack-data-pipeline/README.md), and [Stack Outputs](#data-pipeline-stack-outputs)
 
 ### Emissions Factor Reference Database Sample
 
-The Carbon Emissions Calculator Microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format.
+The carbon emissions calculator microservice comes with a pre-seeded Amazon DynamoDB reference table. This data model directly references the sample emissions factor model provided for development purposes. The sample data model is adapted from the [World Resource Institute (WRI) GHG Protocol Guidance](https://ghgprotocol.org/guidance-0). Please consult the WRI guidance to confirm the most up-to-date information and versions.
 
-To bring your own emissions factor model:
-
-1. Modify and/or replace the existing [emissions factor sample document](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
-2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
-3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
+The sample provided is for development purposes only, and it is recommended that carbon data lake users modify this JSON document and/or create their own using a similar format. Please modify the provided data model when deploying your own application using the instructions found in the [Setup section](#-setup).
 
 ### AWS AppSync GraphQL API
 
@@ -143,7 +143,15 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 2/ Prepare your CDK environment
 
 1. Navigate to CDK Directory
-2. Set `cdk.context.json` values (see Context Parameters below)
+2. Set up your emissions factor document (see Set up your emissions factor document below)
+3. Copy `cdk.context.template.json` or remove .template
+4. Enter your parameters in `cdk.context.json` (see Context Parameters below)
+
+#### --Set up your emissions factor document--
+
+1. Modify and/or replace the existing [emissions factor sample document](lib/stacks/stack-data-pipeline/construct-calculator/emissions_factor_model_2022-05-22.json)
+2. Alternatively make a copy and point the emissions factor lookup table component to the new filename by editing the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
+3. If you are making substantial changes beyond category and/or emissions factor coefficients you may have to edit the Calculator Microservice stack to reflect changes in input category headers. This will include editing the `generateItem` method and the `IDdbEmissionFactor` interface found in the [Calculator Construct](lib/stacks/stack-data-pipeline/construct-calculator/construct-calculator.ts#L86)
 
 #### --Context Parameters--
 
@@ -155,10 +163,11 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
+- - Optional:`nagEnabled` Enables cdk_nag audit tool.
 
 Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 
-Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](lib/stacks/stack-web/app/sample-ui-cloudscape)
+Web Application Note: If you choose to deploy the optional Web Module make sure you review [web application setup instructions](#4-optional-set-up-the-amplify-web-application)
 
 ### 3/ Install dependencies, build, and synthesize the CDK app
 
@@ -228,10 +237,6 @@ If you are reading this it is because you deployed the carbon data lake guidance
    When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake guidance with sample code CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
-
-![Cognito Login Page](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLakeCognitoSignInPage.png)
-
-![carbon data lake Web Application](lib/stacks/stack-web/app/sample-ui-cloudscape/documentation/images/CarbonLake101.png)
 
 4. Create a separate directory to manage your web application
 
@@ -428,11 +433,21 @@ This application currently includes unit tests, infrastructure tests, deployment
 
 For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/or merge to main. This runs automatically and does the following:
 
+#### Static Tests
 - `npm ci` installs all dependencies from `package.lock.json`
 - `npm run build` builds the javascript from typescript and makes sure everything works!
 - `cdk synth` synthesizes all CDK stacks in the application
 - Runs bandit security tests for common vulnerabilities in Python
 - Runs ESLint for common formatting issues in Javascript and Typescript
+
+#### Security Tests
+- cdk_nag
+- git-secrets
+- Chechov
+- semgrep
+- python bandit
+
+#### Deployment Tests
 - Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
 - Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 

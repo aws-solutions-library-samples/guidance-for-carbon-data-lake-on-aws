@@ -54,14 +54,6 @@ export class SharedResourcesStack extends Stack {
       autoDeleteObjects: true,
     })
 
-    // Used for forecasting
-    this.cdlForecastBucket = new s3.Bucket(this, 'cdlForecastBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-    })
-
     // Bucket used to store unprocessed data lineage events
     // TODO add a lifecycle policy to archive files to Glacier
     this.cdlDataLineageBucket = new s3.Bucket(this, 'cdlDataLineageBucket', {
