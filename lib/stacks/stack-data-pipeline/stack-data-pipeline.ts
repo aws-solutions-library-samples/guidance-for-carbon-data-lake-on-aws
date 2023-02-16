@@ -10,7 +10,6 @@ import { Construct } from 'constructs'
 import * as path from 'path'
 import { Calculator } from './construct-calculator/construct-calculator'
 import { DataPipelineStatemachine } from './construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
-import { GlueTransformation } from './construct-transform/glue/construct-glue-transform-job'
 import { DataQuality } from './construct-data-quality/construct-data-quality'
 
 interface DataPipelineProps extends StackProps {
@@ -65,35 +64,6 @@ export class DataPipelineStack extends Stack {
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
-    /* ======== GLUE TRANSFORM ======== */
-    const { glueTransformJobName } = new GlueTransformation(this, 'CDLGlueTransformationStack', {
-      rawBucket: props?.rawBucket,
-      transformedBucket: props?.transformedBucket,
-    })
-
-    /* ======== POST-GLUE BATCH LAMBDA ======== */
-
-    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
-    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
-      this,
-      'cdlPipelineDependencyLayer',
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
-    )
-
-    // Lambda function to list total objects in the directory created by AWS Glue
-    const batchEnumLambda = new lambda.Function(this, 'CDLDataPipelineBatchLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
-      handler: 'app.lambda_handler',
-      layers: [dependencyLayer],
-      timeout: Duration.seconds(60),
-      environment: {
-        TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName,
-      },
-    })
-
-    props.transformedBucket.grantRead(batchEnumLambda)
-
     /* ======== CALCULATION ======== */
 
     const { calculatorLambda, calculatorOutputTable } = new Calculator(this, 'CDLCalculatorStack', {
@@ -105,23 +75,24 @@ export class DataPipelineStack extends Stack {
 
     /* ======== STATEMACHINE ======== */
 
-    // Required inputs for the step function
-    //  - data lineage lambda function
-    //  - dq quality workflow
-    //  - glue transformation job
-    //  - calculation function
     const { statemachine } = new DataPipelineStatemachine(this, 'CDLStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dqResourcesLambda: resourcesLambda,
       dqResultsLambda: resultsLambda,
       dqErrorNotification: dqErrorNotificationSNS,
-      glueTransformJobName: glueTransformJobName,
-      batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda,
+      rawBucket: props.rawBucket
     })
     this.pipelineStateMachine = statemachine
 
     /* ======== KICKOFF LAMBDA ======== */
+
+    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
+    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
+      this,
+      'cdlPipelineDependencyLayer',
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+    )
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
     const kickoffFunction = new lambda.Function(this, 'CDLKickoffLambda', {

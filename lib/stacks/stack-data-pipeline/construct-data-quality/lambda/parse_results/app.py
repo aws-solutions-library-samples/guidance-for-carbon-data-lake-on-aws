@@ -85,4 +85,4 @@ def lambda_handler(event, context):
     input_s3_key = input_s3_key.split("/")[-1]
     output_object_url = move_s3_object(input_s3_key, dq_passfail)
 
-    return {"status": dq_passfail, "storage_location": output_object_url}
+    return {"status": dq_passfail, "storage_location": output_object_url, "s3_key": input_s3_key }

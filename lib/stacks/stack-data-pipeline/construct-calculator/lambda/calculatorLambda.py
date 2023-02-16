@@ -164,26 +164,35 @@ def __save_enriched_events_to_dynamodb(activity_events):
             batch.put_item(Item=activity_event_with_decimal)
 
 '''
-Input: {"storage_location": "calculator_input_example.jsonl" }
+Input: {
+    "items": [ { record from csv file }, {...} ],
+    "execution_id": "<unique string for this execution>"
+    "root_id": "<data lineage root_id>",
+    "parent_id": "<data lineage parent id>"
+}
 Output: {
+    "root_id": "",
+    "parent_id": "",
     "storage_location": "s3://<output_bucket>/<key>",
     "records": [ { "node_id": "<activity_event_id>" }, {}, {} ... ]
 }
 '''
 def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
-    # Load input activity_events
-    object_key = urlparse(event['storage_location'], allow_fragments=False).path.strip("/")
-    activity_events = __read_events_from_s3(object_key)
-    LOGGER.info('activity_events: %s', activity_events)
     # Enrich activity_events with calculated emissions
-    activity_events_with_emissions = list(map(__append_emissions_output, activity_events))
+    activity_events_with_emissions = list(map(__append_emissions_output, event["items"]))
     # TODO: Do something with records that can't be resolved
     activity_events_with_emissions = [ x for x in activity_events_with_emissions if x is not None ]
     # Save enriched activity_events to S3
+    object_key = f"{event['root_id']}/{event['execution_id']}.jsonl"
     output_object_url = __save_enriched_events_to_s3(object_key, activity_events_with_emissions)
     # Save enriched activity_events to DynamoDB
     __save_enriched_events_to_dynamodb(activity_events_with_emissions)
 
     activity_ids = [ { "node_id": x["activity_event_id"] } for x in activity_events_with_emissions ] 
-    return { "storage_location": output_object_url, "records": activity_ids }
+    return {
+        "root_id": event["root_id"],
+        "parent_id": event["parent_id"],
+        "storage_location": output_object_url,
+        "records": activity_ids
+    }
