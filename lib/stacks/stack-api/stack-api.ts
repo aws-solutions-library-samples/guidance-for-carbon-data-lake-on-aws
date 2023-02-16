@@ -418,36 +418,6 @@ export class ApiStack extends Stack {
       responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     })
 
-    // Create a resolver for getting 1 record by the activity_event_id
-    datasource.createResolver({
-      typeName: 'Query',
-      fieldName: 'getOne',
-      requestMappingTemplate: MappingTemplate.dynamoDbGetItem('activity_event_id', 'activity_event_id'),
-      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    })
-
-    // Create a resolver for getting a list of records. This resolver will limit the number of records
-    // returned by a value provided or by a default of 20. This resolver can be used for pagination.
-    datasource.createResolver({
-      typeName: 'Query',
-      fieldName: 'all',
-      requestMappingTemplate: MappingTemplate.fromString(`{
-                "version": "2018-05-29",
-                "operation": "Scan",
-                "limit": $util.defaultIfNull($ctx.args.limit, 20),
-                "nextToken": $util.toJson($util.defaultIfNullOrEmpty($ctx.args.nextToken, null))
-            }`),
-      responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    })
-
-    // Create a resolver for deleting a record by the activity_event_id
-    // Commented out. Uncomment if you wish to use.
-    //datasource.createResolver({
-      //typeName: 'Mutation',
-      //fieldName: 'delete',
-      //requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
-      //responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    //})
 
     // -- Outputs --
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables
