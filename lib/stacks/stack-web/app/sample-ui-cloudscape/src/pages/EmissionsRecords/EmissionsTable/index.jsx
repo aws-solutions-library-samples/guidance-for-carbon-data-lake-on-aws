@@ -19,18 +19,13 @@ import {
 
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { getOne, all } from '../../../graphql/queries';
-import { getActivity, listActivities } from '../../../graphql/operations';
+import { listActivities } from '../../../graphql/operations';
 // import { delete } from '../../../graphql/mutations';
 
 import { getFilterCounterText } from '../../../common/resources/tableCounterStrings';
 import { FullPageHeader } from '..';
 import {
-  CustomAppLayout,
-  Navigation,
   TableNoMatchState,
-
-  Notifications,
 } from '../../../common/common-components-config';
 import {  EmissionsTableEmptyState } from '../../EmissionsRecords'
 import { paginationLabels, emissionSelectionLabels } from '../labels';
@@ -43,7 +38,6 @@ import { DEFAULT_PREFERENCES, Preferences } from './table-property-filter-config
 import '../../../common/styles/base.scss'
 import { useLocalStorage } from '../../../common/resources/localStorage';
 
-import { useEmissionsRecords, useEmissionsRecordsPropertyFiltering } from './hooks';
 
 
 
