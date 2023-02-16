@@ -7,6 +7,7 @@ import { aws_s3_deployment as s3_deployment } from 'aws-cdk-lib'
 import { custom_resources as cr } from 'aws-cdk-lib'
 import * as path from 'path'
 import { Construct } from 'constructs'
+import { Asset } from 'aws-cdk-lib/aws-s3-assets'
 
 export interface CalculatorProps extends StackProps {
   transformedBucket: s3.Bucket
@@ -60,7 +61,7 @@ export class Calculator extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     })
-    new s3_deployment.BucketDeployment(this, 'cdlEmissionFactorsDeployment', {
+    const emission_factors_deployment = new s3_deployment.BucketDeployment(this, 'cdlEmissionFactorsDeployment', {
       sources: [s3_deployment.Source.asset(`./framework_configurations/${this.node.tryGetContext('framework')}/emission_factors`)],
       destinationBucket: emissionFactorsBucket,
       storageClass: s3_deployment.StorageClass.ONEZONE_IA
@@ -84,6 +85,13 @@ export class Calculator extends Construct {
       onEventHandler: emissionFactorsLoaderLambda,
       logRetention: logs.RetentionDays.ONE_DAY,
     });
-    new CustomResource(this, 'cdlEmissionFactorsLoaderCustomResource', { serviceToken: emissionFactorsLoaderProvider.serviceToken });
+    new CustomResource(this, 'cdlEmissionFactorsLoaderCustomResource', {
+      serviceToken: emissionFactorsLoaderProvider.serviceToken,
+      properties: {
+        // a hash of the emission factors files is calculated
+        // everytime a file is changed, the emission factors DB is repopulated
+        "input_file_hash": (emission_factors_deployment.node.findChild("Asset1") as Asset).assetHash
+      }
+    });
   }
 }
