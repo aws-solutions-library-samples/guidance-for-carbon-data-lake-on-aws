@@ -1,4 +1,36 @@
-/**
+import { Construct } from 'constructs';
+import { RemovalPolicy, Duration } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib'
+import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
+
+interface CdlS3Props {
+    /**
+     * Required: Bucket name as a string
+     */
+    readonly bucketName: string;
+
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     * @default true
+     */
+    readonly bucketVersioning?: boolean;
+
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     * @default "Standard lifecycle policy."
+     */
+    readonly bucketLifeCyclePolicyArray?: Array <s3.LifecycleRule>;
+
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     * @default "S3 standard"
+     */
+    readonly bucketStorageClass?: boolean;
+
+
+  }
+
+  /**
      * This construct provides a pre-configured default s3 bucket.
      * This pre-configured default meets cdk_nag AWS specifications
      * for security and well-architected infrastructure.
@@ -7,44 +39,7 @@
      * bucket versioning, and autoDelete objects as true.
      */
 
-import { Construct } from 'constructs';
-import { RemovalPolicy, Duration } from 'aws-cdk-lib';
-import { aws_s3 as s3 } from 'aws-cdk-lib'
-import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
-
-interface CdlS3Props {
-    /**
-     * Bucket name as a string
-     */
-    bucketName: string;
-
-    /**
-     * Optional: set bucket versioning to false, this is true by default
-     */
-    bucketVersioning?: boolean;
-
-    /**
-     * Optional: set bucket versioning to false, this is true by default
-     */
-    bucketLifeCyclePolicyArray?: Array <s3.LifecycleRule>;
-
-    /**
-     * Optional: set bucket versioning to false, this is true by default
-     */
-    bucketStorageClass?: boolean;
-
-
-  }
-
-  /**
-   * Create an s3 bucket that enables cdk_nag compliance through defaults
-   * This dummy data can be used to demonstrate the data pipeline
-   * By default the bucket will include AWS managed encryption, block all public access,
-   * bucket versioning, and autoDelete objects as true.
-   * @param scope
-   * @param id 
-   * @param props
-   */
+  
   export class CdlS3 extends Construct {
     /**
      * S3 bucket object to be passed to other functions
@@ -54,18 +49,25 @@ interface CdlS3Props {
      * S3 bucket object to be passed to other functions
      */
     public readonly accessLogBucket: s3.Bucket;
-  
+
     /**
-     * Create a lambda function that uploads dummy data to an S3 bucket
-     * This dummy data can be used to demonstrate the data pipeline
-     * @param scope
-     * @param id 
-     * @param props
-     */
+        * Creates an s3 bucket that enables cdk_nag compliance through defaults
+        * This dummy data can be used to demonstrate the data pipeline
+        * By default the bucket will include AWS managed encryption, block all public access,
+        * bucket versioning, and autoDelete objects as true.
+        * @param {Construct} scope the Scope of the CDK Construct
+        * @param {CdlS3Props} props the CdlS3Props [properties]{@link CdlS3Props}
+        * @param CdlS3Props
+    */
     constructor(scope: Construct, id: string, props: CdlS3Props) {
         super(scope, id);
-
-        const defaultLifecycleRules = [
+        /** 
+         * Creates a standard opinionated cost-optimized lifecycle policy.
+         * This policy begins with S3 standard storage.
+         * After 30 days of no access objects are transitioned to S3 infrequent access.
+         * After 90 days of no access objects are transitioned to S3 Glacier instant retrieval.
+        */
+        const costOptimizedLifecycleRule = [
             {
                 transitions: [
                     {
@@ -73,7 +75,7 @@ interface CdlS3Props {
                         transitionAfter: Duration.days(30),
                     },
                     {
-                        storageClass: s3.StorageClass.GLACIER,
+                        storageClass: s3.StorageClass.GLACIER_INSTANT_RETRIEVAL,
                         transitionAfter: Duration.days(90),
                     },
                 ],
