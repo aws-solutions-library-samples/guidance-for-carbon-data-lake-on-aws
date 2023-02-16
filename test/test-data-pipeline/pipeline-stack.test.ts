@@ -9,7 +9,11 @@ describe('test pipeline stack', () => {
   let template: Template | null
   beforeEach(() => {
     /* ====== SETUP ====== */
-    const app = new App()
+    const app = new App({
+      context: {
+        "framework": "ghg_protocol"
+      }
+    })
 
     // Pipeline stack requires the following props, create a dummy stack
     // to provide suitable inputs:
