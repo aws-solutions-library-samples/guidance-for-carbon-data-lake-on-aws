@@ -143,8 +143,9 @@ git clone #insert-http-or-ssh-for-this-repository
 ### 2/ Prepare your CDK environment
 
 1. Navigate to CDK Directory
-2. Set up your emissions factor document
-3. Set `cdk.context.json` values (see Context Parameters below)
+2. Set up your emissions factor document (see Set up your emissions factor document below)
+3. Copy `cdk.context.template.json` or remove .template
+4. Enter your parameters in `cdk.context.json` (see Context Parameters below)
 
 #### --Set up your emissions factor document--
 
@@ -162,6 +163,7 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
 - Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
+- - Optional:`nagEnabled` Enables cdk_nag audit tool.
 
 Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 
@@ -431,11 +433,21 @@ This application currently includes unit tests, infrastructure tests, deployment
 
 For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/or merge to main. This runs automatically and does the following:
 
+#### Static Tests
 - `npm ci` installs all dependencies from `package.lock.json`
 - `npm run build` builds the javascript from typescript and makes sure everything works!
 - `cdk synth` synthesizes all CDK stacks in the application
 - Runs bandit security tests for common vulnerabilities in Python
 - Runs ESLint for common formatting issues in Javascript and Typescript
+
+#### Security Tests
+- cdk_nag
+- git-secrets
+- Chechov
+- semgrep
+- python bandit
+
+#### Deployment Tests
 - Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
 - Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 

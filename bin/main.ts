@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
+import { Aspects } from 'aws-cdk-lib'
 import { TestStack } from '../lib/stacks/stack-tests/stack-tests'
 import { QuicksightStack } from '../lib/stacks/stack-quicksight/stack-quicksight'
 import { SharedResourcesStack } from '../lib/stacks/stack-shared-resources/stack-shared-resources'
@@ -11,6 +12,7 @@ import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
+import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { config } from '../lib/codegen/config';
 import { generate } from '@graphql-codegen/cli'
 
@@ -121,23 +123,29 @@ generate(codegenConfig).then(() => {
       })
       }
 
-  cdk.Tags.of(app).add("application", "carbon-data-lake");
-
   // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-  //const nag = app.node.tryGetContext('nag')
+const nagEnabled = app.node.tryGetContext('nagEnabled')
+console.log(`cdk-nag option is set to: ${nagEnabled}`)
 
-  /*
-      Description: Checks if context variable nag=true and 
-      applies cdk nag if it is added to the app synth contex
-      Inputs: Optionally accepts cdk synth --context nag=true to apply cdk-nag packs
-      Outputs: Outputs cdk-nag verbose logging and throws errors if violations met
-      AWS Services: cdk, cdk-nag package
-  */
+/*
+    Description: Checks if context variable nagEnabled=true and 
+    applies cdk nag if it is added to the app synth context
+    Inputs: Optionally accepts cdk synth --context nagEnabled=true to apply cdk-nag packs
+    Outputs: Outputs cdk-nag verbose logging and throws errors if violations met
+    AWS Services: cdk, cdk-nag, aspect
+*/
 
-  //if (nag == "true"){
-      //Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
-  //}
-
+if (nagEnabled === true){
+    console.log("CDK-nag enabled. Starting cdk-nag review")
+    Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
+}
+/*
+NagSuppressions.addResourceSuppressions(bucket, [
+  {
+    id: 'AwsSolutions-S2',
+    reason: 'Demonstrate a resource level suppression.'
+  },
+*/
 
   new TestStack(app, 'TestStack', {
     calculatorFunction: calculatorFunction,
