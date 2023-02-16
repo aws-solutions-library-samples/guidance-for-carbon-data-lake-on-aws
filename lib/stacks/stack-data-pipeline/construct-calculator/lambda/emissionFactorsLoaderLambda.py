@@ -40,7 +40,7 @@ def __save_to_dynamodb(emission_factors):
         for emission_factor in emission_factors:
             hash_key = emissionFactorKey.hash_key(emission_factor)
             if hash_key in processed_keys:
-                raise ValueError('Duplicated Emission Factors found: ', emission_factor)
+                raise Exception('Duplicated Emission Factors found: ', emission_factor)
             processed_keys.add(hash_key)
             emission_factor['hash_key'] = hash_key
             emission_factor['last_updated'] = today
