@@ -61,7 +61,7 @@ export class Calculator extends Construct {
       autoDeleteObjects: true,
     })
     new s3_deployment.BucketDeployment(this, 'cdlEmissionFactorsDeployment', {
-      sources: [s3_deployment.Source.asset('./emission_factors')],
+      sources: [s3_deployment.Source.asset(`./framework_configurations/${this.node.tryGetContext('framework')}/emission_factors`)],
       destinationBucket: emissionFactorsBucket,
       storageClass: s3_deployment.StorageClass.ONEZONE_IA
     })

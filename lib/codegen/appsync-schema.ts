@@ -34,12 +34,10 @@ export const printSchemaWithDirectives = (schema: GraphQLSchema, includeDirectiv
         if(type.astNode?.kind === 'ObjectTypeDefinition' && type.astNode?.fields) {
           type.astNode.fields.forEach(f => {if(f.directives) directives.push(...f.directives)});
         }
-        console.log(`directives for ${name}: ${directives.map(d => d.name.value)}`)
         const toRemoveDirectives = directives.filter(d => !includeDirectives.includes(d?.name.value))
       
         if (toRemoveDirectives && toRemoveDirectives?.length > 0) {
           for (const directive of toRemoveDirectives) {
-            console.log(`removing directive ${directive.name.value}`)
             const regex = new RegExp(`@${directive.name.value}`, 'g')
             printAST = printAST.replace(regex, '')
           }
