@@ -15,7 +15,7 @@ do
    export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap #bootstraps cdk in the region
+   cdk bootstrap --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"  #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
    cdk deploy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol" #deploys all with the optional region context variable
    wait
