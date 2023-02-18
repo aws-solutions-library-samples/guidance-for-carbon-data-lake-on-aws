@@ -53,7 +53,7 @@ do
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --force
+   cdk destroy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
    wait
 done
 #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
