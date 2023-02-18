@@ -3,7 +3,6 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { IotToKinesisFirehoseToS3Props, IotToKinesisFirehoseToS3 } from '@aws-solutions-constructs/aws-iot-kinesisfirehose-s3';
 import { aws_s3 as s3 } from 'aws-cdk-lib'
-import { SharedResourcesStack } from '../stack-shared-resources/stack-shared-resources';
  
 /**
  * Iot ingest stack
@@ -45,6 +44,6 @@ export class IotIngestStack extends Stack {
     }
 
 
-};
+}
 
 
