@@ -11,6 +11,7 @@ import { DataPipelineStack } from '../lib/stacks/stack-data-pipeline/stack-data-
 import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
+import { IotIngestStack } from '../lib/stacks/stack-iot-ingest/iot-ingest'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { config } from '../lib/codegen/config';
@@ -122,6 +123,14 @@ generate(codegenConfig).then(() => {
         landingBucketName: dataPipeline.cdlLandingBucket.bucketName
       })
       }
+
+  // QS9 --> Create the iot ingest stack  
+  // TODO: add the option switch in the cdk.json template   
+  const iotIngestOption = new IotIngestStack(app, 'IoTIngestStack', {
+    env: appEnv
+  })
+
+  iotIngestOption.node.addDependency(sharedResources)
 
   // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
 const nagEnabled = app.node.tryGetContext('nagEnabled')

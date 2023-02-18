@@ -1,9 +1,9 @@
 {
-  "adminEmail": "your-email-here@email.com",
-  "quicksightUserName": "your-email-here@email.com",
-  "repoBranch": "main",
+  "adminEmail": "cmgabri@amazon.com",
+  "quicksightUserName": "cmgabri@amazon.com",
+  "repoBranch": "dev",
   "deployQuicksightStack": false,
-  "deploySagemakerStack": true,
+  "deploySagemakerStack": false,
   "deployWebStack": true,
   "nagEnabled": false,
   "framework": "ghg_protocol"
