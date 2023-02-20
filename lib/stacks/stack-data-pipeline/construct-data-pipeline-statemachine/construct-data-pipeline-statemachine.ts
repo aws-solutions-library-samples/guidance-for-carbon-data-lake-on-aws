@@ -4,6 +4,7 @@ import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
@@ -35,6 +36,10 @@ interface StateMachineProps extends StackProps {
    * Function invoked to calculate CO2e value from emissions data
    */
   calculationJob: lambda.Function
+  /**
+   * SQS queue to hold records failed within the Calculator
+   */
+  calculationErrorQueue: sqs.Queue
   /**
    * The S3 bucket to read data in from
    */
@@ -198,8 +203,8 @@ export class DataPipelineStatemachine extends Construct {
       resultPath: '$'
     })
 
-    // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_COMPLETE', {
+    // Data Lineage Request - 2_1 - CALCULATION_COMPLETE
+    const dataLineageTask2_1 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_COMPLETE', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
@@ -214,10 +219,46 @@ export class DataPipelineStatemachine extends Construct {
       }
     })
 
+    // Boolean choice state for failed records - checks whether failed_records payload array is empty
+    const failedRecordCheck = new sfn.Choice(this, 'CHOICE: Failed records?');
+
+    // Data Lineage Request - 2_2 - CALCULATION_FAILED
+    const dataLineageTask2_2 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_FAILED', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        root_id: sfn.JsonPath.stringAt('$.root_id'),
+        parent_id: sfn.JsonPath.stringAt('$.parent_id'),
+        action_taken: 'CALCULATION_FAILED',
+        storage_location: sfn.JsonPath.stringAt('$.error_storage_location'),
+        records: sfn.JsonPath.objectAt('$.failed_records'),
+      })
+    })
+
+    // SQS Send Message Task for handling failed messages within the calculator
+    const failedQueueTask = new tasks.SqsSendMessage(this, 'SQS: Send Failed Activities to Queue', {
+      queue: props.calculationErrorQueue,
+      messageBody: sfn.TaskInput.fromObject({
+        root_id: sfn.JsonPath.stringAt('$.root_id'),
+        failed_records: sfn.JsonPath.objectAt('$.records')
+      })
+    });
+
+    // setup a parallel state for handling clean and failed records
+    const splitActivities = new sfn.Parallel(this, 'Split clean and failed activities');
+    splitActivities.branch(dataLineageTask2_1) // "Good" path
+    splitActivities.branch(failedRecordCheck
+      .when(
+        sfn.Condition.booleanEquals('$.has_errors', true),
+        dataLineageTask2_2.next(failedQueueTask)
+      )
+      .otherwise(new sfn.Pass(this, 'No failed records'))
+    ) // "Bad" path
+
     // hardcoding a distributed map state via custom JSON until native support is provided
     // as per - https://github.com/aws/aws-cdk/issues/23216
     const dummyMap = new sfn.Map(this, "MAP: Iterate Records")
-    dummyMap.iterator(sfn.Chain.start(calculationLambdaTask).next(dataLineageTask3))
+    dummyMap.iterator(calculationLambdaTask.next(splitActivities));
 
     const distributedMapState = new sfn.CustomState(this, "DistributedMap", {
       stateJson: {
@@ -302,6 +343,9 @@ export class DataPipelineStatemachine extends Construct {
         resources: [ `arn:aws:databrew:${Stack.of(this).region}:${Stack.of(this).account}:job/*` ],
       })
     )
+
+    // permit statemachine to send failed activities to SQS
+    props.calculationErrorQueue.grantSendMessages(this.statemachine);
 
     // allow statemachine to start new statemachine executions as children.
     // required for the distributed map state

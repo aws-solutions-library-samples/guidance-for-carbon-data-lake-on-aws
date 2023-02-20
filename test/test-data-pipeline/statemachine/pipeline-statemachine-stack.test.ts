@@ -1,6 +1,7 @@
 import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
@@ -22,6 +23,7 @@ describe('test statemachine stack', () => {
     //   - rawBucket
     const dummyInputsStack = new Stack(app, 'DummyInputsStack')
     const dummyTopic = new sns.Topic(dummyInputsStack, 'dummyTopic', {})
+    const dummyQueue = new sqs.Queue(dummyInputsStack, 'dummyQueue', {})
     const dummyBucket = new s3.Bucket(dummyInputsStack, 'dummyBucket', {})
     const dummyLambda = new lambda.Function(dummyInputsStack, 'dummyLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
@@ -39,6 +41,7 @@ describe('test statemachine stack', () => {
       dqResultsLambda: dummyLambda,
       dqErrorNotification: dummyTopic,
       calculationJob: dummyLambda,
+      calculationErrorQueue: dummyQueue,
       rawBucket: dummyBucket
     })
 

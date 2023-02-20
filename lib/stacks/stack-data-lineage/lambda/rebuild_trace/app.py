@@ -16,6 +16,7 @@ tracer = Tracer()
 # terminus actions are those actions taken that result in an edge node being created
 TERMINUS_ACTIONS = [
     "CALCULATION_COMPLETE",
+    "CALCULATION_FAILED",
     "DQ_CHECK_FAIL"
 ]
 
