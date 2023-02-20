@@ -85,6 +85,7 @@ export class Calculator extends Construct {
       onEventHandler: emissionFactorsLoaderLambda,
       logRetention: logs.RetentionDays.ONE_DAY,
     });
+    emissionFactorsLoaderProvider.node.addDependency(emission_factors_deployment);
     new CustomResource(this, 'cdlEmissionFactorsLoaderCustomResource', {
       serviceToken: emissionFactorsLoaderProvider.serviceToken,
       properties: {

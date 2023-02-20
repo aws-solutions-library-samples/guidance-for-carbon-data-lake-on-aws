@@ -21,6 +21,7 @@ table = dynamodb.Table(EMISSION_FACTORS_TABLE_NAME)
 
 def __read_emission_factors_from_s3():
     response = s3_client.list_objects_v2(Bucket=EMISSION_FACTORS_BUCKET_NAME)
+    LOGGER.info('response: %s', response);
     contents = response['Contents']
     # loop over all available files in the S3 bucket
     for content in contents:
