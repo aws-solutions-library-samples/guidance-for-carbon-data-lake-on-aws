@@ -80,6 +80,10 @@ Output: Python Dictionary
 def __append_emissions_output(activity_event):
     LOGGER.info('appending emissions for: %s', activity_event)
     emissions_factor = __get_emissions_factor(activity_event)
+    if emissions_factor is None:
+        activity_event["status"] = "FAILED"
+        activity_event["error_message"] = "No corresponding emissions factor"
+        return activity_event
     print("emissions_factor :", emissions_factor)
 
     raw_data = activity_event['raw_data']
@@ -89,6 +93,7 @@ def __append_emissions_output(activity_event):
     co2e_ar4      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR4)
     co2e_ar5      = __calculate_co2e(co2_emissions, ch4_emissions, n2o_emissions, IPCC_AR.AR5)
     emissions_output = {
+        "status": "COMPLETE",
         "emissions_output": {
             "calculated_emissions": {
                 "co2": {
@@ -181,18 +186,27 @@ def lambda_handler(event, context):
     LOGGER.info('Event: %s', event)
     # Enrich activity_events with calculated emissions
     activity_events_with_emissions = list(map(__append_emissions_output, event["items"]))
-    # TODO: Do something with records that can't be resolved
-    activity_events_with_emissions = [ x for x in activity_events_with_emissions if x is not None ]
-    # Save enriched activity_events to S3
-    object_key = f"{event['root_id']}/{event['execution_id']}.jsonl"
-    output_object_url = __save_enriched_events_to_s3(object_key, activity_events_with_emissions)
-    # Save enriched activity_events to DynamoDB
-    __save_enriched_events_to_dynamodb(activity_events_with_emissions)
+    
+    # separate out passed and failed activities, failed activities are not staticly saved
+    passed_activities = []
+    failed_activities = []
+    for activity in activity_events_with_emissions:
+        target = passed_activities if activity["status"] == "COMPLETE" else failed_activities
+        target.append(activity)
 
-    activity_ids = [ { "node_id": x["activity_event_id"] } for x in activity_events_with_emissions ] 
+    # Save passed enriched activity_events to S3
+    object_key = f"{event['root_id']}/{event['execution_id']}.jsonl"
+    output_object_url = __save_enriched_events_to_s3(object_key, passed_activities)
+    
+    # Save passed enriched activity_events to DynamoDB
+    __save_enriched_events_to_dynamodb(passed_activities)
+
     return {
         "root_id": event["root_id"],
         "parent_id": event["parent_id"],
+        "records": [ { "node_id": x["activity_event_id"] } for x in passed_activities ],
         "storage_location": output_object_url,
-        "records": activity_ids
+        "has_errors": True if len(failed_activities) > 0 else False,
+        "failed_records": [ { "node_id": x["activity_event_id"] } for x in failed_activities ],
+        "error_storage_location": "nowhere"
     }

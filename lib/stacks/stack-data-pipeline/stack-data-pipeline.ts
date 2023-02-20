@@ -2,6 +2,7 @@ import { Duration, Stack, StackProps, RemovalPolicy, CfnOutput, Tags } from 'aws
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
@@ -73,6 +74,9 @@ export class DataPipelineStack extends Stack {
     this.calculatorOutputTable = calculatorOutputTable
     this.calculatorFunction = calculatorLambda
 
+    // Queue to hold records that fail within the calculator
+    const calculatorErrorQueue = new sqs.Queue(this, "CDLFailedActivityQueue", {});
+
     /* ======== STATEMACHINE ======== */
 
     const { statemachine } = new DataPipelineStatemachine(this, 'CDLStatemachineStack', {
@@ -81,6 +85,7 @@ export class DataPipelineStack extends Stack {
       dqResultsLambda: resultsLambda,
       dqErrorNotification: dqErrorNotificationSNS,
       calculationJob: calculatorLambda,
+      calculationErrorQueue: calculatorErrorQueue,
       rawBucket: props.rawBucket
     })
     this.pipelineStateMachine = statemachine
@@ -114,6 +119,8 @@ export class DataPipelineStack extends Stack {
       // optional: only invoke lambda if object matches the filter
       // {prefix: 'bucket-prefix/', suffix: '.some-extension'},
     )
+
+    /* ======== STACK OUTPUTS ======== */
 
     // Landing Bucket Name output
     new CfnOutput(this, 'LandingBucketName', {
