@@ -47,3 +47,4 @@ export class IotIngestStack extends Stack {
 }
 
 
+
