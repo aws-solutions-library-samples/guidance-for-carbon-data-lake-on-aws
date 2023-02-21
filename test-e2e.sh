@@ -53,7 +53,7 @@ do
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
+   cdk destroy --all --force --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
    wait
    echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"
 done
