@@ -24,7 +24,7 @@ export class IotIngestStack extends Stack {
         const landingBucket = s3.Bucket.fromBucketName(this, "Cdl-Landing-Bucket", cdk.Fn.importValue('LandingBucketName'))
 
         // Implement the aws-solutions Construct for aws-iot to kinesis firehose to s3, and override some of the defaults (description, and sql).
-        // Override the default bucket creation of the Contruct in favor of using our existin bucket object createe in the data pipeline stack and declared above.
+        // Override the default bucket creation of the Contruct in favor of using our existing bucket object created in the data pipeline stack and declared above.
         const constructProps: IotToKinesisFirehoseToS3Props = {
             existingBucketObj: landingBucket, // This bucket gets created in the data pipeline stack, so we addded a stack dependency in main.ts to make sure the data pipoeline stack gets created first.
 

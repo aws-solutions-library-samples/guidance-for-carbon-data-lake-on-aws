@@ -108,7 +108,7 @@ generate(codegenConfig).then(() => {
       });
       }
 
-  // QS7 --> Create the cdl forecast stack
+  // QS8 --> Create the cdl webAPI stack
   const webOption = app.node.tryGetContext('deployWebStack')
   console.log(`Web deployment option is set to: ${webOption}`)
       if (webOption === true) {
