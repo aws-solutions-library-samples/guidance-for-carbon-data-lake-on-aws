@@ -45,7 +45,7 @@ do
       echo "E2E test completed"
 
       echo "👋 destroying all in $region 📍"
-      cdk destroy --all --force --all --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
+      cdk destroy --all --force --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
       echo "Test failed. Please read response.json"
       rm response.json
       exit 1
