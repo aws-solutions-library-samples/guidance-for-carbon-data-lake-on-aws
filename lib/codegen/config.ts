@@ -21,6 +21,27 @@ export const config = (framework: string): CodegenConfig =>  {
         onlyIncludeDirectives: ['input'],
       },
     },
+    './lib/constructs/construct-rest-api/activity-schema.json': {
+      plugins: ['./lib/codegen/activity-json-schema.ts']
+    },
+    // TODO: Graphql javascript operations generator
+    // 'lib/stacks/stack-web/app/sample-ui-cloudscape/src/graphql/types.ts': {
+    //   schema: ['lib/stacks/stack-api/schema.graphql', 'lib/stacks/stack-api/appsync.graphql'],
+    //   plugins: ['typescript', 'typescript-operations'],
+    //   config: {
+    //     scalars: {
+    //       AWSJSON: 'string',
+    //       AWSDate: 'string',
+    //       AWSTime: 'string',
+    //       AWSDateTime: 'string',
+    //       AWSTimestamp: 'number',
+    //       AWSEmail: 'string',
+    //       AWSURL: 'string',
+    //       AWSPhone: 'string',
+    //       AWSIPAddress: 'string',
+    //     },
+    //   },
+    // },
     // Generate AppSync schema for the API
     './lib/stacks/stack-api/schema.graphql': {
       plugins: ['./lib/codegen/appsync-schema.ts'],
