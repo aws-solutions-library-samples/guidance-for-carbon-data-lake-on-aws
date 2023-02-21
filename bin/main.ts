@@ -13,6 +13,7 @@ import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/s
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { IotIngestStack } from '../lib/stacks/stack-iot-ingest/iot-ingest'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
+import { RestApiStack } from '../lib/stacks/stack-api-rest/stack-api-rest'
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { config } from '../lib/codegen/config';
 import { generate } from '@graphql-codegen/cli'
@@ -81,6 +82,11 @@ generate(codegenConfig).then(() => {
         calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
         env: appEnv
       })
+
+  new RestApiStack(app, 'ApiStackRest', {
+    landingBucket: landingBucket,
+    env: appEnv
+  });
 
   // QS6 --> Create the cdl quicksight stack
   const quicksightOption = app.node.tryGetContext('deployQuicksightStack')

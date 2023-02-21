@@ -49,6 +49,7 @@ export class ApiStack extends Stack {
   public readonly userPoolClient: UserPoolClient
   public readonly adminUser: CfnUserPoolUser
 
+
   // IAM
   public readonly cdlAdminUserRole: Role
   public readonly cdlStandardUserRole: Role

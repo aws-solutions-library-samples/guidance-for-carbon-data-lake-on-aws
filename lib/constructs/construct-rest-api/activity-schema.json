@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "enum": [
+        "Activity"
+      ]
+    },
+    "activity": {
+      "type": "string"
+    },
+    "activity_event_id": {
+      "type": "string"
+    },
+    "asset_id": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "createdAt": {},
+    "emissions_output": {},
+    "geo": {},
+    "id": {
+      "type": "string"
+    },
+    "origin_measurement_timestamp": {
+      "type": "string"
+    },
+    "raw_data": {
+      "type": "number"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "units": {
+      "type": "string"
+    },
+    "updatedAt": {}
+  },
+  "required": [
+    "activity_event_id"
+  ],
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
