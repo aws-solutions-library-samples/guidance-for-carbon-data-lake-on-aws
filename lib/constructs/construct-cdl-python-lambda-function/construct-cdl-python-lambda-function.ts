@@ -1,10 +1,10 @@
 import { Duration, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import * as path from 'path'
+import { Construct } from 'constructs'
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Integer } from 'aws-sdk/clients/apigateway';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 
 interface CdlLambdaProps {
     /**
@@ -25,8 +25,8 @@ interface CdlLambdaProps {
     readonly timeoutMinutes?: Integer;
 
     /**
-     * Optional: set lambda runtime to select different NODEJS runtime
-     * @default lambda.Runtime.NODEJS_18_X
+     * Optional: set lambda runtime to select different python runtime
+     * @default lambda.Runtime.PYTHON_3_9
      */
     readonly runtime?: lambda.Runtime;
 
@@ -51,13 +51,13 @@ interface CdlLambdaProps {
   }
 
   /**
-     * This construct provides a pre-configured default Node Lambda Function.
+     * This construct provides a pre-configured default Python Lambda Function.
      * This pre-configured default meets cdk_nag AWS specifications
      * for security and well-architected infrastructure.
      */
 
   
-  export class CdlNodeLambda extends Construct {
+  export class CdlPythonLambda extends Construct {
     /**
      * S3 bucket object to be passed to other functions
      */
@@ -65,7 +65,7 @@ interface CdlLambdaProps {
     public readonly lambdaDlq: sqs.Queue;
     
     /**
-        * Creates a NODEJS Lambda Function that enables cdk_nag compliance through defaults
+        * Creates a Python Lambda Function that enables cdk_nag compliance through defaults
         * This Lambda Function includes a FIFO dead letter queue,
         * X-Ray tracing enabled by default, and x86 architecture
         * to utilize Graviton2 instances and improve performance
@@ -90,12 +90,12 @@ interface CdlLambdaProps {
         })
 
          /** 
-         * Creates a NODEJS Lambda Function with FIFO dead letter queue, x86 architecture,
+         * Creates a Python Lambda Function with FIFO dead letter queue, x86 architecture,
          * and X-ray tracing.
         */
         
         this.lambdaFunction = new lambda.Function(this, props.lambdaName, {
-            runtime: props.runtime ? props.runtime : lambda.Runtime.NODEJS_18_X,
+            runtime: props.runtime ? props.runtime : lambda.Runtime.PYTHON_3_9,
             code: props.lambdaHandlerPath? lambda.Code.fromAsset(path.join(__dirname, props.lambdaHandlerPath)) : lambda.Code.fromAsset(path.join(__dirname, './lambda')),
             handler: props.lambdaHandlerName?  props.lambdaHandlerName : "main.handler",
             timeout: props.timeoutMinutes? Duration.minutes(props.timeoutMinutes) : Duration.minutes(5),

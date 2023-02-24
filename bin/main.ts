@@ -139,16 +139,8 @@ generate(codegenConfig).then(() => {
   // Add a stack dependency so the DataPipeline stack gets created before IoTIngest stack. Landing Bucket must exist for IoT ingest stack to deploy.
   iotIngestOption.node.addDependency(dataPipeline)
 
-// QS7 --> Create the cdl forecast stack
-const webOption = app.node.tryGetContext('deployWebStack')
-console.log(`Web deployment option is set to: ${webOption}`)
-    Description: Checks if context variable nagEnabled=true and 
-    applies cdk nag if it is added to the app synth context
-    Inputs: Optionally accepts cdk synth --context nagEnabled=true to apply cdk-nag packs
-    Outputs: Outputs cdk-nag verbose logging and throws errors if violations met
-    AWS Services: cdk, cdk-nag, aspect
-*/
-
+const nagEnabled = app.node.tryGetContext('nagEnabled')
+console.log(`CDK Nag enabled option is set to: ${nagEnabled}`)
 if (nagEnabled === true){
     console.log("CDK-nag enabled. Starting cdk-nag review")
     Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
