@@ -8,10 +8,12 @@
 # bandit (pip3 install python-bandit)
 
 # git-secrets
-git secrets --scan-history
+git secrets --scan-history |& tee git_secrets_output.log
 
 # run cdk_nag
-cdk synth --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol" --nagOption = true
+cdk synth --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol" --context nagEnabled=true |& tee ./cdk_nag_output.log
 
 # run python-bandit
-bandit ./ -r | tee ./output_test.log
+bandit ./ -r | tee ./bandit_test_output.log
+
+
