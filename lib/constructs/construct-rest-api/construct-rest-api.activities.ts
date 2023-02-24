@@ -1,6 +1,6 @@
 import { APIGatewayEventRequestContextV2, APIGatewayProxyResultV2, APIGatewayProxyEventV2 } from 'aws-lambda';
 import Ajv, { ErrorObject } from "ajv"
-import activityJsonSchamea from "./activity-schema.json";
+import activityJsonSchamea from "./schemas/activity-schema.json";
 import { S3 } from "aws-sdk";
 import { v4 as uuidv4 } from 'uuid';
 

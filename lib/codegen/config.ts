@@ -21,7 +21,7 @@ export const config = (framework: string): CodegenConfig =>  {
         onlyIncludeDirectives: ['input'],
       },
     },
-    './lib/constructs/construct-rest-api/activity-schema.json': {
+    './lib/constructs/construct-rest-api/schemas/activity-schema.json': {
       plugins: ['./lib/codegen/activity-json-schema.ts']
     },
     // TODO: Graphql javascript operations generator

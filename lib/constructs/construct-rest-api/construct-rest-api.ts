@@ -12,12 +12,14 @@ interface RestApiProps {
 }
 
 export class RestApi extends Construct {
+  public readonly restHttpApi: HttpApi;
+
   constructor(scope: Construct, id: string, props: RestApiProps) {
     super(scope, id)
 
     const httpApi = new HttpApi(this, 'CDLRestApi', {
       description: 'CDL REST API'
-    });
+    });    
 
     const activitiesLambda = new lambda.NodejsFunction(this, 'activities', {
       environment: {
@@ -46,5 +48,7 @@ export class RestApi extends Construct {
         lineageLambda,
       ),
     });
+
+    this.restHttpApi = httpApi;
   }
 }
