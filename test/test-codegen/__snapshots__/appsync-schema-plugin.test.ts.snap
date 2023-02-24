@@ -1,35 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`appsync schema generator Should output the right headers 1`] = `
+"
 type Activity {
-  id: ID
-  activity_event_id: String!
-  asset_id: String
-  activity: String
-  category: String
-  scope: String
-  geo: AWSJSON
-  origin_measurement_timestamp: String
-  raw_data: Float
-  source: String
-  units: String
-  emissions_output: AWSJSON
-  createdAt: AWSDateTime
-  updatedAt: AWSDateTime
-}
-
-type EmissionFactor {
-  category: String!
-  activity: String!
-  scope: Int!
-  co2_factor: Float
-  ch4_factor: Float
-  n2o_factor: Float
-  biofuel_co2: Float
-  AR4_kgco2e: Float
-  AR5_kgco2e: Float
-  units: String!
-  last_updated: String
-  source: String
-  source_origin: String
+  transportOperatorCompanyId: String!
+  transportOperatorCompanyName: AWSJSON!
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
 input ModelStringInput {
@@ -188,20 +166,8 @@ type ModelActivityConnection {
 }
 
 input ModelActivityFilterInput {
-  id: ModelIDInput
-  activity_event_id: ModelStringInput
-  asset_id: ModelStringInput
-  activity: ModelStringInput
-  category: ModelStringInput
-  scope: ModelStringInput
-  geo: ModelStringInput
-  origin_measurement_timestamp: ModelStringInput
-  raw_data: ModelFloatInput
-  source: ModelStringInput
-  units: ModelStringInput
-  emissions_output: ModelStringInput
-  createdAt: ModelStringInput
-  updatedAt: ModelStringInput
+  transportOperatorCompanyId: ModelStringInput
+  transportOperatorCompanyName: ModelStringInput
   and: [ModelActivityFilterInput]
   or: [ModelActivityFilterInput]
   not: ModelActivityFilterInput
@@ -213,56 +179,23 @@ type Query {
 }
 
 input ModelActivityConditionInput {
-  activity_event_id: ModelStringInput
-  asset_id: ModelStringInput
-  activity: ModelStringInput
-  category: ModelStringInput
-  scope: ModelStringInput
-  geo: ModelStringInput
-  origin_measurement_timestamp: ModelStringInput
-  raw_data: ModelFloatInput
-  source: ModelStringInput
-  units: ModelStringInput
-  emissions_output: ModelStringInput
-  createdAt: ModelStringInput
-  updatedAt: ModelStringInput
+  transportOperatorCompanyId: ModelStringInput
+  transportOperatorCompanyName: ModelStringInput
   and: [ModelActivityConditionInput]
   or: [ModelActivityConditionInput]
   not: ModelActivityConditionInput
 }
 
 input CreateActivityInput {
+  transportOperatorCompanyId: String!
+  transportOperatorCompanyName: AWSJSON!
   id: ID
-  activity_event_id: String!
-  asset_id: String
-  activity: String
-  category: String
-  scope: String
-  geo: AWSJSON
-  origin_measurement_timestamp: String
-  raw_data: Float
-  source: String
-  units: String
-  emissions_output: AWSJSON
-  createdAt: AWSDateTime
-  updatedAt: AWSDateTime
 }
 
 input UpdateActivityInput {
+  transportOperatorCompanyId: String
+  transportOperatorCompanyName: AWSJSON
   id: ID!
-  activity_event_id: String
-  asset_id: String
-  activity: String
-  category: String
-  scope: String
-  geo: AWSJSON
-  origin_measurement_timestamp: String
-  raw_data: Float
-  source: String
-  units: String
-  emissions_output: AWSJSON
-  createdAt: AWSDateTime
-  updatedAt: AWSDateTime
 }
 
 input DeleteActivityInput {
@@ -276,27 +209,17 @@ type Mutation {
 }
 
 input ModelSubscriptionActivityFilterInput {
-  id: ModelSubscriptionIDInput
-  activity_event_id: ModelSubscriptionStringInput
-  asset_id: ModelSubscriptionStringInput
-  activity: ModelSubscriptionStringInput
-  category: ModelSubscriptionStringInput
-  scope: ModelSubscriptionStringInput
-  geo: ModelSubscriptionStringInput
-  origin_measurement_timestamp: ModelSubscriptionStringInput
-  raw_data: ModelSubscriptionFloatInput
-  source: ModelSubscriptionStringInput
-  units: ModelSubscriptionStringInput
-  emissions_output: ModelSubscriptionStringInput
-  createdAt: ModelSubscriptionStringInput
-  updatedAt: ModelSubscriptionStringInput
+  transportOperatorCompanyId: ModelSubscriptionStringInput
+  transportOperatorCompanyName: ModelSubscriptionStringInput
   and: [ModelSubscriptionActivityFilterInput]
   or: [ModelSubscriptionActivityFilterInput]
 }
 
 type Subscription {
-  onCreateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["createActivity"])
-  onUpdateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["updateActivity"])
-  onDeleteActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["deleteActivity"])
+  onCreateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"createActivity\\"])
+  onUpdateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"updateActivity\\"])
+  onDeleteActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"deleteActivity\\"])
 }
 
+"
+`;

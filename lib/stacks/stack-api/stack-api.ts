@@ -31,6 +31,7 @@ import {
 
 export interface ApiStackProps extends StackProps {
   calculatorOutputTableRef: cdk.aws_dynamodb.Table
+  landingBucket: cdk.aws_s3.Bucket
   adminEmail?: string
 }
 
@@ -39,6 +40,7 @@ export class ApiStack extends Stack {
   public readonly graphqlUrl: string
   public readonly apiId: string
 
+  
   // Cognito
   // public readonly userPool: IUserPool;
   public readonly userPool: UserPool
@@ -47,6 +49,7 @@ export class ApiStack extends Stack {
   // public readonly userPoolClient: IUserPoolClient;
   public readonly userPoolClient: UserPoolClient
   public readonly adminUser: CfnUserPoolUser
+
 
   // IAM
   public readonly cdlAdminUserRole: Role
@@ -363,25 +366,51 @@ export class ApiStack extends Stack {
     this.apiId = api.apiId
     new CfnOutput(this, 'apiId', { value: api.apiId })
 
+
+    // Push data to s3 raw s3 bucket
+    const landingBucketDataSource = api.addHttpDataSource('landingBucketDataSource', `https://${props.landingBucket.bucketName}.s3.amazonaws.com`, {
+      name: 'landingBucketDataSource',
+      description: 'Raw bucket data source',
+      authorizationConfig: {
+        signingRegion: cdk.Stack.of(this).region,
+        signingServiceName: 's3',
+      },
+    });
+    props.landingBucket.grantPut(landingBucketDataSource)
+
+    landingBucketDataSource.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'createActivity',
+      requestMappingTemplate: MappingTemplate.fromString(`{
+        "version": "2018-05-29",
+        "method": "PUT",
+        "resourcePath": "/$ctx.args.input.activity_event_id",
+        "params": {
+          "body": "#foreach ($key in $ctx.args.input.keySet()) $key,#end\\n#foreach ($key in $ctx.args.input.keySet()) $ctx.args.input[$key],#end",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.args.input)`),
+    });
+
     // Add a DynamoDB datasource. The DynamoDB table we will use is created by another stack
     // and is provided in the props of this stack.
     const datasource = api.addDynamoDbDataSource('CalculatorOutputDataSource', props.calculatorOutputTableRef, {
       name: 'CalculatorOutputDataSource',
     })
 
-    // Create a resolver for getting 1 record by the activity_event_id
     datasource.createResolver({
       typeName: 'Query',
-      fieldName: 'getOne',
-      requestMappingTemplate: MappingTemplate.dynamoDbGetItem('activity_event_id', 'activity_event_id'),
+      fieldName: 'getActivity',
+      requestMappingTemplate: MappingTemplate.dynamoDbGetItem('activity_event_id', 'id'),
       responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     })
 
-    // Create a resolver for getting a list of records. This resolver will limit the number of records
-    // returned by a value provided or by a default of 20. This resolver can be used for pagination.
     datasource.createResolver({
       typeName: 'Query',
-      fieldName: 'all',
+      fieldName: 'listActivities',
       requestMappingTemplate: MappingTemplate.fromString(`{
                 "version": "2018-05-29",
                 "operation": "Scan",
@@ -391,14 +420,6 @@ export class ApiStack extends Stack {
       responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     })
 
-    // Create a resolver for deleting a record by the activity_event_id
-    // Commented out. Uncomment if you wish to use.
-    //datasource.createResolver({
-      //typeName: 'Mutation',
-      //fieldName: 'delete',
-      //requestMappingTemplate: MappingTemplate.dynamoDbDeleteItem('activity_event_id', 'activity_event_id'),
-      //responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
-    //})
 
     // -- Outputs --
     // Set the public variables so other stacks can access the deployed auth/auz related stuff above as well as set as CloudFormation output variables

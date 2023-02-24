@@ -11,7 +11,7 @@
 git secrets --scan-history
 
 # run cdk_nag
-
+cdk synth --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol" --nagOption = true
 
 # run python-bandit
 bandit ./ -r | tee ./output_test.log

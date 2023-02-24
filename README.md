@@ -50,12 +50,6 @@ The shared resource stack deploys all cross-stack referenced resources such as S
 
 Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/stack-shared-resources.ts) and [Stack Outputs](#shared-resources-stack-outputs)
 
-### Optional CI/CD Pipeline
-
-The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
-
-Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/stack-ci-cd.ts)
-
 ### Data Pipeline
 
 The carbon data lake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the carbon data lake landing zone S3 bucket. The data pipeline performs the following functions:
@@ -184,7 +178,7 @@ npm run build
 ```
 
 - Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
-- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Get your AWS Account Number `aws sts get-caller-identity`
 - Bootstrap CDK so that you can build cdk assets 
 
 ```sh
@@ -210,16 +204,6 @@ cdk synth
 ```sh
 cdk deploy --all
 ```
-
-👆 If you are deploying only for local development this will deploy all of the carbon data lake stacks without the CI/CD pipeline. This is recommended.
-
-- ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
-
-```sh
-npm run deploy:cicd
-```
-
-👆 If you are deploying the full CI/CD pipeline this will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Optional: Set up the Amplify Web Application
 

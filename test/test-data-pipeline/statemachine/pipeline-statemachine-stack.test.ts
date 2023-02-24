@@ -1,6 +1,8 @@
 import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
+import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 
 import { DataPipelineStatemachine } from '../../../lib/stacks/stack-data-pipeline/construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
@@ -17,11 +19,12 @@ describe('test statemachine stack', () => {
     //   - dataLineageFunction
     //   - dataQualityJob => this is a dummy placeholder until the data quality job is ready
     //   - s3copierFunction => stand-in lambda function for the dataQualityJob
-    //   - glueTransformJobName
-    //   - batchEnumLambda
     //   - calculationJob
+    //   - rawBucket
     const dummyInputsStack = new Stack(app, 'DummyInputsStack')
     const dummyTopic = new sns.Topic(dummyInputsStack, 'dummyTopic', {})
+    const dummyQueue = new sqs.Queue(dummyInputsStack, 'dummyQueue', {})
+    const dummyBucket = new s3.Bucket(dummyInputsStack, 'dummyBucket', {})
     const dummyLambda = new lambda.Function(dummyInputsStack, 'dummyLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromInline('def lambda_handler(): pass'),
@@ -37,9 +40,9 @@ describe('test statemachine stack', () => {
       dqResourcesLambda: dummyLambda,
       dqResultsLambda: dummyLambda,
       dqErrorNotification: dummyTopic,
-      glueTransformJobName: 'xyz',
-      batchEnumLambda: dummyLambda,
       calculationJob: dummyLambda,
+      calculationErrorQueue: dummyQueue,
+      rawBucket: dummyBucket
     })
 
     // synth a cloudformation template from the stack

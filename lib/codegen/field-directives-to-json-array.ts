@@ -2,8 +2,8 @@ import { getCachedDocumentNodeFromSchema, PluginFunction, Types } from '@graphql
 import { FieldDefinitionNode, GraphQLSchema, ObjectTypeDefinitionNode, visit } from 'graphql'
 
 export type InputFileGeneratorConfig = {
-  targetType: string
-  onlyIncludeDirectives?: string[]
+  targetType: string,
+  directive: string
 }
 
 export const plugin: PluginFunction = async (
@@ -13,7 +13,7 @@ export const plugin: PluginFunction = async (
 ) => {
 
   const astNode = getCachedDocumentNodeFromSchema(schema);
-  let result = '';
+  const fields: string[] = [];
 
   const visitor = {
     FieldDefinition(node: FieldDefinitionNode) {
@@ -24,15 +24,15 @@ export const plugin: PluginFunction = async (
       // "node.fields" is an array of strings, because we transformed it using "FieldDefinition".
       if(config.targetType === node.name.value) {
         node.fields?.map((field) => {
-          if(!config.onlyIncludeDirectives || field.directives?.find(directive => config.onlyIncludeDirectives?.includes(directive.name.value))) {
-            result += `${field.name.value.replace(/([A-Z])/g, '_$1').toLowerCase()},`;
+          // if field has the expected directive
+          if (field.directives?.map((directive) => directive.name.value).includes(config.directive)) {
+            fields.push(`"${field.name.value.replace(/([A-Z])/g, '_$1').toLowerCase()}"`);
           }
         })
       }
     },
   };
   visit(astNode, visitor);
-  result += '\n';
 
-  return result;
+  return '[' + fields.join() + ']';
 }
