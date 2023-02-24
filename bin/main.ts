@@ -83,7 +83,7 @@ generate(codegenConfig).then(() => {
         env: appEnv
       })
 
-  new RestApiStack(app, 'ApiStackRest', {
+  const restApiStack = new RestApiStack(app, 'ApiStackRest', {
     landingBucket: landingBucket,
     env: appEnv
   });
