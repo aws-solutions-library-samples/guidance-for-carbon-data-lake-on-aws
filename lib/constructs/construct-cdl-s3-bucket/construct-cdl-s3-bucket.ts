@@ -27,6 +27,12 @@ interface CdlS3Props {
      */
     readonly bucketStorageClass?: boolean;
 
+    /**
+     * Optional: set bucket versioning to false, this is true by default
+     * @default undefined
+     */
+    readonly cors?: Array<s3.CorsRule>;
+
 
   }
 
@@ -95,6 +101,7 @@ interface CdlS3Props {
         this.s3Bucket = new s3.Bucket(this, props.bucketName, {
             bucketName: PhysicalName.GENERATE_IF_NEEDED,
             encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
+            cors: props.cors,
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // all public access is blocked
             versioned: props.bucketVersioning ? props.bucketVersioning : true, // versioning true by default unless otherwise specified
             removalPolicy: RemovalPolicy.DESTROY, // by default removal policy will be destroy

@@ -40,6 +40,12 @@ interface CdlLambdaProps {
     readonly code: lambda.Code;
 
     /**
+     * Optional: set handler directory path -- default is './lambda'
+     * @default undefined
+     */
+    readonly layers?: Array<lambda.ILayerVersion>;
+
+    /**
      * Optional: set environmental variables (always encrypted by default)
      * @default undefined
      */
@@ -95,6 +101,7 @@ interface CdlLambdaProps {
             runtime: props.runtime,
             code: props.code,
             handler: props.handler,
+            layers: props.layers,
             timeout: props.timeout? props.timeout : Duration.minutes(5),
             environment: props.environment || undefined,
             architecture: lambda.Architecture.X86_64, // specify graviton2 based lambda architecture

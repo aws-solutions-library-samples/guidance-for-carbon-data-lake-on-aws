@@ -12,6 +12,8 @@ import * as path from 'path'
 import { Calculator } from './construct-calculator/construct-calculator'
 import { DataPipelineStatemachine } from './construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
 import { DataQuality } from './construct-data-quality/construct-data-quality'
+import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
+import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
 
 interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -33,10 +35,8 @@ export class DataPipelineStack extends Stack {
 
     // Landing bucket where files are dropped by customers
     // Once processed, the files are removed by the pipeline
-    this.cdlLandingBucket = new s3.Bucket(this, 'LandingBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    this.cdlLandingBucket = new CdlS3(this, 'LandingBucket', {
+      bucketName: 'LandingBucket',
       cors: [
         {
           allowedMethods: [
@@ -100,7 +100,8 @@ export class DataPipelineStack extends Stack {
     )
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
-    const kickoffFunction = new lambda.Function(this, 'CDLKickoffLambda', {
+    const kickoffFunction = new CdlPythonLambda(this, 'CDLKickoffLambda', {
+      lambdaName: 'CDLKickoffLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
