@@ -37,18 +37,18 @@ generate(codegenConfig).then(() => {
       
   checkAdminEmailSetup(adminEmail);
 
-  // QS1 --> Create the cdl shared resource stack
+  // CDL-SHARED-RESOURCES --> Create the cdl shared resource stack
   const sharedResources = new SharedResourcesStack(app, 'SharedResources', {env: appEnv});
   const enrichedBucket = sharedResources.cdlEnrichedBucket
   const transformedBucket = sharedResources.cdlTransformedBucket
 
-  // QS2 --> Create the cdl data lineage stack
+  // CDL-DATA-LINEAGE --> Create the cdl data lineage stack
     const dataLineage = new DataLineageStack(app, 'LineageStack', {
       archiveBucket: sharedResources.cdlDataLineageBucket,
       env: appEnv
     })
 
-  // QS3 --> Create the cdl data pipeline stack
+  // CDL-DATA-PIPELINE --> Create the cdl data pipeline stack
   // cdl orchestration pipeline stack - Amazon Step Functions
     const dataPipeline = new DataPipelineStack(app, 'DataPipelineStack', {
       dataLineageFunction: dataLineage.inputFunction,
@@ -65,7 +65,7 @@ generate(codegenConfig).then(() => {
       const pipelineStateMachine = dataPipeline.pipelineStateMachine
       const calculatorOutputTable = dataPipeline.calculatorOutputTable
 
-  // QS4 --> Create the cdl data compaction pipeline stack
+  // CDL-DATA-COMPACTION --> Create the cdl data compaction pipeline stack
   new DataCompactionStack(app,'DataCompactionStack',
         {
           enrichedBucket: sharedResources.cdlEnrichedBucket,
@@ -75,20 +75,21 @@ generate(codegenConfig).then(() => {
         }
       ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
-  // QS5 --> Create the cdl api stack
+  // CDL-API-STACK --> Create the cdl api stack
   const apiStack = new ApiStack (app, 'ApiStack', {
         adminEmail: adminEmail,
         landingBucket: landingBucket,
         calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
         env: appEnv
       })
-
+  
+  // CDL-REST-API-STACK --> Create the cdl rest api stack
   const restApiStack = new RestApiStack(app, 'ApiStackRest', {
     landingBucket: landingBucket,
     env: appEnv
   });
 
-  // QS6 --> Create the cdl quicksight stack
+  // CDL-QUICKSIGHT-STACK --> Create the cdl quicksight stack
   const quicksightOption = app.node.tryGetContext('deployQuicksightStack')
   console.log(`Quicksight deployment option is set to: ${quicksightOption}`)
   if (quicksightOption === true) {
@@ -104,7 +105,7 @@ generate(codegenConfig).then(() => {
     })
   }
 
-  // QS7 --> Create the cdl forecast stack
+  // CDL-FORECAST-STACK --> Create the cdl forecast stack
   const sagemakerOption = app.node.tryGetContext('deploySagemakerStack')
   console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
       if (sagemakerOption === true) {
@@ -114,7 +115,7 @@ generate(codegenConfig).then(() => {
       });
       }
 
-  // QS8 --> Create the cdl webAPI stack
+  // CDL-WEB-STACK --> Create the cdl web stack
   const webOption = app.node.tryGetContext('deployWebStack')
   console.log(`Web deployment option is set to: ${webOption}`)
       if (webOption === true) {
@@ -130,7 +131,7 @@ generate(codegenConfig).then(() => {
       })
       }
 
-  // QS9 --> Create the iot ingest stack  
+  // CDL-IOT-INGEST-STACK --> Create the iot ingest stack  
   // TODO: add the option switch in the cdk.json template   
   const iotIngestOption = new IotIngestStack(app, 'IoTIngestStack', {
     env: appEnv

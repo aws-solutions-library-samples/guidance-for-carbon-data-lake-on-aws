@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { RemovalPolicy, Duration } from 'aws-cdk-lib';
+import { RemovalPolicy, Duration, PhysicalName } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
 
@@ -40,7 +40,7 @@ interface CdlS3Props {
      */
 
   
-  export class CdlS3 extends Construct {
+  export class CdlS3 extends s3.Bucket {
     /**
      * S3 bucket object to be passed to other functions
      */
@@ -93,6 +93,7 @@ interface CdlS3Props {
 
         // Creates new S3 bucket for data upload
         this.s3Bucket = new s3.Bucket(this, props.bucketName, {
+            bucketName: PhysicalName.GENERATE_IF_NEEDED,
             encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // all public access is blocked
             versioned: props.bucketVersioning ? props.bucketVersioning : true, // versioning true by default unless otherwise specified

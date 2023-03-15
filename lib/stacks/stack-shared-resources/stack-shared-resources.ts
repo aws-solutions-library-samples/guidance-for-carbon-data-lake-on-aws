@@ -21,32 +21,32 @@ export class SharedResourcesStack extends Stack {
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
     this.cdlRawBucket = new CdlS3(this, 'cdlRawBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED
+      bucketName: 'cdlRawBucket'
     })
 
     // Error bucket where files are moved if they don't pass the data quality check
     // Once manually processed, the files are manually removed from the bucket
     this.cdlErrorBucket = new CdlS3(this, 'cdlErrorBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED
+      bucketName: 'cdlErrorBucket'
     })
 
     // Transformed bucket where files are moved after they are processed (format = jsonl)
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
     this.cdlTransformedBucket = new CdlS3(this, 'cdlTransformedBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED
+      bucketName: 'cdlTransformedBucket'
     })
 
     // Enriched bucket where files are moved after they are enriched with calculated emissions (format = jsonl)
     // A compacting job compacts jsonl files into parquet files every day
     this.cdlEnrichedBucket = new CdlS3(this, 'cdlEnrichedBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED
+      bucketName: 'cdlEnrichedBucket'
     })
 
     // Bucket used to store unprocessed data lineage events
     // TODO add a lifecycle policy to archive files to Glacier
     this.cdlDataLineageBucket = new CdlS3(this, 'cdlDataLineageBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED
+      bucketName: 'cdlDataLineageBucket'
     })
 
     // Glue Metadata Catalog Database for enriched data
