@@ -29,6 +29,9 @@ const framework = app.node.tryGetContext('framework')
 
 const codegenConfig = config(framework)
 
+// TODO -- add destroy and remove objects policies for S3 buckets
+// TODO -- add any other dev configs for prod/dev deployment
+
 // Generate needed artifacts based on the specific framework configuration
 console.log(`Generating artifacts for ${framework} framework\n using config located in ./framework_configurations/${framework}/ ...`)
 generate(codegenConfig).then(() => {
