@@ -13,6 +13,8 @@ import { GlueEnrichedDataTodayTable } from './construct-data-compaction-glue/con
 import { CreateAthenaViews } from './construct-data-compaction-athena/construct-create-athena-views'
 import { DataCompactionStateMachine } from './construct-data-compaction-statemachine/construct-data-compaction-state-machine'
 import { EventTriggerStateMachine } from './construct-data-compaction-state-machine-event-trigger/construct-event-trigger-state-machine'
+import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 
 interface CompactionStackProps extends StackProps {
   enrichedBucket: s3.Bucket
@@ -63,10 +65,8 @@ export class DataCompactionStack extends Stack {
     )
 
     /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
-    const stateMachineS3Bucket = new s3.Bucket(this, 'stateMachineS3Bucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const stateMachineS3Bucket = new CdlS3(this, 'stateMachineS3Bucket', {
+      bucketName: 'stateMachineS3Bucket'
     })
 
     const deployStateMachineJSON = new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
@@ -87,7 +87,8 @@ export class DataCompactionStack extends Stack {
     )
 
     // Lambda function to process incoming events, generate child node IDs
-    const enumFunction = new lambda.Function(this, 'cdlDataCompactionEnum', {
+    const enumFunction = new CdlPythonLambda(this, 'cdlDataCompactionEnum', {
+      lambdaName: 'cdlDataCompactionEnum',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/enumerate_directories/')),
       handler: 'app.lambda_handler',
