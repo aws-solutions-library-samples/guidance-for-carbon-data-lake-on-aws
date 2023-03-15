@@ -6,6 +6,7 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
+import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 import { DataLineageQuery } from './construct-data-lineage-query/construct-data-lineage-query-stack'
 
 interface DataLineageStackProps extends StackProps {
@@ -68,7 +69,8 @@ export class DataLineageStack extends Stack {
     /* ======== INPUT LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs
-    this.inputFunction = new lambda.Function(this, 'cdlDataLineageInput', {
+    this.inputFunction = new CdlPythonLambda(this, 'cdlDataLineageInput', {
+      lambdaName: 'cdlDataLineageInput',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/input_function/')),
       handler: 'app.lambda_handler',
@@ -84,7 +86,8 @@ export class DataLineageStack extends Stack {
     /* ======== PROCESS LAMBDA ======== */
 
     // Lambda function to process incoming events and store in DDB
-    const dataLineageOutputFunction = new lambda.Function(this, 'cdlDataLineageHandler', {
+    const dataLineageOutputFunction = new CdlPythonLambda(this, 'cdlDataLineageHandler', {
+      lambdaName: 'cdlDataLineageHandler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/load_lineage_data/')),
       handler: 'app.lambda_handler',
@@ -105,7 +108,8 @@ export class DataLineageStack extends Stack {
     /* ======== TRACE LAMBDA ======== */
 
     // Lambda function retrace record lineage and store tree in DDB
-    const traceFunction = new lambda.Function(this, 'cdlDataLineageTraceHandler', {
+    const traceFunction = new CdlPythonLambda(this, 'cdlDataLineageTraceHandler', {
+      lambdaName: 'cdlDataLineageTraceHandler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/rebuild_trace/')),
       handler: 'app.lambda_handler',

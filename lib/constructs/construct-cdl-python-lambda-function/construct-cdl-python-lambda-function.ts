@@ -109,5 +109,5 @@ interface CdlLambdaProps {
             deadLetterQueue: this.lambdaDlq, // specify FIFO dead letter queue
             tracing: lambda.Tracing.ACTIVE // enable x-ray tracing for all functions
           });
-  };
+  }
   }
