@@ -1,8 +1,6 @@
-import { Duration, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import { Duration } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
-import * as path from 'path'
 import { Construct } from 'constructs'
-import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Integer } from 'aws-sdk/clients/apigateway';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
 
@@ -22,31 +20,30 @@ interface CdlLambdaProps {
      * Optional: set timeout minutes
      * @default 15
      */
-    readonly timeoutMinutes?: Integer;
+    readonly timeout?: Duration;
 
     /**
      * Optional: set lambda runtime to select different python runtime
      * @default lambda.Runtime.PYTHON_3_9
      */
-    readonly runtime?: lambda.Runtime;
+    readonly runtime: lambda.Runtime;
+
+    /**
+     * Optional: set handler name -- default is "main.handler"
+     */
+    readonly handler: string;
 
     /**
      * Optional: set handler directory path -- default is './lambda'
      * @default "./lambda"
      */
-    readonly lambdaHandlerPath?: string;
-
-    /**
-     * Optional: set handler name -- default is 'main.handler'
-     * @default "main.handler"
-     */
-    readonly lambdaHandlerName?: string;
+    readonly code: lambda.Code;
 
     /**
      * Optional: set environmental variables (always encrypted by default)
      * @default undefined
      */
-    readonly environmentalVariables?: Record<string, string>;
+    readonly environment?: Record<string, string>;
   
   }
 
@@ -57,7 +54,7 @@ interface CdlLambdaProps {
      */
 
   
-  export class CdlPythonLambda extends Construct {
+  export class CdlPythonLambda extends lambda.Function {
     /**
      * S3 bucket object to be passed to other functions
      */
@@ -75,7 +72,7 @@ interface CdlLambdaProps {
         * @param CdlLambdaProps
     */
     constructor(scope: Construct, id: string, props: CdlLambdaProps) {
-        super(scope, id);
+        super(scope, id, props);
         
         /** 
          * Creates a FIFO queue to use as dead letter queue for Lambda function.
@@ -95,11 +92,11 @@ interface CdlLambdaProps {
         */
         
         this.lambdaFunction = new lambda.Function(this, props.lambdaName, {
-            runtime: props.runtime ? props.runtime : lambda.Runtime.PYTHON_3_9,
-            code: props.lambdaHandlerPath? lambda.Code.fromAsset(path.join(__dirname, props.lambdaHandlerPath)) : lambda.Code.fromAsset(path.join(__dirname, './lambda')),
-            handler: props.lambdaHandlerName?  props.lambdaHandlerName : "main.handler",
-            timeout: props.timeoutMinutes? Duration.minutes(props.timeoutMinutes) : Duration.minutes(5),
-            environment: props.environmentalVariables || undefined,
+            runtime: props.runtime,
+            code: props.code,
+            handler: props.handler,
+            timeout: props.timeout? props.timeout : Duration.minutes(5),
+            environment: props.environment || undefined,
             architecture: lambda.Architecture.X86_64, // specify graviton2 based lambda architecture
             deadLetterQueueEnabled: true, // enable FIFO dead letter queue
             deadLetterQueue: this.lambdaDlq, // specify FIFO dead letter queue

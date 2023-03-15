@@ -8,6 +8,8 @@ import { custom_resources as cr } from 'aws-cdk-lib'
 import * as path from 'path'
 import { Construct } from 'constructs'
 import { Asset } from 'aws-cdk-lib/aws-s3-assets'
+import { CdlPythonLambda } from '../../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
+import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
 
 export interface CalculatorProps extends StackProps {
   transformedBucket: s3.Bucket
@@ -35,9 +37,9 @@ export class Calculator extends Construct {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     })
 
-    this.calculatorLambda = new lambda.Function(this, 'cdlCalculatorHandler', {
+    this.calculatorLambda = new CdlPythonLambda(this, 'cdlCalculatorHandler', {
+      lambdaName: 'cdlCalculatorHandler',
       runtime: lambda.Runtime.PYTHON_3_9,
-      architecture: lambda.Architecture.ARM_64,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'calculatorLambda.lambda_handler',
       timeout: Duration.minutes(5),
@@ -55,11 +57,8 @@ export class Calculator extends Construct {
     props.enrichedBucket.grantWrite(this.calculatorLambda)
 
     // Emission Factors Data loader
-    const emissionFactorsBucket = new s3.Bucket(this, 'cdlEmissionFactorsBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const emissionFactorsBucket = new CdlS3(this, 'cdlEmissionFactorsBucket', {
+      bucketName: 'cdlEmissionFactorsBucket'
     })
     const emission_factors_deployment = new s3_deployment.BucketDeployment(this, 'cdlEmissionFactorsDeployment', {
       sources: [s3_deployment.Source.asset(`./framework_configurations/${this.node.tryGetContext('framework')}/emission_factors`)],
@@ -67,9 +66,9 @@ export class Calculator extends Construct {
       storageClass: s3_deployment.StorageClass.ONEZONE_IA
     })
 
-    const emissionFactorsLoaderLambda = new lambda.Function(this, 'cdlEmissionFactorsLoaderLambda', {
+    const emissionFactorsLoaderLambda = new CdlPythonLambda(this, 'cdlEmissionFactorsLoaderLambda', {
+      lambdaName: 'cdlEmissionFactorsLoaderLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
-      architecture: lambda.Architecture.ARM_64,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'emissionFactorsLoaderLambda.lambda_handler',
       timeout: Duration.minutes(5),
