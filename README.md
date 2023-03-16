@@ -50,12 +50,6 @@ The shared resource stack deploys all cross-stack referenced resources such as S
 
 Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/stack-shared-resources.ts) and [Stack Outputs](#shared-resources-stack-outputs)
 
-### Optional CI/CD Pipeline
-
-The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
-
-Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/stack-ci-cd.ts)
-
 ### Data Pipeline
 
 The carbon data lake data pipeline is an event-driven Step Functions Workflow triggered by each upload to the carbon data lake landing zone S3 bucket. The data pipeline performs the following functions:
@@ -126,6 +120,14 @@ You can deploy the carbon data lake guidance with sample code through the manual
   ```
 
 - For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
+
+## 🔐 Security Note
+
+As part of the shared responsibility model we recommend taking additional steps within your AWS account to secure this application. We recommend you implement the following AWS services once your application is in production:
+
+- [Amazon Guard Duty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_settingup.html)
+- [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/setting-up-waf.html)
+- [Amazon Cloudfront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/setting-up-cloudfront.html)
 
 ## 🚀 Setup
 
@@ -223,37 +225,16 @@ npm run deploy:cicd
 
 ### 4/ Optional: Set up the Amplify Web Application
 
-If you have chosen to deploy the optional Web Application by setting `deployWebStack: true` in the `cdk.context.json` file, there are a few simple steps to get up and running with the web application.
-
-For quick setup follow the instructions below.
-
-#### Quick Setup
-
 If you are reading this it is because you deployed the carbon data lake guidance with sample code Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
-2. Initiate the build process --> select your application and select "run build"
-3. Visit your live web application --> click on the link in the Amplify console
+2. Visit your live web application --> click on the link in the Amplify console
    When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake guidance with sample code CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-4. Create a separate directory to manage your web application
-
-    ```sh
-    mkdir <your-web-application-directory>
-    ```
-
-5. Install the AWS Amplify CLI following the instructions on the official [AWS Amplify Documentation](https://docs.amplify.aws/cli/start/install/).
-
-6. Pull your Amplify project
-
-    ```sh
-    amplify pull --appId <app-id> --envName <env-name>
-    ```
-
-7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
-8. Make the web application your own and let us know what you choose do to with it.
+6. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
+7. Make the web application your own and let us know what you choose do to with it.
 
 Success! At this point, you should successfully have the Amplify app working.
 

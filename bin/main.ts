@@ -12,7 +12,7 @@ import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
-import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
+import { AwsSolutionsChecks } from 'cdk-nag';
 
 const app = new cdk.App();
 
