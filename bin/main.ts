@@ -14,7 +14,6 @@ import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { IotIngestStack } from '../lib/stacks/stack-iot-ingest/iot-ingest'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
-import { config } from '../lib/codegen/config';
 import { generate } from '@graphql-codegen/cli'
 
 const app = new cdk.App();
@@ -26,14 +25,10 @@ const appEnv = {
 
 const framework = app.node.tryGetContext('framework')
 
-const codegenConfig = config(framework)
-
 // TODO -- add destroy and remove objects policies for S3 buckets
 // TODO -- add any other dev configs for prod/dev deployment
 
 // Generate needed artifacts based on the specific framework configuration
-console.log(`Generating artifacts for ${framework} framework\n using config located in ./framework_configurations/${framework}/ ...`)
-generate(codegenConfig).then(() => {
   console.log('Codegen completed')
   const adminEmail = app.node.tryGetContext('adminEmail')
       
@@ -269,4 +264,3 @@ if (nagEnabled === true){
         "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
     },
   ]);
-});

@@ -26,14 +26,12 @@ export class DataLineageStack extends Stack {
     const recordDLQ = new sqs.Queue(this, 'cdlDataLineageDLQ', {
       deliveryDelay: Duration.millis(0),
       contentBasedDeduplication: true,
-      enforceSSL: true,
       retentionPeriod: Duration.days(14),
       fifo: true
     })
 
     // Input SQS Queue
     const recordQueue = new sqs.Queue(this, 'cdlDataLineageQueue', {
-      enforceSSL: true,
       deadLetterQueue: {
         queue: recordDLQ,
         maxReceiveCount: 200
@@ -43,7 +41,6 @@ export class DataLineageStack extends Stack {
     const traceDLQ = new sqs.Queue(this, 'cdlDataLineageTraceDLQ', {
       deliveryDelay: Duration.millis(0),
       contentBasedDeduplication: true,
-      enforceSSL: true,
       retentionPeriod: Duration.days(14),
       fifo: true
     })
@@ -51,7 +48,6 @@ export class DataLineageStack extends Stack {
     // Retrace SQS Queue
     this.traceQueue = new sqs.Queue(this, 'cdlDataLineageTraceQueue', {
       visibilityTimeout: Duration.seconds(300),
-      enforceSSL: true,
       deadLetterQueue: {
         queue: recordDLQ,
         maxReceiveCount: 200
