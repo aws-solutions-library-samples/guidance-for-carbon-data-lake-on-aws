@@ -7,6 +7,7 @@ import { aws_sagemaker as sagemaker } from "aws-cdk-lib";
 import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import { aws_kms as kms } from "aws-cdk-lib";
 import * as path from 'path';
+import { NagSuppressions } from "cdk-nag";
 
 interface SagemakerForecastStackProps extends StackProps {
   enrichedDataBucket: s3.Bucket
@@ -79,6 +80,20 @@ export class SageMakerNotebookStack extends Stack {
       volumeSizeInGb: 20,
       kmsKeyId: encryptionKey.keyId
     });
+
+    NagSuppressions.addResourceSuppressions(sagemakerNotebookInstance, [
+      {
+          id: 'AwsSolutions-SM1',
+          reason: 'This notebook does not require a VPC because it has additional security measures implemented. Because this is a development tool we are reducing the number of VPCs required.'
+      },
+    ])
+
+    NagSuppressions.addResourceSuppressions(sagemakerNotebookInstance, [
+      {
+          id: 'AwsSolutions-SM3',
+          reason: 'This notebook instance requires direct internet access.'
+      },
+    ])
 
     // creates a role for Amazon Forecast to assume, with permissions to access data in the results bucket
     const forecastRole = new iam.Role(this, "forecast-execution-role", {

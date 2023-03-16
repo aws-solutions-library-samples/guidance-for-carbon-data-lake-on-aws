@@ -1,6 +1,7 @@
 import { StackProps, Names } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
+import { aws_logs as logs } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
@@ -104,6 +105,15 @@ export class DataCompactionStateMachine extends Construct {
       stateMachineName: this.stateMachineName,
       tracingConfiguration: {
         enabled: true,
+      },
+      loggingConfiguration: {
+        destinations: [{
+          cloudWatchLogsLogGroup: {
+            logGroupArn: new logs.LogGroup(this, `${this.stateMachineName}-logs`).logGroupArn,
+          },
+        }],
+        includeExecutionData: true,
+        level: 'ALL',
       },
     })
   }

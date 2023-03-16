@@ -2,12 +2,13 @@ import { Construct } from 'constructs';
 import { RemovalPolicy, Duration, PhysicalName } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
+import { NagSuppressions } from 'cdk-nag';
 
 interface CdlS3Props {
     /**
      * Required: Bucket name as a string
      */
-    readonly bucketName: string;
+    readonly bucketName?: string;
 
     /**
      * Optional: set bucket versioning to false, this is true by default
@@ -66,7 +67,19 @@ interface CdlS3Props {
         * @param CdlS3Props
     */
     constructor(scope: Construct, id: string, props: CdlS3Props) {
-        super(scope, id);
+        super(scope, id, {
+            ...props,
+            bucketName: PhysicalName.GENERATE_IF_NEEDED,
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            cors: props.cors,
+            enforceSSL: true,
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+            versioned: props.bucketVersioning ? props.bucketVersioning : true,
+            removalPolicy: RemovalPolicy.DESTROY,
+            autoDeleteObjects: true,
+            serverAccessLogsPrefix: id
+        });
+        
         /** 
          * Creates a standard opinionated cost-optimized lifecycle policy.
          * This policy begins with S3 standard storage.
@@ -87,28 +100,6 @@ interface CdlS3Props {
                 ],
             },
         ];
-
-        // Creates new S3 bucket for data upload
-        this.accessLogBucket = new s3.Bucket(this, `${props.bucketName}-access-logs`, {
-            encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
-            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // all public access is blocked
-            versioned: true, // versioning true by default unless otherwise specified
-            removalPolicy: RemovalPolicy.DESTROY,
-            autoDeleteObjects: true,
-        });
-
-        // Creates new S3 bucket for data upload
-        this.s3Bucket = new s3.Bucket(this, props.bucketName, {
-            bucketName: PhysicalName.GENERATE_IF_NEEDED,
-            encryption: s3.BucketEncryption.S3_MANAGED, // all buckets are encrypted with AWS managed keys
-            cors: props.cors,
-            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // all public access is blocked
-            versioned: props.bucketVersioning ? props.bucketVersioning : true, // versioning true by default unless otherwise specified
-            removalPolicy: RemovalPolicy.DESTROY, // by default removal policy will be destroy
-            autoDeleteObjects: true, // by default auto-delete policy will be true
-            serverAccessLogsBucket: this.accessLogBucket, // specifies the s3 bucket for access logs
-            // by default this leaves the bucket lifecycle policy as the default for the s3 bucket construct
-        });
 
         /**
         * If optional bucketLifeCyclePolicyArray is defined as prop,

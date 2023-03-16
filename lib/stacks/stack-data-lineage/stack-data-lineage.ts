@@ -4,6 +4,7 @@ import { aws_sqs as sqs } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_lambda_event_sources as event_sources } from 'aws-cdk-lib'
+import { NagSuppressions } from 'cdk-nag'
 import { Construct } from 'constructs'
 import * as path from 'path'
 import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
@@ -22,12 +23,39 @@ export class DataLineageStack extends Stack {
 
     /* ======== STORAGE ======== */
 
+    const recordDLQ = new sqs.Queue(this, 'cdlDataLineageDLQ', {
+      deliveryDelay: Duration.millis(0),
+      contentBasedDeduplication: true,
+      enforceSSL: true,
+      retentionPeriod: Duration.days(14),
+      fifo: true
+    })
+
     // Input SQS Queue
-    const recordQueue = new sqs.Queue(this, 'cdlDataLineageQueue', {})
+    const recordQueue = new sqs.Queue(this, 'cdlDataLineageQueue', {
+      enforceSSL: true,
+      deadLetterQueue: {
+        queue: recordDLQ,
+        maxReceiveCount: 200
+      }
+    })
+
+    const traceDLQ = new sqs.Queue(this, 'cdlDataLineageTraceDLQ', {
+      deliveryDelay: Duration.millis(0),
+      contentBasedDeduplication: true,
+      enforceSSL: true,
+      retentionPeriod: Duration.days(14),
+      fifo: true
+    })
 
     // Retrace SQS Queue
     this.traceQueue = new sqs.Queue(this, 'cdlDataLineageTraceQueue', {
       visibilityTimeout: Duration.seconds(300),
+      enforceSSL: true,
+      deadLetterQueue: {
+        queue: recordDLQ,
+        maxReceiveCount: 200
+      }
     })
 
     // DynamoDB Table for data lineage record storage
@@ -38,6 +66,13 @@ export class DataLineageStack extends Stack {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       timeToLiveAttribute: 'ttl_expiry',
     })
+
+    NagSuppressions.addResourceSuppressions(table, [
+      {
+          id: 'AwsSolutions-DDB3',
+          reason: 'Because this is primarily a development repository we are not enabling PiT recovery. We recommend that customers putting this into production enable PiT recovery.'
+      },
+    ])
 
     // # GSI to allow querying by specific child node in data lineage tree
     table.addGlobalSecondaryIndex({

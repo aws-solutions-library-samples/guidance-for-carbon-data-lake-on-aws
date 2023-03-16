@@ -10,6 +10,7 @@ import { Construct } from 'constructs'
 import { Asset } from 'aws-cdk-lib/aws-s3-assets'
 import { CdlPythonLambda } from '../../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { NagSuppressions } from 'cdk-nag'
 
 export interface CalculatorProps extends StackProps {
   transformedBucket: s3.Bucket
@@ -30,12 +31,26 @@ export class Calculator extends Construct {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     })
 
+    NagSuppressions.addResourceSuppressions(emissionFactorsReferenceTable, [
+      {
+          id: 'AwsSolutions-DDB3',
+          reason: 'Because this is primarily a development repository we are not enabling PiT recovery. We recommend that customers putting this into production enable PiT recovery.'
+      },
+    ])
+
     // Define DynamoDB Table for calculator output
     this.calculatorOutputTable = new dynamodb.Table(this, 'cdlCalculatorOutputTable', {
       partitionKey: { name: 'activity_event_id', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     })
+
+    NagSuppressions.addResourceSuppressions(this.calculatorOutputTable, [
+      {
+          id: 'AwsSolutions-DDB3',
+          reason: 'Because this is primarily a development repository we are not enabling PiT recovery. We recommend that customers putting this into production enable PiT recovery.'
+      },
+    ])
 
     this.calculatorLambda = new CdlPythonLambda(this, 'cdlCalculatorHandler', {
       lambdaName: 'cdlCalculatorHandler',
@@ -84,6 +99,13 @@ export class Calculator extends Construct {
       onEventHandler: emissionFactorsLoaderLambda,
       logRetention: logs.RetentionDays.ONE_DAY,
     });
+
+    NagSuppressions.addResourceSuppressions(emissionFactorsLoaderProvider.onEventHandler, [
+      {
+          id: 'AwsSolutions-L1',
+          reason: 'This L1 AWS Solution uses a default AWS library and will be updated with the AWS CDK.'
+      },
+    ])
 
     emissionFactorsLoaderProvider.node.addDependency(emission_factors_deployment);
     

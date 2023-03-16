@@ -3,12 +3,14 @@ import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { Integer } from 'aws-sdk/clients/apigateway';
 import { aws_sqs as sqs } from 'aws-cdk-lib';
+import { IRole } from 'aws-cdk-lib/aws-iam';
+import { NagSuppressions } from 'cdk-nag';
 
 interface CdlLambdaProps {
     /**
      * Required: name of lambda function
      */
-    readonly lambdaName: string;
+    readonly lambdaName?: string;
 
     /**
      * Optional: set concurrency limit
@@ -27,6 +29,18 @@ interface CdlLambdaProps {
      * @default lambda.Runtime.PYTHON_3_9
      */
     readonly runtime: lambda.Runtime;
+
+    /**
+     * Optional: set a specific role for the lambda function
+     * @default undefined
+     */
+    readonly role?: IRole;
+
+    /**
+     * Optional: set a description for the lambda function
+     * @default undefined
+     */
+    readonly description?: string;
 
     /**
      * Optional: set handler name -- default is "main.handler"
@@ -58,7 +72,6 @@ interface CdlLambdaProps {
      * This pre-configured default meets cdk_nag AWS specifications
      * for security and well-architected infrastructure.
      */
-
   
   export class CdlPythonLambda extends lambda.Function {
     /**
@@ -78,36 +91,35 @@ interface CdlLambdaProps {
         * @param CdlLambdaProps
     */
     constructor(scope: Construct, id: string, props: CdlLambdaProps) {
-        super(scope, id, props);
-        
-        /** 
-         * Creates a FIFO queue to use as dead letter queue for Lambda function.
-        */
-
-        this.lambdaDlq = new sqs.Queue(this, `${props.lambdaName}DLQ`, {
-          queueName: `${props.lambdaName}dlg.fifo`,
-          deliveryDelay: Duration.millis(0),
-          contentBasedDeduplication: true,
-          retentionPeriod: Duration.days(14),
-          fifo: true
-        })
-
-         /** 
-         * Creates a Python Lambda Function with FIFO dead letter queue, x86 architecture,
-         * and X-ray tracing.
-        */
-        
-        this.lambdaFunction = new lambda.Function(this, props.lambdaName, {
+        super(scope, id, {
+          ...props,
+          /** 
+             * Creates a Python Lambda Function with FIFO dead letter queue, x86 architecture,
+             * and X-ray tracing.
+            */
             runtime: props.runtime,
             code: props.code,
             handler: props.handler,
             layers: props.layers,
+            description: props.description,
+            role: props.role,
             timeout: props.timeout? props.timeout : Duration.minutes(5),
             environment: props.environment || undefined,
             architecture: lambda.Architecture.X86_64, // specify graviton2 based lambda architecture
             deadLetterQueueEnabled: true, // enable FIFO dead letter queue
-            deadLetterQueue: this.lambdaDlq, // specify FIFO dead letter queue
+            deadLetterQueue: new sqs.Queue(scope, `${id}DLQ`, {
+              queueName: `${id}dlq.fifo`,
+              deliveryDelay: Duration.millis(0),
+              contentBasedDeduplication: true,
+              enforceSSL: true,
+              retentionPeriod: Duration.days(14),
+              fifo: true
+              }), // specify FIFO dead letter queue
             tracing: lambda.Tracing.ACTIVE // enable x-ray tracing for all functions
-          });
+        } 
+          );
+  
+          
+
   }
   }

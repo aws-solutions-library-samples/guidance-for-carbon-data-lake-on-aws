@@ -6,6 +6,7 @@ import { aws_sqs as sqs } from 'aws-cdk-lib'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
+import { aws_kms as kms } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
@@ -14,6 +15,7 @@ import { DataPipelineStatemachine } from './construct-data-pipeline-statemachine
 import { DataQuality } from './construct-data-quality/construct-data-quality'
 import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { NagSuppressions } from 'cdk-nag'
 
 interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -61,7 +63,18 @@ export class DataPipelineStack extends Stack {
       errorBucket: props.errorBucket,
     })
 
-    const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {})
+    const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {
+      masterKey: new kms.Key(this, 'Key', {
+        enableKeyRotation: true,
+      })
+    })
+
+    NagSuppressions.addResourceSuppressions(dqErrorNotificationSNS, [
+      { 
+        id: 'AwsSolutions-SNS3', 
+        reason: 'SSL is not available on L2 construct.' },
+    ]);
+
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
 
@@ -74,8 +87,21 @@ export class DataPipelineStack extends Stack {
     this.calculatorOutputTable = calculatorOutputTable
     this.calculatorFunction = calculatorLambda
 
+    
+
     // Queue to hold records that fail within the calculator
-    const calculatorErrorQueue = new sqs.Queue(this, "CDLFailedActivityQueue", {});
+    const calculatorErrorQueue = new sqs.Queue(this, "CDLFailedActivityQueue", {
+      enforceSSL: true,
+      retentionPeriod: Duration.days(14),
+      fifo: true
+    });
+
+    NagSuppressions.addResourceSuppressions(calculatorErrorQueue, [
+      {
+          id: 'AwsSolutions-SQS3',
+          reason: 'This is a dead-letter queue itself so does not need another DLQ.'
+      },
+    ])
 
     /* ======== STATEMACHINE ======== */
 
@@ -150,7 +176,7 @@ export class DataPipelineStack extends Stack {
       description: 'URL to open CDL State machine to view step functions workflow status',
       exportName: 'CDLDataPipelineStateMachineUrl',
 
-    }); 
+    });
 
     Tags.of(this).add("component", "dataPipeline");
   }

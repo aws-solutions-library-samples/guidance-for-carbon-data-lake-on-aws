@@ -1,6 +1,7 @@
 import { StackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
+import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
 
 interface DataCompactionGlueJobsProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
@@ -14,10 +15,7 @@ export class DataCompactionGlueJobs extends Construct {
     super(scope, id)
 
     // Create new S3 bucket to store glue data compaction script
-    const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueCompactionJobScriptsBucket', {
-      blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const glueScriptsBucket = new CdlS3(this, 'glueCompactionJobScriptsBucket', {
     })
 
     // Create IAM policy for Glue to assume

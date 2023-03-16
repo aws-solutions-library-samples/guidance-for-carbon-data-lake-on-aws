@@ -9,6 +9,7 @@ import { CustomResource, custom_resources as cr, Environment, RemovalPolicy } fr
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { CdlS3 } from '../construct-cdl-s3-bucket/construct-cdl-s3-bucket';
 
 interface RestApiDocsSiteStackProps {
   restHttpApi: HttpApi;
@@ -24,9 +25,7 @@ export class RestApiDocsSite extends Construct {
     super(scope, id)
 
     // Create the S3 bucket that will contain the artifacts needed for Swagger (i.e OpenAPI spec file)
-    this.restApiDocsSiteBucket = new Bucket(this, 'cdlRestApiDocsSiteBucket', {
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY
+    this.restApiDocsSiteBucket = new CdlS3(this, 'cdlRestApiDocsSiteBucket', {
     });
 
     // Create custom resource that builds the OpenAPI spec file from API Gateway and stores it in the above bucket

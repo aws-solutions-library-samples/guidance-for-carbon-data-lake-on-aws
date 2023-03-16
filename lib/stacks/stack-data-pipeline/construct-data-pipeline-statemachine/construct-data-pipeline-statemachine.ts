@@ -1,6 +1,7 @@
 import { Duration, Stack, StackProps } from 'aws-cdk-lib'
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
+import { aws_logs as logs } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
@@ -322,6 +323,11 @@ export class DataPipelineStatemachine extends Construct {
       stateMachineName: STATEMACHINE_NAME, // hardcoding name to prevent circular permissions dependency
       definition,
       timeout: Duration.minutes(60),
+      tracingEnabled: true,
+      logs: {
+        destination: new logs.LogGroup(this, `${STATEMACHINE_NAME}-logs`),
+        level: sfn.LogLevel.ALL,
+      },
     })
 
     /* ======== PERMISSIONS ======== */

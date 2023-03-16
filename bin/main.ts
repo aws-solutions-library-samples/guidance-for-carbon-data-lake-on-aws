@@ -13,7 +13,6 @@ import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/s
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
 import { IotIngestStack } from '../lib/stacks/stack-iot-ingest/iot-ingest'
 import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
-import { RestApiStack } from '../lib/stacks/stack-api-rest/stack-api-rest'
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { config } from '../lib/codegen/config';
 import { generate } from '@graphql-codegen/cli'
@@ -51,6 +50,22 @@ generate(codegenConfig).then(() => {
       env: appEnv
     })
 
+    NagSuppressions.addStackSuppressions(dataLineage, [
+      { 
+        id: 'AwsSolutions-IAM4', 
+        reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+      },
+      {
+        id: 'AwsSolutions-IAM5', 
+        reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+      },
+      {
+        id: 'AwsSolutions-SQS3',
+        reason:
+          "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+      },
+    ]);
+
   // CDL-DATA-PIPELINE --> Create the cdl data pipeline stack
   // cdl orchestration pipeline stack - Amazon Step Functions
     const dataPipeline = new DataPipelineStack(app, 'DataPipelineStack', {
@@ -68,8 +83,31 @@ generate(codegenConfig).then(() => {
       const pipelineStateMachine = dataPipeline.pipelineStateMachine
       const calculatorOutputTable = dataPipeline.calculatorOutputTable
 
+
+      NagSuppressions.addStackSuppressions(dataPipeline, [
+        { 
+          id: 'AwsSolutions-IAM4', 
+          reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-IAM5', 
+          reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-SQS3',
+          reason:
+            "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+        },
+        {
+          id: 'AwsSolutions-L1',
+          reason:
+            "Only suppress AwsSolutions-L1 resource handler runtime on L1 construct.",
+        },
+        
+      ]);
+
   // CDL-DATA-COMPACTION --> Create the cdl data compaction pipeline stack
-  new DataCompactionStack(app,'DataCompactionStack',
+  const dataCompactionStack = new DataCompactionStack(app,'DataCompactionStack',
         {
           enrichedBucket: sharedResources.cdlEnrichedBucket,
           enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
@@ -77,6 +115,22 @@ generate(codegenConfig).then(() => {
           env: appEnv
         }
       ) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
+      
+      NagSuppressions.addStackSuppressions(dataCompactionStack, [
+        { 
+          id: 'AwsSolutions-IAM4', 
+          reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-IAM5', 
+          reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-SQS3',
+          reason:
+            "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+        },
+      ]);
 
   // CDL-API-STACK --> Create the cdl api stack
   const apiStack = new ApiStack (app, 'ApiStack', {
@@ -85,12 +139,22 @@ generate(codegenConfig).then(() => {
         calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
         env: appEnv
       })
-  
-  // CDL-REST-API-STACK --> Create the cdl rest api stack
-  const restApiStack = new RestApiStack(app, 'ApiStackRest', {
-    landingBucket: landingBucket,
-    env: appEnv
-  });
+
+      NagSuppressions.addStackSuppressions(apiStack, [
+        { 
+          id: 'AwsSolutions-IAM4', 
+          reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-IAM5', 
+          reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-SQS3',
+          reason:
+            "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+        },
+      ]);
 
   // CDL-QUICKSIGHT-STACK --> Create the cdl quicksight stack
   const quicksightOption = app.node.tryGetContext('deployQuicksightStack')
@@ -112,11 +176,27 @@ generate(codegenConfig).then(() => {
   const sagemakerOption = app.node.tryGetContext('deploySagemakerStack')
   console.log(`Sagemaker deployment option is set to: ${sagemakerOption}`)
       if (sagemakerOption === true) {
-    new SageMakerNotebookStack(app, 'SageMakerNotebookStack', {
+    const sageMakerStack = new SageMakerNotebookStack(app, 'SageMakerNotebookStack', {
         env: appEnv,
         enrichedDataBucket: sharedResources.cdlEnrichedBucket
       });
+      NagSuppressions.addStackSuppressions(sageMakerStack, [
+        { 
+          id: 'AwsSolutions-IAM4', 
+          reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-IAM5', 
+          reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+        },
+        {
+          id: 'AwsSolutions-SQS3',
+          reason:
+            "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+          }
+      ]);
       }
+      
 
   // CDL-WEB-STACK --> Create the cdl web stack
   const webOption = app.node.tryGetContext('deployWebStack')
@@ -139,6 +219,21 @@ generate(codegenConfig).then(() => {
   const iotIngestOption = new IotIngestStack(app, 'IoTIngestStack', {
     env: appEnv
   })
+  NagSuppressions.addStackSuppressions(iotIngestOption, [
+    { 
+      id: 'AwsSolutions-IAM4', 
+      reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+    },
+    {
+      id: 'AwsSolutions-IAM5', 
+      reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+    },
+    {
+      id: 'AwsSolutions-SQS3',
+      reason:
+        "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+    },
+  ]);
 
   // Add a stack dependency so the DataPipeline stack gets created before IoTIngest stack. Landing Bucket must exist for IoT ingest stack to deploy.
   iotIngestOption.node.addDependency(dataPipeline)
@@ -149,15 +244,8 @@ if (nagEnabled === true){
     console.log("CDK-nag enabled. Starting cdk-nag review")
     Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 }
-/*
-NagSuppressions.addResourceSuppressions(bucket, [
-  {
-    id: 'AwsSolutions-S2',
-    reason: 'Demonstrate a resource level suppression.'
-  },
-*/
 
-  new TestStack(app, 'TestStack', {
+  const testStack = new TestStack(app, 'TestStack', {
     calculatorFunction: calculatorFunction,
     landingBucket: landingBucket,
     enrichedBucket: enrichedBucket,
@@ -166,4 +254,19 @@ NagSuppressions.addResourceSuppressions(bucket, [
     calculatorOutputTable: calculatorOutputTable,
     env: appEnv
   })
+  NagSuppressions.addStackSuppressions(testStack, [
+    { 
+      id: 'AwsSolutions-IAM4', 
+      reason: 'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.' 
+    },
+    {
+      id: 'AwsSolutions-IAM5', 
+      reason: 'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.' 
+    },
+    {
+      id: 'AwsSolutions-SQS3',
+      reason:
+        "Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.",
+    },
+  ]);
 });

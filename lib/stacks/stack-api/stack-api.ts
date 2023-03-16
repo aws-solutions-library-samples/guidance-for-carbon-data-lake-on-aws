@@ -23,11 +23,13 @@ import {
   VerificationEmailStyle,
   CfnIdentityPoolRoleAttachment,
   CfnIdentityPool,
+  AdvancedSecurityMode
 } from 'aws-cdk-lib/aws-cognito'
 import {
   IdentityPool,
   RoleMappingMatchType,
 } from '@aws-cdk/aws-cognito-identitypool-alpha'
+import { NagSuppressions } from 'cdk-nag'
 
 export interface ApiStackProps extends StackProps {
   calculatorOutputTableRef: cdk.aws_dynamodb.Table
@@ -82,6 +84,14 @@ export class ApiStack extends Stack {
       autoVerify: { email: true }, // Verify email addresses by sending a verification code
       accountRecovery: AccountRecovery.EMAIL_ONLY, // Restricts account recovery only to email method
       // Invite Message
+      passwordPolicy: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireDigits: true,
+        requireSymbols: true
+      },
+      advancedSecurityMode: AdvancedSecurityMode.ENFORCED,
       userInvitation: {
         emailSubject: `Welcome to AWS Carbon Data Lake!`,
         emailBody:
@@ -116,6 +126,13 @@ export class ApiStack extends Stack {
         myappid: new StringAttribute({ minLen: 5, maxLen: 15, mutable: false }),
       },
     })
+
+    NagSuppressions.addResourceSuppressions(userPool, [
+      {
+          id: 'AwsSolutions-COG2',
+          reason: 'Not requiring MFA by default because this is a development tool. Users are encouraged to enabled in all production environments.'
+      },
+    ])
 
     // -- COGNITO USER POOL (APP) CLIENT
     const userPoolClient = new UserPoolClient(this, 'cdlUserPoolClient', {
@@ -354,11 +371,16 @@ export class ApiStack extends Stack {
       },
       logConfig: {
         excludeVerboseContent: true,
-        fieldLogLevel: FieldLogLevel.ERROR,
+        fieldLogLevel: FieldLogLevel.ALL
       },
       // Uncomment the below line to enable AWS X-Ray distributed tracing for this api
-      //xrayEnabled: true
+      xrayEnabled: true
     })
+
+    NagSuppressions.addResourceSuppressions(api, [{ 
+      id: 'AwsSolutions-ASC3', 
+      reason: 'Request level access logging disabled for sample code.' 
+    }])
 
     // Set the public variables so other stacks can access the deployed graphqlUrl & apiId as well as set as CloudFormation output variables
     this.graphqlUrl = api.graphqlUrl

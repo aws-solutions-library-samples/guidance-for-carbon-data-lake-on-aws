@@ -21,32 +21,28 @@ export class SharedResourcesStack extends Stack {
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
     this.cdlRawBucket = new CdlS3(this, 'cdlRawBucket', {
-      bucketName: 'cdlRawBucket'
     })
 
     // Error bucket where files are moved if they don't pass the data quality check
     // Once manually processed, the files are manually removed from the bucket
     this.cdlErrorBucket = new CdlS3(this, 'cdlErrorBucket', {
-      bucketName: 'cdlErrorBucket'
     })
 
     // Transformed bucket where files are moved after they are processed (format = jsonl)
     // TODO add a lifecycle policy to archive files to Glacier
     // TODO add a default lock on the objects (WORM)
     this.cdlTransformedBucket = new CdlS3(this, 'cdlTransformedBucket', {
-      bucketName: 'cdlTransformedBucket'
     })
 
     // Enriched bucket where files are moved after they are enriched with calculated emissions (format = jsonl)
     // A compacting job compacts jsonl files into parquet files every day
     this.cdlEnrichedBucket = new CdlS3(this, 'cdlEnrichedBucket', {
-      bucketName: 'cdlEnrichedBucket'
     })
 
     // Bucket used to store unprocessed data lineage events
     // TODO add a lifecycle policy to archive files to Glacier
     this.cdlDataLineageBucket = new CdlS3(this, 'cdlDataLineageBucket', {
-      bucketName: 'cdlDataLineageBucket'
+
     })
 
     // Glue Metadata Catalog Database for enriched data
@@ -58,25 +54,25 @@ export class SharedResourcesStack extends Stack {
     })
 
     new CfnOutput(this, 'CDLEnrichedDataBucket', {
-      value: this.cdlEnrichedBucket.s3Bucket.bucketName,
+      value: this.cdlEnrichedBucket.bucketName,
       description: 'Enriched data bucket with outputs from calculator service',
       exportName: 'CDLEnrichedDataBucket',
     });
 
     new CfnOutput(this, 'CDLEnrichedDataBucketUrl', {
-      value: this.cdlEnrichedBucket.s3Bucket.bucketWebsiteUrl,
+      value: this.cdlEnrichedBucket.bucketWebsiteUrl,
       description: 'Url for enriched data bucket with outputs from calculator service',
       exportName: 'CDLEnrichedDataBucketUrl',
     });
 
     new CfnOutput(this, 'CDLDataLineageBucket', {
-      value: this.cdlDataLineageBucket.s3Bucket.bucketName,
+      value: this.cdlDataLineageBucket.bucketName,
       description: 'Data lineage S3 bucket',
       exportName: 'CDLDataLineageBucket',
     });
 
     new CfnOutput(this, 'CDLDataLineageBucketUrl', {
-      value: this.cdlDataLineageBucket.s3Bucket.bucketWebsiteUrl,
+      value: this.cdlDataLineageBucket.bucketWebsiteUrl,
       description: 'Data lineage S3 bucket URL',
       exportName: 'CDLDataLineageBucketUrl',
     });
