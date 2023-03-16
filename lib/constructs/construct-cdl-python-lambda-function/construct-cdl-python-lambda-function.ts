@@ -118,8 +118,5 @@ interface CdlLambdaProps {
             tracing: lambda.Tracing.ACTIVE // enable x-ray tracing for all functions
         } 
           );
-  
-          
-
   }
   }
