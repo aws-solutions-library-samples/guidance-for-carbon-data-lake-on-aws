@@ -1,0 +1,9 @@
+{
+  "activity_event_id": "customer-carbonlake-12345",
+  "supplier": "eversource",
+  "scope": 2,
+  "category": "grid-region-location-based",
+  "activity": "Quebec",
+  "raw_data": 453,
+  "units": "kwH"
+}

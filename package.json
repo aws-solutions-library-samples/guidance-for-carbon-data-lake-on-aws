@@ -1,0 +1,60 @@
+{
+  "name": "carbon-data-lake-quickstart",
+  "author": "AWS Carbon Data Lake Quick Start Builder Team",
+  "version": "0.1.0",
+  "bin": {
+    "carbon-data-lake-quickstart": "bin/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/cicd.ts'",
+    "dock": "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws"
+  },
+  "browser": {
+    "child_process": false
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "@types/prettier": "<2.6.0",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "aws-cdk": "2.15.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-amplify-alpha": "^2.21.0-alpha.0",
+    "@aws-cdk/aws-appsync-alpha": "^2.21.1-alpha.0",
+    "@aws-cdk/aws-cognito-identitypool-alpha": "^2.21.1-alpha.0",
+    "@awsui/collection-hooks": "^1.0.25",
+    "@awsui/components-react": "^3.0.490",
+    "@awsui/design-tokens": "^3.0.21",
+    "@awsui/global-styles": "^1.0.14",
+    "@awsui/test-utils-core": "^1.0.17",
+    "aws-cdk-exec": "^0.0.5",
+    "aws-cdk-lib": "2.45.0",
+    "aws-sdk": "^2.1210.0",
+    "cdk-nag": "^2.22.37",
+    "child_process": "^1.0.2",
+    "constructs": "^10.0.0",
+    "git-secrets": "^0.0.11",
+    "node": "^16.17.0",
+    "run": "^1.4.0",
+    "source-map-support": "^0.5.16",
+    "uuid": "^9.0.0"
+  }
+}
