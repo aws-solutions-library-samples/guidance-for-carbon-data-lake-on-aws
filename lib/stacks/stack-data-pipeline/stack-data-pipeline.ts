@@ -2,16 +2,20 @@ import { Duration, Stack, StackProps, RemovalPolicy, CfnOutput, Tags } from 'aws
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_dynamodb as ddb } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import { aws_sns_subscriptions as subscriptions } from 'aws-cdk-lib'
+import { aws_kms as kms } from 'aws-cdk-lib'
 import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
 import { Calculator } from './construct-calculator/construct-calculator'
 import { DataPipelineStatemachine } from './construct-data-pipeline-statemachine/construct-data-pipeline-statemachine'
-import { GlueTransformation } from './construct-transform/glue/construct-glue-transform-job'
 import { DataQuality } from './construct-data-quality/construct-data-quality'
+import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
+import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { NagSuppressions } from 'cdk-nag'
 
 interface DataPipelineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -33,10 +37,8 @@ export class DataPipelineStack extends Stack {
 
     // Landing bucket where files are dropped by customers
     // Once processed, the files are removed by the pipeline
-    this.cdlLandingBucket = new s3.Bucket(this, 'LandingBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    this.cdlLandingBucket = new CdlS3(this, 'LandingBucket', {
+      bucketName: 'LandingBucket',
       cors: [
         {
           allowedMethods: [
@@ -61,38 +63,20 @@ export class DataPipelineStack extends Stack {
       errorBucket: props.errorBucket,
     })
 
-    const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {})
+    const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {
+      masterKey: new kms.Key(this, 'Key', {
+        enableKeyRotation: true,
+      })
+    })
+
+    NagSuppressions.addResourceSuppressions(dqErrorNotificationSNS, [
+      { 
+        id: 'AwsSolutions-SNS3', 
+        reason: 'SSL is not available on L2 construct.' },
+    ]);
+
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
-
-    /* ======== GLUE TRANSFORM ======== */
-    const { glueTransformJobName } = new GlueTransformation(this, 'CDLGlueTransformationStack', {
-      rawBucket: props?.rawBucket,
-      transformedBucket: props?.transformedBucket,
-    })
-
-    /* ======== POST-GLUE BATCH LAMBDA ======== */
-
-    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
-    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
-      this,
-      'cdlPipelineDependencyLayer',
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
-    )
-
-    // Lambda function to list total objects in the directory created by AWS Glue
-    const batchEnumLambda = new lambda.Function(this, 'CDLDataPipelineBatchLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
-      handler: 'app.lambda_handler',
-      layers: [dependencyLayer],
-      timeout: Duration.seconds(60),
-      environment: {
-        TRANSFORMED_BUCKET_NAME: props.transformedBucket.bucketName,
-      },
-    })
-
-    props.transformedBucket.grantRead(batchEnumLambda)
 
     /* ======== CALCULATION ======== */
 
@@ -103,28 +87,47 @@ export class DataPipelineStack extends Stack {
     this.calculatorOutputTable = calculatorOutputTable
     this.calculatorFunction = calculatorLambda
 
+    
+
+    // Queue to hold records that fail within the calculator
+    const calculatorErrorQueue = new sqs.Queue(this, "CDLFailedActivityQueue", {
+      enforceSSL: true,
+      retentionPeriod: Duration.days(14),
+      fifo: true
+    });
+
+    NagSuppressions.addResourceSuppressions(calculatorErrorQueue, [
+      {
+          id: 'AwsSolutions-SQS3',
+          reason: 'This is a dead-letter queue itself so does not need another DLQ.'
+      },
+    ])
+
     /* ======== STATEMACHINE ======== */
 
-    // Required inputs for the step function
-    //  - data lineage lambda function
-    //  - dq quality workflow
-    //  - glue transformation job
-    //  - calculation function
     const { statemachine } = new DataPipelineStatemachine(this, 'CDLStatemachineStack', {
       dataLineageFunction: props?.dataLineageFunction,
       dqResourcesLambda: resourcesLambda,
       dqResultsLambda: resultsLambda,
       dqErrorNotification: dqErrorNotificationSNS,
-      glueTransformJobName: glueTransformJobName,
-      batchEnumLambda: batchEnumLambda,
       calculationJob: calculatorLambda,
+      calculationErrorQueue: calculatorErrorQueue,
+      rawBucket: props.rawBucket
     })
     this.pipelineStateMachine = statemachine
 
     /* ======== KICKOFF LAMBDA ======== */
 
+    // Lambda Layer for aws_lambda_powertools (dependency for the lambda function)
+    const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
+      this,
+      'cdlPipelineDependencyLayer',
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+    )
+
     // Lambda function to process incoming events, generate child node IDs and start the step function
-    const kickoffFunction = new lambda.Function(this, 'CDLKickoffLambda', {
+    const kickoffFunction = new CdlPythonLambda(this, 'CDLKickoffLambda', {
+      lambdaName: 'CDLKickoffLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
@@ -143,6 +146,8 @@ export class DataPipelineStack extends Stack {
       // optional: only invoke lambda if object matches the filter
       // {prefix: 'bucket-prefix/', suffix: '.some-extension'},
     )
+
+    /* ======== STACK OUTPUTS ======== */
 
     // Landing Bucket Name output
     new CfnOutput(this, 'LandingBucketName', {
@@ -171,7 +176,7 @@ export class DataPipelineStack extends Stack {
       description: 'URL to open CDL State machine to view step functions workflow status',
       exportName: 'CDLDataPipelineStateMachineUrl',
 
-    }); 
+    });
 
     Tags.of(this).add("component", "dataPipeline");
   }

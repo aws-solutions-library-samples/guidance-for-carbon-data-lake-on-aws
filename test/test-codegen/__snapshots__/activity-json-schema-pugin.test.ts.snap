@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`activity json schema generator Should output a json schema from a graphql type for Activity 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"properties\\": {
+    \\"__typename\\": {
+      \\"type\\": \\"string\\",
+      \\"enum\\": [
+        \\"Activity\\"
+      ]
+    },
+    \\"id\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"activity_event_id\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"asset_id\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"activity\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"category\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"scope\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"geo\\": {},
+    \\"origin_measurement_timestamp\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"raw_data\\": {
+      \\"type\\": \\"number\\"
+    },
+    \\"source\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"units\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"emissions_output\\": {},
+    \\"createdAt\\": {},
+    \\"updatedAt\\": {}
+  },
+  \\"required\\": [
+    \\"activity_event_id\\"
+  ],
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\"
+}"
+`;

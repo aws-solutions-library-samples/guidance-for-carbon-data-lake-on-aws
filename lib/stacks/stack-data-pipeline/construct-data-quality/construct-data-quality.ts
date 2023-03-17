@@ -1,10 +1,12 @@
-import { Duration, Stack, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
+import { Duration, StackProps, RemovalPolicy, Tags } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import path from 'path'
 
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
+import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { CdlPythonLambda } from '../../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 
 interface DataQualityProps extends StackProps {
   inputBucket: s3.Bucket
@@ -28,10 +30,8 @@ export class DataQuality extends Construct {
     /* ====== DEPENDENCIES ====== */
 
     // s3 bucket to store results from the data quality profile job
-    const resultsBucket = new s3.Bucket(this, 'DataQualityResultsBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const resultsBucket = new CdlS3(this, 'DataQualityResultsBucket', {
+      bucketName: 'DataQualityResultsBucket'
     })
 
     // role used by the databrew profiling job -> read/write to S3
@@ -46,7 +46,8 @@ export class DataQuality extends Construct {
     /* ====== RESOURCES LAMBDA ====== */
 
     // lambda function to handle setup and teardown of databrew resources
-    this.resourcesLambda = new lambda.Function(this, 'DataQualityResourcesLambda', {
+    this.resourcesLambda = new CdlPythonLambda(this, 'DataQualityResourcesLambda', {
+      lambdaName: 'DataQualityResourcesLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/manage_dq_resources/')),
       handler: 'app.lambda_handler',
@@ -86,7 +87,8 @@ export class DataQuality extends Construct {
     /* ====== PARSE RESULTS LAMBDA ====== */
 
     // lambda function to parse the results of the databrew profiling job
-    this.resultsLambda = new lambda.Function(this, 'DataQualityResultsLambda', {
+    this.resultsLambda = new CdlPythonLambda(this, 'DataQualityResultsLambda', {
+      lambdaName: 'DataQualityResultsLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/parse_results/')),
       handler: 'app.lambda_handler',

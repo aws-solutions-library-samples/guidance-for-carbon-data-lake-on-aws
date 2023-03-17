@@ -1,24 +1,66 @@
 import { Duration, Stack, StackProps } from 'aws-cdk-lib'
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
+import { aws_logs as logs } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_sqs as sqs } from 'aws-cdk-lib'
+import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
+// how wide to parallelise the step function map state
+const STATEMACHINE_MAX_CONCURRENCY = 100;
+// how many rows to process per calculation function invocation
+const STATEMACHINE_MAX_ITEMS_PER_BATCH = 1000;
+const STATEMACHINE_NAME = 'cdl-data-pipeline-sfn';
+
+
 interface StateMachineProps extends StackProps {
+  /**
+   * Function invoked for a new data lineage request
+   */
   dataLineageFunction: lambda.Function
+  /**
+   * Function invoked to cleanup data quality resources
+   */
   dqResourcesLambda: lambda.Function
+  /**
+   * Function invoked to parse data quality results
+   */
   dqResultsLambda: lambda.Function
+  /**
+   * SNS topic trigger on data quality job failure
+   */
   dqErrorNotification: sns.Topic
-  glueTransformJobName: string
-  batchEnumLambda: lambda.Function
+  /**
+   * Function invoked to calculate CO2e value from emissions data
+   */
   calculationJob: lambda.Function
+  /**
+   * SQS queue to hold records failed within the Calculator
+   */
+  calculationErrorQueue: sqs.Queue
+  /**
+   * The S3 bucket to read data in from
+   */
+  rawBucket: s3.Bucket
 }
 
 export class DataPipelineStatemachine extends Construct {
+  /**
+   * The statemachine which orchestrates the data pipeline
+   */
   public readonly statemachine: sfn.StateMachine
 
+  /**
+   * Defines the serverless data pipeline using Amazon Step Functions.
+   * Orchestrates data quality, data lineage, and emissions calculation
+   * using a distributed map state.
+   * @param scope 
+   * @param id 
+   * @param props 
+   */
   constructor(scope: Construct, id: string, props: StateMachineProps) {
     super(scope, id)
 
@@ -137,7 +179,7 @@ export class DataPipelineStatemachine extends Construct {
     })
 
     // Data Quality error notification - invoked on data quality check fail
-    const errorNotificaiton = new tasks.SnsPublish(this, 'SNS: Notify Data Quality Error', {
+    const errorNotification = new tasks.SnsPublish(this, 'SNS: Notify Data Quality Error', {
       topic: props.dqErrorNotification,
       subject: 'Data Quality check failed',
       message: sfn.TaskInput.fromText(
@@ -149,119 +191,189 @@ export class DataPipelineStatemachine extends Construct {
       resultPath: sfn.JsonPath.DISCARD,
     })
 
-    // Transformation Glue Job - split large input file into optimised batches with known schema
-    const transformGlueTask = new tasks.GlueStartJobRun(this, 'GLUE: Synchronous Transform', {
-      glueJobName: props.glueTransformJobName,
-      arguments: sfn.TaskInput.fromObject({
-        '--UNIQUE_DIRECTORY': sfn.JsonPath.stringAt('$.data_lineage.root_id'),
-      }),
-      integrationPattern: sfn.IntegrationPattern.RUN_JOB,
-      resultSelector: {
-        job_name: sfn.JsonPath.stringAt('$.JobName'),
-        job_id: sfn.JsonPath.stringAt('$.Id'),
-        job_state: sfn.JsonPath.stringAt('$.JobRunState'),
-      },
-      resultPath: '$.glue_output',
-    })
-
-    // Lambda function to determine number and location of batches created by AWS Glue
-    const batchLambdaTask = new tasks.LambdaInvoke(this, 'LAMBDA: Enumerate Batched Files', {
-      lambdaFunction: props.batchEnumLambda,
-      payloadResponseOnly: true,
-      payload: sfn.TaskInput.fromObject({
-        batch_location_dir: sfn.JsonPath.stringAt('$.data_lineage.root_id'),
-      }),
-      resultPath: '$.batches',
-    })
-
-    // Data Lineage Request - 2 - GLUE_BATCH_SPLIT
-    const dataLineageTask2 = new tasks.LambdaInvoke(this, 'Data Lineage: GLUE_BATCH_SPLIT', {
-      lambdaFunction: props.dataLineageFunction,
-      payloadResponseOnly: true,
-      payload: sfn.TaskInput.fromObject({
-        root_id: sfn.JsonPath.stringAt('$.data_lineage.root_id'),
-        parent_id: sfn.JsonPath.stringAt('$.data_lineage.node_id'),
-        action_taken: 'GLUE_BATCH_SPLIT',
-        records: sfn.JsonPath.objectAt('$.batches'),
-      }),
-      // discarding the output as all required downstream data is already included in the `batches` array
-      resultPath: sfn.JsonPath.DISCARD,
-    })
-
-    // Dynamic Map State - Run n calculations depending on number of batches
-    const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
-      maxConcurrency: 10,
-      inputPath: '$',
-      itemsPath: '$.batches',
-      parameters: {
-        storage_location: sfn.JsonPath.objectAt('$$.Map.Item.Value.storage_location'),
-        data_lineage: {
-          root_id: sfn.JsonPath.stringAt('$.data_lineage.root_id'),
-          parent_id: sfn.JsonPath.stringAt('$$.Map.Item.Value.node_id'),
-        },
-      },
-      resultPath: sfn.JsonPath.DISCARD,
-    })
-
     // Calculation Lambda function - pass in the batch to be processed
     const calculationLambdaTask = new tasks.LambdaInvoke(this, 'LAMBDA: Calculate CO2 Equivalent', {
       lambdaFunction: props.calculationJob,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
-        storage_location: sfn.JsonPath.stringAt('$.storage_location'),
+        items: sfn.JsonPath.listAt('$.Items'),
+        execution_id: sfn.JsonPath.stringAt('$$.Execution.Name'),
+        root_id: sfn.JsonPath.stringAt('$.BatchInput.root_id'),
+        parent_id: sfn.JsonPath.stringAt('$.BatchInput.parent_id')
       }),
-      resultPath: '$.calculations',
+      resultPath: '$'
     })
 
-    // Data Lineage Request - 3 - CALCULATION_COMPLETE
-    const dataLineageTask3 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_COMPLETE', {
+    // Data Lineage Request - 2_1 - CALCULATION_COMPLETE
+    const dataLineageTask2_1 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_COMPLETE', {
       lambdaFunction: props.dataLineageFunction,
       payloadResponseOnly: true,
       payload: sfn.TaskInput.fromObject({
-        root_id: sfn.JsonPath.stringAt('$.data_lineage.root_id'),
-        parent_id: sfn.JsonPath.stringAt('$.data_lineage.parent_id'),
+        root_id: sfn.JsonPath.stringAt('$.root_id'),
+        parent_id: sfn.JsonPath.stringAt('$.parent_id'),
         action_taken: 'CALCULATION_COMPLETE',
-        storage_location: sfn.JsonPath.stringAt('$.calculations.storage_location'),
-        records: sfn.JsonPath.objectAt('$.calculations.records'),
+        storage_location: sfn.JsonPath.stringAt('$.storage_location'),
+        records: sfn.JsonPath.objectAt('$.records'),
       }),
-      // discarding output to reduce payload size, this is the last task in the pipeline so output is not needed.
-      resultPath: sfn.JsonPath.DISCARD,
+      resultSelector: {
+        root_id: sfn.JsonPath.stringAt('$.root_id')
+      }
     })
+
+    // Boolean choice state for failed records - checks whether failed_records payload array is empty
+    const failedRecordCheck = new sfn.Choice(this, 'CHOICE: Failed records?');
+
+    // Data Lineage Request - 2_2 - CALCULATION_FAILED
+    const dataLineageTask2_2 = new tasks.LambdaInvoke(this, 'Data Lineage: CALCULATION_FAILED', {
+      lambdaFunction: props.dataLineageFunction,
+      payloadResponseOnly: true,
+      payload: sfn.TaskInput.fromObject({
+        root_id: sfn.JsonPath.stringAt('$.root_id'),
+        parent_id: sfn.JsonPath.stringAt('$.parent_id'),
+        action_taken: 'CALCULATION_FAILED',
+        storage_location: sfn.JsonPath.stringAt('$.error_storage_location'),
+        records: sfn.JsonPath.objectAt('$.failed_records'),
+      })
+    })
+
+    // SQS Send Message Task for handling failed messages within the calculator
+    const failedQueueTask = new tasks.SqsSendMessage(this, 'SQS: Send Failed Activities to Queue', {
+      queue: props.calculationErrorQueue,
+      messageBody: sfn.TaskInput.fromObject({
+        root_id: sfn.JsonPath.stringAt('$.root_id'),
+        failed_records: sfn.JsonPath.objectAt('$.records')
+      })
+    });
+
+    // setup a parallel state for handling clean and failed records
+    const splitActivities = new sfn.Parallel(this, 'Split clean and failed activities');
+    splitActivities.branch(dataLineageTask2_1) // "Good" path
+    splitActivities.branch(failedRecordCheck
+      .when(
+        sfn.Condition.booleanEquals('$.has_errors', true),
+        dataLineageTask2_2.next(failedQueueTask)
+      )
+      .otherwise(new sfn.Pass(this, 'No failed records'))
+    ) // "Bad" path
+
+    // hardcoding a distributed map state via custom JSON until native support is provided
+    // as per - https://github.com/aws/aws-cdk/issues/23216
+    const dummyMap = new sfn.Map(this, "MAP: Iterate Records")
+    dummyMap.iterator(calculationLambdaTask.next(splitActivities));
+
+    const distributedMapState = new sfn.CustomState(this, "DistributedMap", {
+      stateJson: {
+        Type: "Map",
+        MaxConcurrency: STATEMACHINE_MAX_CONCURRENCY,
+        ItemReader: {
+          Resource: "arn:aws:states:::s3:getObject",
+          ReaderConfig: {
+            InputType: "CSV",
+            CSVHeaderLocation: "FIRST_ROW",
+          },
+          Parameters: {
+            Bucket: props.rawBucket.bucketName,
+            "Key.$": "$.data_quality.s3_key"
+          },
+        },
+        ItemBatcher: {
+          MaxItemsPerBatch: STATEMACHINE_MAX_ITEMS_PER_BATCH,
+          MaxInputBytesPerBatch: 200000, // max is 256KB, included some buffer here for BatchInput fields
+          BatchInput: {
+            "root_id.$": "$.data_lineage.root_id",
+            "parent_id.$": "$.data_lineage.node_id"
+          }
+        },
+        ItemProcessor: {
+          ...(dummyMap.toStateJson() as any).Iterator,
+          ProcessorConfig: {
+            Mode: "DISTRIBUTED",
+            ExecutionType: "STANDARD",
+          },
+        },
+        ResultPath: null
+      }
+    });
 
     /* ======== STEP FUNCTION ======== */
 
     // State machine definition
-    const definition = sfn.Chain.start(dataLineageTask0)
+    const definition = sfn.Chain
+      .start(dataLineageTask0)
       .next(dataQualitySetupTask)
       .next(dataQualityProfileTask)
       .next(dataLineageTask1)
       .next(dataQualityCleanupTask)
       .next(dataQualityCheckTask)
-      .next(
-        dataQualityChoice
-          .when(
-            sfn.Condition.booleanEquals('$.data_quality.status', true),
-            sfn.Chain.start(dataLineageTask1_1)
-              .next(transformGlueTask)
-              .next(batchLambdaTask)
-              .next(dataLineageTask2)
-              .next(dynamicMapState.iterator(sfn.Chain.start(calculationLambdaTask).next(dataLineageTask3)))
-              .next(sfnSuccess)
-          )
-          .otherwise(sfn.Chain.start(errorNotificaiton).next(dataLineageTask1_2).next(sfnFailure))
+      .next(dataQualityChoice
+        .when(
+          sfn.Condition.booleanEquals('$.data_quality.status', true),
+          sfn.Chain.start(dataLineageTask1_1)
+            .next(distributedMapState)
+            .next(sfnSuccess)
+        )
+        .otherwise(
+          sfn.Chain.start(errorNotification)
+            .next(dataLineageTask1_2)
+            .next(sfnFailure)
+        )
       )
 
     this.statemachine = new sfn.StateMachine(this, 'cdlPipeline', {
+      stateMachineName: STATEMACHINE_NAME, // hardcoding name to prevent circular permissions dependency
       definition,
       timeout: Duration.minutes(60),
+      tracingEnabled: true,
+      logs: {
+        destination: new logs.LogGroup(this, `${STATEMACHINE_NAME}-logs`),
+        level: sfn.LogLevel.ALL,
+      },
     })
 
+    /* ======== PERMISSIONS ======== */
+
+    // allow statemachine to read from raw bucket
+    // required for distributed map state
+    props.rawBucket.grantRead(this.statemachine);
+
+    // explicitly permit statemachine to invoke calculator and data lineage functions
+    // NOTE: this will be done implicitly when sfn distributed maps are native in CDK
+    props.calculationJob.grantInvoke(this.statemachine);
+    props.dataLineageFunction.grantInvoke(this.statemachine);
+
+    // allow statemachine to run databrew jobs
     this.statemachine.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['databrew:StartJobRun'],
-        resources: ['*'],
+        resources: [ `arn:aws:databrew:${Stack.of(this).region}:${Stack.of(this).account}:job/*` ],
       })
     )
+
+    // permit statemachine to send failed activities to SQS
+    props.calculationErrorQueue.grantSendMessages(this.statemachine);
+
+    // allow statemachine to start new statemachine executions as children.
+    // required for the distributed map state
+    // NOTE: this will be done implicitly when sfn distributed maps are native in CDK
+    this.statemachine.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'states:StartExecution',
+        ],
+        resources: [ `arn:aws:states:${Stack.of(this).region}:${Stack.of(this).account}:stateMachine:${STATEMACHINE_NAME}` ]
+      })
+    );
+    this.statemachine.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'states:DescribeExecution',
+          'states:StopExecution'
+        ],
+        resources: [ `arn:aws:states:${Stack.of(this).region}:${Stack.of(this).account}:stateMachine:${STATEMACHINE_NAME}/*` ]
+      })
+    );
   }
 }

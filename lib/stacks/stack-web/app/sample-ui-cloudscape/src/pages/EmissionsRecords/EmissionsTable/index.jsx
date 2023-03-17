@@ -19,17 +19,13 @@ import {
 
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { getOne, all } from '../../../graphql/queries';
+import { listActivities } from '../../../graphql/operations';
 // import { delete } from '../../../graphql/mutations';
 
 import { getFilterCounterText } from '../../../common/resources/tableCounterStrings';
 import { FullPageHeader } from '..';
 import {
-  CustomAppLayout,
-  Navigation,
   TableNoMatchState,
-
-  Notifications,
 } from '../../../common/common-components-config';
 import {  EmissionsTableEmptyState } from '../../EmissionsRecords'
 import { paginationLabels, emissionSelectionLabels } from '../labels';
@@ -42,7 +38,6 @@ import { DEFAULT_PREFERENCES, Preferences } from './table-property-filter-config
 import '../../../common/styles/base.scss'
 import { useLocalStorage } from '../../../common/resources/localStorage';
 
-import { useEmissionsRecords, useEmissionsRecordsPropertyFiltering } from './hooks';
 
 
 
@@ -86,8 +81,8 @@ const EmissionsTable = ({ updateTools, saveWidths, columnDefinitions }) => {
 
   const fetchEmissions = async () => {
     try{
-        const emissionData = await API.graphql(graphqlOperation(all, {limit:10000}));
-        const emissionsDataList = emissionData.data.all.items
+        const emissionData = await API.graphql(graphqlOperation(listActivities, {limit:10000}));
+        const emissionsDataList = emissionData.data.listActivities.items
         console.log('Emissions List', emissionsDataList)
         setEmissions(emissionsDataList)
         setLoading(false)

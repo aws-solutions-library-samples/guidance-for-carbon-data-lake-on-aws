@@ -1,33 +1,302 @@
-schema {
-    query: Query
-    mutation: Mutation
+
+type Activity {
+  id: ID
+  activity_event_id: String!
+  asset_id: String
+  activity: String
+  category: String
+  scope: String
+  geo: AWSJSON
+  origin_measurement_timestamp: String
+  raw_data: Float
+  source: String
+  units: String
+  emissions_output: AWSJSON
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
-type CalculatorOutput {
-    activity_event_id: String!
-    asset_id: String
-    activity: String
-    category: String
-    scope: Int
-    emissions_output: AWSJSON
-    geo: AWSJSON
-    origin_measurement_timestamp: String
-    raw_data: Float
-    source: String
-    units: String
+type EmissionFactor {
+  category: String!
+  activity: String!
+  scope: Int!
+  co2_factor: Float
+  ch4_factor: Float
+  n2o_factor: Float
+  biofuel_co2: Float
+  AR4_kgco2e: Float
+  AR5_kgco2e: Float
+  units: String!
+  last_updated: String
+  source: String
+  source_origin: String
 }
 
-type PaginatedCalculatorOutput {
-    items: [CalculatorOutput]
-    nextToken: String
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelActivityConnection {
+  items: [Activity]!
+  nextToken: String
+}
+
+input ModelActivityFilterInput {
+  id: ModelIDInput
+  activity_event_id: ModelStringInput
+  asset_id: ModelStringInput
+  activity: ModelStringInput
+  category: ModelStringInput
+  scope: ModelStringInput
+  geo: ModelStringInput
+  origin_measurement_timestamp: ModelStringInput
+  raw_data: ModelFloatInput
+  source: ModelStringInput
+  units: ModelStringInput
+  emissions_output: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelActivityFilterInput]
+  or: [ModelActivityFilterInput]
+  not: ModelActivityFilterInput
 }
 
 type Query {
-    all(limit: Int, nextToken: String): PaginatedCalculatorOutput
-    getOne(activity_event_id: String!): CalculatorOutput
+  getActivity(id: ID!): Activity
+  listActivities(filter: ModelActivityFilterInput, limit: Int, nextToken: String): ModelActivityConnection
 }
 
+input ModelActivityConditionInput {
+  activity_event_id: ModelStringInput
+  asset_id: ModelStringInput
+  activity: ModelStringInput
+  category: ModelStringInput
+  scope: ModelStringInput
+  geo: ModelStringInput
+  origin_measurement_timestamp: ModelStringInput
+  raw_data: ModelFloatInput
+  source: ModelStringInput
+  units: ModelStringInput
+  emissions_output: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelActivityConditionInput]
+  or: [ModelActivityConditionInput]
+  not: ModelActivityConditionInput
+}
 
-type Mutation  @aws_auth(cognito_groups: ["Admin",]) {
-     delete(activity_event_id: String!): CalculatorOutput
- }
+input CreateActivityInput {
+  id: ID
+  activity_event_id: String!
+  asset_id: String
+  activity: String
+  category: String
+  scope: String
+  geo: AWSJSON
+  origin_measurement_timestamp: String
+  raw_data: Float
+  source: String
+  units: String
+  emissions_output: AWSJSON
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateActivityInput {
+  id: ID!
+  activity_event_id: String
+  asset_id: String
+  activity: String
+  category: String
+  scope: String
+  geo: AWSJSON
+  origin_measurement_timestamp: String
+  raw_data: Float
+  source: String
+  units: String
+  emissions_output: AWSJSON
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteActivityInput {
+  id: ID!
+}
+
+type Mutation {
+  createActivity(input: CreateActivityInput!, condition: ModelActivityConditionInput): Activity
+  updateActivity(input: UpdateActivityInput!, condition: ModelActivityConditionInput): Activity
+  deleteActivity(input: DeleteActivityInput!, condition: ModelActivityConditionInput): Activity
+}
+
+input ModelSubscriptionActivityFilterInput {
+  id: ModelSubscriptionIDInput
+  activity_event_id: ModelSubscriptionStringInput
+  asset_id: ModelSubscriptionStringInput
+  activity: ModelSubscriptionStringInput
+  category: ModelSubscriptionStringInput
+  scope: ModelSubscriptionStringInput
+  geo: ModelSubscriptionStringInput
+  origin_measurement_timestamp: ModelSubscriptionStringInput
+  raw_data: ModelSubscriptionFloatInput
+  source: ModelSubscriptionStringInput
+  units: ModelSubscriptionStringInput
+  emissions_output: ModelSubscriptionStringInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionActivityFilterInput]
+  or: [ModelSubscriptionActivityFilterInput]
+}
+
+type Subscription {
+  onCreateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["createActivity"])
+  onUpdateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["updateActivity"])
+  onDeleteActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: ["deleteActivity"])
+}
+

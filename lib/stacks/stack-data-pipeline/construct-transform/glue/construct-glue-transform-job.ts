@@ -1,3 +1,13 @@
+/* =============================================================================================
+This stack is no longer used in the AWS Carbon Data Lake Solution. Its functionality has been
+superceded by using the Distribute Map feature within Amazon Step Functions:
+https://docs.aws.amazon.com/step-functions/latest/dg/concepts-asl-use-map-state-distributed.html
+
+This stack will remain in the repo for backwards compatibility, for customers wishing to do
+further data transformations during the pipeline, and for deployments outside of commercial
+AWS regions.
+============================================================================================= */
+
 import { Names, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
@@ -60,7 +70,7 @@ export class GlueTransformation extends Construct {
     // create glue ETL script to process split input CSV files into smaller JSON files and save to S3
     this.glueTransformJobName = `glue-transform-${Names.uniqueId(role).slice(-8)}`
 
-    const glueTransformJob = new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
+    new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
       name: this.glueTransformJobName,
       role: role.roleArn,
       command: {

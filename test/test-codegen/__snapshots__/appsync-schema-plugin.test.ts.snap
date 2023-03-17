@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`appsync schema generator Should output the right headers 1`] = `
+"
+type Activity {
+  transportOperatorCompanyId: String!
+  transportOperatorCompanyName: AWSJSON!
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelActivityConnection {
+  items: [Activity]!
+  nextToken: String
+}
+
+input ModelActivityFilterInput {
+  transportOperatorCompanyId: ModelStringInput
+  transportOperatorCompanyName: ModelStringInput
+  and: [ModelActivityFilterInput]
+  or: [ModelActivityFilterInput]
+  not: ModelActivityFilterInput
+}
+
+type Query {
+  getActivity(id: ID!): Activity
+  listActivities(filter: ModelActivityFilterInput, limit: Int, nextToken: String): ModelActivityConnection
+}
+
+input ModelActivityConditionInput {
+  transportOperatorCompanyId: ModelStringInput
+  transportOperatorCompanyName: ModelStringInput
+  and: [ModelActivityConditionInput]
+  or: [ModelActivityConditionInput]
+  not: ModelActivityConditionInput
+}
+
+input CreateActivityInput {
+  transportOperatorCompanyId: String!
+  transportOperatorCompanyName: AWSJSON!
+  id: ID
+}
+
+input UpdateActivityInput {
+  transportOperatorCompanyId: String
+  transportOperatorCompanyName: AWSJSON
+  id: ID!
+}
+
+input DeleteActivityInput {
+  id: ID!
+}
+
+type Mutation {
+  createActivity(input: CreateActivityInput!, condition: ModelActivityConditionInput): Activity
+  updateActivity(input: UpdateActivityInput!, condition: ModelActivityConditionInput): Activity
+  deleteActivity(input: DeleteActivityInput!, condition: ModelActivityConditionInput): Activity
+}
+
+input ModelSubscriptionActivityFilterInput {
+  transportOperatorCompanyId: ModelSubscriptionStringInput
+  transportOperatorCompanyName: ModelSubscriptionStringInput
+  and: [ModelSubscriptionActivityFilterInput]
+  or: [ModelSubscriptionActivityFilterInput]
+}
+
+type Subscription {
+  onCreateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"createActivity\\"])
+  onUpdateActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"updateActivity\\"])
+  onDeleteActivity(filter: ModelSubscriptionActivityFilterInput): Activity @aws_subscribe(mutations: [\\"deleteActivity\\"])
+}
+
+"
+`;

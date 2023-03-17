@@ -15,9 +15,9 @@ do
    export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap #bootstraps cdk in the region
+   cdk bootstrap --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"  #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" #deploys all with the optional region context variable
+   cdk deploy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol" #deploys all with the optional region context variable
    wait
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
@@ -45,19 +45,18 @@ do
       echo "E2E test completed"
 
       echo "👋 destroying all in $region 📍"
-      cdk destroy --all --force
-      echo "Test failed. Please read the logs."
+      cdk destroy --all --force --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
+      echo "Test failed. Please read response.json"
       rm response.json
-      exit 1 
+      exit 1
    fi
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --force
+   cdk destroy --all --force --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" --context framework="ghg_protocol"
    wait
+   echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"
 done
 #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
-   
 
 echo "🥳 Successfully deployed and destroyed all CDK stacks with TEST! 😎"
-echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"

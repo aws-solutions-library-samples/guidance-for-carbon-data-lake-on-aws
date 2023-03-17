@@ -5,6 +5,8 @@ import { aws_glue as glue } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
+import { CdlPythonLambda } from '../../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
+import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
 
 export interface CreateAthenaViewsProps extends StackProps {
   enrichedDataDatabase: glue.CfnDatabase
@@ -17,10 +19,8 @@ export class CreateAthenaViews extends Construct {
   constructor(scope: Construct, id: string, props: CreateAthenaViewsProps) {
     super(scope, id)
 
-    const athenaQueryResultsBucket = new s3.Bucket(this, 'athenaQueryResultsBucket', {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const athenaQueryResultsBucket = new CdlS3(this, 'athenaQueryResultsBucket', {
+      bucketName: 'athenaQueryResultsBucket'
     })
 
 
@@ -110,7 +110,8 @@ export class CreateAthenaViews extends Construct {
     role.addManagedPolicy(lambdaPolicy)
 
     // Lambda function that creates today & historical Athena views
-    this.createIndividualAthenaViewsLambda = new lambda.Function(this, 'CDLIndividualAthenaViewsHandler', {
+    this.createIndividualAthenaViewsLambda = new CdlPythonLambda(this, 'CDLIndividualAthenaViewsHandler', {
+      lambdaName: 'CDLIndividualAthenaViewsHandler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
@@ -124,7 +125,8 @@ export class CreateAthenaViews extends Construct {
     })
 
     // Lambda function that creates combined emissions Athena view
-    this.createCombinedAthenaViewsLambda = new lambda.Function(this, 'CDLCombinedAthenaViewHandler', {
+    this.createCombinedAthenaViewsLambda = new CdlPythonLambda(this, 'CDLCombinedAthenaViewHandler', {
+      lambdaName: 'CDLCombinedAthenaViewHandler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,

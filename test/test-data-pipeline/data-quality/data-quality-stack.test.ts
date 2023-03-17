@@ -1,4 +1,4 @@
-import { Match, Template } from 'aws-cdk-lib/assertions'
+import { Template } from 'aws-cdk-lib/assertions'
 import { App, Stack } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -23,14 +23,14 @@ describe('test pipeline stack', () => {
     const parentStack = new Stack(app, 'DQParentStack', {})
 
     // create the pipeline stack with the required props
-    const dqStack = new DataQuality(parentStack, 'DQStack', {
+    new DataQuality(parentStack, 'DQStack', {
       inputBucket: dummyBucket,
       outputBucket: dummyBucket,
       errorBucket: dummyBucket,
     })
 
     // synth a cloudformation template from the stack
-    const template = Template.fromStack(parentStack)
+    template = Template.fromStack(parentStack)
   })
 
   afterEach(() => {
@@ -44,14 +44,14 @@ describe('test pipeline stack', () => {
     template?.resourceCountIs('AWS::S3::Bucket', 1)
 
     // verify lambda creation
-    template?.resourceCountIs('AWS::Lambda::Function', 2)
+    template?.resourceCountIs('AWS::Lambda::Function', 3)
     template?.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'app.lambda_handler',
       Runtime: lambda.Runtime.PYTHON_3_9.name,
     })
 
     // verify iam role & policy creation for all lambdas and dq job
-    template?.resourceCountIs('AWS::IAM::Role', 3)
+    template?.resourceCountIs('AWS::IAM::Role', 4)
     template?.resourceCountIs('AWS::IAM::Policy', 3)
   })
 })

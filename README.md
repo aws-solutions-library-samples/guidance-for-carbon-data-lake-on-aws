@@ -186,7 +186,7 @@ npm run build
 ```
 
 - Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
-- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Get your AWS Account Number `aws sts get-caller-identity`
 - Bootstrap CDK so that you can build cdk assets 
 
 ```sh
@@ -212,16 +212,6 @@ cdk synth
 ```sh
 cdk deploy --all
 ```
-
-👆 If you are deploying only for local development this will deploy all of the carbon data lake stacks without the CI/CD pipeline. This is recommended.
-
-- ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
-
-```sh
-npm run deploy:cicd
-```
-
-👆 If you are deploying the full CI/CD pipeline this will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
 
 ### 4/ Optional: Set up the Amplify Web Application
 

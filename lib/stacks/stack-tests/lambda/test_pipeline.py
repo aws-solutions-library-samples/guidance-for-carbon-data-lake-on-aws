@@ -36,8 +36,8 @@ def __test_pipeline(inputKey, inputBody, emissionOutputs):
     execution_detail = __wait_for_execution_finished(executionArn)
     status = execution_detail['status']
     assert_equals(status, 'SUCCEEDED')
-    batches = json.loads(execution_detail['output'])['batches']
-    __assert_output_s3(batches, emissionOutputs)
+    input = json.loads(execution_detail['input'])
+    __assert_output_s3(input['input']['root_id'], emissionOutputs)
     __assert_output_ddb(emissionOutputs)
 
 def __assert_output_ddb(emissionOutputs):
@@ -47,14 +47,10 @@ def __assert_output_ddb(emissionOutputs):
         response = table.get_item(Key={'activity_event_id': emissionOutput.activity_event_id})
         __assert_emissionOutput(response['Item'], emissionOutput)
 
-def __assert_output_s3(batches, emissionOutputs):
+def __assert_output_s3(root_id, emissionOutputs):
     print("validating output in S3")
-    for batch in batches:
-        storage_location = batch['storage_location']
-        output_file = storage_location.split("/")[-1]
-        output_folder = storage_location.split("/")[-2]
-        output_key = "today/%s/%s" % (output_folder, output_file)
-        outputObject = s3.Object(OUTPUT_BUCKET_NAME, output_key).get()
+    for objec_summary in s3.Bucket(OUTPUT_BUCKET_NAME).objects.filter(Prefix=f"today/{root_id}/"):
+        outputObject = s3.Object(OUTPUT_BUCKET_NAME, objec_summary.key).get()
         outputBody = outputObject['Body'].read().decode("utf-8")
         outputActivityEvents = [json.loads(jline) for jline in outputBody.splitlines()]
         for index in range(len(emissionOutputs)):
