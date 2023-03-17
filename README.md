@@ -32,15 +32,15 @@ Figure 1: Solution Architecture Diagram
 
 As shown in Figure 1: Solution Architecture Diagram, this guidance with sample code sets up the following application stacks
 
-1. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
-2. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
-3. AWS Lambda functions trigger the data lineage service, with queueing managed by Amazon Simple Queue Service, and a second AWS Lambda Function writing all data transformations as pointers to an Amazon DynamoDB table. This table can be accessed for data lineage queries using a data lineage reconstruction AWS Lambda Function.
-4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
-5. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
-6. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB sample emissions factor lookup database.
-7. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
-8. Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting tools including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
-9. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
+1. Customer emissions data from various sources is mapped to a standard CSV upload template. The CSV is uploaded, either directly to the Amazon Simple Storage Service (Amazon S3) landing bucket, or through the user interface
+2. Amazon S3 landing bucket provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
+3. AWS Step Functions workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda function.
+4. AWS Glue DataBrew provides data quality auditing and an alerting workflow, and Lambda functions provide integration with Amazon Simple Notification Service (Amazon SNS) and AWS Amplify web application.
+5. AWS Lambda functions provide data lineage processing, queued by Amazon Simple Queue Service (Amazon SQS). Amazon DynamoDB provides NoSQL pointer storage for the data ledger, and a Lambda function provides data lineage audit functionality, tracing all data transformations for a given record.
+6. “An AWS Lambda function outputs calculated CO2 equivalent emissions by referencing a DynamoDB table with Customer provided emissions factors”
+7. Amazon S3 enriched bucket provides data object storage for analytics workloads and the DynamoDB calculated emissions table provides storage for GraphQL API (a query language for users API).
+8. Optionally deployable artificial intelligence and machine learning (AI/ML) and business intelligence stacks provide customers with options to deploy a prebuilt Amazon SageMaker notebook and a prebuilt Amazon QuickSight dashboard. Deployments come with prebuilt Amazon Athena queries that can be used to query data stored in Amazon S3. Each service is pre-integrated with Amazon S3 enriched object storage.
+9. An optionally deployable Web Application stack uses AWS Appsync to provide a GraphQL API backend for integration with web applications and other data consumer applications. AWS Amplify provides a serverless, pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
 
 ## Application Stacks
 
