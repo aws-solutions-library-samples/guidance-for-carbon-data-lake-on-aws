@@ -1,6 +1,7 @@
-import { Stack, StackProps, Names } from 'aws-cdk-lib'
+import { StackProps, Names } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
+import { GlueCrawlerSecurityConfig } from '../../../constructs/construct-glue-crawler-security-configuration/construct-glue-crawler-security-configuration'
 
 interface DataCompactionHistoricalCrawlerProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
@@ -8,7 +9,7 @@ interface DataCompactionHistoricalCrawlerProps extends StackProps {
 }
 
 export class DataCompactionHistoricalCrawler extends Construct {
-  public readonly glueHistoricalCalculatorCrawlerName: any
+  public readonly glueHistoricalCalculatorCrawlerName: string
 
   constructor(scope: Construct, id: string, props: DataCompactionHistoricalCrawlerProps) {
     super(scope, id)
@@ -44,13 +45,14 @@ export class DataCompactionHistoricalCrawler extends Construct {
     )}`
 
     // Create Glue crawler to update partitions in metadata catalog table for historical calculator records
-    const glueHistoricalCalculatorCrawler = new cdk.aws_glue.CfnCrawler(
+    new cdk.aws_glue.CfnCrawler(
       this,
       this.glueHistoricalCalculatorCrawlerName,
       {
         role: role.roleArn,
         name: this.glueHistoricalCalculatorCrawlerName,
         description: 'AWS Glue crawler to load new partitions of historical data',
+        crawlerSecurityConfiguration: new GlueCrawlerSecurityConfig(this, "CrawlerSecurityConfig", {}).securityConfigurationName,
         targets: {
           s3Targets: [
             {

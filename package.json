@@ -12,8 +12,7 @@
     "cdk": "cdk",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "deploy:cicd": "cdk deploy --app 'npx ts-node --prefer-ts-exts bin/cicd.ts'",
-    "dock": "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws"
+    "secure": "sh test-security.sh"
   },
   "browser": {
     "child_process": false

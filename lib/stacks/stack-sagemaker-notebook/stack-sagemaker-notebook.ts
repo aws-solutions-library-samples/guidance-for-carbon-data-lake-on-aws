@@ -5,6 +5,7 @@ import { aws_s3 as s3 } from "aws-cdk-lib";
 import { aws_sagemaker as sagemaker } from "aws-cdk-lib";
 import { aws_codecommit as codecommit } from "aws-cdk-lib";
 import * as path from 'path';
+import { CdlS3 } from "../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket";
 
 interface SagemakerForecastStackProps extends StackProps {
   enrichedDataBucket: s3.Bucket
@@ -15,15 +16,11 @@ export class SageMakerNotebookStack extends Stack {
     super(scope, id, props);
 
     // Used for forecasting
-    const sagemakerForecastResultsBucket = new s3.Bucket(this, 'cdlForecastBucket', {
-      bucketName: PhysicalName.GENERATE_IF_NEEDED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const sagemakerForecastResultsBucket = new CdlS3(this, 'cdlForecastBucket', {
     });
 
     // role to be assumed by the sagemaker notebook, grants privileges to read from
-    // encriched data bucket, write to results bucket, and full access to Forecast
+    // enriched data bucket, write to results bucket, and full access to Forecast
     const sagemakerExecutionRole = new iam.Role(this, "sagemaker-execution-role", {
       assumedBy: new iam.ServicePrincipal("sagemaker.amazonaws.com"),
       managedPolicies: [

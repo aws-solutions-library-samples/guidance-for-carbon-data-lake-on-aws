@@ -4,7 +4,7 @@ import { aws_events as events } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 
 interface EventTriggerStateMachineProps extends StackProps {
-  stateMachineName: any
+  stateMachineName: string
 }
 
 export class EventTriggerStateMachine extends Construct {

@@ -5,11 +5,11 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { aws_athena as athena } from 'aws-cdk-lib'
+import { GlueCrawlerSecurityConfig } from '../../../constructs/construct-glue-crawler-security-configuration/construct-glue-crawler-security-configuration'
 
 interface DataLineageQueryProps extends StackProps {
   dataLineageBucket: s3.Bucket
 }
-
 export class DataLineageQuery extends Construct {
   /* 
       This stack deploys a query stage for the data lineage component to make it simple
@@ -100,11 +100,13 @@ export class DataLineageQuery extends Construct {
     })
 
     /* ====== CRAWLER ====== */
+
     // Setup a Glue crawler for the partitioned data lineage records in S3
     // partition scheme = year/month/day/<root_id>.jsonl
-    const crawler = new glue.CfnCrawler(this, 'DataLineageCrawler', {
+    new glue.CfnCrawler(this, 'DataLineageCrawler', {
       role: crawlerRole.roleArn,
       databaseName: glueDB.ref,
+      crawlerSecurityConfiguration: new GlueCrawlerSecurityConfig(this, "CrawlerSecurityConfig", {}).securityConfigurationName,
       targets: {
         s3Targets: [{ path: props.dataLineageBucket.s3UrlForObject('/') }],
       },
@@ -113,7 +115,7 @@ export class DataLineageQuery extends Construct {
     })
 
     /* ====== ATHENA ====== */
-    const dlQuery = new athena.CfnNamedQuery(this, 'DataLineageQuery', {
+    new athena.CfnNamedQuery(this, 'DataLineageQuery', {
       database: glueDB.ref,
       name: 'UnnestDataLineageRecords',
       description: 'Query the partitioned data lineage bucket and unnest lineage data',
