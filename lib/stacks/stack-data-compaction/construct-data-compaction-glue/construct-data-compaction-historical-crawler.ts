@@ -1,7 +1,7 @@
 import { StackProps, Names } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
-import { GlueCrawlerSecurityConfig } from '../../../constructs/construct-glue-crawler-security-configuration/construct-glue-crawler-security-configuration'
+import { GlueSecurityConfig } from '../../../constructs/construct-glue-security-configuration/construct-glue-security-configuration'
 
 interface DataCompactionHistoricalCrawlerProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
@@ -10,9 +10,15 @@ interface DataCompactionHistoricalCrawlerProps extends StackProps {
 
 export class DataCompactionHistoricalCrawler extends Construct {
   public readonly glueHistoricalCalculatorCrawlerName: string
+  public readonly glueSecurityConfig: GlueSecurityConfig
 
   constructor(scope: Construct, id: string, props: DataCompactionHistoricalCrawlerProps) {
     super(scope, id)
+
+    // Security configuration for glue resources
+    this.glueSecurityConfig = new GlueSecurityConfig(this, "GlueTransformSecurityConfig",{
+      name: id
+    })
 
     // Create IAM policy for Glue to assume
     const glueCrawlerPolicy = new cdk.aws_iam.PolicyDocument({
@@ -43,7 +49,8 @@ export class DataCompactionHistoricalCrawler extends Construct {
     this.glueHistoricalCalculatorCrawlerName = `glue-historical-calculator-data-crawler-${Names.uniqueId(role).slice(
       -8
     )}`
-
+    
+    
     // Create Glue crawler to update partitions in metadata catalog table for historical calculator records
     new cdk.aws_glue.CfnCrawler(
       this,
@@ -52,7 +59,7 @@ export class DataCompactionHistoricalCrawler extends Construct {
         role: role.roleArn,
         name: this.glueHistoricalCalculatorCrawlerName,
         description: 'AWS Glue crawler to load new partitions of historical data',
-        crawlerSecurityConfiguration: new GlueCrawlerSecurityConfig(this, "CrawlerSecurityConfig", {}).securityConfigurationName,
+        //crawlerSecurityConfiguration: this.glueSecurityConfig.securityConfiguration.name,
         targets: {
           s3Targets: [
             {

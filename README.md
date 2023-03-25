@@ -32,15 +32,15 @@ Figure 1: Solution Architecture Diagram
 
 As shown in Figure 1: Solution Architecture Diagram, this guidance with sample code sets up the following application stacks
 
-1. Amazon S3 provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
-2. AWS Step Functions Workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda Function.
-3. AWS Lambda functions trigger the data lineage service, with queueing managed by Amazon Simple Queue Service, and a second AWS Lambda Function writing all data transformations as pointers to an Amazon DynamoDB table. This table can be accessed for data lineage queries using a data lineage reconstruction AWS Lambda Function.
-4. AWS Glue Data Brew provides data quality auditing and alerting workflow, and AWS Lambda Functions provide integration with Amazon Simple Notification Service and AWS Amplify Web Application.
-5. AWS Lambda Functions provide data lineage processing, queued by Amazon SQS. Amazon Dynamo DB provides NoSQL pointer storage for the data ledger, and an AWS Lambda Function provides data audit reverse traversal.
-6. AWS Lambda Function provides calculation of scope 1-3 emissions using a pre-seeded Amazon DynamoDB sample emissions factor lookup database.
-7. Amazon S3 provides enriched data object storage for analytics workloads and AWS Dynamo DB provides storage for GraphQL API.
-8. Analytics and AI/ML stack provide integrated analytics, business intelligence, and forecasting tools including a prebuilt Amazon Sagemaker notebook, AWS Quicksight with prebuilt BI dashboards and visualizations, and Amazon Athena for querying data stored in 8. Amazon S3. Services are pre-integrated with Amazon S3 enriched object store.
-9. AWS Appsync provides a GraphQL API backend for integration with web applications and other data consumer applications, and AWS Amplify provides a serverless pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
+1. Customer emissions data from various sources is mapped to a standard CSV upload template. The CSV is uploaded, either directly to the Amazon Simple Storage Service (Amazon S3) landing bucket, or through the user interface
+2. Amazon S3 landing bucket provides a single landing zone for all ingested emissions data. Data ingress to the landing zone bucket triggers the data pipeline.
+3. AWS Step Functions workflow orchestrates the data pipeline including data quality check, data compaction, transformation, standardization, and enrichment with an emissions calculator AWS Lambda function.
+4. AWS Glue DataBrew provides data quality auditing and an alerting workflow, and Lambda functions provide integration with Amazon Simple Notification Service (Amazon SNS) and AWS Amplify web application.
+5. AWS Lambda functions provide data lineage processing, queued by Amazon Simple Queue Service (Amazon SQS). Amazon DynamoDB provides NoSQL pointer storage for the data ledger, and a Lambda function provides data lineage audit functionality, tracing all data transformations for a given record.
+6. “An AWS Lambda function outputs calculated CO2 equivalent emissions by referencing a DynamoDB table with Customer provided emissions factors”
+7. Amazon S3 enriched bucket provides data object storage for analytics workloads and the DynamoDB calculated emissions table provides storage for GraphQL API (a query language for users API).
+8. Optionally deployable artificial intelligence and machine learning (AI/ML) and business intelligence stacks provide customers with options to deploy a prebuilt Amazon SageMaker notebook and a prebuilt Amazon QuickSight dashboard. Deployments come with prebuilt Amazon Athena queries that can be used to query data stored in Amazon S3. Each service is pre-integrated with Amazon S3 enriched object storage.
+9. An optionally deployable Web Application stack uses AWS Appsync to provide a GraphQL API backend for integration with web applications and other data consumer applications. AWS Amplify provides a serverless, pre-configured management application that includes basic data browsing, data visualization, data uploader, and application configuration.
 
 ## Application Stacks
 
@@ -49,12 +49,6 @@ As shown in Figure 1: Solution Architecture Diagram, this guidance with sample c
 The shared resource stack deploys all cross-stack referenced resources such as S3 buckets and lambda functions that are built as dependencies.
 
 Review the [Shared Resources Stack](lib/stacks/stack-shared-resources/stack-shared-resources.ts) and [Stack Outputs](#shared-resources-stack-outputs)
-
-### Optional CI/CD Pipeline
-
-The optional CI/CD pipeline using AWS Codecommit, AWS Codebuild, AWS Codepipeline, and AWS Codedeploy to manage a self-mutating CDK pipeline. This pipeline can pick up commits to a defined branch of a github, gitlab, or codecommit repository and push them through an AWS DevOps services workflow.
-
-Review the [Optional CI/CD Stack](lib/stacks/stack-ci-cd/stack-ci-cd.ts)
 
 ### Data Pipeline
 
@@ -127,6 +121,14 @@ You can deploy the carbon data lake guidance with sample code through the manual
 
 - For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
 
+## 🔐 Security Note
+
+As part of the shared responsibility model we recommend taking additional steps within your AWS account to secure this application. We recommend you implement the following AWS services once your application is in production:
+
+- [Amazon Guard Duty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_settingup.html)
+- [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/setting-up-waf.html)
+- [Amazon Cloudfront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/setting-up-cloudfront.html)
+
 ## 🚀 Setup
 
 ### 0/ Use git to clone this repository to your local environment
@@ -184,7 +186,7 @@ npm run build
 ```
 
 - Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
-- Get your AWS Account Number --> `aws sts get-caller-identity`
+- Get your AWS Account Number `aws sts get-caller-identity`
 - Bootstrap CDK so that you can build cdk assets 
 
 ```sh
@@ -211,49 +213,18 @@ cdk synth
 cdk deploy --all
 ```
 
-👆 If you are deploying only for local development this will deploy all of the carbon data lake stacks without the CI/CD pipeline. This is recommended.
-
-- ⛔️  Advanced User: deploy through CI/CD pipeline with linked repository
-
-```sh
-npm run deploy:cicd
-```
-
-👆 If you are deploying the full CI/CD pipeline this will deploy the pipeline and you will have to connect your repo for automated deployment. Use the [README for the gitlab mirroring component](lib/constructs/construct-gitlab-mirroring/README.md) to get set up. Please note that this will require some knowledge of DevOps services in AWS and is considered an advanced implementation.
-
 ### 4/ Optional: Set up the Amplify Web Application
-
-If you have chosen to deploy the optional Web Application by setting `deployWebStack: true` in the `cdk.context.json` file, there are a few simple steps to get up and running with the web application.
-
-For quick setup follow the instructions below.
-
-#### Quick Setup
 
 If you are reading this it is because you deployed the carbon data lake guidance with sample code Web Application by setting `deployWebStack: true` in the `cdk.context.json` file. Your application is already up and running in the AWS Cloud and there are a few simple steps to begin working with and editing your application.
 
 1. Visit the AWS Amplify Console by navigating to the AWS Console and searching for Amplify. Make sure you are in the same region that you just selected to deploy your application.
-2. Initiate the build process --> select your application and select "run build"
-3. Visit your live web application --> click on the link in the Amplify console
+2. Visit your live web application --> click on the link in the Amplify console
    When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake guidance with sample code CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
    ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
 
-4. Create a separate directory to manage your web application
-
-    ```sh
-    mkdir <your-web-application-directory>
-    ```
-
-5. Install the AWS Amplify CLI following the instructions on the official [AWS Amplify Documentation](https://docs.amplify.aws/cli/start/install/).
-
-6. Pull your Amplify project
-
-    ```sh
-    amplify pull --appId <app-id> --envName <env-name>
-    ```
-
-7. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
-8. Make the web application your own and let us know what you choose do to with it.
+6. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
+7. Make the web application your own and let us know what you choose do to with it.
 
 Success! At this point, you should successfully have the Amplify app working.
 
@@ -679,6 +650,10 @@ Calculation methodologies reflected in this solution are aligned with the sample
 ## 🔐 Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This project is licensed under the Apache-2.0 License.
 
 ## Appendix
 

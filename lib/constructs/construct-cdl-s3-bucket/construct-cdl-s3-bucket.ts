@@ -2,6 +2,7 @@ import { Construct } from 'constructs';
 import { RemovalPolicy, Duration, PhysicalName } from 'aws-cdk-lib';
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { LifecyclePolicy } from 'aws-cdk-lib/aws-efs';
+import { NagSuppressions } from 'cdk-nag';
 
 interface CdlS3Props extends s3.BucketProps {
 
@@ -56,6 +57,14 @@ interface CdlS3Props extends s3.BucketProps {
         * @param CdlS3Props
     */
     constructor(scope: Construct, id: string, props: CdlS3Props) {
+        const accessLogBucket = new s3.Bucket(scope, `access-logs-${id}`, {
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            enforceSSL: true,
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+            removalPolicy: RemovalPolicy.DESTROY,
+            autoDeleteObjects: true,
+        })
+
         super(scope, id, {
             ...props,
             bucketName: PhysicalName.GENERATE_IF_NEEDED,
@@ -66,8 +75,19 @@ interface CdlS3Props extends s3.BucketProps {
             versioned: props.versioned ? props.versioned : true,
             removalPolicy: RemovalPolicy.DESTROY,
             autoDeleteObjects: true,
-            serverAccessLogsPrefix: id
+            serverAccessLogsPrefix: id,
+            /**
+             * Creates a separate bucket for access logs
+             */
+            serverAccessLogsBucket: accessLogBucket
         });
+
+        NagSuppressions.addResourceSuppressions(accessLogBucket, [
+            {
+              id: 'AwsSolutions-S1',
+              reason:
+                'Access log buckets do not require their own access logs. This would create an infinite regression of access logs.',
+            }],)
         
         /** 
          * Creates a standard opinionated cost-optimized lifecycle policy.

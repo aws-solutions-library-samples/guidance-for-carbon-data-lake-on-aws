@@ -1,6 +1,8 @@
 import { Names, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
+import { CdlS3 } from '../../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { GlueSecurityConfig } from '../../../../constructs/construct-glue-security-configuration/construct-glue-security-configuration'
 
 interface GlueTransformationProps extends StackProps {
   rawBucket: cdk.aws_s3.Bucket
@@ -9,12 +11,18 @@ interface GlueTransformationProps extends StackProps {
 
 export class GlueTransformation extends Construct {
   public readonly glueTransformJobName: string
+  public readonly glueSecurityConfig: GlueSecurityConfig
 
   constructor(scope: Construct, id: string, props: GlueTransformationProps) {
     super(scope, id)
 
+    // Security configuration for glue resources
+    this.glueSecurityConfig = new GlueSecurityConfig(this, "GlueTransformSecurityConfig",{
+      name: id
+    })
+
     // Create new S3 bucket to store glue script
-    const glueScriptsBucket = new cdk.aws_s3.Bucket(this, 'glueTransformationScriptsBucket', {
+    const glueScriptsBucket = new CdlS3(this, 'glueTransformationScriptsBucket', {
       blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
@@ -63,6 +71,7 @@ export class GlueTransformation extends Construct {
     const glueTransformJob = new cdk.aws_glue.CfnJob(this, this.glueTransformJobName, {
       name: this.glueTransformJobName,
       role: role.roleArn,
+      //securityConfiguration: this.glueSecurityConfig.securityConfiguration.name,
       command: {
         name: 'glueetl',
         pythonVersion: '3',

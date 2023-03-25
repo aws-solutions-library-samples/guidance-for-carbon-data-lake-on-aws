@@ -4,7 +4,14 @@ import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_sns as sns } from 'aws-cdk-lib'
+import { aws_logs as logs } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
+
+// how wide to parallelise the step function map state
+const STATEMACHINE_MAX_CONCURRENCY = 100;
+// how many rows to process per calculation function invocation
+const STATEMACHINE_MAX_ITEMS_PER_BATCH = 1000;
+const STATEMACHINE_NAME = 'cdl-data-pipeline-sfn';
 
 interface StateMachineProps extends StackProps {
   dataLineageFunction: lambda.Function
@@ -190,7 +197,7 @@ export class DataPipelineStatemachine extends Construct {
 
     // Dynamic Map State - Run n calculations depending on number of batches
     const dynamicMapState = new sfn.Map(this, 'MAP: Iterate Batches', {
-      maxConcurrency: 10,
+      maxConcurrency: STATEMACHINE_MAX_CONCURRENCY,
       inputPath: '$',
       itemsPath: '$.batches',
       parameters: {
@@ -252,8 +259,14 @@ export class DataPipelineStatemachine extends Construct {
       )
 
     this.statemachine = new sfn.StateMachine(this, 'cdlPipeline', {
+      stateMachineName: STATEMACHINE_NAME, // hardcoding name to prevent circular permissions dependency
       definition,
       timeout: Duration.minutes(60),
+      tracingEnabled: true,
+      logs: {
+        destination: new logs.LogGroup(this, `${STATEMACHINE_NAME}-logs`),
+        level: sfn.LogLevel.ALL,
+      },
     })
 
     this.statemachine.addToRolePolicy(

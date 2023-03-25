@@ -3,7 +3,7 @@ import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
 import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { custom_resources as cr } from 'aws-cdk-lib'
-import emission_factors from './emissions_factor_model_2022-05-22.json'
+import emission_factors from './emissions_factor_model_sample.json'
 import * as path from 'path'
 import { Construct } from 'constructs'
 
@@ -26,6 +26,7 @@ export class Calculator extends Construct {
       sortKey: { name: 'activity', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      pointInTimeRecovery: true
     })
 
     // Define DynamoDB Table for calculator output
@@ -33,6 +34,7 @@ export class Calculator extends Construct {
       partitionKey: { name: 'activity_event_id', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      pointInTimeRecovery: true
     })
 
     this.calculatorLambda = new lambda.Function(this, 'cdlCalculatorHandler', {

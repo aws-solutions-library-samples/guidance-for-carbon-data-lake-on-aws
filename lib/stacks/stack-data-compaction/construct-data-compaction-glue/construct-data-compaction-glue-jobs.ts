@@ -2,6 +2,7 @@ import { StackProps, Names, RemovalPolicy } from 'aws-cdk-lib'
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { CdlS3 } from '../../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { GlueSecurityConfig } from '../../../constructs/construct-glue-security-configuration/construct-glue-security-configuration'
 
 interface DataCompactionGlueJobsProps extends StackProps {
   enrichedBucket: cdk.aws_s3.Bucket
@@ -10,12 +11,18 @@ interface DataCompactionGlueJobsProps extends StackProps {
 export class DataCompactionGlueJobs extends Construct {
   public readonly glueCompactionJobName: string
   public readonly glueDataFlushJobName: string
+  public readonly glueSecurityConfig: GlueSecurityConfig
 
   constructor(scope: Construct, id: string, props: DataCompactionGlueJobsProps) {
     super(scope, id)
 
     // Create new S3 bucket to store glue data compaction script
     const glueScriptsBucket = new CdlS3(this, 'glueCompactionJobScriptsBucket', {
+    })
+
+    // Security configuration for glue resources
+    this.glueSecurityConfig = new GlueSecurityConfig(this, "GlueTransformSecurityConfig",{
+      name: id
     })
 
     // Create IAM policy for Glue to assume
@@ -59,6 +66,7 @@ export class DataCompactionGlueJobs extends Construct {
     // create glue python shell script for purging old calculator records
     new cdk.aws_glue.CfnJob(this, this.glueDataFlushJobName, {
       name: this.glueDataFlushJobName,
+      //securityConfiguration: this.glueSecurityConfig.securityConfiguration.name,
       role: role.roleArn,
       command: {
         name: 'pythonshell',
@@ -86,6 +94,7 @@ export class DataCompactionGlueJobs extends Construct {
     new cdk.aws_glue.CfnJob(this, this.glueCompactionJobName, {
       name: this.glueCompactionJobName,
       role: role.roleArn,
+      //securityConfiguration: this.glueSecurityConfig.securityConfiguration.name,
       command: {
         name: 'glueetl',
         pythonVersion: '3',

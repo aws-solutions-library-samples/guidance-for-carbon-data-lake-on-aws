@@ -40,6 +40,7 @@ const dataLineage = new DataLineageStack(app, 'LineageStack', {
   env: appEnv,
 })
 
+
 NagSuppressions.addStackSuppressions(dataLineage, [
   {
     id: 'AwsSolutions-IAM4',
@@ -55,6 +56,16 @@ NagSuppressions.addStackSuppressions(dataLineage, [
     id: 'AwsSolutions-SQS3',
     reason:
       'Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.',
+  },
+  {
+    id: 'AwsSolutions-GL1',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
+  },
+  {
+    id: 'AwsSolutions-GL3',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
   },
 ])
 
@@ -95,6 +106,16 @@ NagSuppressions.addStackSuppressions(dataPipeline, [
     id: 'AwsSolutions-L1',
     reason: 'Only suppress AwsSolutions-L1 resource handler runtime on L1 construct.',
   },
+  {
+    id: 'AwsSolutions-GL1',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
+  },
+  {
+    id: 'AwsSolutions-GL3',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
+  },
 ])
 
 // CDL-DATA-COMPACTION --> Create the cdl data compaction pipeline stack
@@ -120,6 +141,16 @@ NagSuppressions.addStackSuppressions(dataCompactionStack, [
     id: 'AwsSolutions-SQS3',
     reason:
       'Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.',
+  },
+  {
+    id: 'AwsSolutions-GL1',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
+  },
+  {
+    id: 'AwsSolutions-GL3',
+    reason:
+      'Reducing complexity for development purposes and integration. Recommend uncommenting glue crawler and glue job security configurations in production.',
   },
 ])
 

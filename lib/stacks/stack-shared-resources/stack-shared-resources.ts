@@ -3,6 +3,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
+import { GlueSecurityConfig } from '../../constructs/construct-glue-security-configuration/construct-glue-security-configuration'
 
 export class SharedResourcesStack extends Stack {
   public readonly cdlLandingBucket: s3.Bucket
@@ -13,6 +14,7 @@ export class SharedResourcesStack extends Stack {
   public readonly cdlForecastBucket: s3.Bucket
   public readonly cdlDataLineageBucket: s3.Bucket
   public readonly glueEnrichedDataDatabase: glue.CfnDatabase
+  public readonly glueSecurityConfig: GlueSecurityConfig
 
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)

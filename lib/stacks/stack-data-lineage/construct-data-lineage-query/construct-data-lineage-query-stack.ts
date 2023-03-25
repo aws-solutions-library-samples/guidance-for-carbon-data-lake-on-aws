@@ -5,20 +5,26 @@ import { aws_s3 as s3 } from 'aws-cdk-lib'
 import { aws_iam as iam } from 'aws-cdk-lib'
 import { aws_glue as glue } from 'aws-cdk-lib'
 import { aws_athena as athena } from 'aws-cdk-lib'
-import { GlueCrawlerSecurityConfig } from '../../../constructs/construct-glue-crawler-security-configuration/construct-glue-crawler-security-configuration'
+import { GlueSecurityConfig } from '../../../constructs/construct-glue-security-configuration/construct-glue-security-configuration'
 
 interface DataLineageQueryProps extends StackProps {
   dataLineageBucket: s3.Bucket
 }
 export class DataLineageQuery extends Construct {
-  /* 
-      This stack deploys a query stage for the data lineage component to make it simple
-      to query historical data lineage records stored within S3.
-      This stack is designed to be self contained and an optional component deployed
-      alongside the data lineage stack.
+  /** 
+      * This stack deploys a query stage for the data lineage component to make it simple
+      * to query historical data lineage records stored within S3.
+      * This stack is designed to be self contained and an optional component deployed
+      * alongside the data lineage stack.
   */
+  public readonly glueSecurityConfig: GlueSecurityConfig
   constructor(scope: Construct, id: string, props: DataLineageQueryProps) {
     super(scope, id)
+
+    // Security configuration for glue resources
+    this.glueSecurityConfig = new GlueSecurityConfig(this, "GlueTransformSecurityConfig",{
+      name: id
+    })
 
     /* ====== CRAWLER ROLE ====== */
     const crawlerRole = new iam.Role(this, 'DataLineageCrawlerRole', {
@@ -106,7 +112,7 @@ export class DataLineageQuery extends Construct {
     new glue.CfnCrawler(this, 'DataLineageCrawler', {
       role: crawlerRole.roleArn,
       databaseName: glueDB.ref,
-      crawlerSecurityConfiguration: new GlueCrawlerSecurityConfig(this, "CrawlerSecurityConfig", {}).securityConfigurationName,
+      //crawlerSecurityConfiguration: this.glueSecurityConfig.securityConfiguration.name,
       targets: {
         s3Targets: [{ path: props.dataLineageBucket.s3UrlForObject('/') }],
       },
