@@ -100,7 +100,6 @@ export class Calculator extends Construct {
                   co2_factor: { S: coefficients.co2_factor },
                   ch4_factor: { S: coefficients.ch4_factor },
                   n2o_factor: { S: coefficients.n2o_factor },
-                  biofuel_co2: { S: coefficients.biofuel_co2 },
                   AR4_kgco2e: { S: coefficients['AR4-kgco2e'] },
                   AR5_kgco2e: { S: coefficients['AR5-kgco2e'] },
                   units: { S: coefficients.units },
@@ -130,7 +129,6 @@ interface IDdbEmissionFactor {
               co2_factor: { S: string } 
               ch4_factor: { S: string } 
               n2o_factor: { S: string } 
-              biofuel_co2: { S: string } 
               AR4_kgco2e: { S: string } 
               AR5_kgco2e: { S: string } 
               units: { S: string }
@@ -155,7 +153,6 @@ interface IGhgEmissionFactor {
         co2_factor: string
         ch4_factor: string
         n2o_factor: string
-        biofuel_co2: string
         'AR4-kgco2e': string
         'AR5-kgco2e': string
         units: string
