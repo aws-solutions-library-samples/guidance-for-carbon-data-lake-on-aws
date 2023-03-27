@@ -9,7 +9,6 @@
           "co2_factor": "0",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0",
           "AR5-kgco2e": "0",
           "units": "kWh"
@@ -30,7 +29,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00038925",
           "n2o_factor": "0.000081",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.81386925",
           "AR5-kgco2e": "8.812364",
           "units": "gal (US)"
@@ -51,7 +49,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00026406",
           "n2o_factor": "0.00010692",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.81846366",
           "AR5-kgco2e": "8.81572748",
           "units": "gal (US)"
@@ -72,7 +69,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00029304",
           "n2o_factor": "0.00011792",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.82246616",
           "AR5-kgco2e": "8.81945392",
           "units": "gal (US)"
@@ -93,7 +89,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.00001125",
           "n2o_factor": "0.0000225",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.21698625",
           "AR5-kgco2e": "10.2162775",
           "units": "gal (US)"
@@ -114,7 +109,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.0000162",
           "n2o_factor": "0.0000243",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.2176464",
           "AR5-kgco2e": "10.2168931",
           "units": "gal (US)"
@@ -135,7 +129,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.00004488",
           "n2o_factor": "0.00004224",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.22370952",
           "AR5-kgco2e": "10.22245024",
           "units": "gal (US)"
@@ -156,7 +149,6 @@
           "co2_factor": "",
           "ch4_factor": "0.00001125",
           "n2o_factor": "0.0000225",
-          "biofuel_co2": "9.45",
           "AR4-kgco2e": "0.00698625",
           "AR5-kgco2e": "0.0062775",
           "units": "gal (US)"
@@ -177,7 +169,6 @@
           "co2_factor": "",
           "ch4_factor": "0.0000081",
           "n2o_factor": "0.0000162",
-          "biofuel_co2": "9.45",
           "AR4-kgco2e": "0.0050301",
           "AR5-kgco2e": "0.0045198",
           "units": "gal (US)"
@@ -198,7 +189,6 @@
           "co2_factor": "",
           "ch4_factor": "0.000044",
           "n2o_factor": "0.000044",
-          "biofuel_co2": "9.45",
           "AR4-kgco2e": "0.014212",
           "AR5-kgco2e": "0.012892",
           "units": "gal (US)"
@@ -219,7 +209,6 @@
           "co2_factor": "0.40723948",
           "ch4_factor": "0.089312914",
           "n2o_factor": "0.006059221",
-          "biofuel_co2": "",
           "AR4-kgco2e": "4.44571013",
           "AR5-kgco2e": "4.513694587",
           "units": "scf"
@@ -240,7 +229,6 @@
           "co2_factor": "0.40723948",
           "ch4_factor": "0.129418971",
           "n2o_factor": "0.01152",
-          "biofuel_co2": "",
           "AR4-kgco2e": "7.075673766",
           "AR5-kgco2e": "7.08377068",
           "units": "scf"
@@ -261,7 +249,6 @@
           "co2_factor": "",
           "ch4_factor": "0.000891",
           "n2o_factor": "0.0010854",
-          "biofuel_co2": "5.75",
           "AR4-kgco2e": "0.3457242",
           "AR5-kgco2e": "0.312579",
           "units": "gal (US)"
@@ -282,7 +269,6 @@
           "co2_factor": "",
           "ch4_factor": "0.0017336",
           "n2o_factor": "0.00154",
-          "biofuel_co2": "5.75",
           "AR4-kgco2e": "0.50226",
           "AR5-kgco2e": "0.4566408",
           "units": "gal (US)"
@@ -303,7 +289,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.000539061",
           "n2o_factor": "0.000112175",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.826904547",
           "AR5-kgco2e": "8.82481997",
           "units": "gal (US)"
@@ -324,7 +309,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00126",
           "n2o_factor": "0.00022",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.87706",
           "AR5-kgco2e": "8.87358",
           "units": "gal (US)"
@@ -345,7 +329,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.00144",
           "n2o_factor": "0.00026",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.32348",
           "AR5-kgco2e": "10.31922",
           "units": "gal (US)"
@@ -366,7 +349,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00064",
           "n2o_factor": "0.00022",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.86156",
           "AR5-kgco2e": "8.85622",
           "units": "gal (US)"
@@ -387,7 +369,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.00006",
           "n2o_factor": "0.00045",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.3456",
           "AR5-kgco2e": "10.33093",
           "units": "gal (US)"
@@ -408,7 +389,6 @@
           "co2_factor": "9.75",
           "ch4_factor": "0",
           "n2o_factor": "0.0003",
-          "biofuel_co2": "",
           "AR4-kgco2e": "9.8394",
           "AR5-kgco2e": "9.8295",
           "units": "gal (US)"
@@ -429,7 +409,6 @@
           "co2_factor": "8.31",
           "ch4_factor": "0.00706",
           "n2o_factor": "0.00011",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.51928",
           "AR5-kgco2e": "8.53683",
           "units": "gal (US)"
@@ -450,7 +429,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.00336",
           "n2o_factor": "0.000345",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.96681",
           "AR5-kgco2e": "8.965505",
           "units": "gal (US)"
@@ -471,7 +449,6 @@
           "co2_factor": "8.78",
           "ch4_factor": "0.0005",
           "n2o_factor": "0.00022",
-          "biofuel_co2": "",
           "AR4-kgco2e": "8.85806",
           "AR5-kgco2e": "8.8523",
           "units": "gal (US)"
@@ -492,7 +469,6 @@
           "co2_factor": "10.21",
           "ch4_factor": "0.00057",
           "n2o_factor": "0.00026",
-          "biofuel_co2": "",
           "AR4-kgco2e": "10.30173",
           "AR5-kgco2e": "10.29486",
           "units": "gal (US)"
@@ -513,7 +489,6 @@
           "co2_factor": "0.343",
           "ch4_factor": "0.019",
           "n2o_factor": "0.011",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.346753",
           "AR5-kgco2e": "0.346447",
           "units": "vehicle-mile"
@@ -534,7 +509,6 @@
           "co2_factor": "0.472",
           "ch4_factor": "0.019",
           "n2o_factor": "0.018",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.477839",
           "AR5-kgco2e": "0.477302",
           "units": "vehicle-mile"
@@ -555,7 +529,6 @@
           "co2_factor": "0.189",
           "ch4_factor": "0.07",
           "n2o_factor": "0.007",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.192836",
           "AR5-kgco2e": "0.192815",
           "units": "vehicle-mile"
@@ -576,7 +549,6 @@
           "co2_factor": "0.14",
           "ch4_factor": "0.0087",
           "n2o_factor": "0.0031",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1411413",
           "AR5-kgco2e": "0.1410651",
           "units": "passenger-mile"
@@ -597,7 +569,6 @@
           "co2_factor": "0.161",
           "ch4_factor": "0.0081",
           "n2o_factor": "0.0032",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1621561",
           "AR5-kgco2e": "0.1620748",
           "units": "passenger-mile"
@@ -618,7 +589,6 @@
           "co2_factor": "0.119",
           "ch4_factor": "0.0025",
           "n2o_factor": "0.0017",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1195691",
           "AR5-kgco2e": "0.1195205",
           "units": "passenger-mile"
@@ -639,7 +609,6 @@
           "co2_factor": "0.056",
           "ch4_factor": "0.001291715",
           "n2o_factor": "0.000866923",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.056290636",
           "AR5-kgco2e": "0.056265903",
           "units": "passenger-mile"
@@ -660,7 +629,6 @@
           "co2_factor": "0.225",
           "ch4_factor": "0.0039",
           "n2o_factor": "0.007175381",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.227235764",
           "AR5-kgco2e": "0.227010676",
           "units": "passenger-mile"
@@ -681,7 +649,6 @@
           "co2_factor": "0.136",
           "ch4_factor": "0.0006",
           "n2o_factor": "0.0043",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1372964",
           "AR5-kgco2e": "0.1371563",
           "units": "passenger-mile"
@@ -702,7 +669,6 @@
           "co2_factor": "0.166",
           "ch4_factor": "0.0006",
           "n2o_factor": "0.0053",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1675944",
           "AR5-kgco2e": "0.1674213",
           "units": "passenger-mile"
@@ -723,7 +689,6 @@
           "co2_factor": "0.27603",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00297",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.27691531",
           "AR5-kgco2e": "0.27681733",
           "units": "mile"
@@ -744,7 +709,6 @@
           "co2_factor": "0.28991",
           "ch4_factor": "0.00051",
           "n2o_factor": "0.00061",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.29010453",
           "AR5-kgco2e": "0.29008593",
           "units": "mile"
@@ -765,7 +729,6 @@
           "co2_factor": "0.18259",
           "ch4_factor": "0.00026",
           "n2o_factor": "0.00179",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.18312992",
           "AR5-kgco2e": "0.18307163",
           "units": "mile"
@@ -786,7 +749,6 @@
           "co2_factor": "0.28324",
           "ch4_factor": "0.00257",
           "n2o_factor": "0.00072",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.28351881",
           "AR5-kgco2e": "0.28350276",
           "units": "mile"
@@ -807,7 +769,6 @@
           "co2_factor": "0.31947",
           "ch4_factor": "0.00008",
           "n2o_factor": "0.00072",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.31968656",
           "AR5-kgco2e": "0.31966304",
           "units": "mile"
@@ -828,7 +789,6 @@
           "co2_factor": "0.18434",
           "ch4_factor": "0.00053",
           "n2o_factor": "0.00072",
-          "biofuel_co2": "Yes",
           "AR4-kgco2e": "0.18456781",
           "AR5-kgco2e": "0.18454564",
           "units": "mile"
@@ -849,7 +809,6 @@
           "co2_factor": "0.09612",
           "ch4_factor": "0.00024",
           "n2o_factor": "0.00052",
-          "biofuel_co2": "Yes",
           "AR4-kgco2e": "0.09628096",
           "AR5-kgco2e": "0.09626452",
           "units": "mile"
@@ -870,7 +829,6 @@
           "co2_factor": "0.28297",
           "ch4_factor": "0.00026",
           "n2o_factor": "0.00179",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.28350992",
           "AR5-kgco2e": "0.28345163",
           "units": "mile"
@@ -891,7 +849,6 @@
           "co2_factor": "0.18208",
           "ch4_factor": "0.00286",
           "n2o_factor": "0.00095",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1824346",
           "AR5-kgco2e": "0.18241183",
           "units": "mile"
@@ -912,7 +869,6 @@
           "co2_factor": "0.14886",
           "ch4_factor": "0.00000308",
           "n2o_factor": "0.00132",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.149253437",
           "AR5-kgco2e": "0.149209886",
           "units": "passenger-km"
@@ -933,7 +889,6 @@
           "co2_factor": "0.10391",
           "ch4_factor": "0.00003",
           "n2o_factor": "0.00077",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.10414021",
           "AR5-kgco2e": "0.10411489",
           "units": "passenger-km"
@@ -954,7 +909,6 @@
           "co2_factor": "0.04077",
           "ch4_factor": "0.00007",
           "n2o_factor": "0.00031",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.04086413",
           "AR5-kgco2e": "0.04085411",
           "units": "passenger-km"
@@ -975,7 +929,6 @@
           "co2_factor": "0.00592",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00003",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.00592944",
           "AR5-kgco2e": "0.00592851",
           "units": "passenger-km"
@@ -996,7 +949,6 @@
           "co2_factor": "0.0348",
           "ch4_factor": "0.00009",
           "n2o_factor": "0.00019",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.03485887",
           "AR5-kgco2e": "0.03485287",
           "units": "passenger-km"
@@ -1017,7 +969,6 @@
           "co2_factor": "0.13345",
           "ch4_factor": "0.00012",
           "n2o_factor": "0.00126",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.13382848",
           "AR5-kgco2e": "0.13378726",
           "units": "passenger-km"
@@ -1038,7 +989,6 @@
           "co2_factor": "0.08291",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00078",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.08314269",
           "AR5-kgco2e": "0.08311698",
           "units": "passenger-km"
@@ -1059,7 +1009,6 @@
           "co2_factor": "0.08155",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00077",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.08177971",
           "AR5-kgco2e": "0.08175433",
           "units": "passenger-km"
@@ -1080,7 +1029,6 @@
           "co2_factor": "0.12233",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00116",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.12267593",
           "AR5-kgco2e": "0.12263768",
           "units": "passenger-km"
@@ -1101,7 +1049,6 @@
           "co2_factor": "0.10244",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00097",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.10272931",
           "AR5-kgco2e": "0.10269733",
           "units": "passenger-km"
@@ -1122,7 +1069,6 @@
           "co2_factor": "0.07845",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00074",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.07867077",
           "AR5-kgco2e": "0.07864638",
           "units": "passenger-km"
@@ -1143,7 +1089,6 @@
           "co2_factor": "0.12553",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00119",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.12588487",
           "AR5-kgco2e": "0.12584563",
           "units": "passenger-km"
@@ -1164,7 +1109,6 @@
           "co2_factor": "0.22752",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00215",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.2281612",
           "AR5-kgco2e": "0.22809031",
           "units": "passenger-km"
@@ -1185,7 +1129,6 @@
           "co2_factor": "0.31382",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00297",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.31470556",
           "AR5-kgco2e": "0.31460761",
           "units": "passenger-km"
@@ -1206,7 +1149,6 @@
           "co2_factor": "0.09467",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.0009",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.09493845",
           "AR5-kgco2e": "0.09490878",
           "units": "passenger-km"
@@ -1227,7 +1169,6 @@
           "co2_factor": "0.0725",
           "ch4_factor": "0.000005",
           "n2o_factor": "0.00069",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.072705745",
           "AR5-kgco2e": "0.07268299",
           "units": "passenger-km"
@@ -1248,7 +1189,6 @@
           "co2_factor": "0.116",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.0011",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.11632805",
           "AR5-kgco2e": "0.11629178",
           "units": "passenger-km"
@@ -1269,7 +1209,6 @@
           "co2_factor": "0.21025",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00199",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.21084352",
           "AR5-kgco2e": "0.21077791",
           "units": "passenger-km"
@@ -1290,7 +1229,6 @@
           "co2_factor": "0.29",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00274",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.29081702",
           "AR5-kgco2e": "0.29072666",
           "units": "passenger-km"
@@ -1311,7 +1249,6 @@
           "co2_factor": "0.111313",
           "ch4_factor": "0.000033",
           "n2o_factor": "0.001517",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.111765891",
           "AR5-kgco2e": "0.111715929",
           "units": "passenger-km"
@@ -1332,7 +1269,6 @@
           "co2_factor": "1.467",
           "ch4_factor": "0.014",
           "n2o_factor": "0.01",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.47033",
           "AR5-kgco2e": "1.470042",
           "units": "vehicle-mile"
@@ -1353,7 +1289,6 @@
           "co2_factor": "0.343",
           "ch4_factor": "0.019",
           "n2o_factor": "0.011",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.346753",
           "AR5-kgco2e": "0.346447",
           "units": "vehicle-mile"
@@ -1374,7 +1309,6 @@
           "co2_factor": "0.472",
           "ch4_factor": "0.019",
           "n2o_factor": "0.018",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.477839",
           "AR5-kgco2e": "0.477302",
           "units": "vehicle-mile"
@@ -1395,7 +1329,6 @@
           "co2_factor": "0.202337978",
           "ch4_factor": "0.002003842",
           "n2o_factor": "0.001512968",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.202838939",
           "AR5-kgco2e": "0.202795022",
           "units": "ton-mile"
@@ -1416,7 +1349,6 @@
           "co2_factor": "0.023",
           "ch4_factor": "0.0018",
           "n2o_factor": "0.0006",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0232238",
           "AR5-kgco2e": "0.0232094",
           "units": "ton-mile"
@@ -1437,7 +1369,6 @@
           "co2_factor": "0.059",
           "ch4_factor": "0.0005",
           "n2o_factor": "0.004",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0602045",
           "AR5-kgco2e": "0.060074",
           "units": "ton-mile"
@@ -1458,7 +1389,6 @@
           "co2_factor": "1.308",
           "ch4_factor": "0",
           "n2o_factor": "0.0402",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.3199796",
           "AR5-kgco2e": "1.318653",
           "units": "ton-mile"
@@ -1479,7 +1409,6 @@
           "co2_factor": "0.40279",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00296",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.40367233",
           "AR5-kgco2e": "0.40357468",
           "units": "mile"
@@ -1500,7 +1429,6 @@
           "co2_factor": "0.37898",
           "ch4_factor": "0.00041",
           "n2o_factor": "0.00114",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.37932997",
           "AR5-kgco2e": "0.37929358",
           "units": "mile"
@@ -1521,7 +1449,6 @@
           "co2_factor": "0.39542",
           "ch4_factor": "0.00204",
           "n2o_factor": "0.00135",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.3958733",
           "AR5-kgco2e": "0.39583487",
           "units": "mile"
@@ -1542,7 +1469,6 @@
           "co2_factor": "0.43704",
           "ch4_factor": "0.00006",
           "n2o_factor": "0.00135",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.4374438",
           "AR5-kgco2e": "0.43739943",
           "units": "mile"
@@ -1563,7 +1489,6 @@
           "co2_factor": "0.40201",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.0029",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.4028747",
           "AR5-kgco2e": "0.40277906",
           "units": "mile"
@@ -1584,7 +1509,6 @@
           "co2_factor": "0.10034",
           "ch4_factor": "0.00026",
           "n2o_factor": "0.00055",
-          "biofuel_co2": "Yes",
           "AR4-kgco2e": "0.1005104",
           "AR5-kgco2e": "0.10049303",
           "units": "mile"
@@ -1605,7 +1529,6 @@
           "co2_factor": "0.10797",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.0022",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.1086266",
           "AR5-kgco2e": "0.10855412",
           "units": "tonne-km"
@@ -1626,7 +1549,6 @@
           "co2_factor": "0.85361",
           "ch4_factor": "0.00017",
           "n2o_factor": "0.01277",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.85741971",
           "AR5-kgco2e": "0.85699881",
           "units": "km"
@@ -1647,7 +1569,6 @@
           "co2_factor": "1.37375",
           "ch4_factor": "0.00027",
           "n2o_factor": "0.02055",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.37988065",
           "AR5-kgco2e": "1.37920331",
           "units": "mile"
@@ -1668,7 +1589,6 @@
           "co2_factor": "0.126846853",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.0022",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.127503453",
           "AR5-kgco2e": "0.127430973",
           "units": "tonne-km"
@@ -1689,7 +1609,6 @@
           "co2_factor": "1.002850254",
           "ch4_factor": "0.00017",
           "n2o_factor": "0.01277",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.006659964",
           "AR5-kgco2e": "1.006239064",
           "units": "km"
@@ -1710,7 +1629,6 @@
           "co2_factor": "1.61393",
           "ch4_factor": "0.00027",
           "n2o_factor": "0.02055",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.62006065",
           "AR5-kgco2e": "1.61938331",
           "units": "mile"
@@ -1731,7 +1649,6 @@
           "co2_factor": "2.61561",
           "ch4_factor": "0.00234",
           "n2o_factor": "0.02475",
-          "biofuel_co2": "",
           "AR4-kgco2e": "2.623044",
           "AR5-kgco2e": "2.62223427",
           "units": "tonne-km"
@@ -1752,7 +1669,6 @@
           "co2_factor": "1.24621",
           "ch4_factor": "0.00009",
           "n2o_factor": "0.01179",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.24972567",
           "AR5-kgco2e": "1.24933687",
           "units": "tonne-km"
@@ -1773,7 +1689,6 @@
           "co2_factor": "0.59268",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.00561",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.59435278",
           "AR5-kgco2e": "0.59416777",
           "units": "tonne-km"
@@ -1794,7 +1709,6 @@
           "co2_factor": "0.59268",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.00561",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.59435278",
           "AR5-kgco2e": "0.59416777",
           "units": "tonne-km"
@@ -1815,7 +1729,6 @@
           "co2_factor": "0.03299",
           "ch4_factor": "0.00003",
           "n2o_factor": "0.00031",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.03308313",
           "AR5-kgco2e": "0.03307299",
           "units": "tonne-km"
@@ -1836,7 +1749,6 @@
           "co2_factor": "0.00451",
           "ch4_factor": "0.000001",
           "n2o_factor": "0.000061",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.004528203",
           "AR5-kgco2e": "0.004526193",
           "units": "tonne-km"
@@ -1857,7 +1769,6 @@
           "co2_factor": "0.00891",
           "ch4_factor": "0.000003",
           "n2o_factor": "0.000121",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.008946133",
           "AR5-kgco2e": "0.008942149",
           "units": "tonne-km"
@@ -1878,7 +1789,6 @@
           "co2_factor": "0.01018",
           "ch4_factor": "0.000003",
           "n2o_factor": "0.000139",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.010221497",
           "AR5-kgco2e": "0.010216919",
           "units": "tonne-km"
@@ -1899,7 +1809,6 @@
           "co2_factor": "0.01139",
           "ch4_factor": "0.000003",
           "n2o_factor": "0.000155",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.011436265",
           "AR5-kgco2e": "0.011431159",
           "units": "tonne-km"
@@ -1920,7 +1829,6 @@
           "co2_factor": "0.01024",
           "ch4_factor": "0.000003",
           "n2o_factor": "0.00014",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.010281795",
           "AR5-kgco2e": "0.010277184",
           "units": "tonne-km"
@@ -1941,7 +1849,6 @@
           "co2_factor": "0.00349",
           "ch4_factor": "0.000001",
           "n2o_factor": "0.000048",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.003504329",
           "AR5-kgco2e": "0.003502748",
           "units": "tonne-km"
@@ -1962,7 +1869,6 @@
           "co2_factor": "0.01305",
           "ch4_factor": "0.000004",
           "n2o_factor": "0.000178",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.013103144",
           "AR5-kgco2e": "0.013097282",
           "units": "tonne-km"
@@ -1983,7 +1889,6 @@
           "co2_factor": "0.01592",
           "ch4_factor": "0.000005",
           "n2o_factor": "0.000217",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.015984791",
           "AR5-kgco2e": "0.015977645",
           "units": "tonne-km"
@@ -2004,7 +1909,6 @@
           "co2_factor": "0.03805",
           "ch4_factor": "0.000011",
           "n2o_factor": "0.000519",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.038204937",
           "AR5-kgco2e": "0.038187843",
           "units": "tonne-km"
@@ -2025,7 +1929,6 @@
           "co2_factor": "0.05095",
           "ch4_factor": "0.000015",
           "n2o_factor": "0.000694",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.051157187",
           "AR5-kgco2e": "0.05113433",
           "units": "tonne-km"
@@ -2046,7 +1949,6 @@
           "co2_factor": "0.3715",
           "ch4_factor": "0.000112",
           "n2o_factor": "0.005062",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.373011276",
           "AR5-kgco2e": "0.372844566",
           "units": "tonne-km"
@@ -2067,7 +1969,6 @@
           "co2_factor": "0.0129",
           "ch4_factor": "0.000004",
           "n2o_factor": "0.000176",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.012952548",
           "AR5-kgco2e": "0.012946752",
           "units": "tonne-km"
@@ -2088,7 +1989,6 @@
           "co2_factor": "0.25355",
           "ch4_factor": "0.00012",
           "n2o_factor": "0.00126",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.25392848",
           "AR5-kgco2e": "0.25388726",
           "units": "passenger-km"
@@ -2109,7 +2009,6 @@
           "co2_factor": "0.15753",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00078",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.15776269",
           "AR5-kgco2e": "0.15773698",
           "units": "passenger-km"
@@ -2130,7 +2029,6 @@
           "co2_factor": "0.15495",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00077",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.15517971",
           "AR5-kgco2e": "0.15515433",
           "units": "passenger-km"
@@ -2151,7 +2049,6 @@
           "co2_factor": "0.23243",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00116",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.23277593",
           "AR5-kgco2e": "0.23273768",
           "units": "passenger-km"
@@ -2172,7 +2069,6 @@
           "co2_factor": "0.19464",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00097",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.19492931",
           "AR5-kgco2e": "0.19489733",
           "units": "passenger-km"
@@ -2193,7 +2089,6 @@
           "co2_factor": "0.14906",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00074",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.14928077",
           "AR5-kgco2e": "0.14925638",
           "units": "passenger-km"
@@ -2214,7 +2109,6 @@
           "co2_factor": "0.2385",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00119",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.23885487",
           "AR5-kgco2e": "0.23881563",
           "units": "passenger-km"
@@ -2235,7 +2129,6 @@
           "co2_factor": "0.43229",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00215",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.4329312",
           "AR5-kgco2e": "0.43286031",
           "units": "passenger-km"
@@ -2256,7 +2149,6 @@
           "co2_factor": "0.59626",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00297",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.59714556",
           "AR5-kgco2e": "0.59704761",
           "units": "passenger-km"
@@ -2277,7 +2169,6 @@
           "co2_factor": "0.17987",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.0009",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.18013845",
           "AR5-kgco2e": "0.18010878",
           "units": "passenger-km"
@@ -2298,7 +2189,6 @@
           "co2_factor": "0.13775",
           "ch4_factor": "0.000005",
           "n2o_factor": "0.00069",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.137955745",
           "AR5-kgco2e": "0.13793299",
           "units": "passenger-km"
@@ -2319,7 +2209,6 @@
           "co2_factor": "0.2204",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.0011",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.22072805",
           "AR5-kgco2e": "0.22069178",
           "units": "passenger-km"
@@ -2340,7 +2229,6 @@
           "co2_factor": "0.39948",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00199",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.40007352",
           "AR5-kgco2e": "0.40000791",
           "units": "passenger-km"
@@ -2361,7 +2249,6 @@
           "co2_factor": "0.551",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.00274",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.55181702",
           "AR5-kgco2e": "0.55172666",
           "units": "passenger-km"
@@ -2382,7 +2269,6 @@
           "co2_factor": "4.96965",
           "ch4_factor": "0.00234",
           "n2o_factor": "0.02475",
-          "biofuel_co2": "",
           "AR4-kgco2e": "4.977084",
           "AR5-kgco2e": "4.97627427",
           "units": "tonne-km"
@@ -2403,7 +2289,6 @@
           "co2_factor": "2.3678",
           "ch4_factor": "0.00009",
           "n2o_factor": "0.01179",
-          "biofuel_co2": "",
           "AR4-kgco2e": "2.37131567",
           "AR5-kgco2e": "2.37092687",
           "units": "tonne-km"
@@ -2424,7 +2309,6 @@
           "co2_factor": "1.12609",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.00561",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.12776278",
           "AR5-kgco2e": "1.12757777",
           "units": "tonne-km"
@@ -2445,7 +2329,6 @@
           "co2_factor": "1.12609",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.00561",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.12776278",
           "AR5-kgco2e": "1.12757777",
           "units": "tonne-km"
@@ -2466,7 +2349,6 @@
           "co2_factor": "0.471570504",
           "ch4_factor": "3.72E-05",
           "n2o_factor": "4.99E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.473987244",
           "AR5-kgco2e": "0.473934173",
           "units": "kwH"
@@ -2487,7 +2369,6 @@
           "co2_factor": "0.238173642",
           "ch4_factor": "1.09E-05",
           "n2o_factor": "1.81E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.23898648",
           "AR5-kgco2e": "0.238959264",
           "units": "kwH"
@@ -2508,7 +2389,6 @@
           "co2_factor": "0.463732427",
           "ch4_factor": "3.49E-05",
           "n2o_factor": "4.99E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.466092469",
           "AR5-kgco2e": "0.466032594",
           "units": "kwH"
@@ -2529,7 +2409,6 @@
           "co2_factor": "0.225224941",
           "ch4_factor": "1.54E-05",
           "n2o_factor": "1.81E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.226151177",
           "AR5-kgco2e": "0.226137569",
           "units": "kwH"
@@ -2550,7 +2429,6 @@
           "co2_factor": "0.422599311",
           "ch4_factor": "2.99E-05",
           "n2o_factor": "4.08E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.424564273",
           "AR5-kgco2e": "0.424519367",
           "units": "kwH"
@@ -2571,7 +2449,6 @@
           "co2_factor": "0.422676421",
           "ch4_factor": "2.99E-05",
           "n2o_factor": "4.08E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.424641383",
           "AR5-kgco2e": "0.424596478",
           "units": "kwH"
@@ -2592,7 +2469,6 @@
           "co2_factor": "0.503800056",
           "ch4_factor": "5.35E-05",
           "n2o_factor": "8.16E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.507571223",
           "AR5-kgco2e": "0.507462361",
           "units": "kwH"
@@ -2613,7 +2489,6 @@
           "co2_factor": "0.757473403",
           "ch4_factor": "8.16E-05",
           "n2o_factor": "1.22E-05",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.763164173",
           "AR5-kgco2e": "0.763004962",
           "units": "kwH"
@@ -2634,7 +2509,6 @@
           "co2_factor": "0.761135254",
           "ch4_factor": "7.67E-05",
           "n2o_factor": "1.13E-05",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.766430945",
           "AR5-kgco2e": "0.766286703",
           "units": "kwH"
@@ -2655,7 +2529,6 @@
           "co2_factor": "0.562385593",
           "ch4_factor": "6.26E-05",
           "n2o_factor": "9.07E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.566653897",
           "AR5-kgco2e": "0.566542313",
           "units": "kwH"
@@ -2676,7 +2549,6 @@
           "co2_factor": "0.236916738",
           "ch4_factor": "3.72E-05",
           "n2o_factor": "4.99E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.239333478",
           "AR5-kgco2e": "0.239280408",
           "units": "kwH"
@@ -2697,7 +2569,6 @@
           "co2_factor": "0.289862307",
           "ch4_factor": "2.90E-05",
           "n2o_factor": "4.08E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.29180459",
           "AR5-kgco2e": "0.291756963",
           "units": "kwH"
@@ -2718,7 +2589,6 @@
           "co2_factor": "0.27052884",
           "ch4_factor": "9.98E-06",
           "n2o_factor": "1.36E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.271183827",
           "AR5-kgco2e": "0.271168859",
           "units": "kwH"
@@ -2739,7 +2609,6 @@
           "co2_factor": "0.537162682",
           "ch4_factor": "6.30E-05",
           "n2o_factor": "8.16E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.541171985",
           "AR5-kgco2e": "0.541091699",
           "units": "kwH"
@@ -2760,7 +2629,6 @@
           "co2_factor": "0.114809672",
           "ch4_factor": "8.16E-06",
           "n2o_factor": "9.07E-07",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.11528413",
           "AR5-kgco2e": "0.115278686",
           "units": "kwH"
@@ -2781,7 +2649,6 @@
           "co2_factor": "0.324756715",
           "ch4_factor": "2.77E-05",
           "n2o_factor": "3.63E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.326529807",
           "AR5-kgco2e": "0.326493066",
           "units": "kwH"
@@ -2802,7 +2669,6 @@
           "co2_factor": "0.595367201",
           "ch4_factor": "5.85E-05",
           "n2o_factor": "8.16E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.599263106",
           "AR5-kgco2e": "0.599169212",
           "units": "kwH"
@@ -2823,7 +2689,6 @@
           "co2_factor": "0.528932248",
           "ch4_factor": "5.31E-05",
           "n2o_factor": "7.71E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.532556905",
           "AR5-kgco2e": "0.532461651",
           "units": "kwH"
@@ -2844,7 +2709,6 @@
           "co2_factor": "0.577702046",
           "ch4_factor": "5.58E-05",
           "n2o_factor": "8.16E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.581529912",
           "AR5-kgco2e": "0.581427854",
           "units": "kwH"
@@ -2865,7 +2729,6 @@
           "co2_factor": "0.527612748",
           "ch4_factor": "5.62E-05",
           "n2o_factor": "8.16E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.531451954",
           "AR5-kgco2e": "0.531351256",
           "units": "kwH"
@@ -2886,7 +2749,6 @@
           "co2_factor": "0.529152694",
           "ch4_factor": "4.13E-05",
           "n2o_factor": "5.90E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.531941834",
           "AR5-kgco2e": "0.531871073",
           "units": "kwH"
@@ -2907,7 +2769,6 @@
           "co2_factor": "0.387660451",
           "ch4_factor": "2.49E-05",
           "n2o_factor": "3.63E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.389365505",
           "AR5-kgco2e": "0.389320599",
           "units": "kwH"
@@ -2928,7 +2789,6 @@
           "co2_factor": "0.754845743",
           "ch4_factor": "8.39E-05",
           "n2o_factor": "1.22E-05",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.760593211",
           "AR5-kgco2e": "0.760440804",
           "units": "kwH"
@@ -2949,7 +2809,6 @@
           "co2_factor": "0.466260298",
           "ch4_factor": "3.67E-05",
           "n2o_factor": "5.44E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.468800869",
           "AR5-kgco2e": "0.468731469",
           "units": "kwH"
@@ -2970,7 +2829,6 @@
           "co2_factor": "0.467897313",
           "ch4_factor": "4.40E-05",
           "n2o_factor": "6.35E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.470889661",
           "AR5-kgco2e": "0.470812097",
           "units": "kwH"
@@ -2991,7 +2849,6 @@
           "co2_factor": "0.337167909",
           "ch4_factor": "3.04E-05",
           "n2o_factor": "4.08E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.339144211",
           "AR5-kgco2e": "0.339100666",
           "units": "kwH"
@@ -3012,7 +2869,6 @@
           "co2_factor": "0.429634528",
           "ch4_factor": "3.86E-05",
           "n2o_factor": "5.44E-06",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.432220458",
           "AR5-kgco2e": "0.432156502",
           "units": "kwH"
@@ -3033,7 +2889,6 @@
           "co2_factor": "0.13",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.13",
           "AR5-kgco2e": "0.13",
           "units": "kwH"
@@ -3054,7 +2909,6 @@
           "co2_factor": "0.04",
           "ch4_factor": "0.0000006",
           "n2o_factor": "0.000001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.040313",
           "AR5-kgco2e": "0.0402818",
           "units": "kwH"
@@ -3075,7 +2929,6 @@
           "co2_factor": "0.014",
           "ch4_factor": "0.0000005",
           "n2o_factor": "0.0000002",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0140721",
           "AR5-kgco2e": "0.014067",
           "units": "kwH"
@@ -3096,7 +2949,6 @@
           "co2_factor": "0.67",
           "ch4_factor": "0.00003",
           "n2o_factor": "0.00001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.67373",
           "AR5-kgco2e": "0.67349",
           "units": "kwH"
@@ -3117,7 +2969,6 @@
           "co2_factor": "0.31",
           "ch4_factor": "0.00002",
           "n2o_factor": "0.000004",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.311692",
           "AR5-kgco2e": "0.31162",
           "units": "kwH"
@@ -3138,7 +2989,6 @@
           "co2_factor": "0.0012",
           "ch4_factor": "0",
           "n2o_factor": "0.0000001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0012298",
           "AR5-kgco2e": "0.0012265",
           "units": "kwH"
@@ -3159,7 +3009,6 @@
           "co2_factor": "0.017",
           "ch4_factor": "0",
           "n2o_factor": "0.000001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.017298",
           "AR5-kgco2e": "0.017265",
           "units": "kwH"
@@ -3180,7 +3029,6 @@
           "co2_factor": "0.0019",
           "ch4_factor": "0.0000001",
           "n2o_factor": "0.0000001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0019323",
           "AR5-kgco2e": "0.0019293",
           "units": "kwH"
@@ -3201,7 +3049,6 @@
           "co2_factor": "0.65",
           "ch4_factor": "0.00005",
           "n2o_factor": "0.00002",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.65721",
           "AR5-kgco2e": "0.6567",
           "units": "kwH"
@@ -3222,7 +3069,6 @@
           "co2_factor": "0.75",
           "ch4_factor": "0.00004",
           "n2o_factor": "0.00001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.75398",
           "AR5-kgco2e": "0.75377",
           "units": "kwH"
@@ -3243,7 +3089,6 @@
           "co2_factor": "0.009",
           "ch4_factor": "0.000003",
           "n2o_factor": "0.0000007",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0092836",
           "AR5-kgco2e": "0.0092695",
           "units": "kwH"
@@ -3264,7 +3109,6 @@
           "co2_factor": "0.048",
           "ch4_factor": "0.000004",
           "n2o_factor": "0.00001",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.05108",
           "AR5-kgco2e": "0.050762",
           "units": "kwH"
@@ -3285,7 +3129,6 @@
           "co2_factor": "0.17",
           "ch4_factor": "0.00001",
           "n2o_factor": "0.00002",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.17621",
           "AR5-kgco2e": "0.17558",
           "units": "kwH"
@@ -3306,7 +3149,6 @@
           "co2_factor": "0.81",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.81",
           "AR5-kgco2e": "0.81",
           "units": "kwH"
@@ -3327,7 +3169,6 @@
           "co2_factor": "1.02",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.02",
           "AR5-kgco2e": "1.02",
           "units": "kwH"
@@ -3348,7 +3189,6 @@
           "co2_factor": "0.81",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.81",
           "AR5-kgco2e": "0.81",
           "units": "kwH"
@@ -3369,7 +3209,6 @@
           "co2_factor": "0.44",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.44",
           "AR5-kgco2e": "0.44",
           "units": "kwH"
@@ -3390,7 +3229,6 @@
           "co2_factor": "0.69",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.69",
           "AR5-kgco2e": "0.69",
           "units": "kwH"
@@ -3411,7 +3249,6 @@
           "co2_factor": "0.15",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.15",
           "AR5-kgco2e": "0.15",
           "units": "kwH"
@@ -3432,7 +3269,6 @@
           "co2_factor": "0.63",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.63",
           "AR5-kgco2e": "0.63",
           "units": "kwH"
@@ -3453,7 +3289,6 @@
           "co2_factor": "0.968",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.968",
           "AR5-kgco2e": "0.968",
           "units": "kwH"
@@ -3474,7 +3309,6 @@
           "co2_factor": "1.1082",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.1082",
           "AR5-kgco2e": "1.1082",
           "units": "kwH"
@@ -3495,7 +3329,6 @@
           "co2_factor": "0.8046",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.8046",
           "AR5-kgco2e": "0.8046",
           "units": "kwH"
@@ -3516,7 +3349,6 @@
           "co2_factor": "0.9014",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.9014",
           "AR5-kgco2e": "0.9014",
           "units": "kwH"
@@ -3537,7 +3369,6 @@
           "co2_factor": "0.9155",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.9155",
           "AR5-kgco2e": "0.9155",
           "units": "kwH"
@@ -3558,7 +3389,6 @@
           "co2_factor": "0.8367",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.8367",
           "AR5-kgco2e": "0.8367",
           "units": "kwH"
@@ -3579,7 +3409,6 @@
           "co2_factor": "0",
           "ch4_factor": "0",
           "n2o_factor": "0",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0",
           "AR5-kgco2e": "0",
           "units": "kwH"
@@ -3600,7 +3429,6 @@
           "co2_factor": "0.490900342",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.490900342",
           "AR5-kgco2e": "0.490900342",
           "units": "kwH"
@@ -3621,7 +3449,6 @@
           "co2_factor": "0.228215929",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.228215929",
           "AR5-kgco2e": "0.228215929",
           "units": "kwH"
@@ -3642,7 +3469,6 @@
           "co2_factor": "0.474108353",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.474108353",
           "AR5-kgco2e": "0.474108353",
           "units": "kwH"
@@ -3663,7 +3489,6 @@
           "co2_factor": "0.240140873",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.240140873",
           "AR5-kgco2e": "0.240140873",
           "units": "kwH"
@@ -3684,7 +3509,6 @@
           "co2_factor": "0.485452698",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.485452698",
           "AR5-kgco2e": "0.485452698",
           "units": "kwH"
@@ -3705,7 +3529,6 @@
           "co2_factor": "0.461385087",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.461385087",
           "AR5-kgco2e": "0.461385087",
           "units": "kwH"
@@ -3726,7 +3549,6 @@
           "co2_factor": "0.522547482",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.522547482",
           "AR5-kgco2e": "0.522547482",
           "units": "kwH"
@@ -3747,7 +3569,6 @@
           "co2_factor": "0.754274216",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.754274216",
           "AR5-kgco2e": "0.754274216",
           "units": "kwH"
@@ -3768,7 +3589,6 @@
           "co2_factor": "0.756959483",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.756959483",
           "AR5-kgco2e": "0.756959483",
           "units": "kwH"
@@ -3789,7 +3609,6 @@
           "co2_factor": "0.586748946",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.586748946",
           "AR5-kgco2e": "0.586748946",
           "units": "kwH"
@@ -3810,7 +3629,6 @@
           "co2_factor": "0.253190725",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.253190725",
           "AR5-kgco2e": "0.253190725",
           "units": "kwH"
@@ -3831,7 +3649,6 @@
           "co2_factor": "0.300636487",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.300636487",
           "AR5-kgco2e": "0.300636487",
           "units": "kwH"
@@ -3852,7 +3669,6 @@
           "co2_factor": "0.288398565",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.288398565",
           "AR5-kgco2e": "0.288398565",
           "units": "kwH"
@@ -3873,7 +3689,6 @@
           "co2_factor": "0.534476961",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.534476961",
           "AR5-kgco2e": "0.534476961",
           "units": "kwH"
@@ -3894,7 +3709,6 @@
           "co2_factor": "0.133673671",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.133673671",
           "AR5-kgco2e": "0.133673671",
           "units": "kwH"
@@ -3915,7 +3729,6 @@
           "co2_factor": "0.344031669",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.344031669",
           "AR5-kgco2e": "0.344031669",
           "units": "kwH"
@@ -3936,7 +3749,6 @@
           "co2_factor": "0.577332369",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.577332369",
           "AR5-kgco2e": "0.577332369",
           "units": "kwH"
@@ -3957,7 +3769,6 @@
           "co2_factor": "0.564250765",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.564250765",
           "AR5-kgco2e": "0.564250765",
           "units": "kwH"
@@ -3978,7 +3789,6 @@
           "co2_factor": "0.625653564",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.625653564",
           "AR5-kgco2e": "0.625653564",
           "units": "kwH"
@@ -3999,7 +3809,6 @@
           "co2_factor": "0.686861318",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.686861318",
           "AR5-kgco2e": "0.686861318",
           "units": "kwH"
@@ -4020,7 +3829,6 @@
           "co2_factor": "0.641796916",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.641796916",
           "AR5-kgco2e": "0.641796916",
           "units": "kwH"
@@ -4041,7 +3849,6 @@
           "co2_factor": "0.381081094",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.381081094",
           "AR5-kgco2e": "0.381081094",
           "units": "kwH"
@@ -4062,7 +3869,6 @@
           "co2_factor": "0.739174126",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.739174126",
           "AR5-kgco2e": "0.739174126",
           "units": "kwH"
@@ -4083,7 +3889,6 @@
           "co2_factor": "0.49653396",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.49653396",
           "AR5-kgco2e": "0.49653396",
           "units": "kwH"
@@ -4104,7 +3909,6 @@
           "co2_factor": "0.53790612",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.53790612",
           "AR5-kgco2e": "0.53790612",
           "units": "kwH"
@@ -4125,7 +3929,6 @@
           "co2_factor": "0.366198728",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.366198728",
           "AR5-kgco2e": "0.366198728",
           "units": "kwH"
@@ -4146,7 +3949,6 @@
           "co2_factor": "0.460364622",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.460364622",
           "AR5-kgco2e": "0.460364622",
           "units": "kwH"
@@ -4167,7 +3969,6 @@
           "co2_factor": "0.045064402",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.045064402",
           "AR5-kgco2e": "0.045064402",
           "units": "kwH"
@@ -4188,7 +3989,6 @@
           "co2_factor": "0.045064402",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.045064402",
           "AR5-kgco2e": "0.045064402",
           "units": "kwH"
@@ -4209,7 +4009,6 @@
           "co2_factor": "0.045064402",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.045064402",
           "AR5-kgco2e": "0.045064402",
           "units": "kwH"
@@ -4230,7 +4029,6 @@
           "co2_factor": "0.239945828",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.239945828",
           "AR5-kgco2e": "0.239945828",
           "units": "kwH"
@@ -4251,7 +4049,6 @@
           "co2_factor": "0.239945828",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.239945828",
           "AR5-kgco2e": "0.239945828",
           "units": "kwH"
@@ -4272,7 +4069,6 @@
           "co2_factor": "0.381793234",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.381793234",
           "AR5-kgco2e": "0.381793234",
           "units": "kwH"
@@ -4293,7 +4089,6 @@
           "co2_factor": "0.381793234",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.381793234",
           "AR5-kgco2e": "0.381793234",
           "units": "kwH"
@@ -4314,7 +4109,6 @@
           "co2_factor": "0.54587",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.54587",
           "AR5-kgco2e": "0.54587",
           "units": "kwH"
@@ -4335,7 +4129,6 @@
           "co2_factor": "0.18906",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.18906",
           "AR5-kgco2e": "0.18906",
           "units": "kwH"
@@ -4356,7 +4149,6 @@
           "co2_factor": "0.49543",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.49543",
           "AR5-kgco2e": "0.49543",
           "units": "kwH"
@@ -4377,7 +4169,6 @@
           "co2_factor": "0.56168",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.56168",
           "AR5-kgco2e": "0.56168",
           "units": "kwH"
@@ -4398,7 +4189,6 @@
           "co2_factor": "0.77021",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.77021",
           "AR5-kgco2e": "0.77021",
           "units": "kwH"
@@ -4419,7 +4209,6 @@
           "co2_factor": "0.6123",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.6123",
           "AR5-kgco2e": "0.6123",
           "units": "kwH"
@@ -4440,7 +4229,6 @@
           "co2_factor": "0.50937",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.50937",
           "AR5-kgco2e": "0.50937",
           "units": "kwH"
@@ -4461,7 +4249,6 @@
           "co2_factor": "1.04329",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "1.04329",
           "AR5-kgco2e": "1.04329",
           "units": "kwH"
@@ -4482,7 +4269,6 @@
           "co2_factor": "0.30164",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.30164",
           "AR5-kgco2e": "0.30164",
           "units": "kwH"
@@ -4503,7 +4289,6 @@
           "co2_factor": "0.0532",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.0532",
           "AR5-kgco2e": "0.0532",
           "units": "kwH"
@@ -4524,7 +4309,6 @@
           "co2_factor": "0.72869",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.72869",
           "AR5-kgco2e": "0.72869",
           "units": "kwH"
@@ -4545,7 +4329,6 @@
           "co2_factor": "0.38096",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.38096",
           "AR5-kgco2e": "0.38096",
           "units": "kwH"
@@ -4566,7 +4349,6 @@
           "co2_factor": "0.69583",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.69583",
           "AR5-kgco2e": "0.69583",
           "units": "kwH"
@@ -4587,7 +4369,6 @@
           "co2_factor": "0.37898",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.37898",
           "AR5-kgco2e": "0.37898",
           "units": "kwH"
@@ -4608,7 +4389,6 @@
           "co2_factor": "0.48224",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.48224",
           "AR5-kgco2e": "0.48224",
           "units": "kwH"
@@ -4629,7 +4409,6 @@
           "co2_factor": "0.64035",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.64035",
           "AR5-kgco2e": "0.64035",
           "units": "kwH"
@@ -4650,7 +4429,6 @@
           "co2_factor": "0.48723",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.48723",
           "AR5-kgco2e": "0.48723",
           "units": "kwH"
@@ -4671,7 +4449,6 @@
           "co2_factor": "0.32276",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.32276",
           "AR5-kgco2e": "0.32276",
           "units": "kwH"
@@ -4692,7 +4469,6 @@
           "co2_factor": "0.38073",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.38073",
           "AR5-kgco2e": "0.38073",
           "units": "kwH"
@@ -4713,7 +4489,6 @@
           "co2_factor": "0.36121",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.36121",
           "AR5-kgco2e": "0.36121",
           "units": "kwH"
@@ -4734,7 +4509,6 @@
           "co2_factor": "0.66892",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.66892",
           "AR5-kgco2e": "0.66892",
           "units": "kwH"
@@ -4755,7 +4529,6 @@
           "co2_factor": "0.53339",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.53339",
           "AR5-kgco2e": "0.53339",
           "units": "kwH"
@@ -4776,7 +4549,6 @@
           "co2_factor": "0.28049",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.28049",
           "AR5-kgco2e": "0.28049",
           "units": "kwH"
@@ -4797,7 +4569,6 @@
           "co2_factor": "0.90462",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.90462",
           "AR5-kgco2e": "0.90462",
           "units": "kwH"
@@ -4818,7 +4589,6 @@
           "co2_factor": "0.31552",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.31552",
           "AR5-kgco2e": "0.31552",
           "units": "kwH"
@@ -4839,7 +4609,6 @@
           "co2_factor": "0.40259",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.40259",
           "AR5-kgco2e": "0.40259",
           "units": "kwH"
@@ -4860,7 +4629,6 @@
           "co2_factor": "0.19395",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.19395",
           "AR5-kgco2e": "0.19395",
           "units": "kwH"
@@ -4881,7 +4649,6 @@
           "co2_factor": "0.50223",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.50223",
           "AR5-kgco2e": "0.50223",
           "units": "kwH"
@@ -4902,7 +4669,6 @@
           "co2_factor": "0.45091",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.45091",
           "AR5-kgco2e": "0.45091",
           "units": "kwH"
@@ -4923,7 +4689,6 @@
           "co2_factor": "0.03742",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.03742",
           "AR5-kgco2e": "0.03742",
           "units": "kwH"
@@ -4944,7 +4709,6 @@
           "co2_factor": "0.03484",
           "ch4_factor": "",
           "n2o_factor": "",
-          "biofuel_co2": "",
           "AR4-kgco2e": "0.03484",
           "AR5-kgco2e": "0.03484",
           "units": "kwH"

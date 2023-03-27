@@ -27,7 +27,6 @@ def parse_single_factor(row):
                     "co2_factor": row["CO2 Factor (kg / unit)"],
                     "ch4_factor": row["CH4 Factor (kg / unit)"],
                     "n2o_factor": row["N2O Factor (kg / unit)"],
-                    "biofuel_co2": row["Biofuel?"],
                     "AR4-kgco2e": row["AR4 (kgCO2e)"],
                     "AR5-kgco2e": row["AR5 (kgCO2e)"],
                     "units": row["Units"]
