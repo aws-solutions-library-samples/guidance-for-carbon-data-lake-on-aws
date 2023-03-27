@@ -9,7 +9,7 @@ import time
 import os
 
 date_entry = datetime.datetime.today().strftime('%Y-%m-%d')
-csvFilePath = r'ghg_emissionsfactor_comprehensive_May2022.csv'
+csvFilePath = r'ghg_emissionsfactor_comprehensive_adapted.csv'
 jsonFileName = rf'emissions_factor_model_{date_entry}.json'
 jsonFilePath = os.path.join(os.getcwd(), jsonFileName)
 start = time.perf_counter()
