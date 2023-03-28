@@ -15,9 +15,9 @@ do
    export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap --context adminEmail="test@test.com" --context quicksightUsername="test@test.com"  #bootstraps cdk in the region
+   cdk bootstrap --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true --context @aws-cdk/customresources:installLatestAwsSdkDefault=false  #bootstraps cdk in the region
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com" #deploys all with the optional region context variable
+   cdk deploy --all --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true --context @aws-cdk/customresources:installLatestAwsSdkDefault=false #deploys all with the optional region context variable
    wait
    echo "Beginning e2e test"
    echo "The e2e test uses the AWS CLI to trigger a lambda function"
@@ -45,7 +45,7 @@ do
       echo "E2E test completed"
 
       echo "👋 destroying all in $region 📍"
-      cdk destroy --all --force --context adminEmail="test@test.com" --context quicksightUsername="test@test.com"
+      cdk destroy --all --force --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true --context @aws-cdk/customresources:installLatestAwsSdkDefault=false
       echo "Test failed. Please read response.json"
       rm response.json
       exit 1
@@ -53,7 +53,7 @@ do
    echo "E2E test completed and done"
 
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --force --context region="$region" --context adminEmail="test@test.com" --context quicksightUsername="test@test.com"
+   cdk destroy --all --force --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true --context @aws-cdk/customresources:installLatestAwsSdkDefault=false
    wait
    echo "✅ successfully deployed, tested, and destroyed cdk app in $region 📍"
 done
