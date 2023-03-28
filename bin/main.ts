@@ -11,23 +11,41 @@ import { DataPipelineStack } from '../lib/stacks/stack-data-pipeline/stack-data-
 import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
-import { checkAdminEmailSetup, checkQuicksightSetup } from '../resources/setup-checks/setupCheck';
+import { checkAdminEmailSetup, checkQuicksightSetup, checkContextFilePresent } from '../resources/setup-checks/setupCheck';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 
+/**
+ * Instantiate a new CDK app object
+ */
+
 const app = new cdk.App()
+
+/**
+ * Create the cdk app environment to be used in all stacks
+ * Get region from the app context or from environmental variables
+ * Get account from local environmental variables defined with AWS CLI 
+ */
 
 const appEnv = {
   region: app.node.tryGetContext('awsRegion') ? app.node.tryGetContext('awsRegion') : process.env.CDK_DEFAULT_REGION,
   account: process.env.CDK_DEFAULT_ACCOUNT,
 }
 
-// TODO -- add destroy and remove objects policies for S3 buckets
-// TODO -- add any other dev configs for prod/dev deployment
+/**
+ * Check if cdk context is defined either by context file or command line flags
+ * If the context file is missing return a 
+ */
+
+checkContextFilePresent(app);
+
+
 
 // Generate needed artifacts based on the specific framework configuration
 const adminEmail = app.node.tryGetContext('adminEmail')
 
 checkAdminEmailSetup(adminEmail)
+
+checkQuicksightSetup(app)
 
 // CDL-SHARED-RESOURCES --> Create the cdl shared resource stack
 const sharedResources = new SharedResourcesStack(app, 'SharedResources', { env: appEnv })
@@ -184,7 +202,6 @@ const quicksightOption = app.node.tryGetContext('deployQuicksightStack')
 console.log(`Quicksight deployment option is set to: ${quicksightOption}`)
 if (quicksightOption === true) {
   const quicksightUsername = app.node.tryGetContext('quicksightUserName')
-  checkQuicksightSetup(quicksightUsername)
 
   new QuicksightStack(app, 'QuicksightStack', {
     enrichedBucket: sharedResources.cdlEnrichedBucket,

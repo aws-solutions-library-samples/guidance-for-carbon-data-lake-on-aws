@@ -3,6 +3,7 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { aws_iam as iam } from 'aws-cdk-lib';
 import { aws_glue as glue } from 'aws-cdk-lib';
 import * as cfninc from 'aws-cdk-lib/cloudformation-include';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,6 +31,14 @@ export class QuicksightStack extends Stack {
       ],
       effect: iam.Effect.ALLOW,
     });
+
+    NagSuppressions.addStackSuppressions(Stack.of(this), [
+      {
+        id: "AwsSolutions-IAM5",
+        reason: "This bucket is used for data movement so all objects must be given permission"
+        
+      }
+    ])
 
     // Attach S3 access policy to Quicksight managed role
     const role = iam.Role.fromRoleArn(this, 'Role', `arn:aws:iam::${this.account}:role/aws-quicksight-service-role-v0`);
