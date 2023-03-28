@@ -1,7 +1,9 @@
 import { Construct } from 'constructs';
-import { aws_iam as iam, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import { aws_iam as iam, CfnOutput, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { aws_codecommit as codecommit } from 'aws-cdk-lib';
+import * as cr from 'aws-cdk-lib/custom-resources';
 import * as Amplify from "@aws-cdk/aws-amplify-alpha"
+import { NagSuppressions } from 'cdk-nag';
 
 interface AmplifyDeployProps {
   appPath: string;
@@ -58,5 +60,53 @@ export class AmplifyDeploy extends Construct {
         const devBranch = this.amplifyApp.addBranch('dev');
 
         this.amplifyApp.applyRemovalPolicy(RemovalPolicy.DESTROY);
+
+        /**
+          * Automatically deploys the Amplify app by releasing new changes to the build stage
+         */
+        const amplifyAutoDeploy = new cr.AwsCustomResource(this, 'AmplifyAutoDeploy', {
+          onCreate: {
+            service: 'Amplify',
+            action: 'startJob',
+            physicalResourceId: cr.PhysicalResourceId.of('app-build-trigger'),
+            parameters: {
+                appId: this.amplifyApp.appId,
+                branchName: devBranch.branchName,
+                jobType: 'RELEASE',
+                jobReason: 'Auto Start build',
+            }
+          },
+          policy: cr.AwsCustomResourcePolicy.fromStatements([ new iam.PolicyStatement({
+            actions: ['amplify:StartJob'],
+            effect: iam.Effect.ALLOW,
+            resources: [
+              `${this.amplifyApp.arn}/branches/${devBranch.branchName}/jobs/*`,
+            ]
+          })
+          ]),
+        });
+
+        NagSuppressions.addResourceSuppressionsByPath(Stack.of(this),
+        "/WebStack/AmplifyDeployment/AmplifyAutoDeploy/CustomResourcePolicy/Resource", [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason:
+              'This is required to allow deployment of all jobs, since jobs are assigned dynamically.',
+          }
+        ] 
+        )
+
+        NagSuppressions.addStackSuppressions(Stack.of(this), [
+          {
+            id: 'AwsSolutions-L1',
+            reason:
+              'This resource uses the standard custom resource construct, which is built for stability using a previous lambda runtime.',
+          },
+          {
+            id: 'AwsSolutions-IAM4',
+            reason:
+              'AWS Custom Resource is an AWS maintained construct that uses AWS Managed Policies.',
+          }
+        ])
     }
 }
