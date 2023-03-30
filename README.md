@@ -123,7 +123,11 @@ You can deploy the carbon data lake guidance with sample code through the manual
 
 ## 🔐 Security Note
 
-As part of the shared responsibility model we recommend taking additional steps within your AWS account to secure this application. We recommend you implement the following AWS services once your application is in production:
+This repository has been developed using architectural and security best practices as defined by [AwsSolutions CDK Nag Pack](https://github.com/cdklabs/cdk-nag/blob/main/RULES.md#awssolutions). CDK Nag provides integrated tools for automatically reviewing infrastructure for common security, business, and architectural best practices.
+
+This repository comes with [AwsSolutions CDK Nag Pack](https://github.com/cdklabs/cdk-nag/blob/main/RULES.md#awssolutions) pre-configured and enabled by default. This means that any changes to existing code or deployments will be automatically checked for architectural and development best practices as defined by the [AwsSolutions CDK Nag Pack](https://github.com/cdklabs/cdk-nag/blob/main/RULES.md#awssolutions). You can disable this feature in `cdk.context.json` by switching the `nagEnabled` flag to `false`.
+
+As part of the shared responsibility model for security we recommend taking additional steps within your AWS account to secure this application. We recommend you implement the following AWS services once your application is in production:
 
 - [Amazon Guard Duty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_settingup.html)
 - [AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/setting-up-waf.html)
