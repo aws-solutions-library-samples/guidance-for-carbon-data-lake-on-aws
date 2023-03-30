@@ -2,7 +2,7 @@ aws-lambda-powertools==1.26.1
 aws-xray-sdk==2.9.0
 boto3==1.24.4
 botocore==1.27.4
-certifi==2022.5.18.1
+certifi==2022.12.7
 cffi==1.15.0
 charset-normalizer==2.0.12
 cryptography==37.0.2
