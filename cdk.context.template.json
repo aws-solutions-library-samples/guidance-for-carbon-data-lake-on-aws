@@ -5,6 +5,5 @@
   "deployQuicksightStack": false,
   "deploySagemakerStack": true,
   "deployWebStack": true,
-  "nagEnabled": true,
-  "@aws-cdk/customresources:installLatestAwsSdkDefault": false
+  "nagEnabled": true
 }

@@ -166,10 +166,10 @@ Before deployment navigate to `cdk.context.json` and update the required context
 - Required:`adminEmail` The email address for the administrator of the app
 - Required:`repoBranch` The branch to deploy in your pipeline (default is `/main`)
 - Optional:`quicksightUserName` Username for access to the carbon emissions dataset and dashboard.
-- Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
-- Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
-- Optional:`deployWebStack` Determines whether this stack is deployed. Default is false, change to `true` if you want to deploy this stack.
-- - Optional:`nagEnabled` Enables cdk_nag audit tool.
+- Optional:`deployQuicksightStack` Determines whether this stack is deployed. Default is `false`, change to `true` if you want to deploy this stack.
+- Optional:`deploySagemakerStack` Determines whether this stack is deployed. Default is `false`, change to `true` if you want to deploy this stack.
+- Optional:`deployWebStack` Determines whether this stack is deployed. Default is `false`, change to `true` if you want to deploy this stack.
+- - Optional:`nagEnabled` Enables cdk_nag audit tool. Default is `true`. Change to `false` if you want to disable.
 
 Quicksight Note: If you choose to deploy the optional Quicksight Module make sure you review [QuickSight setup instructions](lib/stacks/stack-quicksight/documentation/README.md)
 
