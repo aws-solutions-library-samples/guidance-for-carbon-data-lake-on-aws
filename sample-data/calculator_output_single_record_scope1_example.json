@@ -1,0 +1,51 @@
+{
+  "activity_event_id": "customer-carbonlake-12345",
+  "asset_id": "vehicle-1234",
+  "activity": "Diesel Fuel - Diesel Passenger Cars",
+  "category": "mobile-combustion",
+  "scope": 1,
+  "emissions_output": {
+    "calculated_emissions": {
+      "co2": {
+        "amount": 0.024,
+        "unit": "tonnes"
+      },
+      "ch4": {
+        "amount": 0.00001,
+        "unit": "tonnes"
+      },
+      "n2o": {
+        "amount": 0.00201,
+        "unit": "tonnes"
+      },
+      "co2e": {
+        "ar4": {
+          "amount": 0.2333,
+          "unit": "tonnes"
+        },
+        "ar5": {
+          "amount": 0.2334,
+          "unit": "tonnes"
+        }
+      }
+    },
+    "emissions_factor": {
+      "ar4": {
+        "amount": 8.812,
+        "unit": "kgCO2e/unit"
+      },
+      "ar5": {
+        "amount": 8.813,
+        "unit": "kgCO2e/unit"
+      }
+    }
+  },
+  "geo": {
+    "lat": 45.5152,
+    "long": 122.6784
+  },
+  "origin_measurement_timestamp": "2022-06-26 02:31:29",
+  "raw_data": 103.45,
+  "source": "company_fleet_management_database",
+  "units": "gal"
+}
