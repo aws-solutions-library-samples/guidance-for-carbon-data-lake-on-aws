@@ -7,7 +7,7 @@ cffi==1.15.0
 charset-normalizer==2.0.12
 cryptography==37.0.2
 fastjsonschema==2.15.3
-future==0.18.2
+future==0.18.3
 idna==3.3
 Jinja2==3.1.2
 jmespath==1.0.0
