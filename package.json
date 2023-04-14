@@ -62,7 +62,7 @@
     "@awsui/test-utils-core": "^1.0.17",
     "@types/aws-lambda": "^8.10.110",
     "aws-cdk-exec": "^0.0.5",
-    "aws-sdk": "^2.1210.0",
+    "aws-sdk": "^2.1354.0",
     "cdk-nag": "^2.22.37",
     "child_process": "^1.0.2",
     "constructs": "^10.0.0",
