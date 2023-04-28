@@ -46,8 +46,6 @@ checkContextFilePresent(app);
 
 checkServerAccessLogsUseBucketPolicy(app);
 
-
-
 // Generate needed artifacts based on the specific framework configuration
 const adminEmail = app.node.tryGetContext('adminEmail')
 

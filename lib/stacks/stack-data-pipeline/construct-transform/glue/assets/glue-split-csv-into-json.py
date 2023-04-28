@@ -7,7 +7,7 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 
 # from testing, 2000 records per file takes about 140 secs for the calculator to process
-MAX_CALCULATOR_BATCH_SIZE = 2000
+MAX_CALCULATOR_BATCH_SIZE = 1000
 
 
 # PySpark ETL job takes in 3 additional parameters:
