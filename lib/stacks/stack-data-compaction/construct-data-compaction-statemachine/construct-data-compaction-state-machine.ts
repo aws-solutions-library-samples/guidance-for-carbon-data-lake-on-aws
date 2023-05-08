@@ -109,7 +109,7 @@ export class DataCompactionStateMachine extends Construct {
       loggingConfiguration: {
         destinations: [{
           cloudWatchLogsLogGroup: {
-            logGroupArn: new logs.LogGroup(this, `${this.stateMachineName}-logs`).logGroupArn,
+            logGroupArn: new logs.LogGroup(this, `/aws/vendedlogs/states/${this.stateMachineName}-logs`).logGroupArn,
           },
         }],
         includeExecutionData: true,
