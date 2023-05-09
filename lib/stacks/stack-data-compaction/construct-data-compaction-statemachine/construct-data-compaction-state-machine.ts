@@ -1,10 +1,10 @@
-import { StackProps, Names } from 'aws-cdk-lib'
-import { aws_s3 as s3 } from 'aws-cdk-lib'
-import { aws_iam as iam } from 'aws-cdk-lib'
-import { aws_logs as logs } from 'aws-cdk-lib'
-import { aws_lambda as lambda } from 'aws-cdk-lib'
-import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
-import { Construct } from 'constructs'
+import { StackProps, Names, RemovalPolicy } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_logs as logs } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_stepfunctions as sfn } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 interface DataCompactionStateMachineProps extends StackProps {
   glueCompactionJobName: string
@@ -83,7 +83,7 @@ export class DataCompactionStateMachine extends Construct {
     })
 
     // Create unique name for state machine that will be used to trigger Event Bridge Event
-    this.stateMachineName = `NightlyDataCompactionStateMachine-${Names.uniqueId(stateMachineRole).slice(-8)}`
+    this.stateMachineName = `NightlyDataCompSM-${Names.uniqueId(stateMachineRole).slice(-8)}`
 
     // Create Step Functions State Machine using JSON definition stored in S3
     new sfn.CfnStateMachine(this, this.stateMachineName, {
@@ -109,7 +109,10 @@ export class DataCompactionStateMachine extends Construct {
       loggingConfiguration: {
         destinations: [{
           cloudWatchLogsLogGroup: {
-            logGroupArn: new logs.LogGroup(this, `/aws/vendedlogs/states/${this.stateMachineName}-logs`).logGroupArn,
+            logGroupArn: new logs.LogGroup(this, `${this.stateMachineName}Logs`, {
+              logGroupName: `/aws/vendedlogs/states/${this.stateMachineName}`,
+              removalPolicy: RemovalPolicy.DESTROY
+            }).logGroupArn,
           },
         }],
         includeExecutionData: true,
