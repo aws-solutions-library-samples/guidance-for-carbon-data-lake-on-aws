@@ -1,5 +1,5 @@
 name: merge-to-branch
-run-name: ${{ github.actor }} pushed to ${{ github.head_ref }}
+run-name: ${{ github.actor }} pushed to ${{ github.ref }}
 on: [push]
 jobs:
   install-dependencies-build-synth:
