@@ -1,0 +1,45 @@
+name: merge-to-branch
+run-name: ${{ github.actor }} pushed to ${{ github.head_ref }}
+on: [push]
+jobs:
+  install-dependencies-build-synth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npm run build
+      - run: sh ./test-synth.sh
+  static-linter-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+  static-security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run secure
+  test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npm run build
+      - run: sh ./test-deploy
+  
