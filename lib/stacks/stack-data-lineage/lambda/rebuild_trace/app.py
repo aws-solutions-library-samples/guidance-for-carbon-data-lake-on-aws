@@ -20,13 +20,14 @@ TERMINUS_ACTIONS = [
     "DQ_CHECK_FAIL"
 ]
 
+
 """
 INPUT: Payload from SFN with a root_id
 PROCESS: For the provided root_id, query all records in the data lineage DDB table and rebuild the record lineage trace
 OUTPUT: Reconstructed trace saved to DDB trace tabel and S3 as .jsonl
 """
 @logger.inject_lambda_context(log_event=True)
-@tracer.capture_lambda_handler()
+@tracer.capture_lambda_handler(capture_response=False) # set capture_response as false to prevent message size limits from causing function failure
 @event_source(data_class=SQSEvent)
 def lambda_handler(event: SQSEvent, context: Dict):
     _record = json.loads(next(event.records).body) # function only takes one message from SQS

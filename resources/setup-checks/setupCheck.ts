@@ -14,6 +14,12 @@ export function checkAdminEmailSetup(adminEmail: string) {
   }
 }
 
+export function checkServerAccessLogsUseBucketPolicy(scope: cdk.App) {
+  if(scope.node.tryGetContext('@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy') !== true) {
+    throw new Error("@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy is not enforced, please switch it to true in your cdk.json");
+  }
+}
+
 export function checkQuicksightSetup(scope: cdk.App) {
   console.log('Logging all quicksight stuff...')
   const templateQuicksightUsername = contextTemplate['quicksightUserName']

@@ -11,7 +11,7 @@ import { DataPipelineStack } from '../lib/stacks/stack-data-pipeline/stack-data-
 import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
-import { checkAdminEmailSetup, checkQuicksightSetup, checkContextFilePresent } from '../resources/setup-checks/setupCheck';
+import { checkAdminEmailSetup, checkQuicksightSetup, checkContextFilePresent, checkServerAccessLogsUseBucketPolicy } from '../resources/setup-checks/setupCheck';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 
 /**
@@ -38,7 +38,13 @@ const appEnv = {
 
 checkContextFilePresent(app);
 
+/**
+ * Check if the server access logs bucket policy is true
+ * This needs to be set as "true" in cdk.context
+ * Or deployment will not function properly. 
+ */
 
+checkServerAccessLogsUseBucketPolicy(app);
 
 // Generate needed artifacts based on the specific framework configuration
 const adminEmail = app.node.tryGetContext('adminEmail')

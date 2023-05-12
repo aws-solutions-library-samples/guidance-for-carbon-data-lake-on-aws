@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib'
 import { aws_stepfunctions as sfn } from 'aws-cdk-lib'
 import { aws_lambda as lambda } from 'aws-cdk-lib'
@@ -264,7 +264,11 @@ export class DataPipelineStatemachine extends Construct {
       timeout: Duration.minutes(60),
       tracingEnabled: true,
       logs: {
-        destination: new logs.LogGroup(this, `${STATEMACHINE_NAME}-logs`),
+        destination: new logs.LogGroup(this, `${STATEMACHINE_NAME}-logs`,
+        {
+          logGroupName: `/aws/vendedlogs/states/${STATEMACHINE_NAME}`,
+          removalPolicy: RemovalPolicy.DESTROY
+        }),
         level: sfn.LogLevel.ALL,
       },
     })
