@@ -19,13 +19,13 @@ do
    export AWS_DEFAULT_REGION=$region #updates local aws config to the region defined for deployment
    echo "🚀 deploying cdk app in test to $region 📍"
    echo "🥾 bootstrapping cdk in $region 📍"
-   cdk bootstrap --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true  #bootstraps cdk in the region
+   cdk bootstrap  #bootstraps cdk in the region
    wait
    echo "🚀 deploying all in $region 📍"
-   cdk deploy --all --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true #deploys all with the optional region context variable
+   cdk deploy --all #deploys all with the optional region context variable
    wait
    echo "👋 destroying all in $region 📍"
-   cdk destroy --all --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack=false --context deploySagemakerStack=true --context deployWebStack=true --context nagEnabled=true #deploys all with the optional region context variable #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
+   cdk destroy --all #deploys all with the optional region context variable #destroys all cdk resources in the defined region --force flag prevents the required "y" confirmation
    wait
    success+=("$region") #if the deployment is successful adds the region to the list of successful deployments
 done

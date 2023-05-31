@@ -11,7 +11,7 @@
 # git secrets --scan-history 2>&1 | tee git_secrets_output.log
 
 # run cdk_nag
-cdk synth --context adminEmail="test-email@email.com" --context quicksightUserName="test-email@email.com" --context repoBranch="main" --context deployQuicksightStack="false" --context deploySagemakerStack="true" --context deployWebStack="true" --context nagEnabled="true" 2>&1 | tee ./cdk_nag_output.log
+cdk synth --context nagEnabled="true" 2>&1 | tee ./cdk_nag_output.log
 
 FIRST_LINE=$(sed -n '1p' cdk_nag_output.log)
 

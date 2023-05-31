@@ -27,11 +27,12 @@ jobs:
         - name: Set up Node
             uses: actions/setup-node@v3
             with:
-            node-version: "16"
+            node-version: "18"
         - name: Install Node and Python dependencies and CDK
             run: |
                 python -m pip install --upgrade pip
                 npm install -g aws-cdk
+                sh test-dependencies.sh
         - name: Install CDK app dependencies
             run:
                 npm ci
