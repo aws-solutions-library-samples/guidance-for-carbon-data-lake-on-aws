@@ -15,7 +15,6 @@ export class GithubActionsAwsAuthCdkStack extends cdk.Stack {
     const githubProvider = new iam.OpenIdConnectProvider(this, 'GithubActionsProvider', {
       url: githubDomain,
       clientIds: ['sts.amazonaws.com'],
-      // audience: sts.amazonaws.com
     })
 
     const iamRepoDeployAccess = props.repositoryConfig.map(r => `repo:${r.owner}/${r.repo}:${r.filter ?? '*'}`)
@@ -33,5 +32,13 @@ export class GithubActionsAwsAuthCdkStack extends cdk.Stack {
       description: 'This role is used via GitHub Actions to deploy with AWS CDK or Terraform on the target AWS account',
       maxSessionDuration: cdk.Duration.hours(1),
     })
+
+    new cdk.CfnOutput(this, 'GithubActionOidcIamRoleArn', {
+      value: role.roleArn,
+      description: `Arn for AWS IAM role with Github oidc auth for ${iamRepoDeployAccess}`,
+      exportName: 'GithubActionOidcIamRoleArn',
+    })
+
+    cdk.Tags.of(this).add('component', 'CdkGithubActionsOidcIamRole')
   }
 }
