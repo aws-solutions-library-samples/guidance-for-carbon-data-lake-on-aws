@@ -19,16 +19,15 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Check out code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-      - name: Start process
-        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-        run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-        run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -37,31 +36,29 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: '3.9'
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
       - name: Install Node and Python dependencies and CDK
         run: |
           python -m pip install --upgrade pip
           npm install -g aws-cdk
           sh test-dependencies.sh
       - name: Install CDK app dependencies
-        run:
-          npm ci
+        run: npm ci
       - name: Lint CDK app code
-        run:
-          sh test-lint.sh
+        run: sh test-lint.sh
       - name: Build CDK app
-          sh test-build.sh
+        run: sh test-build.sh
       - name: Synthesize CDK app
-          sh test-synth.sh
+        run: sh test-synth.sh
       - name: Deploy CDK app
-          sh test-deploy.sh
+        run: sh test-deploy.sh
       - name: Security audit of CDK app
-          sh test-security.sh
+        run: sh test-security.sh
       - name: Perform end to end test of CDK app
-          sh test-e2e.sh
+        run: sh test-e2e.sh
       - name: Perform multi-region test deployment
-          sh test-regional.sh
+        run: sh test-regional.sh
