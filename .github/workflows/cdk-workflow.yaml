@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     env:
-      IAM_ROLE: ${{ secrets.AWS_TEST_MAIN_IAM_ROLE_ARN }}
+      IAM_ROLE: arn:aws:iam::855934054502:role/githubActionsDeployRole
       AWS_REGION: 'us-east-1'
     permissions:
       actions: write
