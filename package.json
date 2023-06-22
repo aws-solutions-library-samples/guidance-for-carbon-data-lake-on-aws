@@ -32,7 +32,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
-    "aws-cdk": "^2.83.1",
+    "aws-cdk": "^2.85.0",
     "aws-cdk-lib": "^2.85.0",
     "babel-eslint": "^10.1.0",
     "esbuild": "^0.17.8",
