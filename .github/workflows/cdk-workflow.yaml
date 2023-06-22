@@ -13,6 +13,7 @@ on:
   workflow_dispatch: {}
 jobs:
   build:
+    environment: PROD
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -31,7 +32,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: $AWS_TEST_ACCOUNT_IAM_ROLE_ARN
+          role-to-assume: ${{secrets.AWS_TEST_MAIN_IAM_ROLE_ARN}}
           aws-region: us-east-1
       - name: Set up Python 3.9
         uses: actions/setup-python@v4

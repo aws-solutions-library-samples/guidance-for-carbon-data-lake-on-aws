@@ -10,7 +10,7 @@ export class GithubActionsAwsAuthCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: GithubActionsAwsAuthCdkStackProps) {
     super(scope, id, props)
 
-    const githubDomain = 'token.actions.githubusercontent.com'
+    const githubDomain = 'https://token.actions.githubusercontent.com'
 
     const githubProvider = new iam.OpenIdConnectProvider(this, 'GithubActionsProvider', {
       url: githubDomain,
