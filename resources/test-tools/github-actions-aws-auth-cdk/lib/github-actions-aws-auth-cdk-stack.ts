@@ -23,6 +23,10 @@ export class GithubActionsAwsAuthCdkStack extends cdk.Stack {
       StringLike: {
         [`${githubDomain}:sub`]: iamRepoDeployAccess,
       },
+      ForAllValuesStringEquals: {
+        'token.actions.githubusercontent.com:iss': 'https://token.actions.githubusercontent.com',
+        'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
+      },
     }
 
     const role = new iam.Role(this, 'gitHubDeployRole', {
