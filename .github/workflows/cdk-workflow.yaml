@@ -14,10 +14,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: prod
-    env:
-      IAM_ROLE: arn:aws:iam::855934054502:role/githubActionsDeployRole
-      AWS_REGION: 'us-east-1'
+    environment: PROD
     permissions:
       actions: write
       contents: read
@@ -36,8 +33,8 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ env.IAM_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_TEST_MAIN_IAM_ROLE_ARN }}
+          aws-region: 'us-east-1'
           role-session-name: GithubActionsTestRole
           mask-aws-account-id: false
       - name: Set up Python 3.9
