@@ -1,9 +1,9 @@
 {
-  "name": "carbon-data-lake-quickstart",
-  "author": "AWS Carbon Data Lake Quick Start Builder Team",
+  "name": "carbon-data-lake-sample-code",
+  "author": "AWS Carbon Data Lake Builder Team",
   "version": "0.1.0",
   "bin": {
-    "carbon-data-lake-quickstart": "bin/main.js"
+    "carbon-data-lake-sample-code": "bin/main.js"
   },
   "scripts": {
     "build": "tsc",
@@ -32,8 +32,8 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
-    "aws-cdk": "^2.21.1",
-    "aws-cdk-lib": "2.80",
+    "aws-cdk": "^2.85.0",
+    "aws-cdk-lib": "^2.85.0",
     "babel-eslint": "^10.1.0",
     "esbuild": "^0.17.8",
     "eslint": "^8.34.0",
