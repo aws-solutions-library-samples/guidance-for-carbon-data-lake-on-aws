@@ -50,6 +50,10 @@ jobs:
           python -m pip install --upgrade pip
           npm install -g aws-cdk
           sh test-dependencies.sh
+      - name: Generate context file
+        run: |
+          sh test-generate-context.sh
+          cat cdk.context.json
       - name: Install CDK app dependencies
         run: npm ci
       - name: Lint CDK app code
