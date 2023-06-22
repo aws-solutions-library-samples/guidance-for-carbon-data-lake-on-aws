@@ -13,8 +13,11 @@ on:
   workflow_dispatch: {}
 jobs:
   build:
-    environment: PROD
     runs-on: ubuntu-latest
+    environment: prod
+    env:
+      IAM_ROLE: ${{ secrets.AWS_TEST_MAIN_IAM_ROLE_ARN }}
+      AWS_REGION: 'us-east-1'
     permissions:
       actions: write
       contents: read
@@ -24,8 +27,7 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo ${{secrets.environment}}
-      - run: echo ${{secrets.AWS_TEST_MAIN_IAM_ROLE_ARN}}
+      - run: echo "$IAM_ROLE"
       - name: Check out code
         uses: actions/checkout@v2
         with:
@@ -34,8 +36,8 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{secrets.AWS_TEST_MAIN_IAM_ROLE_ARN}}
-          aws-region: us-east-1
+          role-to-assume: ${{ env.IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
