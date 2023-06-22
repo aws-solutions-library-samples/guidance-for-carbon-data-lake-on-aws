@@ -38,6 +38,7 @@ jobs:
         with:
           role-to-assume: ${{ env.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
+          role-session-name: test-role-session
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
