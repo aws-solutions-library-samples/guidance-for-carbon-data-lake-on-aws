@@ -7,9 +7,9 @@ name: AWS CDK Github Workflow
 
 on:
   push:
-    branches: [main, dev, v1]
+    branches: [main, dev, v1, enhancement/github-actions-deploy/swb]
   pull_request:
-    branches: [main, dev, v1]
+    branches: [main, dev, v1, enhancement/github-actions-deploy/swb]
   workflow_dispatch: {}
 jobs:
   build:
