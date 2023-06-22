@@ -33,7 +33,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_TEST_MAIN_IAM_ROLE_ARN }}
+          role-to-assume: ${{ vars.AWS_TEST_MAIN_IAM_ROLE_ARN }}
           aws-region: 'us-east-1'
           role-session-name: GithubActionsTestRole
           mask-aws-account-id: false
