@@ -38,7 +38,8 @@ jobs:
         with:
           role-to-assume: ${{ env.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
-          role-session-name: test-role-session
+          role-session-name: GithubActionsTestRole
+          mask-aws-account-id: false
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
