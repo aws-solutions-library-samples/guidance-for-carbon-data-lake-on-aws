@@ -34,7 +34,7 @@ export class GithubActionsAwsAuthCdkStack extends cdk.Stack {
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
       roleName: 'githubActionsDeployRole',
       description: 'This role is used via GitHub Actions to deploy with AWS CDK or Terraform on the target AWS account',
-      maxSessionDuration: cdk.Duration.hours(1),
+      maxSessionDuration: cdk.Duration.hours(12),
     })
 
     new cdk.CfnOutput(this, 'GithubActionOidcIamRoleArn', {
