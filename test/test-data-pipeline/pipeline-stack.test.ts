@@ -21,7 +21,7 @@ describe('test pipeline stack', () => {
     const dummyInputsStack = new Stack(app, 'DummyInputsStack')
 
     const dummyFunction = new lambda.Function(dummyInputsStack, 'dummyFunction', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromInline('def lambda_handler(): pass'),
       handler: 'lambda_handler',
     })
@@ -55,7 +55,7 @@ describe('test pipeline stack', () => {
     template?.resourceCountIs('AWS::Lambda::Function', 3)
     template?.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'app.lambda_handler',
-      Runtime: lambda.Runtime.PYTHON_3_9.name,
+      Runtime: lambda.Runtime.PYTHON_3_10.name,
     })
 
     // verify iam role & policy creation for all lambdas

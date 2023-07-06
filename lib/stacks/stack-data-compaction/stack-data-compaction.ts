@@ -27,14 +27,10 @@ export class DataCompactionStack extends Stack {
     super(scope, id, props)
 
     /* ======== GLUE METADATA CATALOG TABLE ======== */
-    new GlueEnrichedDataTodayTable(
-      this,
-      'cdlGlueEnrichedDataDatabaseStack',
-      {
-        enrichedBucket: props?.enrichedBucket,
-        enrichedDataDatabase: props?.enrichedDataDatabase,
-      }
-    )
+    new GlueEnrichedDataTodayTable(this, 'cdlGlueEnrichedDataDatabaseStack', {
+      enrichedBucket: props?.enrichedBucket,
+      enrichedDataDatabase: props?.enrichedDataDatabase,
+    })
 
     /* ======== GLUE COMPACTION & FLUSHING JOBS ======== */
     const { glueCompactionJobName, glueDataFlushJobName } = new DataCompactionGlueJobs(
@@ -66,11 +62,13 @@ export class DataCompactionStack extends Stack {
 
     /** S3 BUCKET WITH STATE MACHINE JSON DEFINITION */
     const stateMachineS3Bucket = new CdlS3(this, 'stateMachineS3Bucket', {
-      bucketName: 'stateMachineS3Bucket'
+      bucketName: 'stateMachineS3Bucket',
     })
 
     const deployStateMachineJSON = new s3_deployment.BucketDeployment(this, 'deployStateMachineJSON', {
-      sources: [s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/construct-data-compaction-statemachine/json')],
+      sources: [
+        s3_deployment.Source.asset('./lib/stacks/stack-data-compaction/construct-data-compaction-statemachine/json'),
+      ],
       destinationBucket: stateMachineS3Bucket,
     })
 
@@ -87,7 +85,7 @@ export class DataCompactionStack extends Stack {
     )
 
     // Lambda function to process incoming events, generate child node IDs
-    const enumFunction = new CdlPythonLambda(this, 'cdlDataCompactionEnum', {
+    const enumFunction = new CdlPytho3_10mbda(this, 'cdlDataCompactionEnum', {
       lambdaName: 'cdlDataCompactionEnum',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/enumerate_directories/')),
@@ -103,27 +101,23 @@ export class DataCompactionStack extends Stack {
     props.dataLineageTraceQueue.grantSendMessages(enumFunction)
 
     /* ======== STATEMACHINE ======== */
-    const { stateMachineName } = new DataCompactionStateMachine(
-      this,
-      'cdlDataCompactionStateMachineStack',
-      {
-        glueCompactionJobName: glueCompactionJobName,
-        glueDataFlushJobName: glueDataFlushJobName,
-        glueHistoricalCalculatorCrawlerName: glueHistoricalCalculatorCrawlerName,
-        createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
-        createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
-        stateMachineS3Bucket: stateMachineS3Bucket,
-        enemerateDirectoriesFunction: enumFunction,
-      }
-    )
+    const { stateMachineName } = new DataCompactionStateMachine(this, 'cdlDataCompactionStateMachineStack', {
+      glueCompactionJobName: glueCompactionJobName,
+      glueDataFlushJobName: glueDataFlushJobName,
+      glueHistoricalCalculatorCrawlerName: glueHistoricalCalculatorCrawlerName,
+      createIndividualAthenaViewsLambda: createIndividualAthenaViewsLambda,
+      createCombinedAthenaViewLambda: createCombinedAthenaViewsLambda,
+      stateMachineS3Bucket: stateMachineS3Bucket,
+      enemerateDirectoriesFunction: enumFunction,
+    })
 
-    enumFunction.node.addDependency(deployStateMachineJSON);
+    enumFunction.node.addDependency(deployStateMachineJSON)
 
     /** VENT BRIDGE EVENT TO TRIGGER STATE MACHINE */
     new EventTriggerStateMachine(this, 'cdlEventTriggerStateMachineStack', {
       stateMachineName: stateMachineName,
     })
 
-    Tags.of(this).add("component", "dataCompactionPipeline");
+    Tags.of(this).add('component', 'dataCompactionPipeline')
   }
 }

@@ -70,15 +70,15 @@ export class DataPipelineStack extends Stack {
     })
 
     const dqErrorNotificationSNS = new sns.Topic(this, 'CDLDataQualityNotification', {
-      masterKey: dqErrorNotificationSnsKey
+      masterKey: dqErrorNotificationSnsKey,
     })
 
     NagSuppressions.addResourceSuppressions(dqErrorNotificationSNS, [
-      { 
-        id: 'AwsSolutions-SNS3', 
-        reason: 'SSL is not available on L2 construct.' },
-    ]);
-
+      {
+        id: 'AwsSolutions-SNS3',
+        reason: 'SSL is not available on L2 construct.',
+      },
+    ])
 
     const dqEmailSubscription = new subscriptions.EmailSubscription(props.notificationEmailAddress)
     dqErrorNotificationSNS.addSubscription(dqEmailSubscription)
@@ -100,7 +100,7 @@ export class DataPipelineStack extends Stack {
 
     // Lambda function to list total objects in the directory created by AWS Glue
     const batchEnumLambda = new CdlPythonLambda(this, 'CDLDataPipelineBatchLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
@@ -140,14 +140,14 @@ export class DataPipelineStack extends Stack {
     this.pipelineStateMachine = statemachine
 
     dqErrorNotificationSnsKey.grantEncryptDecrypt(resultsLambda)
-    
+
     dqErrorNotificationSnsKey.grantEncryptDecrypt(this.pipelineStateMachine)
 
     /* ======== KICKOFF LAMBDA ======== */
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
     const kickoffFunction = new CdlPythonLambda(this, 'CDLKickoffLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
@@ -171,30 +171,29 @@ export class DataPipelineStack extends Stack {
       value: this.cdlLandingBucket.bucketName,
       description: 'S3 Landing Zone bucket name for data ingestion to cdl Quickstart Data Pipeline',
       exportName: 'LandingBucketName',
-    });
+    })
 
     // Landing bucket Url Output
     new CfnOutput(this, 'CDLLandingBucketUrl', {
       value: this.cdlLandingBucket.bucketWebsiteUrl,
       description: 'S3 Landing Zone bucket URL for data ingestion to cdl Quickstart Data Pipeline',
       exportName: 'CDLLandingBucketUrl',
-    });
+    })
 
     // Output glue data brew link
     new CfnOutput(this, 'CDLGlueDataBrewURL', {
       value: `https://${this.region}.console.aws.amazon.com/states/home?region=${this.region}`,
       description: 'URL for Glue Data Brew in AWS Console',
       exportName: 'CDLGlueDataBrewURL',
-    });
+    })
 
     // Output link to state machine
     new CfnOutput(this, 'CDLDataPipelineStateMachineUrl', {
       value: `https://${this.pipelineStateMachine.env.region}.console.aws.amazon.com/states/home?region=${this.pipelineStateMachine.env.region}#/statemachines/view/${this.pipelineStateMachine.stateMachineArn}`,
       description: 'URL to open CDL State machine to view step functions workflow status',
       exportName: 'CDLDataPipelineStateMachineUrl',
+    })
 
-    }); 
-
-    Tags.of(this).add("component", "dataPipeline");
+    Tags.of(this).add('component', 'dataPipeline')
   }
 }

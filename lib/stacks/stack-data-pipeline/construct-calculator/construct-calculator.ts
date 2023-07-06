@@ -26,7 +26,7 @@ export class Calculator extends Construct {
       sortKey: { name: 'activity', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      pointInTimeRecovery: true
+      pointInTimeRecovery: true,
     })
 
     // Define DynamoDB Table for calculator output
@@ -34,11 +34,11 @@ export class Calculator extends Construct {
       partitionKey: { name: 'activity_event_id', type: dynamodb.AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      pointInTimeRecovery: true
+      pointInTimeRecovery: true,
     })
 
     this.calculatorLambda = new lambda.Function(this, 'cdlCalculatorHandler', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'calculatorLambda.lambda_handler',
       timeout: Duration.minutes(5),
@@ -126,11 +126,11 @@ interface IDdbEmissionFactor {
         M: {
           coefficients: {
             M: {
-              co2_factor: { S: string } 
-              ch4_factor: { S: string } 
-              n2o_factor: { S: string } 
-              AR4_kgco2e: { S: string } 
-              AR5_kgco2e: { S: string } 
+              co2_factor: { S: string }
+              ch4_factor: { S: string }
+              n2o_factor: { S: string }
+              AR4_kgco2e: { S: string }
+              AR5_kgco2e: { S: string }
               units: { S: string }
             }
           }

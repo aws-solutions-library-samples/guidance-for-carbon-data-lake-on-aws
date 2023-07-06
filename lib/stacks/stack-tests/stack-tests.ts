@@ -21,7 +21,7 @@ export class TestStack extends Stack {
 
     // Calculator tests
     const cdlCalculatorTestFunction = new lambda.Function(this, 'CalculatorTestLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_calculator.lambda_handler',
       timeout: Duration.seconds(60),
@@ -37,7 +37,7 @@ export class TestStack extends Stack {
 
     // Pipeline E2E tests
     const cdlPipelineTestFunction = new lambda.Function(this, 'PipelineTestLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_pipeline.lambda_handler',
       timeout: Duration.minutes(10),
@@ -58,16 +58,15 @@ export class TestStack extends Stack {
       value: cdlPipelineTestFunction.functionName,
       description: 'Name of cdl lambda test function',
       exportName: 'CDLe2eTestLambdaFunctionName',
-    });
+    })
 
     // Output aws console link to test function
     new CfnOutput(this, 'e2eTestLambdaConsoleLink', {
       value: `https://${cdlPipelineTestFunction.env.region}.console.aws.amazon.com/lambda/home?${cdlPipelineTestFunction.env.region}#/functions/${cdlPipelineTestFunction.functionName}?tab=code`,
       description: 'URL to open and invoke calculator test function in the AWS Console',
       exportName: 'CDLe2eTestLambdaConsoleLink',
+    })
 
-    });
-
-    Tags.of(this).add("component", "test");
+    Tags.of(this).add('component', 'test')
   }
 }
