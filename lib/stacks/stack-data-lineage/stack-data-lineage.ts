@@ -104,7 +104,6 @@ export class DataLineageStack extends Stack {
     // Lambda function to process incoming events, generate child node IDs
     this.inputFunction = new CdlPythonLambda(this, 'cdlDataLineageInput', {
       lambdaName: 'cdlDataLineageInput',
-      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/input_function/')),
       handler: 'app.lambda_handler',
       environment: {
@@ -120,7 +119,6 @@ export class DataLineageStack extends Stack {
     // Lambda function to process incoming events and store in DDB
     const dataLineageOutputFunction = new CdlPythonLambda(this, 'cdlDataLineageHandler', {
       lambdaName: 'cdlDataLineageHandler',
-      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/load_lineage_data/')),
       handler: 'app.lambda_handler',
       environment: {
@@ -142,7 +140,6 @@ export class DataLineageStack extends Stack {
     // Lambda function retrace record lineage and store tree in DDB
     const traceFunction = new CdlPythonLambda(this, 'cdlDataLineageTraceHandler', {
       lambdaName: 'cdlDataLineageTraceHandler',
-      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/rebuild_trace/')),
       handler: 'app.lambda_handler',
       environment: {

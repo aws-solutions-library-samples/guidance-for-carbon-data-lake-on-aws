@@ -15,6 +15,7 @@ import { DataCompactionStateMachine } from './construct-data-compaction-statemac
 import { EventTriggerStateMachine } from './construct-data-compaction-state-machine-event-trigger/construct-event-trigger-state-machine'
 import { CdlS3 } from '../../constructs/construct-cdl-s3-bucket/construct-cdl-s3-bucket'
 import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
+import { NagSuppressions } from 'cdk-nag'
 
 interface CompactionStackProps extends StackProps {
   enrichedBucket: s3.Bucket
@@ -72,6 +73,13 @@ export class DataCompactionStack extends Stack {
       destinationBucket: stateMachineS3Bucket,
     })
 
+    NagSuppressions.addResourceSuppressions(deployStateMachineJSON, [
+      {
+        id: 'AwsSolutions-L1',
+        reason: 'This lambda layer requires this dependency.',
+      },
+    ])
+
     /* ======== ENUMERATE DIRECTORIES LAMBDA ======== */
     // This function lists all directories within the /today folder of the enriched bucket and
     // publishes the directory names to the retrace data lineage queue for processing.
@@ -85,9 +93,8 @@ export class DataCompactionStack extends Stack {
     )
 
     // Lambda function to process incoming events, generate child node IDs
-    const enumFunction = new CdlPytho3_10mbda(this, 'cdlDataCompactionEnum', {
+    const enumFunction = new CdlPythonLambda(this, 'cdlDataCompactionEnum', {
       lambdaName: 'cdlDataCompactionEnum',
-      runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/enumerate_directories/')),
       handler: 'app.lambda_handler',
       environment: {

@@ -55,7 +55,7 @@ describe('test pipeline stack', () => {
     template?.resourceCountIs('AWS::Lambda::Function', 3)
     template?.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'app.lambda_handler',
-      Runtime: lambda.Runtime.PYTHON_3_10.name,
+      runtime: lambda.Runtime.PYTHON_3_10.name,
     })
 
     // verify iam role & policy creation for all lambdas

@@ -13,8 +13,8 @@ export interface CreateAthenaViewsProps extends StackProps {
 }
 
 export class CreateAthenaViews extends Construct {
-  public readonly createIndividualAthenaViewsLambda: lambda.Function
-  public readonly createCombinedAthenaViewsLambda: lambda.Function
+  public readonly createIndividualAthenaViewsLambda: CdlPythonLambda
+  public readonly createCombinedAthenaViewsLambda: CdlPythonLambda
 
   constructor(scope: Construct, id: string, props: CreateAthenaViewsProps) {
     super(scope, id)

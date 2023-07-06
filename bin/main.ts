@@ -161,6 +161,10 @@ NagSuppressions.addStackSuppressions(dataCompactionStack, [
       'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.',
   },
   {
+    id: 'AwsSolutions-L1',
+    reason: 'Stack requires lambda for external dependency.',
+  },
+  {
     id: 'AwsSolutions-IAM5',
     reason:
       'Default L2 CDK constructs contain wildcard permissions. As this is a sample code package we have retained default CDK permissions.',
