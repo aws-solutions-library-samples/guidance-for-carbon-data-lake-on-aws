@@ -1,18 +1,23 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
-import { Aspects } from 'aws-cdk-lib';
+import { Aspects } from 'aws-cdk-lib'
 import { TestStack } from '../lib/stacks/stack-tests/stack-tests'
 import { QuicksightStack } from '../lib/stacks/stack-quicksight/stack-quicksight'
 import { SharedResourcesStack } from '../lib/stacks/stack-shared-resources/stack-shared-resources'
 import { DataLineageStack } from '../lib/stacks/stack-data-lineage/stack-data-lineage'
-import { DataCompactionStack } from "../lib/stacks/stack-data-compaction/stack-data-compaction"
-import { DataPipelineStack } from '../lib/stacks/stack-data-pipeline/stack-data-pipeline';
+import { DataCompactionStack } from '../lib/stacks/stack-data-compaction/stack-data-compaction'
+import { DataPipelineStack } from '../lib/stacks/stack-data-pipeline/stack-data-pipeline'
 import { ApiStack } from '../lib/stacks/stack-api/stack-api'
 import { SageMakerNotebookStack } from '../lib/stacks/stack-sagemaker-notebook/stack-sagemaker-notebook'
 import { WebStack } from '../lib/stacks/stack-web/stack-web'
-import { checkAdminEmailSetup, checkQuicksightSetup, checkContextFilePresent, checkServerAccessLogsUseBucketPolicy } from '../resources/setup-checks/setupCheck';
-import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
+import {
+  checkAdminEmailSetup,
+  checkQuicksightSetup,
+  checkContextFilePresent,
+  checkServerAccessLogsUseBucketPolicy,
+} from '../resources/setup-checks/setupCheck'
+import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag'
 
 /**
  * Instantiate a new CDK app object
@@ -23,7 +28,7 @@ const app = new cdk.App()
 /**
  * Create the cdk app environment to be used in all stacks
  * Get region from the app context or from environmental variables
- * Get account from local environmental variables defined with AWS CLI 
+ * Get account from local environmental variables defined with AWS CLI
  */
 
 const appEnv = {
@@ -33,18 +38,18 @@ const appEnv = {
 
 /**
  * Check if cdk context is defined either by context file or command line flags
- * If the context file is missing return a 
+ * If the context file is missing return an error message
  */
 
-checkContextFilePresent(app);
+checkContextFilePresent(app)
 
 /**
  * Check if the server access logs bucket policy is true
  * This needs to be set as "true" in cdk.context
- * Or deployment will not function properly. 
+ * Or deployment will not function properly.
  */
 
-checkServerAccessLogsUseBucketPolicy(app);
+checkServerAccessLogsUseBucketPolicy(app)
 
 // Generate needed artifacts based on the specific framework configuration
 const adminEmail = app.node.tryGetContext('adminEmail')
@@ -63,7 +68,6 @@ const dataLineage = new DataLineageStack(app, 'LineageStack', {
   archiveBucket: sharedResources.cdlDataLineageBucket,
   env: appEnv,
 })
-
 
 NagSuppressions.addStackSuppressions(dataLineage, [
   {
@@ -155,6 +159,10 @@ NagSuppressions.addStackSuppressions(dataCompactionStack, [
     id: 'AwsSolutions-IAM4',
     reason:
       'Default L2 CDK constructs contain AWS managed policies. As this is a sample code package we have retained default CDK permissions.',
+  },
+  {
+    id: 'AwsSolutions-L1',
+    reason: 'Stack requires lambda for external dependency.',
   },
   {
     id: 'AwsSolutions-IAM5',
@@ -292,4 +300,3 @@ NagSuppressions.addStackSuppressions(testStack, [
       'Only suppress AwsSolutions-SQS3 for dead letter queues, because they do not require their own dead letter queue.',
   },
 ])
-

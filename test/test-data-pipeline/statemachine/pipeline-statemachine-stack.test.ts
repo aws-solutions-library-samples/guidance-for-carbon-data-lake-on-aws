@@ -24,7 +24,7 @@ describe('test statemachine stack', () => {
     const dummyInputsStack = new Stack(app, 'DummyInputsStack')
     const dummyTopic = new sns.Topic(dummyInputsStack, 'dummyTopic', {})
     const dummyLambda = new lambda.Function(dummyInputsStack, 'dummyLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromInline('def lambda_handler(): pass'),
       handler: 'lambda_handler',
     })
@@ -50,7 +50,7 @@ describe('test statemachine stack', () => {
   afterEach(() => {
     template = null
   })
-  
+
   test('synthesises as expected', () => {
     /* ====== ASSERTIONS ====== */
     template?.resourceCountIs('AWS::StepFunctions::StateMachine', 1)

@@ -13,16 +13,15 @@ export interface CreateAthenaViewsProps extends StackProps {
 }
 
 export class CreateAthenaViews extends Construct {
-  public readonly createIndividualAthenaViewsLambda: lambda.Function
-  public readonly createCombinedAthenaViewsLambda: lambda.Function
+  public readonly createIndividualAthenaViewsLambda: CdlPythonLambda
+  public readonly createCombinedAthenaViewsLambda: CdlPythonLambda
 
   constructor(scope: Construct, id: string, props: CreateAthenaViewsProps) {
     super(scope, id)
 
     const athenaQueryResultsBucket = new CdlS3(this, 'athenaQueryResultsBucket', {
-      bucketName: 'athenaQueryResultsBucket'
+      bucketName: 'athenaQueryResultsBucket',
     })
-
 
     // Create IAM policy for Lambda to assume
     const createAthenaViewsLambdaRolePolicy = new iam.PolicyDocument({
@@ -69,7 +68,9 @@ export class CreateAthenaViews extends Construct {
         new iam.PolicyStatement({
           resources: [
             `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:catalog`,
-            `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:database/${props.enrichedDataDatabase.ref}`,
+            `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:database/${
+              props.enrichedDataDatabase.ref
+            }`,
             `arn:aws:glue:${Stack.of(this).region}:${Stack.of(this).account}:table/${props.enrichedDataDatabase.ref}/*`,
           ],
           actions: [
@@ -112,7 +113,7 @@ export class CreateAthenaViews extends Construct {
     // Lambda function that creates today & historical Athena views
     this.createIndividualAthenaViewsLambda = new CdlPythonLambda(this, 'CDLIndividualAthenaViewsHandler', {
       lambdaName: 'CDLIndividualAthenaViewsHandler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: 'createIndividualAthenaViews.lambda_handler',
@@ -127,7 +128,7 @@ export class CreateAthenaViews extends Construct {
     // Lambda function that creates combined emissions Athena view
     this.createCombinedAthenaViewsLambda = new CdlPythonLambda(this, 'CDLCombinedAthenaViewHandler', {
       lambdaName: 'CDLCombinedAthenaViewHandler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: 'createCombinedAthenaView.lambda_handler',

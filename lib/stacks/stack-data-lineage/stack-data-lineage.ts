@@ -33,12 +33,10 @@ export class DataLineageStack extends Stack {
           deliveryDelay: Duration.millis(0),
           visibilityTimeout: Duration.seconds(300),
           enforceSSL: true,
-          retentionPeriod: Duration.days(14)
-          }),
-        maxReceiveCount: 1
-      }
-        
-
+          retentionPeriod: Duration.days(14),
+        }),
+        maxReceiveCount: 1,
+      },
     })
 
     // Retrace SQS Queue
@@ -51,10 +49,10 @@ export class DataLineageStack extends Stack {
           deliveryDelay: Duration.millis(0),
           visibilityTimeout: Duration.seconds(300),
           enforceSSL: true,
-          retentionPeriod: Duration.days(14)
-          }),
-        maxReceiveCount: 1
-      }
+          retentionPeriod: Duration.days(14),
+        }),
+        maxReceiveCount: 1,
+      },
     })
 
     // DynamoDB Table for data lineage record storage
@@ -68,8 +66,9 @@ export class DataLineageStack extends Stack {
 
     NagSuppressions.addResourceSuppressions(table, [
       {
-          id: 'AwsSolutions-DDB3',
-          reason: 'Because this is primarily a development repository we are not enabling PiT recovery. We recommend that customers putting this into production enable PiT recovery.'
+        id: 'AwsSolutions-DDB3',
+        reason:
+          'Because this is primarily a development repository we are not enabling PiT recovery. We recommend that customers putting this into production enable PiT recovery.',
       },
     ])
 
@@ -105,7 +104,6 @@ export class DataLineageStack extends Stack {
     // Lambda function to process incoming events, generate child node IDs
     this.inputFunction = new CdlPythonLambda(this, 'cdlDataLineageInput', {
       lambdaName: 'cdlDataLineageInput',
-      runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/input_function/')),
       handler: 'app.lambda_handler',
       environment: {
@@ -121,7 +119,6 @@ export class DataLineageStack extends Stack {
     // Lambda function to process incoming events and store in DDB
     const dataLineageOutputFunction = new CdlPythonLambda(this, 'cdlDataLineageHandler', {
       lambdaName: 'cdlDataLineageHandler',
-      runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/load_lineage_data/')),
       handler: 'app.lambda_handler',
       environment: {
@@ -143,7 +140,6 @@ export class DataLineageStack extends Stack {
     // Lambda function retrace record lineage and store tree in DDB
     const traceFunction = new CdlPythonLambda(this, 'cdlDataLineageTraceHandler', {
       lambdaName: 'cdlDataLineageTraceHandler',
-      runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/rebuild_trace/')),
       handler: 'app.lambda_handler',
       environment: {
@@ -164,6 +160,6 @@ export class DataLineageStack extends Stack {
       dataLineageBucket: props.archiveBucket,
     })
 
-    Tags.of(this).add("component", "dataLineage");
+    Tags.of(this).add('component', 'dataLineage')
   }
 }

@@ -49,7 +49,7 @@ export class DataQuality extends Construct {
 
     // lambda function to handle setup and teardown of databrew resources
     this.resourcesLambda = new CdlPythonLambda(this, 'DataQualityResourcesLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/manage_dq_resources/')),
       handler: 'app.lambda_handler',
       timeout: Duration.seconds(60),
@@ -89,7 +89,7 @@ export class DataQuality extends Construct {
 
     // lambda function to parse the results of the databrew profiling job
     this.resultsLambda = new CdlPythonLambda(this, 'DataQualityResultsLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.PYTHON_3_10,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/parse_results/')),
       handler: 'app.lambda_handler',
       timeout: Duration.seconds(60),
@@ -104,6 +104,6 @@ export class DataQuality extends Construct {
     props.inputBucket.grantReadWrite(this.resultsLambda)
     props.outputBucket.grantReadWrite(this.resultsLambda)
 
-    Tags.of(this).add("component", "dataQuality");
+    Tags.of(this).add('component', 'dataQuality')
   }
 }

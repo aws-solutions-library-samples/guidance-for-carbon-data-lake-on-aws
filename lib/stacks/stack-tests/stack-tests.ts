@@ -5,6 +5,7 @@ import { aws_stepfunctions as stepfunctions } from 'aws-cdk-lib'
 import { aws_dynamodb as dynamodb } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as path from 'path'
+import { CdlPythonLambda } from '../../constructs/construct-cdl-python-lambda-function/construct-cdl-python-lambda-function'
 
 export interface TestStackProps extends StackProps {
   landingBucket: s3.Bucket
@@ -20,8 +21,7 @@ export class TestStack extends Stack {
     super(scope, id, props)
 
     // Calculator tests
-    const cdlCalculatorTestFunction = new lambda.Function(this, 'CalculatorTestLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+    const cdlCalculatorTestFunction = new CdlPythonLambda(this, 'CalculatorTestLambda', {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_calculator.lambda_handler',
       timeout: Duration.seconds(60),
@@ -36,8 +36,7 @@ export class TestStack extends Stack {
     props.calculatorFunction.grantInvoke(cdlCalculatorTestFunction)
 
     // Pipeline E2E tests
-    const cdlPipelineTestFunction = new lambda.Function(this, 'PipelineTestLambda', {
-      runtime: lambda.Runtime.PYTHON_3_9,
+    const cdlPipelineTestFunction = new CdlPythonLambda(this, 'PipelineTestLambda', {
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'test_pipeline.lambda_handler',
       timeout: Duration.minutes(10),
@@ -58,16 +57,15 @@ export class TestStack extends Stack {
       value: cdlPipelineTestFunction.functionName,
       description: 'Name of cdl lambda test function',
       exportName: 'CDLe2eTestLambdaFunctionName',
-    });
+    })
 
     // Output aws console link to test function
     new CfnOutput(this, 'e2eTestLambdaConsoleLink', {
       value: `https://${cdlPipelineTestFunction.env.region}.console.aws.amazon.com/lambda/home?${cdlPipelineTestFunction.env.region}#/functions/${cdlPipelineTestFunction.functionName}?tab=code`,
       description: 'URL to open and invoke calculator test function in the AWS Console',
       exportName: 'CDLe2eTestLambdaConsoleLink',
+    })
 
-    });
-
-    Tags.of(this).add("component", "test");
+    Tags.of(this).add('component', 'test')
   }
 }
