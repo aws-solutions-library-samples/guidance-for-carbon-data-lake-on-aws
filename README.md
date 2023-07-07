@@ -2,7 +2,7 @@
 
 The carbon data lake guidance with sample code implements a foundational data lake (and ingestion and processing framework) using the AWS Cloud Development Kit (AWS CDK). The deployed asset provides the base infrastructure for customers and partners to build their carbon accounting use cases.
 
-__Note: This solution by itself will not make a customer compliant with any end to end carbon accounting solution. It provides the foundational infrastructure from which additional complementary solutions can be integrated.__
+**Note: This solution by itself will not make a customer compliant with any end to end carbon accounting solution. It provides the foundational infrastructure from which additional complementary solutions can be integrated.**
 
 The carbon data lake reduces the undifferentiated heavy lifting of ingesting, standardizing, transforming, and calculating greenhouse gas emission data in carbon dioxide equivalent (CO2eq). Customers can use this guidance with sample code to advance their starting point for building decarbonization reporting, forecasting, and analytics solutions and/or products. The carbon data lake includes a purpose-built data pipeline, data quality module, data lineage module, emissions calculator microservice, business intelligence services, prebuilt forecasting machine learning notebook and compute service, GraphQL API, and sample web application.
 
@@ -98,7 +98,7 @@ The carbon data lake guidance with sample code comes with sample data for testin
 
 ## 💲 Cost and Licenses
 
-You are responsible for the cost of the AWS services used while running this  reference deployment. There is no additional cost for using this.
+You are responsible for the cost of the AWS services used while running this reference deployment. There is no additional cost for using this.
 
 The AWS CDK stacks for this repository include configuration parameters that you can customize. Some of these settings, such as instance type, affect the cost of deployment. For cost estimates, see the pricing pages for each AWS service you use. Prices are subject to change.
 
@@ -112,14 +112,19 @@ You can deploy the carbon data lake guidance with sample code through the manual
 
 ## 🎒 Pre-requisites
 
-- The [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) must be installed -and- configured with an AWS account on the deployment machine (see <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html> for instructions on how to do this on your preferred development platform).
-- This project requires [Node.js](http://nodejs.org/). To make sure you have it available on your machine, try running the following command.
+The [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) must be installed -and- configured with an AWS account on the deployment machine (see <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html> for instructions on how to do this on your preferred development platform).
 
-  ```sh
-  node -v
-  ```
+This project requires [Node.js](http://nodejs.org/). To make sure you have it available on your machine, try running the following command.
 
-- For best experience we recommend installing CDK globally: `npm install -g aws-cdk`
+```sh
+node -v
+```
+
+For best experience we recommend installing CDK globally:
+
+```sh
+npm install -g aws-cdk
+```
 
 ## 🔐 Security Note
 
@@ -137,8 +142,16 @@ As part of the shared responsibility model for security we recommend taking addi
 
 ### 0/ Use git to clone this repository to your local environment
 
+Navigate to the desired parent directory and clone the repository
+
 ```sh
 git clone #insert-http-or-ssh-for-this-repository
+```
+
+Navigate to the repository directory
+
+```sh
+cd <insert path to parent repository>/guidance-for-carbon-lake-on-aws
 ```
 
 ### 1/ Set up your AWS environment
@@ -191,7 +204,7 @@ npm run build
 
 - Make sure that you have assumed an AWS Profile or credentials through AWS Configure or some other means
 - Get your AWS Account Number `aws sts get-caller-identity`
-- Bootstrap CDK so that you can build cdk assets 
+- Bootstrap CDK so that you can build cdk assets
 
 ```sh
 cdk bootstrap aws://ACCOUNT-NUMBER/REGION
@@ -211,7 +224,7 @@ cdk synth
 
 ### 4/ Deploy the application
 
-- ✅  Recommended: deploy for local development
+- ✅ Recommended: deploy for local development
 
 ```sh
 cdk deploy --all
@@ -225,10 +238,10 @@ If you are reading this it is because you deployed the carbon data lake guidance
 2. Visit your live web application --> click on the link in the Amplify console
    When you open the web application in your browser you should see a cognito login page with input fields for an email address and password. Enter your email address and the temporary password sent to your email when you created your carbon data lake guidance with sample code CDK Application. After changing your password, you should be able to sign in successfully at this point.
 
-   ***NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended).***
+   **_NOTE: The sign-up functionality is disabled intentionally to help secure your application. You may change this and add the UI elements back, or manually add the necessary users in the cognito console while following the principle of least privilege (recommended)._**
 
-6. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
-7. Make the web application your own and let us know what you choose do to with it.
+3. Learn more about working with [AWS Amplify CLI](https://docs.amplify.aws/cli/) or the [AWS Amplify Console](https://docs.amplify.aws/start/q/integration/js/).
+4. Make the web application your own and let us know what you choose do to with it.
 
 Success! At this point, you should successfully have the Amplify app working.
 
@@ -270,45 +283,27 @@ Shared resource stack outputs include:
 
 ### API Stack Outputs
 
--`cdluserPoolId`: Cognito user pool ID for authentication
--`CLQidentityPoolId`: Cognito Identity pool ID for authentication
--`cdluserPoolClientId`: Cognito user pool client ID for authentication
--`cdlcdlAdminUserRoleOutput`: Admin user role output
--`cdlcdlStandardUserRoleOutput`: Standard user role output
--`cdlApiEndpoint`: GraphQL API endpoint
--`cdlApiUsername`: GraphQL API admin username
--`cdlGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
+-`cdluserPoolId`: Cognito user pool ID for authentication -`CLQidentityPoolId`: Cognito Identity pool ID for authentication -`cdluserPoolClientId`: Cognito user pool client ID for authentication -`cdlcdlAdminUserRoleOutput`: Admin user role output -`cdlcdlStandardUserRoleOutput`: Standard user role output -`cdlApiEndpoint`: GraphQL API endpoint -`cdlApiUsername`: GraphQL API admin username -`cdlGraphQLTestQueryURL`: GraphQL Test Query URL (takes you to AWS console if you are signed in).
 
 ### Data Pipeline Stack Outputs
 
--`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to carbon data lake guidance with sample code Data Pipeline.
--`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to carbon data lake guidance with sample code Data Pipeline.
--`cdlGlueDataBrewURL`: URL for Glue Data Brew in AWS Console.
--`cdlDataPipelineStateMachineUrl`: URL to open cdl state machine to view step functions workflow status.
+-`LandingBucketName`: S3 Landing Zone bucket name for data ingestion to carbon data lake guidance with sample code Data Pipeline. -`cdlLandingBucketUrl`: S3 Landing Zone bucket URL for data ingestion to carbon data lake guidance with sample code Data Pipeline. -`cdlGlueDataBrewURL`: URL for Glue Data Brew in AWS Console. -`cdlDataPipelineStateMachineUrl`: URL to open cdl state machine to view step functions workflow status.
 
 ### Web Stack Outputs
 
--`cdlWebAppRepositoryLink`: Amplify Web Application codecommit repository link.
--`cdlWebAppId`: Amplify Web Application ID.
--`cdlAmplifyLink`: Amplify Web Application AWS Console URL.
--`cdlWebAppDomain`: Amplify Web Application live web URL.
+-`cdlWebAppRepositoryLink`: Amplify Web Application codecommit repository link. -`cdlWebAppId`: Amplify Web Application ID. -`cdlAmplifyLink`: Amplify Web Application AWS Console URL. -`cdlWebAppDomain`: Amplify Web Application live web URL.
 
 ### Quicksight Stack Outputs
 
--`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset.
--`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards.
--`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications.
--`cdlQuicksightUrl`: URL of Quicksight Dashboard.
+-`QuickSightDataSource`: ID of QuickSight Data Source Connector Athena Emissions dataset. Use this connector to create additional QuickSight datasets based on Athena dataset. -`QuickSightDataSet`: ID of pre-created QuickSight DataSet, based on Athena Emissions dataset. Use this pre-created dataset to create new dynamic analyses and dashboards. -`QuickSightDashboard`: ID of pre-created QuickSight Dashboard, based on Athena Emissions dataset. Embed this pre-created dashboard directly into your user facing applications. -`cdlQuicksightUrl`: URL of Quicksight Dashboard.
 
 ### Sagemaker Notebook Stack Outputs
 
--`cdlSagemakerRepository`: Codecommit repository of sagemaker notebook.
--`cdlSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
+-`cdlSagemakerRepository`: Codecommit repository of sagemaker notebook. -`cdlSagemakerNotebookUrl`: AWS console URL for Sagemaker Notebook ML Instance.
 
 ### Test Stack Outputs
 
--`e2eTestLambdaFunctionName`: Name of carbon data lake lambda test function.
--`e2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
+-`e2eTestLambdaFunctionName`: Name of carbon data lake lambda test function. -`e2eTestLambdaConsoleLink`: URL to open and invoke calculator test function in the AWS Console.
 
 ## 🛠 Usage
 
@@ -409,6 +404,7 @@ This application currently includes unit tests, infrastructure tests, deployment
 For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/or merge to main. This runs automatically and does the following:
 
 #### Static Tests
+
 - `npm ci` installs all dependencies from `package.lock.json`
 - `npm run build` builds the javascript from typescript and makes sure everything works!
 - `cdk synth` synthesizes all CDK stacks in the application
@@ -416,6 +412,7 @@ For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/o
 - Runs ESLint for common formatting issues in Javascript and Typescript
 
 #### Security Tests
+
 - cdk_nag
 - git-secrets
 - Chechov
@@ -423,6 +420,7 @@ For Gitlab users only -- The Gitlab CI runs each time you commit to remote and/o
 - python bandit
 
 #### Deployment Tests
+
 - Runs CDKitten deployment tests -- these deploy your CDK in several major AWS regions, checking that it builds and deploys successfully, and then destroying those stacks after confirming that they build.
 - Runs e2e data integration test -- runs an end to end test by dropping data into the pipeline and querying the GraphQL api output. If the test is successful it returns `Success`
 
@@ -450,67 +448,67 @@ To add additional features to carbon data lake we recommend developing your own 
 
 1. Start by adding your own stack directory to `lib/stacks`
 
-    ```sh
-    mkdir lib/stacks/stack-title
-    ```
+   ```sh
+   mkdir lib/stacks/stack-title
+   ```
 
 2. Add a stack file to this directory
 
-    ```sh
-    touch lib/stacks/stack-title/stack-title.ts
-    ```
+   ```sh
+   touch lib/stacks/stack-title/stack-title.ts
+   ```
 
 3. Use basic CDK stack starter code to formulate your own stack. See example below:
 
-    ```javascript
-    import * as cdk from 'aws-cdk-lib';
-    import { Construct } from 'constructs';
-    // import * as sqs from 'aws-cdk-lib/aws-sqs';
+   ```javascript
+   import * as cdk from 'aws-cdk-lib'
+   import { Construct } from 'constructs'
+   // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-    export class ExampleStack extends cdk.Stack {
-        constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-        super(scope, id, props);
+   export class ExampleStack extends cdk.Stack {
+     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+       super(scope, id, props)
 
-        // The code that defines your stack goes here
+       // The code that defines your stack goes here
 
-        // example resource
-        // const queue = new sqs.Queue(this, 'ExampleStackQueue', {
-        //   visibilityTimeout: cdk.Duration.seconds(300)
-        // });
-        }
-    }
-    ```
+       // example resource
+       // const queue = new sqs.Queue(this, 'ExampleStackQueue', {
+       //   visibilityTimeout: cdk.Duration.seconds(300)
+       // });
+     }
+   }
+   ```
 
 4. We recommend using a single stack, and integrating additional submodular components as constructs. Constructs are logical groupings of AWS resources with "sane" defaults. In many cases the CDK team has already created a reusable construct and you can simply work with that. But in specific cases you may way to create your own. You can create a construct using the commands and example below:
 
-    ```sh
-    mkdir lib/constructs/construct-title
-    touch lib/constructs/construct-title/title-construct.ts
-    ```
+   ```sh
+   mkdir lib/constructs/construct-title
+   touch lib/constructs/construct-title/title-construct.ts
+   ```
 
 5. If you have integrated your stack successfully you should see it build when you run `cdk synth`. For development purposes we recommend deploying your stack in isolation before you deploy with the full application. You can run `cdk deploy YourStackName` to deploy in isolation.
 
 6. Integrate your stack with the full application by importing it to `bin/main.ts` and `bin/cicd.ts` if you have chosen to deploy it.
 
-    ```sh
-    #open the file main.ts
-    open main.ts
-    ```
+   ```sh
+   #open the file main.ts
+   open main.ts
+   ```
 
-    ```javascript
-    // Import your stack at the top of the file
-    import {YourStackName} from './stacks/stack-title/your-stack'
+   ```javascript
+   // Import your stack at the top of the file
+   import { YourStackName } from './stacks/stack-title/your-stack'
 
-    // Now create a new stack to deploy within the application
-    const stackName = new YourStackName(app, "YourStackTitle", {
-        // these are props that serve as an input to your stack
-        // these are optional, but could include things like S3 bucket names or other outputs of other stacks.
-        // For more on this see the stack output section above.
-        yourStackProp1: prop1,
-        yourStackProp2: prop2,
-        env: appEnv // be sure to include this environment prop
-    })
-    ```
+   // Now create a new stack to deploy within the application
+   const stackName = new YourStackName(app, 'YourStackTitle', {
+     // these are props that serve as an input to your stack
+     // these are optional, but could include things like S3 bucket names or other outputs of other stacks.
+     // For more on this see the stack output section above.
+     yourStackProp1: prop1,
+     yourStackProp2: prop2,
+     env: appEnv, // be sure to include this environment prop
+   })
+   ```
 
 #### Working with Stack Outputs
 
@@ -546,13 +544,13 @@ The model below describes the required schema for input to the carbon data lake 
 
 ### Helpful Commands for CDK
 
-- `npm run build`                          compile typescript to js
-- `npm run watch`                          watch for changes and compile
-- `npm run test`                           perform the jest unit tests\
-- `cdk diff`                               compare deployed stack with current state
-- `cdk synth`                              emits the synthesized CloudFormation template
-- `cdk deploy --all`                       deploy this stack to your default AWS account/region w/o the CICD pipeline
-- `npm run deploy:cicd`                       deploy this application CI/CD stack and then link your repo for automated pipeline
+- `npm run build` compile typescript to js
+- `npm run watch` watch for changes and compile
+- `npm run test` perform the jest unit tests\
+- `cdk diff` compare deployed stack with current state
+- `cdk synth` emits the synthesized CloudFormation template
+- `cdk deploy --all` deploy this stack to your default AWS account/region w/o the CICD pipeline
+- `npm run deploy:cicd` deploy this application CI/CD stack and then link your repo for automated pipeline
 
 ### Data Model
 
@@ -563,19 +561,19 @@ The model below describes the required schema for input to the carbon data lake 
 
 ```json
 {
-    "activity_event_id": "customer-carbon-data-lake-12345",
-    "asset_id": "vehicle-1234",
-    "geo": {
-        "lat": 45.5152,
-        "long": 122.6784
-    },
-    "origin_measurement_timestamp":"2022-06-26 02:31:29",
-    "scope": 1,
-    "category": "mobile-combustion",
-    "activity": "Diesel Fuel - Diesel Passenger Cars",
-    "source": "company_fleet_management_database",
-    "raw_data": 103.45,
-    "units": "gal"
+  "activity_event_id": "customer-carbon-data-lake-12345",
+  "asset_id": "vehicle-1234",
+  "geo": {
+    "lat": 45.5152,
+    "long": 122.6784
+  },
+  "origin_measurement_timestamp": "2022-06-26 02:31:29",
+  "scope": 1,
+  "category": "mobile-combustion",
+  "activity": "Diesel Fuel - Diesel Passenger Cars",
+  "source": "company_fleet_management_database",
+  "raw_data": 103.45,
+  "units": "gal"
 }
 ```
 
@@ -587,55 +585,55 @@ The model below describes the standard output model from the carbon data lake em
 
 ```json
 {
-    "activity_event_id": "customer-CarbonLake-12345",
-    "asset_id": "vehicle-1234",
-    "activity": "Diesel Fuel - Diesel Passenger Cars",
-    "category": "mobile-combustion",
-    "scope": 1,
-    "emissions_output": {
-        "calculated_emissions": {
-            "co2": {
-                "amount": 0.024,
-                "unit": "tonnes"
-            },
-            "ch4": {
-                "amount": 0.00001,
-                "unit": "tonnes"
-            },
-            "n2o": {
-                "amount": 0.00201,
-                "unit": "tonnes"
-            },
-            "co2e": {
-                "ar4": {
-                    "amount": 0.2333,
-                    "unit": "tonnes"
-                },
-                "ar5": {
-                    "amount": 0.2334,
-                    "unit": "tonnes"
-                }
-            }
+  "activity_event_id": "customer-CarbonLake-12345",
+  "asset_id": "vehicle-1234",
+  "activity": "Diesel Fuel - Diesel Passenger Cars",
+  "category": "mobile-combustion",
+  "scope": 1,
+  "emissions_output": {
+    "calculated_emissions": {
+      "co2": {
+        "amount": 0.024,
+        "unit": "tonnes"
+      },
+      "ch4": {
+        "amount": 0.00001,
+        "unit": "tonnes"
+      },
+      "n2o": {
+        "amount": 0.00201,
+        "unit": "tonnes"
+      },
+      "co2e": {
+        "ar4": {
+          "amount": 0.2333,
+          "unit": "tonnes"
         },
-        "emissions_factor": {
-            "ar4": {
-                "amount": 8.812,
-                "unit": "kgCO2e/unit"
-            },
-            "ar5": {
-                "amount": 8.813,
-                "unit": "kgCO2e/unit"
-            }
+        "ar5": {
+          "amount": 0.2334,
+          "unit": "tonnes"
         }
+      }
     },
-    "geo": {
-        "lat": 45.5152,
-        "long": 122.6784
-    },
-    "origin_measurement_timestamp": "2022-06-26 02:31:29",
-    "raw_data": 103.45,
-    "source": "company_fleet_management_database",
-    "units": "gal"
+    "emissions_factor": {
+      "ar4": {
+        "amount": 8.812,
+        "unit": "kgCO2e/unit"
+      },
+      "ar5": {
+        "amount": 8.813,
+        "unit": "kgCO2e/unit"
+      }
+    }
+  },
+  "geo": {
+    "lat": 45.5152,
+    "long": 122.6784
+  },
+  "origin_measurement_timestamp": "2022-06-26 02:31:29",
+  "raw_data": 103.45,
+  "source": "company_fleet_management_database",
+  "units": "gal"
 }
 ```
 
@@ -664,15 +662,19 @@ This project is licensed under the Apache-2.0 License.
 ### Troubleshooting
 
 For users with an Apple M1 chip, you may run into the following error when executing npm commands: "no matching version found for node-darwin-amd64@16.4.0" or similar terminal error output depending on the version of node you are running. If this happens, execute the following commands from your terminal in order (this fix assumes you have node version manager (nvm) installed). In this example, we will use node version 16.4.0. Replace the node version in these commands with the version you are running:
+
 ```sh
 nvm uninstall 16.4.0
 ```
+
 ```sh
 arch -x86_64 zsh
 ```
+
 ```sh
 nvm install 16.4.0
 ```
+
 ```sh
 nvm alias default 16.4.0
 ```
