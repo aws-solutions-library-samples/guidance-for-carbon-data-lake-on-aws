@@ -2,10 +2,10 @@ aws-lambda-powertools==1.26.1
 aws-xray-sdk==2.9.0
 boto3==1.24.4
 botocore==1.27.4
-certifi==2022.12.7
+certifi==2023.7.22
 cffi==1.15.0
 charset-normalizer==2.0.12
-cryptography==41.0.0
+cryptography==41.0.2
 fastjsonschema==2.15.3
 future==0.18.3
 idna==3.3
