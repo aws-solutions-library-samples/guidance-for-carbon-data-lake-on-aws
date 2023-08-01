@@ -96,11 +96,7 @@ export class CdlPythonLambda extends lambda.Function {
        * Creates a Python Lambda Function with FIFO dead letter queue, x86 architecture,
        * and X-ray tracing.
        */
-<<<<<<< HEAD
       runtime: props.runtime ? props.runtime : lambda.Runtime.PYTHON_3_10,
-=======
-      runtime: props.runtime,
->>>>>>> main
       code: props.code,
       handler: props.handler,
       layers: props.layers,
