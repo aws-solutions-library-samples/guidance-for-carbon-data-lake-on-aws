@@ -26,6 +26,12 @@ import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag'
 const app = new cdk.App()
 
 /**
+ * Define description with AWS Solutions Guidance Sample Code identifier
+ */
+
+const desc = 'Guidance for the Carbon Data Lake on AWS (SO9180)'
+
+/**
  * Create the cdk app environment to be used in all stacks
  * Get region from the app context or from environmental variables
  * Get account from local environmental variables defined with AWS CLI
@@ -59,7 +65,11 @@ checkAdminEmailSetup(adminEmail)
 checkQuicksightSetup(app)
 
 // CDL-SHARED-RESOURCES --> Create the cdl shared resource stack
-const sharedResources = new SharedResourcesStack(app, 'SharedResources', { env: appEnv })
+const sharedResources = new SharedResourcesStack(app, 'SharedResources', {
+  env: appEnv,
+  desc,
+}) // desc variable adds solution identifier string to the shared resources stack
+
 const enrichedBucket = sharedResources.cdlEnrichedBucket
 const transformedBucket = sharedResources.cdlTransformedBucket
 
