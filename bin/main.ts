@@ -67,7 +67,7 @@ checkQuicksightSetup(app)
 // CDL-SHARED-RESOURCES --> Create the cdl shared resource stack
 const sharedResources = new SharedResourcesStack(app, 'SharedResources', {
   env: appEnv,
-  desc,
+  description: desc,
 }) // desc variable adds solution identifier string to the shared resources stack
 
 const enrichedBucket = sharedResources.cdlEnrichedBucket
@@ -77,6 +77,7 @@ const transformedBucket = sharedResources.cdlTransformedBucket
 const dataLineage = new DataLineageStack(app, 'LineageStack', {
   archiveBucket: sharedResources.cdlDataLineageBucket,
   env: appEnv,
+  description: desc,
 })
 
 NagSuppressions.addStackSuppressions(dataLineage, [
@@ -117,6 +118,7 @@ const dataPipeline = new DataPipelineStack(app, 'DataPipelineStack', {
   enrichedBucket: sharedResources.cdlEnrichedBucket,
   notificationEmailAddress: adminEmail,
   env: appEnv,
+  description: desc,
 })
 
 const landingBucket = dataPipeline.cdlLandingBucket
@@ -162,6 +164,7 @@ const dataCompactionStack = new DataCompactionStack(app, 'DataCompactionStack', 
   enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
   dataLineageTraceQueue: dataLineage.traceQueue,
   env: appEnv,
+  description: desc,
 }) //placeholder to test deploying analytics pipeline stack: contains glue jobs that run daily at midnight
 
 NagSuppressions.addStackSuppressions(dataCompactionStack, [
@@ -201,6 +204,7 @@ const apiStack = new ApiStack(app, 'ApiStack', {
   adminEmail: adminEmail,
   calculatorOutputTableRef: dataPipeline.calculatorOutputTable,
   env: appEnv,
+  description: desc,
 })
 
 NagSuppressions.addStackSuppressions(apiStack, [
@@ -232,6 +236,7 @@ if (quicksightOption === true) {
     quicksightUsername: quicksightUsername,
     enrichedDataDatabase: sharedResources.glueEnrichedDataDatabase,
     env: appEnv,
+    description: desc,
   })
 }
 
@@ -274,6 +279,7 @@ if (webOption === true) {
     userPoolId: apiStack.userPoolIdOutput.value,
     userPoolWebClientId: apiStack.userPoolClientIdOutput.value,
     landingBucketName: dataPipeline.cdlLandingBucket.bucketName,
+    description: desc,
   })
 }
 
@@ -292,6 +298,7 @@ const testStack = new TestStack(app, 'TestStack', {
   pipelineStateMachine: pipelineStateMachine,
   calculatorOutputTable: calculatorOutputTable,
   env: appEnv,
+  description: desc,
 })
 NagSuppressions.addStackSuppressions(testStack, [
   {
