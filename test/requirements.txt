@@ -20,7 +20,7 @@ requests==2.31.0
 responses==0.21.0
 s3transfer==0.6.0
 six==1.16.0
-urllib3==1.26.9
+urllib3==1.26.18
 Werkzeug==2.2.3
 wrapt==1.14.1
 xmltodict==0.13.0
