@@ -48,8 +48,8 @@
   "dependencies": {
     "@aws-amplify/appsync-modelgen-plugin": "^2.3.3",
     "@aws-amplify/graphql-docs-generator": "^3.0.3",
-    "@aws-amplify/graphql-model-transformer": "^0.16.8",
-    "@aws-amplify/graphql-transformer-core": "^0.18.4",
+    "@aws-amplify/graphql-model-transformer": "^2.2.4",
+    "@aws-amplify/graphql-transformer-core": "^2.2.4",
     "@aws-cdk/aws-amplify-alpha": "^2.21.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.21.1-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.21.1-alpha.0",
@@ -60,6 +60,7 @@
     "@awsui/design-tokens": "^3.0.21",
     "@awsui/global-styles": "^1.0.14",
     "@awsui/test-utils-core": "^1.0.17",
+    "@babel/traverse": "^7.23.3",
     "@types/aws-lambda": "^8.10.110",
     "aws-cdk-exec": "^0.0.5",
     "aws-sdk": "^2.1354.0",
