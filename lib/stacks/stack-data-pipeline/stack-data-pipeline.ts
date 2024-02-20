@@ -95,12 +95,12 @@ export class DataPipelineStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'cdlPipelineDependencyLayer',
-      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${this.region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:62`
     )
 
     // Lambda function to list total objects in the directory created by AWS Glue
     const batchEnumLambda = new CdlPythonLambda(this, 'CDLDataPipelineBatchLambda', {
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/batch_enum_lambda/')),
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],
@@ -147,7 +147,7 @@ export class DataPipelineStack extends Stack {
 
     // Lambda function to process incoming events, generate child node IDs and start the step function
     const kickoffFunction = new CdlPythonLambda(this, 'CDLKickoffLambda', {
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda/pipeline_kickoff/')),
       handler: 'app.lambda_handler',
       layers: [dependencyLayer],

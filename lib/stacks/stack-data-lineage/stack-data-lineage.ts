@@ -96,7 +96,7 @@ export class DataLineageStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'cdlDataLineageLayer',
-      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:62`
     )
 
     /* ======== INPUT LAMBDA ======== */
