@@ -26,7 +26,7 @@ interface CdlLambdaProps {
 
   /**
    * Optional: set lambda runtime to select different python runtime
-   * @default runtime: lambda.Runtime.PYTHON_3_10
+   * @default runtime: lambda.Runtime.PYTHON_3_12
    */
   readonly runtime?: lambda.Runtime
 
@@ -96,7 +96,7 @@ export class CdlPythonLambda extends lambda.Function {
        * Creates a Python Lambda Function with FIFO dead letter queue, x86 architecture,
        * and X-ray tracing.
        */
-      runtime: props.runtime ? props.runtime : lambda.Runtime.PYTHON_3_10,
+      runtime: props.runtime ? props.runtime : lambda.Runtime.PYTHON_3_12,
       code: props.code,
       handler: props.handler,
       layers: props.layers,

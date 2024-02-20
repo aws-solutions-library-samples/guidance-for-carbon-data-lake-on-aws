@@ -24,7 +24,7 @@ describe('test statemachine stack', () => {
     const dummyInputsStack = new Stack(app, 'DummyInputsStack')
     const dummyTopic = new sns.Topic(dummyInputsStack, 'dummyTopic', {})
     const dummyLambda = new lambda.Function(dummyInputsStack, 'dummyLambda', {
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromInline('def lambda_handler(): pass'),
       handler: 'lambda_handler',
     })

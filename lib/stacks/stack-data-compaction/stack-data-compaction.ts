@@ -89,7 +89,7 @@ export class DataCompactionStack extends Stack {
     const dependencyLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       'cdlDataCompactionLayer',
-      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPython:18`
+      `arn:aws:lambda:${Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:62`
     )
 
     // Lambda function to process incoming events, generate child node IDs

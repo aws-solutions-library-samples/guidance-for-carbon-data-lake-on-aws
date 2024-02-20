@@ -113,7 +113,7 @@ export class CreateAthenaViews extends Construct {
     // Lambda function that creates today & historical Athena views
     this.createIndividualAthenaViewsLambda = new CdlPythonLambda(this, 'CDLIndividualAthenaViewsHandler', {
       lambdaName: 'CDLIndividualAthenaViewsHandler',
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: 'createIndividualAthenaViews.lambda_handler',
@@ -128,7 +128,7 @@ export class CreateAthenaViews extends Construct {
     // Lambda function that creates combined emissions Athena view
     this.createCombinedAthenaViewsLambda = new CdlPythonLambda(this, 'CDLCombinedAthenaViewHandler', {
       lambdaName: 'CDLCombinedAthenaViewHandler',
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       role: role,
       handler: 'createCombinedAthenaView.lambda_handler',

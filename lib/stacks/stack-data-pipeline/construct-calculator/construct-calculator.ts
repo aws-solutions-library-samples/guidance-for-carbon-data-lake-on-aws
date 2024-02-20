@@ -38,7 +38,7 @@ export class Calculator extends Construct {
     })
 
     this.calculatorLambda = new lambda.Function(this, 'cdlCalculatorHandler', {
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset(path.join(__dirname, './lambda')),
       handler: 'calculatorLambda.lambda_handler',
       timeout: Duration.minutes(5),
