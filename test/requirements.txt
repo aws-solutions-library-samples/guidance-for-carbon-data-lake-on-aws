@@ -9,7 +9,7 @@ cryptography==42.0.2
 fastjsonschema==2.15.3
 future==0.18.3
 idna==3.3
-Jinja2==3.1.3
+Jinja2==3.1.4
 jmespath==1.0.0
 MarkupSafe==2.1.1
 moto==3.1.12
