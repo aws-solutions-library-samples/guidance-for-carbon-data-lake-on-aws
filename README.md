@@ -1,3 +1,4 @@
+# IMPORTANT NOTE: On July 25, 2024, AWS ceased onboarding new customers to AWS CodeCommit. The deployment of this solution will only work for those with existing repositories in AWS CodeCommit
 # Welcome to the carbon data lake AWS Cloud Development Kit (CDK) application
 
 The carbon data lake guidance with sample code implements a foundational data lake (and ingestion and processing framework) using the AWS Cloud Development Kit (AWS CDK). The deployed asset provides the base infrastructure for customers and partners to build their carbon accounting use cases.
