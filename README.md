@@ -1,3 +1,6 @@
+# ⚠️ Deprecation Warning
+This repository is no longer maintained as of July 2026.
+
 # IMPORTANT NOTE: On July 25, 2024, AWS ceased onboarding new customers to AWS CodeCommit. The deployment of this solution will only work for those with existing repositories in AWS CodeCommit
 # Welcome to the carbon data lake AWS Cloud Development Kit (CDK) application
 
